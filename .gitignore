@@ -1,0 +1,21 @@
+﻿# VS cache
+.vs/
+
+# Build outputs
+bin/
+obj/
+
+# User-specific
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Temp / logs
+*.tmp
+*.log
+
+# Binaries (phòng hờ)
+*.exe
+*.dll
+*.pdb
