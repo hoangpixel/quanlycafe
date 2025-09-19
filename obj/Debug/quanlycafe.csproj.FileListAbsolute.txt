@@ -1,0 +1,9 @@
+C:\Users\mhoang ne\Desktop\quanlycafe\quanlycafe\bin\Debug\quanlycafe.exe.config
+C:\Users\mhoang ne\Desktop\quanlycafe\quanlycafe\bin\Debug\quanlycafe.exe
+C:\Users\mhoang ne\Desktop\quanlycafe\quanlycafe\bin\Debug\quanlycafe.pdb
+C:\Users\mhoang ne\Desktop\quanlycafe\quanlycafe\obj\Debug\quanlycafe.csproj.AssemblyReference.cache
+C:\Users\mhoang ne\Desktop\quanlycafe\quanlycafe\obj\Debug\quanlycafe.Properties.Resources.resources
+C:\Users\mhoang ne\Desktop\quanlycafe\quanlycafe\obj\Debug\quanlycafe.csproj.GenerateResource.cache
+C:\Users\mhoang ne\Desktop\quanlycafe\quanlycafe\obj\Debug\quanlycafe.csproj.CoreCompileInputs.cache
+C:\Users\mhoang ne\Desktop\quanlycafe\quanlycafe\obj\Debug\quanlycafe.exe
+C:\Users\mhoang ne\Desktop\quanlycafe\quanlycafe\obj\Debug\quanlycafe.pdb
