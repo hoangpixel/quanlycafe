@@ -8,13 +8,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace quanlycafe
+namespace quanlycafe.GUI
 {
-    public partial class Form1 : Form
+    public partial class formGUI : Form
     {
-        public Form1()
+        public formGUI()
         {
             InitializeComponent();
+        }
+
+        private void formGUI_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
