@@ -38,29 +38,29 @@
             this.trangThaiCT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hinh = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gia = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.metroPanel1 = new ReaLTaiizor.Controls.MetroPanel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.cbxSanPham = new System.Windows.Forms.ComboBox();
-            this.txtTimKiem = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnLoaiSP = new System.Windows.Forms.Button();
             this.btnExcel = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.btnSua = new System.Windows.Forms.Button();
+            this.btnChiTiet = new System.Windows.Forms.Button();
+            this.btnXoa = new System.Windows.Forms.Button();
+            this.btnThem = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.txtTimKiem = new System.Windows.Forms.TextBox();
+            this.cbxSanPham = new System.Windows.Forms.ComboBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tableSanPham)).BeginInit();
             this.metroPanel1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -73,7 +73,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1791, 757);
+            this.tabControl1.Size = new System.Drawing.Size(1791, 776);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -83,7 +83,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 54);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1783, 699);
+            this.tabPage1.Size = new System.Drawing.Size(1783, 718);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Sản phẩm";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -102,11 +102,14 @@
             this.gia});
             this.tableSanPham.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableSanPham.Location = new System.Drawing.Point(3, 152);
+            this.tableSanPham.MultiSelect = false;
             this.tableSanPham.Name = "tableSanPham";
             this.tableSanPham.RowHeadersWidth = 51;
             this.tableSanPham.RowTemplate.Height = 24;
-            this.tableSanPham.Size = new System.Drawing.Size(1777, 544);
+            this.tableSanPham.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.tableSanPham.Size = new System.Drawing.Size(1777, 563);
             this.tableSanPham.TabIndex = 2;
+            this.tableSanPham.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.kiemTraNgungBan);
             this.tableSanPham.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // MaSP
@@ -151,24 +154,6 @@
             this.gia.MinimumWidth = 6;
             this.gia.Name = "gia";
             // 
-            // tabPage3
-            // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 54);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1783, 699);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Công thức";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Location = new System.Drawing.Point(4, 54);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1783, 699);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Nguyên liệu";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
             // metroPanel1
             // 
             this.metroPanel1.BackgroundColor = System.Drawing.Color.White;
@@ -187,55 +172,6 @@
             this.metroPanel1.ThemeName = "MetroLight";
             this.metroPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.metroPanel1_Paint);
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.btnLoaiSP);
-            this.groupBox1.Controls.Add(this.btnExcel);
-            this.groupBox1.Controls.Add(this.btnRefresh);
-            this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.button4);
-            this.groupBox1.Controls.Add(this.button5);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1005, 137);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Xử lý sản phẩm";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Controls.Add(this.txtTimKiem);
-            this.groupBox2.Controls.Add(this.cbxSanPham);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(1014, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(760, 137);
-            this.groupBox2.TabIndex = 6;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Tìm kiếm sản phẩm";
-            // 
-            // cbxSanPham
-            // 
-            this.cbxSanPham.FormattingEnabled = true;
-            this.cbxSanPham.Items.AddRange(new object[] {
-            "Tên sản phẩm",
-            "Loại sản phẩm",
-            "giá"});
-            this.cbxSanPham.Location = new System.Drawing.Point(27, 58);
-            this.cbxSanPham.Name = "cbxSanPham";
-            this.cbxSanPham.Size = new System.Drawing.Size(152, 24);
-            this.cbxSanPham.TabIndex = 0;
-            // 
-            // txtTimKiem
-            // 
-            this.txtTimKiem.Location = new System.Drawing.Point(203, 58);
-            this.txtTimKiem.Name = "txtTimKiem";
-            this.txtTimKiem.Size = new System.Drawing.Size(251, 22);
-            this.txtTimKiem.TabIndex = 1;
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
@@ -252,15 +188,22 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1777, 143);
             this.tableLayoutPanel1.TabIndex = 7;
             // 
-            // button1
+            // groupBox1
             // 
-            this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(472, 53);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(105, 33);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Tìm kiếm";
-            this.button1.UseVisualStyleBackColor = true;
+            this.groupBox1.Controls.Add(this.btnLoaiSP);
+            this.groupBox1.Controls.Add(this.btnExcel);
+            this.groupBox1.Controls.Add(this.btnRefresh);
+            this.groupBox1.Controls.Add(this.btnSua);
+            this.groupBox1.Controls.Add(this.btnChiTiet);
+            this.groupBox1.Controls.Add(this.btnXoa);
+            this.groupBox1.Controls.Add(this.btnThem);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(1005, 137);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Xử lý sản phẩm";
             // 
             // btnLoaiSP
             // 
@@ -301,57 +244,120 @@
             this.btnRefresh.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnRefresh.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // btnSua
             // 
-            this.button3.ForeColor = System.Drawing.Color.Black;
-            this.button3.Image = global::quanlycafe.Properties.Resources.edit;
-            this.button3.Location = new System.Drawing.Point(167, 18);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(112, 103);
-            this.button3.TabIndex = 10;
-            this.button3.Text = "Sửa";
-            this.button3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnSua.ForeColor = System.Drawing.Color.Black;
+            this.btnSua.Image = global::quanlycafe.Properties.Resources.edit;
+            this.btnSua.Location = new System.Drawing.Point(167, 18);
+            this.btnSua.Name = "btnSua";
+            this.btnSua.Size = new System.Drawing.Size(112, 103);
+            this.btnSua.TabIndex = 10;
+            this.btnSua.Text = "Sửa";
+            this.btnSua.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnSua.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSua.UseVisualStyleBackColor = true;
+            this.btnSua.Click += new System.EventHandler(this.btnSua_Click);
             // 
-            // button2
+            // btnChiTiet
             // 
-            this.button2.ForeColor = System.Drawing.Color.Black;
-            this.button2.Image = global::quanlycafe.Properties.Resources.info;
-            this.button2.Location = new System.Drawing.Point(445, 18);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(112, 103);
-            this.button2.TabIndex = 11;
-            this.button2.Text = "Chi tiết";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnChiTiet.ForeColor = System.Drawing.Color.Black;
+            this.btnChiTiet.Image = global::quanlycafe.Properties.Resources.info;
+            this.btnChiTiet.Location = new System.Drawing.Point(445, 18);
+            this.btnChiTiet.Name = "btnChiTiet";
+            this.btnChiTiet.Size = new System.Drawing.Size(112, 103);
+            this.btnChiTiet.TabIndex = 11;
+            this.btnChiTiet.Text = "Chi tiết";
+            this.btnChiTiet.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnChiTiet.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnChiTiet.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // btnXoa
             // 
-            this.button4.ForeColor = System.Drawing.Color.Black;
-            this.button4.Image = global::quanlycafe.Properties.Resources.trash;
-            this.button4.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button4.Location = new System.Drawing.Point(305, 18);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(112, 103);
-            this.button4.TabIndex = 9;
-            this.button4.Text = "Xóa";
-            this.button4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button4.UseVisualStyleBackColor = true;
+            this.btnXoa.ForeColor = System.Drawing.Color.Black;
+            this.btnXoa.Image = global::quanlycafe.Properties.Resources.trash;
+            this.btnXoa.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnXoa.Location = new System.Drawing.Point(305, 18);
+            this.btnXoa.Name = "btnXoa";
+            this.btnXoa.Size = new System.Drawing.Size(112, 103);
+            this.btnXoa.TabIndex = 9;
+            this.btnXoa.Text = "Xóa";
+            this.btnXoa.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnXoa.UseVisualStyleBackColor = true;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
             // 
-            // button5
+            // btnThem
             // 
-            this.button5.ForeColor = System.Drawing.Color.Black;
-            this.button5.Image = global::quanlycafe.Properties.Resources.add;
-            this.button5.Location = new System.Drawing.Point(27, 21);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(112, 103);
-            this.button5.TabIndex = 8;
-            this.button5.Text = "Thêm";
-            this.button5.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button5.UseVisualStyleBackColor = true;
+            this.btnThem.ForeColor = System.Drawing.Color.Black;
+            this.btnThem.Image = global::quanlycafe.Properties.Resources.add;
+            this.btnThem.Location = new System.Drawing.Point(27, 21);
+            this.btnThem.Name = "btnThem";
+            this.btnThem.Size = new System.Drawing.Size(112, 103);
+            this.btnThem.TabIndex = 8;
+            this.btnThem.Text = "Thêm";
+            this.btnThem.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnThem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnThem.UseVisualStyleBackColor = true;
+            this.btnThem.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.button1);
+            this.groupBox2.Controls.Add(this.txtTimKiem);
+            this.groupBox2.Controls.Add(this.cbxSanPham);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(1014, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(760, 137);
+            this.groupBox2.TabIndex = 6;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Tìm kiếm sản phẩm";
+            // 
+            // button1
+            // 
+            this.button1.ForeColor = System.Drawing.Color.Black;
+            this.button1.Location = new System.Drawing.Point(472, 53);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(105, 33);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Tìm kiếm";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // txtTimKiem
+            // 
+            this.txtTimKiem.Location = new System.Drawing.Point(203, 58);
+            this.txtTimKiem.Name = "txtTimKiem";
+            this.txtTimKiem.Size = new System.Drawing.Size(251, 22);
+            this.txtTimKiem.TabIndex = 1;
+            // 
+            // cbxSanPham
+            // 
+            this.cbxSanPham.FormattingEnabled = true;
+            this.cbxSanPham.Items.AddRange(new object[] {
+            "Tên sản phẩm",
+            "Loại sản phẩm",
+            "giá"});
+            this.cbxSanPham.Location = new System.Drawing.Point(27, 58);
+            this.cbxSanPham.Name = "cbxSanPham";
+            this.cbxSanPham.Size = new System.Drawing.Size(152, 24);
+            this.cbxSanPham.TabIndex = 0;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Location = new System.Drawing.Point(4, 54);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(1783, 718);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Công thức";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Location = new System.Drawing.Point(4, 54);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(1783, 718);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Nguyên liệu";
+            this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // productGUI
             // 
@@ -359,15 +365,16 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tabControl1);
             this.Name = "productGUI";
-            this.Size = new System.Drawing.Size(1791, 757);
+            this.Size = new System.Drawing.Size(1791, 776);
+            this.Load += new System.EventHandler(this.productGUI_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tableSanPham)).EndInit();
             this.metroPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -389,10 +396,10 @@
         private ReaLTaiizor.Controls.MetroPanel metroPanel1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnRefresh;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button btnSua;
+        private System.Windows.Forms.Button btnChiTiet;
+        private System.Windows.Forms.Button btnXoa;
+        private System.Windows.Forms.Button btnThem;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ComboBox cbxSanPham;
         private System.Windows.Forms.TextBox txtTimKiem;

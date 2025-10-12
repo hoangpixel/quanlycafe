@@ -4,25 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace quanlycafe
+namespace quanlycafe.DTO
 {
     internal class loaiDTO
     {
-        private int maLoai;
-        private String tenLoai;
+        public int MaLoai { get; set; }
+        public string TenLoai { get; set; }
 
-        private loaiDTO() { }
+        public loaiDTO() { }
 
-        private loaiDTO(int maLoai, String tenLoai)
+        public loaiDTO(int maLoai, string tenLoai)
         {
-            this.maLoai = maLoai;
-            this.tenLoai = tenLoai;
+            MaLoai = maLoai;
+            TenLoai = tenLoai;
         }
-
-        public int getMaLoai() { return maLoai; }
-        public String getTenLoai() { return tenLoai; }
-
-        public void setMaLoai(int maLoai) { this.maLoai = maLoai; }
-        public void setTenLoai(String tenLoai) { this.tenLoai = tenLoai; }
     }
 }

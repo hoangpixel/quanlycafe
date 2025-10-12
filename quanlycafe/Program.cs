@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using quanlycafe.GUI;
+using quanlycafe.GUI_CRUD;
 namespace quanlycafe
 {
     internal static class Program
@@ -16,7 +17,7 @@ namespace quanlycafe
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new insertProduct());
+            Application.Run(new mainGUI());
         }
     }
 }

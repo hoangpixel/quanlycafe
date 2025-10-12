@@ -1,6 +1,6 @@
 ﻿namespace quanlycafe.GUI
 {
-    partial class insertProduct
+    partial class updateProduct
     {
         /// <summary>
         /// Required designer variable.
@@ -28,11 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.btnThoat = new System.Windows.Forms.Button();
+            this.btnNhapSP = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.txtGia = new System.Windows.Forms.TextBox();
+            this.txtTenSP = new System.Windows.Forms.TextBox();
+            this.cbLoai = new System.Windows.Forms.ComboBox();
             this.btnXoaAnh = new System.Windows.Forms.Button();
             this.btnChonAnh = new System.Windows.Forms.Button();
             this.picHinh = new System.Windows.Forms.PictureBox();
@@ -40,14 +43,46 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.btnThoat = new System.Windows.Forms.Button();
-            this.btnNhapSP = new System.Windows.Forms.Button();
+            this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picHinh)).BeginInit();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.btnThoat);
+            this.panel2.Controls.Add(this.btnNhapSP);
+            this.panel2.Location = new System.Drawing.Point(15, 450);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(508, 100);
+            this.panel2.TabIndex = 3;
+            // 
+            // btnThoat
+            // 
+            this.btnThoat.BackColor = System.Drawing.Color.IndianRed;
+            this.btnThoat.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnThoat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnThoat.Location = new System.Drawing.Point(286, 25);
+            this.btnThoat.Name = "btnThoat";
+            this.btnThoat.Size = new System.Drawing.Size(135, 51);
+            this.btnThoat.TabIndex = 8;
+            this.btnThoat.Text = "Thoát";
+            this.btnThoat.UseVisualStyleBackColor = false;
+            this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click);
+            // 
+            // btnNhapSP
+            // 
+            this.btnNhapSP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnNhapSP.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnNhapSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNhapSP.Location = new System.Drawing.Point(79, 25);
+            this.btnNhapSP.Name = "btnNhapSP";
+            this.btnNhapSP.Size = new System.Drawing.Size(135, 51);
+            this.btnNhapSP.TabIndex = 6;
+            this.btnNhapSP.Text = "Sửa sản phẩm";
+            this.btnNhapSP.UseVisualStyleBackColor = false;
+            this.btnNhapSP.Click += new System.EventHandler(this.btnNhapSP_Click);
             // 
             // panel1
             // 
@@ -55,13 +90,13 @@
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(514, 420);
-            this.panel1.TabIndex = 0;
+            this.panel1.TabIndex = 2;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.textBox2);
-            this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.txtGia);
+            this.groupBox1.Controls.Add(this.txtTenSP);
+            this.groupBox1.Controls.Add(this.cbLoai);
             this.groupBox1.Controls.Add(this.btnXoaAnh);
             this.groupBox1.Controls.Add(this.btnChonAnh);
             this.groupBox1.Controls.Add(this.picHinh);
@@ -75,29 +110,29 @@
             this.groupBox1.Size = new System.Drawing.Size(508, 413);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Nhập thông tin sản phẩm";
+            this.groupBox1.Text = "Sửa thông tin sản phẩm";
             // 
-            // textBox2
+            // txtGia
             // 
-            this.textBox2.Location = new System.Drawing.Point(199, 172);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(269, 27);
-            this.textBox2.TabIndex = 9;
+            this.txtGia.Location = new System.Drawing.Point(199, 172);
+            this.txtGia.Name = "txtGia";
+            this.txtGia.Size = new System.Drawing.Size(269, 27);
+            this.txtGia.TabIndex = 9;
             // 
-            // textBox1
+            // txtTenSP
             // 
-            this.textBox1.Location = new System.Drawing.Point(199, 58);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(269, 27);
-            this.textBox1.TabIndex = 8;
+            this.txtTenSP.Location = new System.Drawing.Point(199, 58);
+            this.txtTenSP.Name = "txtTenSP";
+            this.txtTenSP.Size = new System.Drawing.Size(269, 27);
+            this.txtTenSP.TabIndex = 8;
             // 
-            // comboBox1
+            // cbLoai
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(199, 108);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(269, 28);
-            this.comboBox1.TabIndex = 7;
+            this.cbLoai.FormattingEnabled = true;
+            this.cbLoai.Location = new System.Drawing.Point(199, 108);
+            this.cbLoai.Name = "cbLoai";
+            this.cbLoai.Size = new System.Drawing.Size(269, 28);
+            this.cbLoai.TabIndex = 7;
             // 
             // btnXoaAnh
             // 
@@ -169,74 +204,41 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Tên sản phẩm: ";
             // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.btnThoat);
-            this.panel2.Controls.Add(this.btnNhapSP);
-            this.panel2.Location = new System.Drawing.Point(15, 450);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(508, 100);
-            this.panel2.TabIndex = 1;
-            // 
-            // btnThoat
-            // 
-            this.btnThoat.BackColor = System.Drawing.Color.IndianRed;
-            this.btnThoat.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnThoat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThoat.Location = new System.Drawing.Point(286, 25);
-            this.btnThoat.Name = "btnThoat";
-            this.btnThoat.Size = new System.Drawing.Size(135, 51);
-            this.btnThoat.TabIndex = 8;
-            this.btnThoat.Text = "Thoát";
-            this.btnThoat.UseVisualStyleBackColor = false;
-            this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click);
-            // 
-            // btnNhapSP
-            // 
-            this.btnNhapSP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.btnNhapSP.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnNhapSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNhapSP.Location = new System.Drawing.Point(79, 25);
-            this.btnNhapSP.Name = "btnNhapSP";
-            this.btnNhapSP.Size = new System.Drawing.Size(135, 51);
-            this.btnNhapSP.TabIndex = 6;
-            this.btnNhapSP.Text = "Nhập sản phẩm";
-            this.btnNhapSP.UseVisualStyleBackColor = false;
-            // 
-            // insertProduct
+            // updateProduct
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(538, 563);
+            this.ClientSize = new System.Drawing.Size(540, 564);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Name = "insertProduct";
-            this.Text = "Form nhập sản phẩm";
+            this.Name = "updateProduct";
+            this.Text = "Sửa thông tin sản phẩm";
+            this.Load += new System.EventHandler(this.updateProduct_Load);
+            this.panel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picHinh)).EndInit();
-            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnThoat;
+        private System.Windows.Forms.Button btnNhapSP;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox txtGia;
+        private System.Windows.Forms.TextBox txtTenSP;
+        private System.Windows.Forms.ComboBox cbLoai;
+        private System.Windows.Forms.Button btnXoaAnh;
+        private System.Windows.Forms.Button btnChonAnh;
+        private System.Windows.Forms.PictureBox picHinh;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnChonAnh;
-        private System.Windows.Forms.PictureBox picHinh;
-        private System.Windows.Forms.Button btnXoaAnh;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button btnThoat;
-        private System.Windows.Forms.Button btnNhapSP;
     }
 }
