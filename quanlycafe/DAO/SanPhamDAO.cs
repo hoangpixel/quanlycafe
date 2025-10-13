@@ -1,11 +1,12 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using quanlycafe.config;
+using quanlycafe.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using quanlycafe.DTO;
-using MySql.Data.MySqlClient;
-using quanlycafe.config;
+using System.Windows.Forms;
 
 namespace quanlycafe.DAO
 {
@@ -126,6 +127,37 @@ namespace quanlycafe.DAO
                 return false;
             }
         }
+
+        public bool CapNhatTrangThaiCT(int maSP, int trangThaiCT)
+        {
+            try
+            {
+                string qry = "UPDATE sanpham SET TRANGTHAICT = @trangthai WHERE MASANPHAM = @masp";
+
+                using (MySqlConnection conn = DBConnect.GetConnection())
+                {
+                    using (MySqlCommand cmd = new MySqlCommand(qry, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@masp", maSP);
+                        cmd.Parameters.AddWithValue("@trangthai", trangThaiCT);
+                        cmd.ExecuteNonQuery();
+                    }
+                    DBConnect.CloseConnection(conn);
+                }
+
+                Console.WriteLine($"✅ DAO: Cập nhật TRANGTHAICT = {trangThaiCT} cho SP {maSP}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi cập nhật trạng thái công thức: " + ex.Message,
+                    "Lỗi SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+
+
 
     }
 }

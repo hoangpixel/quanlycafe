@@ -106,10 +106,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BUS\congThucBUS.cs" />
     <Compile Include="BUS\loaiSanPhamBUS.cs" />
     <Compile Include="BUS\nguyenLieuBUS.cs" />
-    <Compile Include="BUS\SanPhamBUS.cs" />
+    <Compile Include="BUS\sanPhamBUS.cs" />
     <Compile Include="CONFIG\DBConnection.cs" />
+    <Compile Include="DAO\congThucDAO.cs" />
     <Compile Include="DAO\loaiSanPhamDAO.cs" />
     <Compile Include="DAO\nguyenLieuDAO.cs" />
     <Compile Include="DAO\SanPhamDAO.cs" />
@@ -123,6 +125,18 @@
     <Compile Include="GUI\loaiSPGUI.Designer.cs">
       <DependentUpon>loaiSPGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_CRUD\selectNguyenLieu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\selectNguyenLieu.Designer.cs">
+      <DependentUpon>selectNguyenLieu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\selectSanPham.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\selectSanPham.Designer.cs">
+      <DependentUpon>selectSanPham.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_CRUD\deleteNguyenLieu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -134,6 +148,12 @@
     </Compile>
     <Compile Include="GUI_CRUD\deleteProduct.Designer.cs">
       <DependentUpon>deleteProduct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\insertCongThuc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\insertCongThuc.Designer.cs">
+      <DependentUpon>insertCongThuc.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_CRUD\insertNguyenLieu.cs">
       <SubType>Form</SubType>
@@ -188,11 +208,20 @@
     <EmbeddedResource Include="GUI\loaiSPGUI.resx">
       <DependentUpon>loaiSPGUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\selectNguyenLieu.resx">
+      <DependentUpon>selectNguyenLieu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\selectSanPham.resx">
+      <DependentUpon>selectSanPham.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\deleteNguyenLieu.resx">
       <DependentUpon>deleteNguyenLieu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\deleteProduct.resx">
       <DependentUpon>deleteProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\insertCongThuc.resx">
+      <DependentUpon>insertCongThuc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\insertNguyenLieu.resx">
       <DependentUpon>insertNguyenLieu.cs</DependentUpon>

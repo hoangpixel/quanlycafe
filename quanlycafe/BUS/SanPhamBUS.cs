@@ -8,9 +8,9 @@ using quanlycafe.DTO;
 
 namespace quanlycafe.BUS
 {
-    internal class SanPhamBUS
+    internal class sanPhamBUS
     {
-        public static List<sanPhamDTO> ds;
+        public static List<sanPhamDTO> ds = new List<sanPhamDTO>();
 
         public void docDSSanPham()
         {
@@ -73,5 +73,27 @@ namespace quanlycafe.BUS
 
             return result;
         }
+
+        public bool capNhatTrangThaiCT(int maSP, int trangThaiCT)
+        {
+            SanPhamDAO data = new SanPhamDAO();
+            bool result = data.CapNhatTrangThaiCT(maSP, trangThaiCT);
+
+            if (result)
+            {
+                var sp = ds.FirstOrDefault(x => x.MaSP == maSP);
+                if (sp != null)
+                    sp.TrangThaiCT = trangThaiCT;
+
+                Console.WriteLine($"BUS: Cập nhật trạng thái CT của sản phẩm {maSP} = {trangThaiCT}");
+            }
+            else
+            {
+                Console.WriteLine($"BUS: Lỗi cập nhật trạng thái CT cho sản phẩm {maSP}");
+            }
+
+            return result;
+        }
+
     }
 }

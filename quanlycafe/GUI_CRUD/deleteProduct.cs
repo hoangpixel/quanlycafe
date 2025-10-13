@@ -28,17 +28,17 @@ namespace quanlycafe.GUI
 
         private void btnXacNhan_Click(object sender, EventArgs e)
         {
-            try
-            {
-                SanPhamBUS bus = new SanPhamBUS();
-                bus.Xoa(maSP);
-                MessageBox.Show("Xóa sản phẩm thành công");
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Xóa sản phẩm thất bại: " + ex);
-            }
+            //try
+            //{
+            //    sanPhamBUS bus = new sanPhamBUS();
+            //    bus.Xoa(maSP);
+            //    MessageBox.Show("Xóa sản phẩm thành công");
+            //    this.Close();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Xóa sản phẩm thất bại: " + ex);
+            //}
         }
 
         private void btnHuy_Click(object sender, EventArgs e)
@@ -48,7 +48,17 @@ namespace quanlycafe.GUI
 
         private void btnXacNhan_Click_1(object sender, EventArgs e)
         {
-
+            try
+            {
+                sanPhamBUS bus = new sanPhamBUS();
+                bus.Xoa(maSP);
+                MessageBox.Show("Xóa sản phẩm thành công");
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Xóa sản phẩm thất bại: " + ex);
+            }
         }
 
         private void btnHuy_Click_1(object sender, EventArgs e)

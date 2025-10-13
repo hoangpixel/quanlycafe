@@ -21,6 +21,7 @@ namespace quanlycafe.GUI
         bool isCongThucLoaded = false;
         private int lastSelectedRowSanPham = -1;
         private int lastSelectedRowNguyenLieu = -1;
+        private int lastSelectedRowCongThuc = -1;
 
         public productGUI()
         {
@@ -89,6 +90,40 @@ namespace quanlycafe.GUI
             btnXoaNL.Enabled = false;
             btnChiTietNL.Enabled = false;
         }
+        private void loadDanhSachCongThuc(List<congThucDTO> ds)
+        {
+            tableCongThuc.Columns.Clear();
+            tableCongThuc.DataSource = null;
+
+            if (ds == null || ds.Count == 0)
+            {
+                MessageBox.Show("Chưa có công thức nào!", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            tableCongThuc.DataSource = ds.Select(x => new
+            {
+                Mã_SP = x.MaSanPham,
+                Tên_SP = x.TenSanPham,
+                Mã_NL = x.MaNguyenLieu,
+                Tên_NL = x.TenNguyenLieu,
+                Số_lượng = x.SoLuongCoSo
+            }).ToList();
+
+            tableCongThuc.Columns["Mã_SP"].HeaderText = "Mã SP";
+            tableCongThuc.Columns["Tên_SP"].HeaderText = "Tên SP";
+            tableCongThuc.Columns["Mã_NL"].HeaderText = "Mã NL";
+            tableCongThuc.Columns["Tên_NL"].HeaderText = "Tên NL";
+            tableCongThuc.Columns["Số_lượng"].HeaderText = "Số lượng";
+
+
+            btnSuaCT.Enabled = false;
+            btnXoaCT.Enabled = false;
+            btnChiTietCT.Enabled = false;
+            tableCongThuc.ClearSelection();
+        }
+
 
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -108,9 +143,9 @@ namespace quanlycafe.GUI
         // load sản phẩm
         private void productGUI_Load(object sender, EventArgs e)
         {
-            SanPhamBUS bus = new SanPhamBUS();
+            sanPhamBUS bus = new sanPhamBUS();
             bus.docDSSanPham();
-            loadDanhSachSanPham(SanPhamBUS.ds);
+            loadDanhSachSanPham(sanPhamBUS.ds);
             tbSanPham.ClearSelection();
         }
 
@@ -128,9 +163,9 @@ namespace quanlycafe.GUI
             {
                 form.StartPosition = FormStartPosition.CenterParent;
                 form.ShowDialog();
-                SanPhamBUS bus = new SanPhamBUS();
+                sanPhamBUS bus = new sanPhamBUS();
                 bus.docDSSanPham();
-                loadDanhSachSanPham(SanPhamBUS.ds);
+                loadDanhSachSanPham(sanPhamBUS.ds);
             }
         }
 
@@ -162,9 +197,9 @@ namespace quanlycafe.GUI
                 }
 
                 // Sau khi đóng form update → reload lại table
-                SanPhamBUS bus = new SanPhamBUS();
+                sanPhamBUS bus = new sanPhamBUS();
                 bus.docDSSanPham();
-                loadDanhSachSanPham(SanPhamBUS.ds);
+                loadDanhSachSanPham(sanPhamBUS.ds);
             }
             else
             {
@@ -181,9 +216,9 @@ namespace quanlycafe.GUI
                 form.StartPosition = FormStartPosition.CenterParent;
                 form.ShowDialog();
 
-                SanPhamBUS bus = new SanPhamBUS();
+                sanPhamBUS bus = new sanPhamBUS();
                 bus.docDSSanPham();
-                loadDanhSachSanPham(SanPhamBUS.ds);
+                loadDanhSachSanPham(sanPhamBUS.ds);
             }
             else
             {
@@ -231,9 +266,9 @@ namespace quanlycafe.GUI
             // tabPage1 = sản phẩm
             if (tabControl1.SelectedTab == tabSanPham && !isSanPhamLoaded)
             {
-                SanPhamBUS bus = new SanPhamBUS();
+                sanPhamBUS bus = new sanPhamBUS();
                 bus.docDSSanPham();
-                loadDanhSachSanPham(SanPhamBUS.ds);
+                loadDanhSachSanPham(sanPhamBUS.ds);
                 isSanPhamLoaded = true;
             }
 
@@ -249,16 +284,18 @@ namespace quanlycafe.GUI
             // tabPage3 = công thức
             else if (tabControl1.SelectedTab == tabCongThuc && !isCongThucLoaded)
             {
-                //loadDanhSachCongThuc();
+                congThucBUS bus = new congThucBUS();
+                var ds = bus.docTatCaCongThuc();
+                loadDanhSachCongThuc(ds);
                 isCongThucLoaded = true;
             }
         }
 
         private void btnReFresh_Click(object sender, EventArgs e)
         {
-            SanPhamBUS bus = new SanPhamBUS();
+            sanPhamBUS bus = new sanPhamBUS();
             bus.docDSSanPham();
-            loadDanhSachSanPham(SanPhamBUS.ds);
+            loadDanhSachSanPham(sanPhamBUS.ds);
         }
 
         private void button2_Click_1(object sender, EventArgs e)
@@ -365,6 +402,48 @@ namespace quanlycafe.GUI
             nguyenLieuBUS bus = new nguyenLieuBUS();
             bus.docDSNguyenLieu();
             loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
+        }
+
+        private void btnThemCT_Click(object sender, EventArgs e)
+        {
+            using (insertCongThuc form = new insertCongThuc())
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.ShowDialog();
+                congThucBUS bus = new congThucBUS();
+                var ds = bus.docTatCaCongThuc();  
+                loadDanhSachCongThuc(ds);          
+            }
+        }
+
+        private void tableCongThuc_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Bỏ qua header
+            if (e.RowIndex < 0) return;
+
+            // Nếu người dùng click lại dòng đang chọn → bỏ chọn
+            if (e.RowIndex == lastSelectedRowCongThuc)
+            {
+                tableCongThuc.ClearSelection();
+                lastSelectedRowCongThuc = -1;
+
+                // Disable các nút khi không có dòng nào được chọn
+                btnThemCT.Enabled = true;   // vẫn cho thêm
+                btnSuaCT.Enabled = false;
+                btnXoaCT.Enabled = false;
+                btnChiTietCT.Enabled = false;
+                return;
+            }
+
+            // Nếu click dòng khác → chọn dòng đó
+            tableCongThuc.ClearSelection();
+            tableCongThuc.Rows[e.RowIndex].Selected = true;
+            lastSelectedRowCongThuc = e.RowIndex;
+
+            // Vì đã lọc bỏ "Ngừng bán" nên không cần kiểm tra trạng thái nữa
+            btnSuaCT.Enabled = true;
+            btnXoaCT.Enabled = true;
+            btnChiTietCT.Enabled = true;
         }
     }
 }

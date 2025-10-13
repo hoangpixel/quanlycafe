@@ -1,32 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace quanlycafe.DTO
 {
-    internal class congThucDTO
+    public class congThucDTO
     {
-        private int maSanPham;
-        private int maNguyenLieu;
-        private float soLuongCoSo;
+        public int MaSanPham { get; set; }
+        public int MaNguyenLieu { get; set; }
+        public float SoLuongCoSo { get; set; }
+        public int TrangThai { get; set; }
+        public string TenNguyenLieu { get; set; }
+        public string TenSanPham { get; set; }
+        public congThucDTO() { }
 
-        private congThucDTO() { }
-
-        private congThucDTO(int maSanPham, int maNguyenLieu, float soLuongCoSo)
+        public congThucDTO(int maSP, int maNL, float soLuong, int trangThai = 1)
         {
-            this.maSanPham = maSanPham;
-            this.maNguyenLieu = maNguyenLieu;
-            this.soLuongCoSo = soLuongCoSo;
+            MaSanPham = maSP;
+            MaNguyenLieu = maNL;
+            SoLuongCoSo = soLuong;
+            TrangThai = trangThai;
         }
-
-        public int getMaSanPham() { return maSanPham; }
-        public int getMaNguyenLieu() { return maNguyenLieu; }
-        public float getSoLuongCoSo() { return soLuongCoSo; }
-
-        public void setMaSanPham(int maSanPham) { this.maSanPham = maSanPham; }
-        public void setMaNguyenLieu(int maNguyenLieu) { this.maNguyenLieu = maNguyenLieu; }
-        public void setSoLuongCoSo(float soLuongCoSo) { this.soLuongCoSo = soLuongCoSo; }
     }
 }

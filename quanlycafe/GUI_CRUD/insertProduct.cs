@@ -110,7 +110,7 @@ namespace quanlycafe.GUI_CRUD
             };
 
             // Gọi BUS để thêm sản phẩm
-            SanPhamBUS bus = new SanPhamBUS();
+            sanPhamBUS bus = new sanPhamBUS();
             bus.them(sp);
 
             MessageBox.Show("Thêm sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);

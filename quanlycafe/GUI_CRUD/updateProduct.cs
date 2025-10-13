@@ -122,7 +122,7 @@ namespace quanlycafe.GUI
                 sp.MaLoai = Convert.ToInt32(cbLoai.SelectedValue);
 
                 // Gọi BUS để cập nhật
-                SanPhamBUS bus = new SanPhamBUS();
+                sanPhamBUS bus = new sanPhamBUS();
                 bus.Sua(sp);
 
                 MessageBox.Show("Cập nhật sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.tabCongThuc = new System.Windows.Forms.TabPage();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.tableCongThuc = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -40,6 +40,12 @@
             this.metroPanel3 = new ReaLTaiizor.Controls.MetroPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.button11 = new System.Windows.Forms.Button();
+            this.btnReFreshCT = new System.Windows.Forms.Button();
+            this.btnSuaCT = new System.Windows.Forms.Button();
+            this.btnChiTietCT = new System.Windows.Forms.Button();
+            this.btnXoaCT = new System.Windows.Forms.Button();
+            this.btnThemCT = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.button17 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -56,6 +62,13 @@
             this.metroPanel2 = new ReaLTaiizor.Controls.MetroPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.btnSuaSP = new System.Windows.Forms.Button();
+            this.btnChiTiet = new System.Windows.Forms.Button();
+            this.btnXoaSP = new System.Windows.Forms.Button();
+            this.btnThemSP = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.button9 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -73,32 +86,18 @@
             this.metroPanel4 = new ReaLTaiizor.Controls.MetroPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.button25 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.btnSuaSP = new System.Windows.Forms.Button();
-            this.btnChiTiet = new System.Windows.Forms.Button();
-            this.btnXoaSP = new System.Windows.Forms.Button();
-            this.btnThemSP = new System.Windows.Forms.Button();
-            this.btnLoaiSP = new System.Windows.Forms.Button();
-            this.button11 = new System.Windows.Forms.Button();
-            this.btnReFresh = new System.Windows.Forms.Button();
-            this.button13 = new System.Windows.Forms.Button();
-            this.button14 = new System.Windows.Forms.Button();
-            this.button15 = new System.Windows.Forms.Button();
-            this.button16 = new System.Windows.Forms.Button();
             this.btnExcelNL = new System.Windows.Forms.Button();
             this.btnRefreshNL = new System.Windows.Forms.Button();
             this.btnSuaNL = new System.Windows.Forms.Button();
             this.btnChiTietNL = new System.Windows.Forms.Button();
             this.btnXoaNL = new System.Windows.Forms.Button();
             this.btnThemNL = new System.Windows.Forms.Button();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.button25 = new System.Windows.Forms.Button();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.tabCongThuc.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tableCongThuc)).BeginInit();
             this.metroPanel3.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -120,7 +119,7 @@
             // 
             // tabCongThuc
             // 
-            this.tabCongThuc.Controls.Add(this.dataGridView2);
+            this.tabCongThuc.Controls.Add(this.tableCongThuc);
             this.tabCongThuc.Controls.Add(this.metroPanel3);
             this.tabCongThuc.Location = new System.Drawing.Point(4, 54);
             this.tabCongThuc.Name = "tabCongThuc";
@@ -129,11 +128,11 @@
             this.tabCongThuc.Text = "Công thức";
             this.tabCongThuc.UseVisualStyleBackColor = true;
             // 
-            // dataGridView2
+            // tableCongThuc
             // 
-            this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.tableCongThuc.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.tableCongThuc.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tableCongThuc.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn8,
             this.dataGridViewTextBoxColumn9,
             this.dataGridViewTextBoxColumn10,
@@ -141,15 +140,16 @@
             this.dataGridViewTextBoxColumn12,
             this.dataGridViewTextBoxColumn13,
             this.dataGridViewTextBoxColumn14});
-            this.dataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView2.Location = new System.Drawing.Point(0, 157);
-            this.dataGridView2.MultiSelect = false;
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowHeadersWidth = 51;
-            this.dataGridView2.RowTemplate.Height = 24;
-            this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView2.Size = new System.Drawing.Size(1783, 561);
-            this.dataGridView2.TabIndex = 4;
+            this.tableCongThuc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableCongThuc.Location = new System.Drawing.Point(0, 157);
+            this.tableCongThuc.MultiSelect = false;
+            this.tableCongThuc.Name = "tableCongThuc";
+            this.tableCongThuc.RowHeadersWidth = 51;
+            this.tableCongThuc.RowTemplate.Height = 24;
+            this.tableCongThuc.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.tableCongThuc.Size = new System.Drawing.Size(1783, 561);
+            this.tableCongThuc.TabIndex = 4;
+            this.tableCongThuc.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableCongThuc_CellClick);
             // 
             // dataGridViewTextBoxColumn8
             // 
@@ -229,13 +229,12 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.btnLoaiSP);
             this.groupBox5.Controls.Add(this.button11);
-            this.groupBox5.Controls.Add(this.btnReFresh);
-            this.groupBox5.Controls.Add(this.button13);
-            this.groupBox5.Controls.Add(this.button14);
-            this.groupBox5.Controls.Add(this.button15);
-            this.groupBox5.Controls.Add(this.button16);
+            this.groupBox5.Controls.Add(this.btnReFreshCT);
+            this.groupBox5.Controls.Add(this.btnSuaCT);
+            this.groupBox5.Controls.Add(this.btnChiTietCT);
+            this.groupBox5.Controls.Add(this.btnXoaCT);
+            this.groupBox5.Controls.Add(this.btnThemCT);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox5.Location = new System.Drawing.Point(10, 10);
@@ -244,6 +243,86 @@
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Xử lý sản phẩm";
+            // 
+            // button11
+            // 
+            this.button11.ForeColor = System.Drawing.Color.Black;
+            this.button11.Image = global::quanlycafe.Properties.Resources.xls;
+            this.button11.Location = new System.Drawing.Point(719, 21);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(112, 103);
+            this.button11.TabIndex = 13;
+            this.button11.Text = "Excel";
+            this.button11.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.button11.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.button11.UseVisualStyleBackColor = true;
+            // 
+            // btnReFreshCT
+            // 
+            this.btnReFreshCT.ForeColor = System.Drawing.Color.Black;
+            this.btnReFreshCT.Image = global::quanlycafe.Properties.Resources.update_arrows;
+            this.btnReFreshCT.Location = new System.Drawing.Point(575, 21);
+            this.btnReFreshCT.Name = "btnReFreshCT";
+            this.btnReFreshCT.Size = new System.Drawing.Size(112, 103);
+            this.btnReFreshCT.TabIndex = 12;
+            this.btnReFreshCT.Text = "Làm mới";
+            this.btnReFreshCT.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnReFreshCT.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnReFreshCT.UseVisualStyleBackColor = true;
+            this.btnReFreshCT.Click += new System.EventHandler(this.btnReFresh_Click);
+            // 
+            // btnSuaCT
+            // 
+            this.btnSuaCT.ForeColor = System.Drawing.Color.Black;
+            this.btnSuaCT.Image = global::quanlycafe.Properties.Resources.edit;
+            this.btnSuaCT.Location = new System.Drawing.Point(157, 21);
+            this.btnSuaCT.Name = "btnSuaCT";
+            this.btnSuaCT.Size = new System.Drawing.Size(112, 103);
+            this.btnSuaCT.TabIndex = 10;
+            this.btnSuaCT.Text = "Sửa";
+            this.btnSuaCT.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnSuaCT.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSuaCT.UseVisualStyleBackColor = true;
+            // 
+            // btnChiTietCT
+            // 
+            this.btnChiTietCT.ForeColor = System.Drawing.Color.Black;
+            this.btnChiTietCT.Image = global::quanlycafe.Properties.Resources.info;
+            this.btnChiTietCT.Location = new System.Drawing.Point(434, 21);
+            this.btnChiTietCT.Name = "btnChiTietCT";
+            this.btnChiTietCT.Size = new System.Drawing.Size(112, 103);
+            this.btnChiTietCT.TabIndex = 11;
+            this.btnChiTietCT.Text = "Chi tiết";
+            this.btnChiTietCT.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnChiTietCT.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnChiTietCT.UseVisualStyleBackColor = true;
+            // 
+            // btnXoaCT
+            // 
+            this.btnXoaCT.ForeColor = System.Drawing.Color.Black;
+            this.btnXoaCT.Image = global::quanlycafe.Properties.Resources.trash;
+            this.btnXoaCT.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnXoaCT.Location = new System.Drawing.Point(292, 21);
+            this.btnXoaCT.Name = "btnXoaCT";
+            this.btnXoaCT.Size = new System.Drawing.Size(112, 103);
+            this.btnXoaCT.TabIndex = 9;
+            this.btnXoaCT.Text = "Xóa";
+            this.btnXoaCT.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnXoaCT.UseVisualStyleBackColor = true;
+            // 
+            // btnThemCT
+            // 
+            this.btnThemCT.ForeColor = System.Drawing.Color.Black;
+            this.btnThemCT.Image = global::quanlycafe.Properties.Resources.add;
+            this.btnThemCT.Location = new System.Drawing.Point(19, 21);
+            this.btnThemCT.Name = "btnThemCT";
+            this.btnThemCT.Size = new System.Drawing.Size(112, 103);
+            this.btnThemCT.TabIndex = 8;
+            this.btnThemCT.Text = "Thêm";
+            this.btnThemCT.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnThemCT.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnThemCT.UseVisualStyleBackColor = true;
+            this.btnThemCT.Click += new System.EventHandler(this.btnThemCT_Click);
             // 
             // groupBox6
             // 
@@ -301,6 +380,8 @@
             // 
             // tbSanPham
             // 
+            this.tbSanPham.AllowUserToAddRows = false;
+            this.tbSanPham.AllowUserToDeleteRows = false;
             this.tbSanPham.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tbSanPham.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tbSanPham.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -315,6 +396,7 @@
             this.tbSanPham.Location = new System.Drawing.Point(0, 157);
             this.tbSanPham.MultiSelect = false;
             this.tbSanPham.Name = "tbSanPham";
+            this.tbSanPham.ReadOnly = true;
             this.tbSanPham.RowHeadersWidth = 51;
             this.tbSanPham.RowTemplate.Height = 24;
             this.tbSanPham.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -416,6 +498,108 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Xử lý sản phẩm";
             // 
+            // button2
+            // 
+            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button2.ForeColor = System.Drawing.Color.Black;
+            this.button2.Image = global::quanlycafe.Properties.Resources.type;
+            this.button2.Location = new System.Drawing.Point(714, 21);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(112, 103);
+            this.button2.TabIndex = 14;
+            this.button2.Text = "Loại SP";
+            this.button2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.button2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
+            // 
+            // button3
+            // 
+            this.button3.Cursor = System.Windows.Forms.Cursors.AppStarting;
+            this.button3.ForeColor = System.Drawing.Color.Black;
+            this.button3.Image = global::quanlycafe.Properties.Resources.xls;
+            this.button3.Location = new System.Drawing.Point(853, 21);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(112, 103);
+            this.button3.TabIndex = 13;
+            this.button3.Text = "Excel";
+            this.button3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.button3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button4.ForeColor = System.Drawing.Color.Black;
+            this.button4.Image = global::quanlycafe.Properties.Resources.update_arrows;
+            this.button4.Location = new System.Drawing.Point(575, 21);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(112, 103);
+            this.button4.TabIndex = 12;
+            this.button4.Text = "Làm mới";
+            this.button4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.button4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // btnSuaSP
+            // 
+            this.btnSuaSP.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSuaSP.ForeColor = System.Drawing.Color.Black;
+            this.btnSuaSP.Image = global::quanlycafe.Properties.Resources.edit;
+            this.btnSuaSP.Location = new System.Drawing.Point(157, 21);
+            this.btnSuaSP.Name = "btnSuaSP";
+            this.btnSuaSP.Size = new System.Drawing.Size(112, 103);
+            this.btnSuaSP.TabIndex = 10;
+            this.btnSuaSP.Text = "Sửa";
+            this.btnSuaSP.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnSuaSP.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSuaSP.UseVisualStyleBackColor = true;
+            this.btnSuaSP.Click += new System.EventHandler(this.btnSuaSP_Click);
+            // 
+            // btnChiTiet
+            // 
+            this.btnChiTiet.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnChiTiet.ForeColor = System.Drawing.Color.Black;
+            this.btnChiTiet.Image = global::quanlycafe.Properties.Resources.info;
+            this.btnChiTiet.Location = new System.Drawing.Point(434, 21);
+            this.btnChiTiet.Name = "btnChiTiet";
+            this.btnChiTiet.Size = new System.Drawing.Size(112, 103);
+            this.btnChiTiet.TabIndex = 11;
+            this.btnChiTiet.Text = "Chi tiết";
+            this.btnChiTiet.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnChiTiet.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnChiTiet.UseVisualStyleBackColor = true;
+            // 
+            // btnXoaSP
+            // 
+            this.btnXoaSP.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnXoaSP.ForeColor = System.Drawing.Color.Black;
+            this.btnXoaSP.Image = global::quanlycafe.Properties.Resources.trash;
+            this.btnXoaSP.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnXoaSP.Location = new System.Drawing.Point(292, 21);
+            this.btnXoaSP.Name = "btnXoaSP";
+            this.btnXoaSP.Size = new System.Drawing.Size(112, 103);
+            this.btnXoaSP.TabIndex = 9;
+            this.btnXoaSP.Text = "Xóa";
+            this.btnXoaSP.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnXoaSP.UseVisualStyleBackColor = true;
+            this.btnXoaSP.Click += new System.EventHandler(this.btnXoaSP_Click);
+            // 
+            // btnThemSP
+            // 
+            this.btnThemSP.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnThemSP.ForeColor = System.Drawing.Color.Black;
+            this.btnThemSP.Image = global::quanlycafe.Properties.Resources.add;
+            this.btnThemSP.Location = new System.Drawing.Point(19, 21);
+            this.btnThemSP.Name = "btnThemSP";
+            this.btnThemSP.Size = new System.Drawing.Size(112, 103);
+            this.btnThemSP.TabIndex = 8;
+            this.btnThemSP.Text = "Thêm";
+            this.btnThemSP.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnThemSP.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnThemSP.UseVisualStyleBackColor = true;
+            this.btnThemSP.Click += new System.EventHandler(this.btnThemSP_Click);
+            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.button9);
@@ -486,6 +670,8 @@
             // 
             // tableNguyenLieu
             // 
+            this.tableNguyenLieu.AllowUserToAddRows = false;
+            this.tableNguyenLieu.AllowUserToDeleteRows = false;
             this.tableNguyenLieu.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tableNguyenLieu.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableNguyenLieu.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -599,243 +785,6 @@
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Xử lý nguyên liệu";
             // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.button25);
-            this.groupBox8.Controls.Add(this.textBox3);
-            this.groupBox8.Controls.Add(this.comboBox3);
-            this.groupBox8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox8.Location = new System.Drawing.Point(894, 10);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(879, 136);
-            this.groupBox8.TabIndex = 6;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Tìm kiếm nguyên liệu";
-            // 
-            // button25
-            // 
-            this.button25.ForeColor = System.Drawing.Color.Black;
-            this.button25.Location = new System.Drawing.Point(472, 53);
-            this.button25.Name = "button25";
-            this.button25.Size = new System.Drawing.Size(105, 33);
-            this.button25.TabIndex = 2;
-            this.button25.Text = "Tìm kiếm";
-            this.button25.UseVisualStyleBackColor = true;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(203, 58);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(251, 24);
-            this.textBox3.TabIndex = 1;
-            // 
-            // comboBox3
-            // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
-            "Tên sản phẩm",
-            "Loại sản phẩm",
-            "giá"});
-            this.comboBox3.Location = new System.Drawing.Point(27, 58);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(152, 26);
-            this.comboBox3.TabIndex = 0;
-            // 
-            // button2
-            // 
-            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.ForeColor = System.Drawing.Color.Black;
-            this.button2.Image = global::quanlycafe.Properties.Resources.type;
-            this.button2.Location = new System.Drawing.Point(714, 21);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(112, 103);
-            this.button2.TabIndex = 14;
-            this.button2.Text = "Loại SP";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click_1);
-            // 
-            // button3
-            // 
-            this.button3.Cursor = System.Windows.Forms.Cursors.AppStarting;
-            this.button3.ForeColor = System.Drawing.Color.Black;
-            this.button3.Image = global::quanlycafe.Properties.Resources.xls;
-            this.button3.Location = new System.Drawing.Point(853, 21);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(112, 103);
-            this.button3.TabIndex = 13;
-            this.button3.Text = "Excel";
-            this.button3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button4.ForeColor = System.Drawing.Color.Black;
-            this.button4.Image = global::quanlycafe.Properties.Resources.update_arrows;
-            this.button4.Location = new System.Drawing.Point(575, 21);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(112, 103);
-            this.button4.TabIndex = 12;
-            this.button4.Text = "Làm mới";
-            this.button4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // btnSuaSP
-            // 
-            this.btnSuaSP.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSuaSP.ForeColor = System.Drawing.Color.Black;
-            this.btnSuaSP.Image = global::quanlycafe.Properties.Resources.edit;
-            this.btnSuaSP.Location = new System.Drawing.Point(157, 21);
-            this.btnSuaSP.Name = "btnSuaSP";
-            this.btnSuaSP.Size = new System.Drawing.Size(112, 103);
-            this.btnSuaSP.TabIndex = 10;
-            this.btnSuaSP.Text = "Sửa";
-            this.btnSuaSP.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnSuaSP.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnSuaSP.UseVisualStyleBackColor = true;
-            this.btnSuaSP.Click += new System.EventHandler(this.btnSuaSP_Click);
-            // 
-            // btnChiTiet
-            // 
-            this.btnChiTiet.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnChiTiet.ForeColor = System.Drawing.Color.Black;
-            this.btnChiTiet.Image = global::quanlycafe.Properties.Resources.info;
-            this.btnChiTiet.Location = new System.Drawing.Point(434, 21);
-            this.btnChiTiet.Name = "btnChiTiet";
-            this.btnChiTiet.Size = new System.Drawing.Size(112, 103);
-            this.btnChiTiet.TabIndex = 11;
-            this.btnChiTiet.Text = "Chi tiết";
-            this.btnChiTiet.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnChiTiet.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnChiTiet.UseVisualStyleBackColor = true;
-            // 
-            // btnXoaSP
-            // 
-            this.btnXoaSP.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnXoaSP.ForeColor = System.Drawing.Color.Black;
-            this.btnXoaSP.Image = global::quanlycafe.Properties.Resources.trash;
-            this.btnXoaSP.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnXoaSP.Location = new System.Drawing.Point(292, 21);
-            this.btnXoaSP.Name = "btnXoaSP";
-            this.btnXoaSP.Size = new System.Drawing.Size(112, 103);
-            this.btnXoaSP.TabIndex = 9;
-            this.btnXoaSP.Text = "Xóa";
-            this.btnXoaSP.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnXoaSP.UseVisualStyleBackColor = true;
-            this.btnXoaSP.Click += new System.EventHandler(this.btnXoaSP_Click);
-            // 
-            // btnThemSP
-            // 
-            this.btnThemSP.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnThemSP.ForeColor = System.Drawing.Color.Black;
-            this.btnThemSP.Image = global::quanlycafe.Properties.Resources.add;
-            this.btnThemSP.Location = new System.Drawing.Point(19, 21);
-            this.btnThemSP.Name = "btnThemSP";
-            this.btnThemSP.Size = new System.Drawing.Size(112, 103);
-            this.btnThemSP.TabIndex = 8;
-            this.btnThemSP.Text = "Thêm";
-            this.btnThemSP.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnThemSP.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnThemSP.UseVisualStyleBackColor = true;
-            this.btnThemSP.Click += new System.EventHandler(this.btnThemSP_Click);
-            // 
-            // btnLoaiSP
-            // 
-            this.btnLoaiSP.ForeColor = System.Drawing.Color.Black;
-            this.btnLoaiSP.Image = global::quanlycafe.Properties.Resources.type;
-            this.btnLoaiSP.Location = new System.Drawing.Point(714, 21);
-            this.btnLoaiSP.Name = "btnLoaiSP";
-            this.btnLoaiSP.Size = new System.Drawing.Size(112, 103);
-            this.btnLoaiSP.TabIndex = 14;
-            this.btnLoaiSP.Text = "Loại SP";
-            this.btnLoaiSP.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnLoaiSP.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnLoaiSP.UseVisualStyleBackColor = true;
-            // 
-            // button11
-            // 
-            this.button11.ForeColor = System.Drawing.Color.Black;
-            this.button11.Image = global::quanlycafe.Properties.Resources.xls;
-            this.button11.Location = new System.Drawing.Point(853, 21);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(112, 103);
-            this.button11.TabIndex = 13;
-            this.button11.Text = "Excel";
-            this.button11.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button11.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button11.UseVisualStyleBackColor = true;
-            // 
-            // btnReFresh
-            // 
-            this.btnReFresh.ForeColor = System.Drawing.Color.Black;
-            this.btnReFresh.Image = global::quanlycafe.Properties.Resources.update_arrows;
-            this.btnReFresh.Location = new System.Drawing.Point(575, 21);
-            this.btnReFresh.Name = "btnReFresh";
-            this.btnReFresh.Size = new System.Drawing.Size(112, 103);
-            this.btnReFresh.TabIndex = 12;
-            this.btnReFresh.Text = "Làm mới";
-            this.btnReFresh.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnReFresh.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnReFresh.UseVisualStyleBackColor = true;
-            this.btnReFresh.Click += new System.EventHandler(this.btnReFresh_Click);
-            // 
-            // button13
-            // 
-            this.button13.ForeColor = System.Drawing.Color.Black;
-            this.button13.Image = global::quanlycafe.Properties.Resources.edit;
-            this.button13.Location = new System.Drawing.Point(157, 21);
-            this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(112, 103);
-            this.button13.TabIndex = 10;
-            this.button13.Text = "Sửa";
-            this.button13.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button13.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button13.UseVisualStyleBackColor = true;
-            // 
-            // button14
-            // 
-            this.button14.ForeColor = System.Drawing.Color.Black;
-            this.button14.Image = global::quanlycafe.Properties.Resources.info;
-            this.button14.Location = new System.Drawing.Point(434, 21);
-            this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(112, 103);
-            this.button14.TabIndex = 11;
-            this.button14.Text = "Chi tiết";
-            this.button14.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button14.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button14.UseVisualStyleBackColor = true;
-            // 
-            // button15
-            // 
-            this.button15.ForeColor = System.Drawing.Color.Black;
-            this.button15.Image = global::quanlycafe.Properties.Resources.trash;
-            this.button15.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button15.Location = new System.Drawing.Point(292, 21);
-            this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(112, 103);
-            this.button15.TabIndex = 9;
-            this.button15.Text = "Xóa";
-            this.button15.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button15.UseVisualStyleBackColor = true;
-            // 
-            // button16
-            // 
-            this.button16.ForeColor = System.Drawing.Color.Black;
-            this.button16.Image = global::quanlycafe.Properties.Resources.add;
-            this.button16.Location = new System.Drawing.Point(19, 21);
-            this.button16.Name = "button16";
-            this.button16.Size = new System.Drawing.Size(112, 103);
-            this.button16.TabIndex = 8;
-            this.button16.Text = "Thêm";
-            this.button16.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button16.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button16.UseVisualStyleBackColor = true;
-            // 
             // btnExcelNL
             // 
             this.btnExcelNL.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -924,6 +873,49 @@
             this.btnThemNL.UseVisualStyleBackColor = true;
             this.btnThemNL.Click += new System.EventHandler(this.btnThemNL_Click);
             // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.button25);
+            this.groupBox8.Controls.Add(this.textBox3);
+            this.groupBox8.Controls.Add(this.comboBox3);
+            this.groupBox8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox8.Location = new System.Drawing.Point(894, 10);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(879, 136);
+            this.groupBox8.TabIndex = 6;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Tìm kiếm nguyên liệu";
+            // 
+            // button25
+            // 
+            this.button25.ForeColor = System.Drawing.Color.Black;
+            this.button25.Location = new System.Drawing.Point(472, 53);
+            this.button25.Name = "button25";
+            this.button25.Size = new System.Drawing.Size(105, 33);
+            this.button25.TabIndex = 2;
+            this.button25.Text = "Tìm kiếm";
+            this.button25.UseVisualStyleBackColor = true;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(203, 58);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(251, 24);
+            this.textBox3.TabIndex = 1;
+            // 
+            // comboBox3
+            // 
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Items.AddRange(new object[] {
+            "Tên sản phẩm",
+            "Loại sản phẩm",
+            "giá"});
+            this.comboBox3.Location = new System.Drawing.Point(27, 58);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(152, 26);
+            this.comboBox3.TabIndex = 0;
+            // 
             // productGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -933,7 +925,7 @@
             this.Size = new System.Drawing.Size(1791, 776);
             this.Load += new System.EventHandler(this.productGUI_Load);
             this.tabCongThuc.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tableCongThuc)).EndInit();
             this.metroPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
@@ -986,7 +978,7 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabNguyenLieu;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView tableCongThuc;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
@@ -997,13 +989,12 @@
         private ReaLTaiizor.Controls.MetroPanel metroPanel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.Button btnLoaiSP;
         private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.Button btnReFresh;
-        private System.Windows.Forms.Button button13;
-        private System.Windows.Forms.Button button14;
-        private System.Windows.Forms.Button button15;
-        private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.Button btnReFreshCT;
+        private System.Windows.Forms.Button btnSuaCT;
+        private System.Windows.Forms.Button btnChiTietCT;
+        private System.Windows.Forms.Button btnXoaCT;
+        private System.Windows.Forms.Button btnThemCT;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Button button17;
         private System.Windows.Forms.TextBox textBox2;
