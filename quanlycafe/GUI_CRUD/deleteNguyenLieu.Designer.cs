@@ -1,6 +1,6 @@
-﻿namespace quanlycafe.GUI
+﻿namespace quanlycafe.GUI_CRUD
 {
-    partial class deleteProduct
+    partial class deleteNguyenLieu
     {
         /// <summary>
         /// Required designer variable.
@@ -44,9 +44,9 @@
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(456, 192);
-            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Xử lý xóa sản phẩm";
+            this.groupBox1.Text = "Xử lý xóa nguyên liệu";
             // 
             // btnHuy
             // 
@@ -58,7 +58,6 @@
             this.btnHuy.TabIndex = 5;
             this.btnHuy.Text = "Hủy";
             this.btnHuy.UseVisualStyleBackColor = false;
-            this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click_1);
             // 
             // btnXacNhan
             // 
@@ -70,27 +69,26 @@
             this.btnXacNhan.TabIndex = 4;
             this.btnXacNhan.Text = "Xác nhận";
             this.btnXacNhan.UseVisualStyleBackColor = false;
-            this.btnXacNhan.Click += new System.EventHandler(this.btnXacNhan_Click_1);
+            this.btnXacNhan.Click += new System.EventHandler(this.btnXacNhan_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(50, 32);
+            this.label1.Location = new System.Drawing.Point(33, 40);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(356, 36);
+            this.label1.Size = new System.Drawing.Size(384, 36);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Xác nhận xóa sản phẩm";
+            this.label1.Text = "Xác nhận xóa nguyên liệu";
             // 
-            // deleteProduct
+            // deleteNguyenLieu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(480, 216);
+            this.ClientSize = new System.Drawing.Size(486, 214);
             this.Controls.Add(this.groupBox1);
-            this.Name = "deleteProduct";
-            this.Text = "Xóa sản phẩm";
-            this.Load += new System.EventHandler(this.deleteProduct_Load);
+            this.Name = "deleteNguyenLieu";
+            this.Text = "Xóa nguyên liệu";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

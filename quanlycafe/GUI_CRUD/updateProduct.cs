@@ -82,6 +82,16 @@ namespace quanlycafe.GUI
                 return;
             }
 
+            DialogResult confirm = MessageBox.Show(
+                "Bạn có chắc chắn muốn cập nhật sản phẩm này không?",
+                "Xác nhận cập nhật",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (confirm == DialogResult.No)
+                return;
+
             try
             {
                 // Nếu có chọn ảnh mới
@@ -122,6 +132,7 @@ namespace quanlycafe.GUI
             {
                 MessageBox.Show("Lỗi cập nhật sản phẩm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
     }
 }

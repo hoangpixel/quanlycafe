@@ -45,5 +45,15 @@ namespace quanlycafe.GUI
         {
             this.Close();
         }
+
+        private void btnXacNhan_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnHuy_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

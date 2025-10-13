@@ -1,38 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace quanlycafe.DTO
 {
-    internal class nguyenLieuDTO
+    public class nguyenLieuDTO
     {
-        private int maNguyenLieu, trangThai;
-        private String tenNguyenLieu, donViCoSo;
-        private float tonKho;
+        public int MaNguyenLieu { get; set; }
 
-        private nguyenLieuDTO() { }
+        public string TenNguyenLieu { get; set; }
 
-        private nguyenLieuDTO(int maNguyenLieu, String tenNguyenLieu, String donViCoSo, int trangThai, float tonKho)
+        public string DonViCoSo { get; set; }
+
+        public int TrangThai { get; set; }
+
+        public float TonKho { get; set; }
+
+        public nguyenLieuDTO() { }
+
+        public nguyenLieuDTO(int ma, string ten, string donVi, int trangThai, float tonKho)
         {
-            this.maNguyenLieu = maNguyenLieu;
-            this.tenNguyenLieu = tenNguyenLieu;
-            this.donViCoSo = donViCoSo;
-            this.trangThai = trangThai;
-            this.tonKho = tonKho;
+            MaNguyenLieu = ma;
+            TenNguyenLieu = ten;
+            DonViCoSo = donVi;
+            TrangThai = trangThai;
+            TonKho = tonKho;
         }
 
-        public int getMaNguyenLieu() { return maNguyenLieu; }
-        public String getTenNguyenLieu() { return tenNguyenLieu; }
-        public String getDonViCoSo() { return donViCoSo; }
-        public int getTrangThai() { return trangThai; }
-        public float getTonKho() { return tonKho; }
-
-        public void setMaNguyenLieu(int maNguyenLieu) { this.maNguyenLieu = maNguyenLieu; }
-        public void setTenNguyenLieu(String tenNguyenLieu) { this.tenNguyenLieu = tenNguyenLieu; }
-        public void setDonViCoSo(String donViCoSo) { this.donViCoSo = donViCoSo; }
-        public void setTrangThai(int trangThai) { this.trangThai = trangThai; }
-        public void setTonKho(float tonKho) { this.tonKho = tonKho; }
+        public override string ToString()
+        {
+            return $"{TenNguyenLieu} ({DonViCoSo})";
+        }
     }
 }
