@@ -1,9 +1,9 @@
--- phpMyAdmin SQL Dump
+﻿-- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2025 at 04:16 AM
+-- Generation Time: Oct 14, 2025 at 04:49 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -60,6 +60,20 @@ CREATE TABLE `congthuc` (
   `SOLUONGCOSO` decimal(12,2) NOT NULL,
   `TRANGTHAI` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `congthuc`
+--
+
+INSERT INTO `congthuc` (`MASANPHAM`, `MANGUYENLIEU`, `SOLUONGCOSO`, `TRANGTHAI`) VALUES
+(1, 1, 25.00, 1),
+(1, 2, 5.00, 1),
+(2, 1, 25.00, 1),
+(2, 3, 40.00, 1),
+(3, 1, 20.00, 1),
+(3, 2, 5.00, 1),
+(3, 3, 25.00, 1),
+(3, 4, 120.00, 1);
 
 -- --------------------------------------------------------
 
@@ -173,6 +187,13 @@ CREATE TABLE `loai` (
   `TRANGTHAI` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `loai`
+--
+
+INSERT INTO `loai` (`MALOAI`, `TENLOAI`, `TRANGTHAI`) VALUES
+(1, 'Cà phê', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -186,6 +207,16 @@ CREATE TABLE `nguyenlieu` (
   `TRANGTHAI` tinyint(1) NOT NULL DEFAULT 1,
   `TONKHO` decimal(14,3) NOT NULL DEFAULT 0.000
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `nguyenlieu`
+--
+
+INSERT INTO `nguyenlieu` (`MANGUYENLIEU`, `TENNGUYENLIEU`, `DONVICOSO`, `TRANGTHAI`, `TONKHO`) VALUES
+(1, 'Bột cà phê', 'gram', 1, 0.000),
+(2, 'Đường trắng', 'gram', 1, 0.000),
+(3, 'Sữa đặc', 'gram', 1, 0.000),
+(4, 'Sữa tươi không đường', 'ml', 1, 0.000);
 
 -- --------------------------------------------------------
 
@@ -245,6 +276,15 @@ CREATE TABLE `sanpham` (
   `TRANGTHAICT` tinyint(1) NOT NULL DEFAULT 0,
   `GIA` decimal(12,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sanpham`
+--
+
+INSERT INTO `sanpham` (`MASANPHAM`, `MALOAI`, `HINH`, `TENSANPHAM`, `TRANGTHAI`, `TRANGTHAICT`, `GIA`) VALUES
+(1, 1, 'SP/cafe-den-da-8801.png', 'Cà phê đen', 1, 1, 17000.00),
+(2, 1, 'SP/pngtree-ice-milk-coffee-png-image_9162395.png', 'Cà phê sữa', 1, 1, 25000.00),
+(3, 1, 'SP/pngtree-cute-iced-coffee-takeaway-png-image_11477425.png', 'Cà phê sữa tươi', 1, 1, 25000.00);
 
 -- --------------------------------------------------------
 
@@ -487,13 +527,13 @@ ALTER TABLE `khuvuc`
 -- AUTO_INCREMENT for table `loai`
 --
 ALTER TABLE `loai`
-  MODIFY `MALOAI` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MALOAI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `nguyenlieu`
 --
 ALTER TABLE `nguyenlieu`
-  MODIFY `MANGUYENLIEU` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MANGUYENLIEU` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `nhacungcap`
@@ -517,7 +557,7 @@ ALTER TABLE `phieunhap`
 -- AUTO_INCREMENT for table `sanpham`
 --
 ALTER TABLE `sanpham`
-  MODIFY `MASANPHAM` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MASANPHAM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `taikhoan`
