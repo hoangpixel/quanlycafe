@@ -1,6 +1,6 @@
 ﻿namespace quanlycafe.GUI_CRUD
 {
-    partial class deleteNguyenLieu
+    partial class deleteCongThuc
     {
         /// <summary>
         /// Required designer variable.
@@ -40,13 +40,13 @@
             this.groupBox1.Controls.Add(this.btnHuy);
             this.groupBox1.Controls.Add(this.btnXacNhan);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(456, 192);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Xử lý xóa nguyên liệu";
+            this.groupBox1.Text = "Xử lý xóa công thức";
             // 
             // btnHuy
             // 
@@ -78,20 +78,20 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(33, 40);
+            this.label1.Location = new System.Drawing.Point(50, 32);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(384, 36);
+            this.label1.Size = new System.Drawing.Size(359, 36);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Xác nhận xóa nguyên liệu";
+            this.label1.Text = "Xác nhận xóa công thức";
             // 
-            // deleteNguyenLieu
+            // deleteCongThuc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(486, 214);
+            this.ClientSize = new System.Drawing.Size(483, 216);
             this.Controls.Add(this.groupBox1);
-            this.Name = "deleteNguyenLieu";
-            this.Text = "Xóa nguyên liệu";
+            this.Name = "deleteCongThuc";
+            this.Text = "Xóa công thức";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

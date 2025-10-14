@@ -133,51 +133,71 @@ namespace quanlycafe.DAO
         // 🟡 Cập nhật định lượng
         public bool Sua(congThucDTO ct)
         {
+            string qry = "UPDATE congthuc SET SOLUONGCOSO = @soluong, TRANGTHAI = @trangthai " +
+                         "WHERE MASANPHAM = @masp AND MANGUYENLIEU = @manl";
+
             try
             {
-                string qry = "UPDATE congthuc SET SOLUONGCOSO = @soluong, TRANGTHAI = @trangthai " +
-                             "WHERE MASANPHAM = @masp AND MANGUYENLIEU = @manl";
+                using (MySqlConnection conn = DBConnect.GetConnection())
+                using (MySqlCommand cmd = new MySqlCommand(qry, conn))
+                {
+                    cmd.Parameters.AddWithValue("@masp", ct.MaSanPham);
+                    cmd.Parameters.AddWithValue("@manl", ct.MaNguyenLieu);
+                    cmd.Parameters.AddWithValue("@soluong", ct.SoLuongCoSo);
+                    cmd.Parameters.AddWithValue("@trangthai", ct.TrangThai);
 
-                MySqlConnection conn = DBConnect.GetConnection();
-                MySqlCommand cmd = new MySqlCommand(qry, conn);
-                cmd.Parameters.AddWithValue("@masp", ct.MaSanPham);
-                cmd.Parameters.AddWithValue("@manl", ct.MaNguyenLieu);
-                cmd.Parameters.AddWithValue("@soluong", ct.SoLuongCoSo);
-                cmd.Parameters.AddWithValue("@trangthai", ct.TrangThai);
-
-                cmd.ExecuteNonQuery();
-                DBConnect.CloseConnection(conn);
-                return true;
+                    int rows = cmd.ExecuteNonQuery();
+                    return rows > 0;
+                }
             }
             catch (Exception e)
             {
-                Console.WriteLine("Lỗi sửa công thức: " + e.Message);
+                Console.WriteLine("❌ Lỗi sửa công thức: " + e.Message);
                 return false;
             }
         }
+
 
         // 🔴 Ẩn công thức (set trạng thái = 0)
         public bool Xoa(int maSP, int maNL)
         {
             try
             {
-                string qry = "UPDATE congthuc SET TRANGTHAI = 0 WHERE MASANPHAM = @masp AND MANGUYENLIEU = @manl";
+                string qry = "DELETE FROM congthuc WHERE MASANPHAM = @maSP AND MANGUYENLIEU = @maNL";
+                using (MySqlConnection conn = DBConnect.GetConnection())
+                using (MySqlCommand cmd = new MySqlCommand(qry, conn))
+                {
+                    cmd.Parameters.AddWithValue("@maSP", maSP);
+                    cmd.Parameters.AddWithValue("@maNL", maNL);
+                    cmd.ExecuteNonQuery();
+                }
 
-                MySqlConnection conn = DBConnect.GetConnection();
-                MySqlCommand cmd = new MySqlCommand(qry, conn);
-                cmd.Parameters.AddWithValue("@masp", maSP);
-                cmd.Parameters.AddWithValue("@manl", maNL);
-
-                cmd.ExecuteNonQuery();
-                DBConnect.CloseConnection(conn);
+                // cập nhật lại trạng thái công thức của sản phẩm
+                string checkQry = "SELECT COUNT(*) FROM congthuc WHERE MASANPHAM = @maSP";
+                using (MySqlConnection conn = DBConnect.GetConnection())
+                using (MySqlCommand cmd = new MySqlCommand(checkQry, conn))
+                {
+                    cmd.Parameters.AddWithValue("@maSP", maSP);
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    if (count == 0)
+                    {
+                        string updateQry = "UPDATE sanpham SET TRANGTHAICT = 0 WHERE MASANPHAM = @maSP";
+                        using (MySqlCommand updateCmd = new MySqlCommand(updateQry, conn))
+                        {
+                            updateCmd.Parameters.AddWithValue("@maSP", maSP);
+                            updateCmd.ExecuteNonQuery();
+                        }
+                    }
+                }
                 return true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine("Lỗi xóa công thức: " + e.Message);
+                Console.WriteLine("Lỗi xóa công thức: " + ex.Message);
                 return false;
             }
         }
+
 
         // 🔵 Xóa toàn bộ công thức của 1 sản phẩm (ẩn đi)
         public bool XoaTheoSanPham(int maSP)

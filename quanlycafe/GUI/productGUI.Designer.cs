@@ -30,13 +30,6 @@
         {
             this.tabCongThuc = new System.Windows.Forms.TabPage();
             this.tableCongThuc = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.metroPanel3 = new ReaLTaiizor.Controls.MetroPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -52,19 +45,12 @@
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.tabSanPham = new System.Windows.Forms.TabPage();
             this.tbSanPham = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.metroPanel2 = new ReaLTaiizor.Controls.MetroPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.btnRefreshSP = new System.Windows.Forms.Button();
             this.btnSuaSP = new System.Windows.Forms.Button();
             this.btnChiTiet = new System.Windows.Forms.Button();
             this.btnXoaSP = new System.Windows.Forms.Button();
@@ -76,13 +62,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabNguyenLieu = new System.Windows.Forms.TabPage();
             this.tableNguyenLieu = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn21 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.metroPanel4 = new ReaLTaiizor.Controls.MetroPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
@@ -130,16 +109,10 @@
             // 
             // tableCongThuc
             // 
+            this.tableCongThuc.AllowUserToAddRows = false;
+            this.tableCongThuc.AllowUserToDeleteRows = false;
             this.tableCongThuc.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tableCongThuc.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tableCongThuc.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn8,
-            this.dataGridViewTextBoxColumn9,
-            this.dataGridViewTextBoxColumn10,
-            this.dataGridViewTextBoxColumn11,
-            this.dataGridViewTextBoxColumn12,
-            this.dataGridViewTextBoxColumn13,
-            this.dataGridViewTextBoxColumn14});
             this.tableCongThuc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableCongThuc.Location = new System.Drawing.Point(0, 157);
             this.tableCongThuc.MultiSelect = false;
@@ -150,48 +123,6 @@
             this.tableCongThuc.Size = new System.Drawing.Size(1783, 561);
             this.tableCongThuc.TabIndex = 4;
             this.tableCongThuc.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableCongThuc_CellClick);
-            // 
-            // dataGridViewTextBoxColumn8
-            // 
-            this.dataGridViewTextBoxColumn8.HeaderText = "Mã SP";
-            this.dataGridViewTextBoxColumn8.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
-            // 
-            // dataGridViewTextBoxColumn9
-            // 
-            this.dataGridViewTextBoxColumn9.HeaderText = "Loại SP";
-            this.dataGridViewTextBoxColumn9.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
-            // 
-            // dataGridViewTextBoxColumn10
-            // 
-            this.dataGridViewTextBoxColumn10.HeaderText = "Tên SP";
-            this.dataGridViewTextBoxColumn10.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
-            // 
-            // dataGridViewTextBoxColumn11
-            // 
-            this.dataGridViewTextBoxColumn11.HeaderText = "Trạng thái SP";
-            this.dataGridViewTextBoxColumn11.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
-            // 
-            // dataGridViewTextBoxColumn12
-            // 
-            this.dataGridViewTextBoxColumn12.HeaderText = "Thạng thái CT";
-            this.dataGridViewTextBoxColumn12.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
-            // 
-            // dataGridViewTextBoxColumn13
-            // 
-            this.dataGridViewTextBoxColumn13.HeaderText = "Hình";
-            this.dataGridViewTextBoxColumn13.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
-            // 
-            // dataGridViewTextBoxColumn14
-            // 
-            this.dataGridViewTextBoxColumn14.HeaderText = "Giá";
-            this.dataGridViewTextBoxColumn14.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
             // 
             // metroPanel3
             // 
@@ -213,8 +144,8 @@
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56.89655F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.10344F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Controls.Add(this.groupBox5, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.groupBox6, 1, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Top;
@@ -222,8 +153,7 @@
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.Padding = new System.Windows.Forms.Padding(7);
             this.tableLayoutPanel3.RowCount = 1;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(1783, 156);
             this.tableLayoutPanel3.TabIndex = 7;
             // 
@@ -239,16 +169,17 @@
             this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox5.Location = new System.Drawing.Point(10, 10);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(1000, 136);
+            this.groupBox5.Size = new System.Drawing.Size(878, 136);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Xử lý sản phẩm";
+            this.groupBox5.Text = "Xử lý công thức";
             // 
             // button11
             // 
+            this.button11.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button11.ForeColor = System.Drawing.Color.Black;
             this.button11.Image = global::quanlycafe.Properties.Resources.xls;
-            this.button11.Location = new System.Drawing.Point(719, 21);
+            this.button11.Location = new System.Drawing.Point(720, 21);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(112, 103);
             this.button11.TabIndex = 13;
@@ -259,6 +190,7 @@
             // 
             // btnReFreshCT
             // 
+            this.btnReFreshCT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnReFreshCT.ForeColor = System.Drawing.Color.Black;
             this.btnReFreshCT.Image = global::quanlycafe.Properties.Resources.update_arrows;
             this.btnReFreshCT.Location = new System.Drawing.Point(575, 21);
@@ -269,10 +201,11 @@
             this.btnReFreshCT.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnReFreshCT.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnReFreshCT.UseVisualStyleBackColor = true;
-            this.btnReFreshCT.Click += new System.EventHandler(this.btnReFresh_Click);
+            this.btnReFreshCT.Click += new System.EventHandler(this.btnReFreshCT_Click);
             // 
             // btnSuaCT
             // 
+            this.btnSuaCT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSuaCT.ForeColor = System.Drawing.Color.Black;
             this.btnSuaCT.Image = global::quanlycafe.Properties.Resources.edit;
             this.btnSuaCT.Location = new System.Drawing.Point(157, 21);
@@ -283,9 +216,11 @@
             this.btnSuaCT.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnSuaCT.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnSuaCT.UseVisualStyleBackColor = true;
+            this.btnSuaCT.Click += new System.EventHandler(this.btnSuaCT_Click);
             // 
             // btnChiTietCT
             // 
+            this.btnChiTietCT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnChiTietCT.ForeColor = System.Drawing.Color.Black;
             this.btnChiTietCT.Image = global::quanlycafe.Properties.Resources.info;
             this.btnChiTietCT.Location = new System.Drawing.Point(434, 21);
@@ -299,6 +234,7 @@
             // 
             // btnXoaCT
             // 
+            this.btnXoaCT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnXoaCT.ForeColor = System.Drawing.Color.Black;
             this.btnXoaCT.Image = global::quanlycafe.Properties.Resources.trash;
             this.btnXoaCT.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -309,9 +245,11 @@
             this.btnXoaCT.Text = "Xóa";
             this.btnXoaCT.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnXoaCT.UseVisualStyleBackColor = true;
+            this.btnXoaCT.Click += new System.EventHandler(this.btnXoaCT_Click);
             // 
             // btnThemCT
             // 
+            this.btnThemCT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnThemCT.ForeColor = System.Drawing.Color.Black;
             this.btnThemCT.Image = global::quanlycafe.Properties.Resources.add;
             this.btnThemCT.Location = new System.Drawing.Point(19, 21);
@@ -331,9 +269,9 @@
             this.groupBox6.Controls.Add(this.comboBox2);
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox6.Location = new System.Drawing.Point(1016, 10);
+            this.groupBox6.Location = new System.Drawing.Point(894, 10);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(757, 136);
+            this.groupBox6.Size = new System.Drawing.Size(879, 136);
             this.groupBox6.TabIndex = 6;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Tìm kiếm sản phẩm";
@@ -383,16 +321,10 @@
             this.tbSanPham.AllowUserToAddRows = false;
             this.tbSanPham.AllowUserToDeleteRows = false;
             this.tbSanPham.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.tbSanPham.BackgroundColor = System.Drawing.Color.DarkGray;
             this.tbSanPham.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tbSanPham.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewTextBoxColumn3,
-            this.dataGridViewTextBoxColumn4,
-            this.dataGridViewTextBoxColumn5,
-            this.dataGridViewTextBoxColumn6,
-            this.dataGridViewTextBoxColumn7});
             this.tbSanPham.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbSanPham.GridColor = System.Drawing.SystemColors.ControlLight;
             this.tbSanPham.Location = new System.Drawing.Point(0, 157);
             this.tbSanPham.MultiSelect = false;
             this.tbSanPham.Name = "tbSanPham";
@@ -403,48 +335,6 @@
             this.tbSanPham.Size = new System.Drawing.Size(1783, 561);
             this.tbSanPham.TabIndex = 3;
             this.tbSanPham.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ktraTableSanPham);
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "Mã SP";
-            this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "Loại SP";
-            this.dataGridViewTextBoxColumn2.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.HeaderText = "Tên SP";
-            this.dataGridViewTextBoxColumn3.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "Trạng thái SP";
-            this.dataGridViewTextBoxColumn4.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.HeaderText = "Thạng thái CT";
-            this.dataGridViewTextBoxColumn5.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.HeaderText = "Hình";
-            this.dataGridViewTextBoxColumn6.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            // 
-            // dataGridViewTextBoxColumn7
-            // 
-            this.dataGridViewTextBoxColumn7.HeaderText = "Giá";
-            this.dataGridViewTextBoxColumn7.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
             // 
             // metroPanel2
             // 
@@ -484,7 +374,7 @@
             // 
             this.groupBox3.Controls.Add(this.button2);
             this.groupBox3.Controls.Add(this.button3);
-            this.groupBox3.Controls.Add(this.button4);
+            this.groupBox3.Controls.Add(this.btnRefreshSP);
             this.groupBox3.Controls.Add(this.btnSuaSP);
             this.groupBox3.Controls.Add(this.btnChiTiet);
             this.groupBox3.Controls.Add(this.btnXoaSP);
@@ -527,19 +417,20 @@
             this.button3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // btnRefreshSP
             // 
-            this.button4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button4.ForeColor = System.Drawing.Color.Black;
-            this.button4.Image = global::quanlycafe.Properties.Resources.update_arrows;
-            this.button4.Location = new System.Drawing.Point(575, 21);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(112, 103);
-            this.button4.TabIndex = 12;
-            this.button4.Text = "Làm mới";
-            this.button4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button4.UseVisualStyleBackColor = true;
+            this.btnRefreshSP.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRefreshSP.ForeColor = System.Drawing.Color.Black;
+            this.btnRefreshSP.Image = global::quanlycafe.Properties.Resources.update_arrows;
+            this.btnRefreshSP.Location = new System.Drawing.Point(575, 21);
+            this.btnRefreshSP.Name = "btnRefreshSP";
+            this.btnRefreshSP.Size = new System.Drawing.Size(112, 103);
+            this.btnRefreshSP.TabIndex = 12;
+            this.btnRefreshSP.Text = "Làm mới";
+            this.btnRefreshSP.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnRefreshSP.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnRefreshSP.UseVisualStyleBackColor = true;
+            this.btnRefreshSP.Click += new System.EventHandler(this.btnRefreshSP_Click);
             // 
             // btnSuaSP
             // 
@@ -648,6 +539,7 @@
             this.tabControl1.Controls.Add(this.tabSanPham);
             this.tabControl1.Controls.Add(this.tabCongThuc);
             this.tabControl1.Controls.Add(this.tabNguyenLieu);
+            this.tabControl1.Cursor = System.Windows.Forms.Cursors.Default;
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.ItemSize = new System.Drawing.Size(200, 50);
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
@@ -674,14 +566,6 @@
             this.tableNguyenLieu.AllowUserToDeleteRows = false;
             this.tableNguyenLieu.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tableNguyenLieu.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tableNguyenLieu.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn15,
-            this.dataGridViewTextBoxColumn16,
-            this.dataGridViewTextBoxColumn17,
-            this.dataGridViewTextBoxColumn18,
-            this.dataGridViewTextBoxColumn19,
-            this.dataGridViewTextBoxColumn20,
-            this.dataGridViewTextBoxColumn21});
             this.tableNguyenLieu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableNguyenLieu.Location = new System.Drawing.Point(0, 157);
             this.tableNguyenLieu.MultiSelect = false;
@@ -692,48 +576,6 @@
             this.tableNguyenLieu.Size = new System.Drawing.Size(1783, 561);
             this.tableNguyenLieu.TabIndex = 5;
             this.tableNguyenLieu.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableNguyenLieu_CellClick);
-            // 
-            // dataGridViewTextBoxColumn15
-            // 
-            this.dataGridViewTextBoxColumn15.HeaderText = "Mã SP";
-            this.dataGridViewTextBoxColumn15.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn15.Name = "dataGridViewTextBoxColumn15";
-            // 
-            // dataGridViewTextBoxColumn16
-            // 
-            this.dataGridViewTextBoxColumn16.HeaderText = "Loại SP";
-            this.dataGridViewTextBoxColumn16.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn16.Name = "dataGridViewTextBoxColumn16";
-            // 
-            // dataGridViewTextBoxColumn17
-            // 
-            this.dataGridViewTextBoxColumn17.HeaderText = "Tên SP";
-            this.dataGridViewTextBoxColumn17.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn17.Name = "dataGridViewTextBoxColumn17";
-            // 
-            // dataGridViewTextBoxColumn18
-            // 
-            this.dataGridViewTextBoxColumn18.HeaderText = "Trạng thái SP";
-            this.dataGridViewTextBoxColumn18.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn18.Name = "dataGridViewTextBoxColumn18";
-            // 
-            // dataGridViewTextBoxColumn19
-            // 
-            this.dataGridViewTextBoxColumn19.HeaderText = "Thạng thái CT";
-            this.dataGridViewTextBoxColumn19.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn19.Name = "dataGridViewTextBoxColumn19";
-            // 
-            // dataGridViewTextBoxColumn20
-            // 
-            this.dataGridViewTextBoxColumn20.HeaderText = "Hình";
-            this.dataGridViewTextBoxColumn20.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn20.Name = "dataGridViewTextBoxColumn20";
-            // 
-            // dataGridViewTextBoxColumn21
-            // 
-            this.dataGridViewTextBoxColumn21.HeaderText = "Giá";
-            this.dataGridViewTextBoxColumn21.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn21.Name = "dataGridViewTextBoxColumn21";
             // 
             // metroPanel4
             // 
@@ -955,19 +797,12 @@
         private System.Windows.Forms.TabPage tabCongThuc;
         private System.Windows.Forms.TabPage tabSanPham;
         private System.Windows.Forms.DataGridView tbSanPham;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
         private ReaLTaiizor.Controls.MetroPanel metroPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btnRefreshSP;
         private System.Windows.Forms.Button btnSuaSP;
         private System.Windows.Forms.Button btnChiTiet;
         private System.Windows.Forms.Button btnXoaSP;
@@ -979,13 +814,6 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabNguyenLieu;
         private System.Windows.Forms.DataGridView tableCongThuc;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn13;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
         private ReaLTaiizor.Controls.MetroPanel metroPanel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.GroupBox groupBox5;
@@ -1000,13 +828,6 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.DataGridView tableNguyenLieu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn15;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn16;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn17;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn18;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn19;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn20;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn21;
         private ReaLTaiizor.Controls.MetroPanel metroPanel4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.GroupBox groupBox7;

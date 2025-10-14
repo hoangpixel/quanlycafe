@@ -16,9 +16,9 @@ namespace quanlycafe.GUI
 {
     public partial class productGUI : UserControl
     {
-        bool isSanPhamLoaded = false;
-        bool isNguyenLieuLoaded = false;
-        bool isCongThucLoaded = false;
+        //bool isSanPhamLoaded = false;
+        //bool isNguyenLieuLoaded = false;
+        //bool isCongThucLoaded = false;
         private int lastSelectedRowSanPham = -1;
         private int lastSelectedRowNguyenLieu = -1;
         private int lastSelectedRowCongThuc = -1;
@@ -102,27 +102,40 @@ namespace quanlycafe.GUI
                 return;
             }
 
-            tableCongThuc.DataSource = ds.Select(x => new
-            {
-                Mã_SP = x.MaSanPham,
-                Tên_SP = x.TenSanPham,
-                Mã_NL = x.MaNguyenLieu,
-                Tên_NL = x.TenNguyenLieu,
-                Số_lượng = x.SoLuongCoSo
-            }).ToList();
+            // 🔹 Sắp xếp theo mã sản phẩm tăng dần
+            var danhSachSapXep = ds
+                .OrderBy(x => x.MaSanPham)
+                .ThenBy(x => x.MaNguyenLieu) // sắp luôn theo mã nguyên liệu trong từng sản phẩm
+                .Select(x => new
+                {
+                    Mã_SP = x.MaSanPham,
+                    Tên_SP = x.TenSanPham,
+                    Mã_NL = x.MaNguyenLieu,
+                    Tên_NL = x.TenNguyenLieu,
+                    Số_lượng = x.SoLuongCoSo
+                })
+                .ToList();
 
+            tableCongThuc.DataSource = danhSachSapXep;
+
+            // 🔧 Đặt lại tiêu đề cho cột
             tableCongThuc.Columns["Mã_SP"].HeaderText = "Mã SP";
             tableCongThuc.Columns["Tên_SP"].HeaderText = "Tên SP";
             tableCongThuc.Columns["Mã_NL"].HeaderText = "Mã NL";
             tableCongThuc.Columns["Tên_NL"].HeaderText = "Tên NL";
             tableCongThuc.Columns["Số_lượng"].HeaderText = "Số lượng";
 
+            // 🔹 Cho phép click tiêu đề để sắp xếp
+            foreach (DataGridViewColumn col in tableCongThuc.Columns)
+                col.SortMode = DataGridViewColumnSortMode.Automatic;
 
             btnSuaCT.Enabled = false;
             btnXoaCT.Enabled = false;
             btnChiTietCT.Enabled = false;
+
             tableCongThuc.ClearSelection();
         }
+
 
 
 
@@ -263,39 +276,29 @@ namespace quanlycafe.GUI
 
         private void kiemTraTabNaoDcLoad(object sender, EventArgs e)
         {
-            // tabPage1 = sản phẩm
-            if (tabControl1.SelectedTab == tabSanPham && !isSanPhamLoaded)
+            if (tabControl1.SelectedTab == tabSanPham)
             {
                 sanPhamBUS bus = new sanPhamBUS();
                 bus.docDSSanPham();
                 loadDanhSachSanPham(sanPhamBUS.ds);
-                isSanPhamLoaded = true;
             }
-
-            // tabPage2 = nguyên liệu
-            else if (tabControl1.SelectedTab == tabNguyenLieu && !isNguyenLieuLoaded)
+            else if (tabControl1.SelectedTab == tabNguyenLieu)
             {
                 nguyenLieuBUS bus = new nguyenLieuBUS();
                 bus.napDSNguyenLieu();
                 loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
-                isNguyenLieuLoaded = true;
             }
-
-            // tabPage3 = công thức
-            else if (tabControl1.SelectedTab == tabCongThuc && !isCongThucLoaded)
+            else if (tabControl1.SelectedTab == tabCongThuc)
             {
                 congThucBUS bus = new congThucBUS();
                 var ds = bus.docTatCaCongThuc();
                 loadDanhSachCongThuc(ds);
-                isCongThucLoaded = true;
             }
         }
 
         private void btnReFresh_Click(object sender, EventArgs e)
         {
-            sanPhamBUS bus = new sanPhamBUS();
-            bus.docDSSanPham();
-            loadDanhSachSanPham(sanPhamBUS.ds);
+
         }
 
         private void button2_Click_1(object sender, EventArgs e)
@@ -400,7 +403,7 @@ namespace quanlycafe.GUI
         private void btnRefreshNL_Click(object sender, EventArgs e)
         {
             nguyenLieuBUS bus = new nguyenLieuBUS();
-            bus.docDSNguyenLieu();
+            bus.napDSNguyenLieu();
             loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
         }
 
@@ -444,6 +447,66 @@ namespace quanlycafe.GUI
             btnSuaCT.Enabled = true;
             btnXoaCT.Enabled = true;
             btnChiTietCT.Enabled = true;
+        }
+
+        private void btnSuaCT_Click(object sender, EventArgs e)
+        {
+            if(tableCongThuc.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = tableCongThuc.SelectedRows[0];
+                congThucDTO ct = new congThucDTO();
+                ct.MaSanPham = Convert.ToInt32(row.Cells["Mã_SP"].Value);
+                ct.MaNguyenLieu = Convert.ToInt32(row.Cells["Mã_NL"].Value);
+                ct.TenSanPham = row.Cells["Tên_SP"].Value.ToString();
+                ct.TenNguyenLieu = row.Cells["Tên_NL"].Value.ToString();
+                ct.SoLuongCoSo = float.Parse(row.Cells["Số_lượng"].Value.ToString());
+
+                
+                using (updateCongThuc form = new updateCongThuc(ct))
+                {
+                    form.StartPosition = FormStartPosition.CenterParent;
+                    form.ShowDialog();
+                }
+
+                congThucBUS bus = new congThucBUS();
+                var ds = bus.docTatCaCongThuc();
+                loadDanhSachCongThuc(ds);
+            }
+        }
+
+        private void btnXoaCT_Click(object sender, EventArgs e)
+        {
+            if (tableCongThuc.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = tableCongThuc.SelectedRows[0];
+                
+                int maSP = Convert.ToInt32(row.Cells["Mã_SP"].Value);
+                int maNL = Convert.ToInt32(row.Cells["Mã_NL"].Value);
+
+                using (deleteCongThuc form = new deleteCongThuc(maSP,maNL))
+                {
+                    form.StartPosition = FormStartPosition.CenterParent;
+                    form.ShowDialog();
+                }
+
+                congThucBUS bus = new congThucBUS();
+                var ds = bus.docTatCaCongThuc();
+                loadDanhSachCongThuc(ds);
+            }
+        }
+
+        private void btnReFreshCT_Click(object sender, EventArgs e)
+        {
+            congThucBUS bus = new congThucBUS();
+            var ds = bus.docTatCaCongThuc();
+            loadDanhSachCongThuc(ds);
+        }
+
+        private void btnRefreshSP_Click(object sender, EventArgs e)
+        {
+            sanPhamBUS bus = new sanPhamBUS();
+            bus.docDSSanPham();
+            loadDanhSachSanPham(sanPhamBUS.ds);
         }
     }
 }

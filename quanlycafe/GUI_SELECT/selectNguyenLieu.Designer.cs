@@ -60,6 +60,8 @@
             // 
             // tableNguyenLieu
             // 
+            this.tableNguyenLieu.AllowUserToAddRows = false;
+            this.tableNguyenLieu.AllowUserToDeleteRows = false;
             this.tableNguyenLieu.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableNguyenLieu.Location = new System.Drawing.Point(6, 27);
             this.tableNguyenLieu.Name = "tableNguyenLieu";

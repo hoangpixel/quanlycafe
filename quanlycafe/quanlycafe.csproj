@@ -125,16 +125,22 @@
     <Compile Include="GUI\loaiSPGUI.Designer.cs">
       <DependentUpon>loaiSPGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI_CRUD\selectNguyenLieu.cs">
+    <Compile Include="GUI_CRUD\deleteCongThuc.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI_CRUD\selectNguyenLieu.Designer.cs">
+    <Compile Include="GUI_CRUD\deleteCongThuc.Designer.cs">
+      <DependentUpon>deleteCongThuc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_SELECT\selectNguyenLieu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_SELECT\selectNguyenLieu.Designer.cs">
       <DependentUpon>selectNguyenLieu.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI_CRUD\selectSanPham.cs">
+    <Compile Include="GUI_SELECT\selectSanPham.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI_CRUD\selectSanPham.Designer.cs">
+    <Compile Include="GUI_SELECT\selectSanPham.Designer.cs">
       <DependentUpon>selectSanPham.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_CRUD\deleteNguyenLieu.cs">
@@ -191,6 +197,12 @@
     <Compile Include="GUI\homeGUI.Designer.cs">
       <DependentUpon>homeGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_CRUD\updateCongThuc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\updateCongThuc.Designer.cs">
+      <DependentUpon>updateCongThuc.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_CRUD\updateNguyenLieu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -208,10 +220,13 @@
     <EmbeddedResource Include="GUI\loaiSPGUI.resx">
       <DependentUpon>loaiSPGUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI_CRUD\selectNguyenLieu.resx">
+    <EmbeddedResource Include="GUI_CRUD\deleteCongThuc.resx">
+      <DependentUpon>deleteCongThuc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_SELECT\selectNguyenLieu.resx">
       <DependentUpon>selectNguyenLieu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI_CRUD\selectSanPham.resx">
+    <EmbeddedResource Include="GUI_SELECT\selectSanPham.resx">
       <DependentUpon>selectSanPham.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\deleteNguyenLieu.resx">
@@ -234,6 +249,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\productGUI.resx">
       <DependentUpon>productGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\updateCongThuc.resx">
+      <DependentUpon>updateCongThuc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\updateNguyenLieu.resx">
       <DependentUpon>updateNguyenLieu.cs</DependentUpon>
@@ -274,6 +292,7 @@
     <None Include="Resources\update-arrows.png" />
     <None Include="Resources\info.png" />
     <None Include="Resources\edit.png" />
+    <Content Include="CONFIG\quan_cafe.sql" />
     <Content Include="Resources\trash.png" />
     <None Include="Resources\trash1.png" />
   </ItemGroup>

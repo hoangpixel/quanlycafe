@@ -204,7 +204,7 @@
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(493, 101);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(485, 219);
+            this.groupBox3.Size = new System.Drawing.Size(474, 219);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Danh sách nguyên liệu";
@@ -221,7 +221,7 @@
             this.tableCongThuc.RowHeadersWidth = 51;
             this.tableCongThuc.RowTemplate.Height = 24;
             this.tableCongThuc.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tableCongThuc.Size = new System.Drawing.Size(473, 186);
+            this.tableCongThuc.Size = new System.Drawing.Size(462, 186);
             this.tableCongThuc.TabIndex = 0;
             // 
             // groupBox4

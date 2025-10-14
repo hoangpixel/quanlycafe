@@ -172,6 +172,11 @@ namespace quanlycafe.GUI_CRUD
                     Số_lượng = x.SoLuongCoSo
                 }).ToList();
 
+                tableCongThuc.Columns["Mã_NL"].HeaderText = "Mã NL";
+                tableCongThuc.Columns["Tên_NL"].HeaderText = "Tên NL";
+                tableCongThuc.Columns["Số_lượng"].HeaderText = "Số lượng";
+
+
                 if (dsTam.Count == 0)
                     btnChonSP.Enabled = true;
             }

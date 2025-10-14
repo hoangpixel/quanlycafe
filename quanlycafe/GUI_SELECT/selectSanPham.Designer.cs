@@ -48,6 +48,8 @@
             // 
             // tableSanPham
             // 
+            this.tableSanPham.AllowUserToAddRows = false;
+            this.tableSanPham.AllowUserToDeleteRows = false;
             this.tableSanPham.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableSanPham.Location = new System.Drawing.Point(6, 27);
             this.tableSanPham.Name = "tableSanPham";

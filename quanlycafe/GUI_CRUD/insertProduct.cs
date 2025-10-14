@@ -91,7 +91,7 @@ namespace quanlycafe.GUI_CRUD
                 // Sao chép file ảnh (nếu chưa tồn tại)
                 if (!File.Exists(targetPath))
                     File.Copy(imagePath, targetPath, true);
-                MessageBox.Show("Ảnh lưu tại: " + targetPath);
+                //MessageBox.Show("Ảnh lưu tại: " + targetPath);
 
             }
             catch (Exception ex)

@@ -11,12 +11,13 @@ using System.Windows.Forms;
 
 namespace quanlycafe.GUI_CRUD
 {
-    public partial class deleteNguyenLieu : Form
+    public partial class deleteCongThuc : Form
     {
-        private int maNL;
-        public deleteNguyenLieu(int maNL)
+        private int maSP = -1, maNL = -1;
+        public deleteCongThuc(int maSP,int maNL)
         {
             InitializeComponent();
+            this.maSP = maSP;
             this.maNL = maNL;
         }
 
@@ -24,14 +25,14 @@ namespace quanlycafe.GUI_CRUD
         {
             try
             {
-                nguyenLieuBUS bus = new nguyenLieuBUS();
-                bus.xoaNguyenLieu(maNL);
-                MessageBox.Show("Xóa nguyên liệu thành công");
+                congThucBUS bus = new congThucBUS();
+                bus.xoaCongThuc(maSP,maNL);
+                MessageBox.Show("Xóa công thức thành công");
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Xóa nguyên liệu thất bại: " + ex);
+                MessageBox.Show("Xóa công thức thất bại: " + ex);
             }
         }
 
