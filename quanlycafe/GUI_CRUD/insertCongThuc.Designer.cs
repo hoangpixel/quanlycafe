@@ -60,7 +60,7 @@
             this.bigLabel1.BackColor = System.Drawing.Color.Transparent;
             this.bigLabel1.Font = new System.Drawing.Font("Segoe UI", 25F);
             this.bigLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.bigLabel1.Location = new System.Drawing.Point(300, 22);
+            this.bigLabel1.Location = new System.Drawing.Point(217, 20);
             this.bigLabel1.Name = "bigLabel1";
             this.bigLabel1.Size = new System.Drawing.Size(466, 57);
             this.bigLabel1.TabIndex = 0;
@@ -204,7 +204,7 @@
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(493, 101);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(474, 219);
+            this.groupBox3.Size = new System.Drawing.Size(418, 219);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Danh sách nguyên liệu";
@@ -218,10 +218,11 @@
             this.tableCongThuc.MultiSelect = false;
             this.tableCongThuc.Name = "tableCongThuc";
             this.tableCongThuc.ReadOnly = true;
+            this.tableCongThuc.RowHeadersVisible = false;
             this.tableCongThuc.RowHeadersWidth = 51;
             this.tableCongThuc.RowTemplate.Height = 24;
             this.tableCongThuc.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tableCongThuc.Size = new System.Drawing.Size(462, 186);
+            this.tableCongThuc.Size = new System.Drawing.Size(402, 186);
             this.tableCongThuc.TabIndex = 0;
             // 
             // groupBox4
@@ -231,7 +232,7 @@
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox4.Location = new System.Drawing.Point(493, 357);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(485, 111);
+            this.groupBox4.Size = new System.Drawing.Size(418, 111);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Xử lý lưu thông tin công thức";
@@ -239,7 +240,7 @@
             // button3
             // 
             this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button3.Location = new System.Drawing.Point(273, 43);
+            this.button3.Location = new System.Drawing.Point(237, 43);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(140, 43);
             this.button3.TabIndex = 1;
@@ -250,7 +251,7 @@
             // btnLuuCT
             // 
             this.btnLuuCT.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnLuuCT.Location = new System.Drawing.Point(71, 43);
+            this.btnLuuCT.Location = new System.Drawing.Point(38, 43);
             this.btnLuuCT.Name = "btnLuuCT";
             this.btnLuuCT.Size = new System.Drawing.Size(140, 43);
             this.btnLuuCT.TabIndex = 0;
@@ -263,7 +264,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(990, 481);
+            this.ClientSize = new System.Drawing.Size(927, 481);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);

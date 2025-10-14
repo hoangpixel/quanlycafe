@@ -125,7 +125,7 @@
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(397, 84);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(346, 257);
+            this.groupBox3.Size = new System.Drawing.Size(273, 257);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Dữ liệu loại sản phẩm";
@@ -139,10 +139,11 @@
             this.tableLoaiSP.MultiSelect = false;
             this.tableLoaiSP.Name = "tableLoaiSP";
             this.tableLoaiSP.ReadOnly = true;
+            this.tableLoaiSP.RowHeadersVisible = false;
             this.tableLoaiSP.RowHeadersWidth = 51;
             this.tableLoaiSP.RowTemplate.Height = 24;
             this.tableLoaiSP.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tableLoaiSP.Size = new System.Drawing.Size(334, 230);
+            this.tableLoaiSP.Size = new System.Drawing.Size(260, 230);
             this.tableLoaiSP.TabIndex = 0;
             this.tableLoaiSP.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableLoaiSP_CellClick);
             // 
@@ -152,7 +153,7 @@
             this.bigLabel1.BackColor = System.Drawing.Color.Transparent;
             this.bigLabel1.Font = new System.Drawing.Font("Segoe UI", 25F);
             this.bigLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.bigLabel1.Location = new System.Drawing.Point(181, 9);
+            this.bigLabel1.Location = new System.Drawing.Point(145, 9);
             this.bigLabel1.Name = "bigLabel1";
             this.bigLabel1.Size = new System.Drawing.Size(393, 57);
             this.bigLabel1.TabIndex = 3;
@@ -162,7 +163,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(765, 377);
+            this.ClientSize = new System.Drawing.Size(702, 377);
             this.Controls.Add(this.bigLabel1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);

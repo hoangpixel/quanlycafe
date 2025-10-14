@@ -117,6 +117,7 @@
             this.tableCongThuc.Location = new System.Drawing.Point(0, 157);
             this.tableCongThuc.MultiSelect = false;
             this.tableCongThuc.Name = "tableCongThuc";
+            this.tableCongThuc.RowHeadersVisible = false;
             this.tableCongThuc.RowHeadersWidth = 51;
             this.tableCongThuc.RowTemplate.Height = 24;
             this.tableCongThuc.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -329,6 +330,7 @@
             this.tbSanPham.MultiSelect = false;
             this.tbSanPham.Name = "tbSanPham";
             this.tbSanPham.ReadOnly = true;
+            this.tbSanPham.RowHeadersVisible = false;
             this.tbSanPham.RowHeadersWidth = 51;
             this.tbSanPham.RowTemplate.Height = 24;
             this.tbSanPham.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -405,7 +407,7 @@
             // 
             // button3
             // 
-            this.button3.Cursor = System.Windows.Forms.Cursors.AppStarting;
+            this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button3.ForeColor = System.Drawing.Color.Black;
             this.button3.Image = global::quanlycafe.Properties.Resources.xls;
             this.button3.Location = new System.Drawing.Point(853, 21);
@@ -460,6 +462,7 @@
             this.btnChiTiet.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnChiTiet.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnChiTiet.UseVisualStyleBackColor = true;
+            this.btnChiTiet.Click += new System.EventHandler(this.btnChiTiet_Click);
             // 
             // btnXoaSP
             // 
@@ -570,6 +573,7 @@
             this.tableNguyenLieu.Location = new System.Drawing.Point(0, 157);
             this.tableNguyenLieu.MultiSelect = false;
             this.tableNguyenLieu.Name = "tableNguyenLieu";
+            this.tableNguyenLieu.RowHeadersVisible = false;
             this.tableNguyenLieu.RowHeadersWidth = 51;
             this.tableNguyenLieu.RowTemplate.Height = 24;
             this.tableNguyenLieu.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -684,6 +688,7 @@
             this.btnChiTietNL.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnChiTietNL.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnChiTietNL.UseVisualStyleBackColor = true;
+            this.btnChiTietNL.Click += new System.EventHandler(this.btnChiTietNL_Click);
             // 
             // btnXoaNL
             // 

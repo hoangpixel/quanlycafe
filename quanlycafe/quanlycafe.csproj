@@ -119,10 +119,16 @@
     <Compile Include="DTO\loaiDTO.cs" />
     <Compile Include="DTO\nguyenLieuDTO.cs" />
     <Compile Include="DTO\sanPhamDTO.cs" />
-    <Compile Include="GUI\loaiSPGUI.cs">
+    <Compile Include="GUI_CRUD\detailNguyenLieu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\loaiSPGUI.Designer.cs">
+    <Compile Include="GUI_CRUD\detailNguyenLieu.Designer.cs">
+      <DependentUpon>detailNguyenLieu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\loaiSPGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\loaiSPGUI.Designer.cs">
       <DependentUpon>loaiSPGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_CRUD\deleteCongThuc.cs">
@@ -130,6 +136,12 @@
     </Compile>
     <Compile Include="GUI_CRUD\deleteCongThuc.Designer.cs">
       <DependentUpon>deleteCongThuc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\detailSanPham.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\detailSanPham.Designer.cs">
+      <DependentUpon>detailSanPham.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_SELECT\selectNguyenLieu.cs">
       <SubType>Form</SubType>
@@ -217,11 +229,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="GUI\loaiSPGUI.resx">
+    <EmbeddedResource Include="GUI_CRUD\detailNguyenLieu.resx">
+      <DependentUpon>detailNguyenLieu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\loaiSPGUI.resx">
       <DependentUpon>loaiSPGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\deleteCongThuc.resx">
       <DependentUpon>deleteCongThuc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\detailSanPham.resx">
+      <DependentUpon>detailSanPham.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_SELECT\selectNguyenLieu.resx">
       <DependentUpon>selectNguyenLieu.cs</DependentUpon>

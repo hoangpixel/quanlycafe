@@ -11,6 +11,8 @@ namespace quanlycafe.DTO
         public int TrangThai { get; set; }
         public int TrangThaiCT { get; set; }
         public float Gia { get; set; }
+        public string TenLoai { get; set; }
+        public float SoLuongCoSo { get; set; }
 
         public sanPhamDTO() { }
 

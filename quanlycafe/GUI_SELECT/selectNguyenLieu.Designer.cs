@@ -65,6 +65,7 @@
             this.tableNguyenLieu.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableNguyenLieu.Location = new System.Drawing.Point(6, 27);
             this.tableNguyenLieu.Name = "tableNguyenLieu";
+            this.tableNguyenLieu.RowHeadersVisible = false;
             this.tableNguyenLieu.RowHeadersWidth = 51;
             this.tableNguyenLieu.RowTemplate.Height = 24;
             this.tableNguyenLieu.Size = new System.Drawing.Size(803, 289);

@@ -256,5 +256,42 @@ namespace quanlycafe.DAO
             }
         }
 
+        public List<sanPhamDTO> docDanhSachSanPhamTheoNguyenLieu(int maNguyenLieu)
+        {
+            List<sanPhamDTO> ds = new List<sanPhamDTO>();
+            string qry = @"
+        SELECT sp.MASANPHAM, sp.TENSANPHAM, sp.HINH, sp.GIA, c.SOLUONGCOSO
+        FROM congthuc c
+        JOIN sanpham sp ON c.MASANPHAM = sp.MASANPHAM
+        WHERE c.MANGUYENLIEU = @maNguyenLieu AND c.TRANGTHAI = 1;
+    ";
+
+            using (MySqlConnection conn = DBConnect.GetConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                cmd.Parameters.AddWithValue("@maNguyenLieu", maNguyenLieu);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        sanPhamDTO sp = new sanPhamDTO
+                        {
+                            MaSP = reader.GetInt32("MASANPHAM"),
+                            TenSP = reader.GetString("TENSANPHAM"),
+                            Hinh = reader.IsDBNull(reader.GetOrdinal("HINH")) ? "" : reader.GetString("HINH"),
+                            Gia = reader.IsDBNull(reader.GetOrdinal("GIA")) ? 0 : Convert.ToSingle(reader["GIA"]),
+                            SoLuongCoSo = reader.IsDBNull(reader.GetOrdinal("SOLUONGCOSO")) ? 0 : reader.GetFloat("SOLUONGCOSO")
+                        };
+                        ds.Add(sp);
+                    }
+                }
+            }
+
+            return ds;
+        }
+
+
+
     }
 }

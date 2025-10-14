@@ -508,5 +508,57 @@ namespace quanlycafe.GUI
             bus.docDSSanPham();
             loadDanhSachSanPham(sanPhamBUS.ds);
         }
+
+        private void btnChiTiet_Click(object sender, EventArgs e)
+        {
+            if (tbSanPham.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = tbSanPham.SelectedRows[0];
+
+                sanPhamDTO sp = new sanPhamDTO
+                {
+                    MaSP = Convert.ToInt32(row.Cells["Mã SP"].Value),
+                    TenSP = row.Cells["Tên SP"].Value.ToString(),
+                    TenLoai = row.Cells["Tên Loại"].Value.ToString(),
+                    Hinh = row.Cells["Hình"].Value.ToString(),
+                    Gia = float.Parse(row.Cells["Giá"].Value.ToString()),
+                    TrangThai = row.Cells["Trạng thái SP"].Value.ToString() == "Đang bán" ? 1 : 0,
+                    TrangThaiCT = row.Cells["Trạng thái CT"].Value.ToString() == "Đã có công thức" ? 1 : 0
+                };
+                using (detailSanPham form = new detailSanPham(sp))
+                {
+                    form.StartPosition = FormStartPosition.CenterParent;
+                    form.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn sản phẩm cần sửa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnChiTietNL_Click(object sender, EventArgs e)
+        {
+            if (tableNguyenLieu.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = tableNguyenLieu.SelectedRows[0];
+
+                nguyenLieuDTO ct = new nguyenLieuDTO();
+                ct.MaNguyenLieu = Convert.ToInt32(row.Cells["Mã NL"].Value);
+                ct.TenNguyenLieu = row.Cells["Tên NL"].Value.ToString();
+                ct.DonViCoSo = row.Cells["Đơn vị cơ sở"].Value.ToString();
+                ct.TonKho = Convert.ToInt32(row.Cells["Tồn kho"].Value);
+
+                using (detailNguyenLieu form = new detailNguyenLieu(ct))
+                {
+                    form.StartPosition = FormStartPosition.CenterParent;
+                    form.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn sản phẩm cần sửa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
     }
 }

@@ -53,6 +53,7 @@
             this.tableSanPham.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableSanPham.Location = new System.Drawing.Point(6, 27);
             this.tableSanPham.Name = "tableSanPham";
+            this.tableSanPham.RowHeadersVisible = false;
             this.tableSanPham.RowHeadersWidth = 51;
             this.tableSanPham.RowTemplate.Height = 24;
             this.tableSanPham.Size = new System.Drawing.Size(803, 289);

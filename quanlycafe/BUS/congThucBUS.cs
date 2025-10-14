@@ -16,6 +16,14 @@ namespace quanlycafe.BUS
             ds = data.docDanhSachCongThucTheoSP(maSP);
             return ds;
         }
+
+        public List<sanPhamDTO> docDSSanPhamTheoNguyenLieu(int maNL)
+        {
+            congThucDAO data = new congThucDAO();
+            return data.docDanhSachSanPhamTheoNguyenLieu(maNL);
+        }
+
+
         public List<congThucDTO> docTatCaCongThuc()
         {
             congThucDAO data = new congThucDAO();
