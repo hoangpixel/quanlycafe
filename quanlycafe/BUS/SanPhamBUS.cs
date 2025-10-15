@@ -15,19 +15,19 @@ namespace quanlycafe.BUS
 
         public void docDSSanPham()
         {
-            SanPhamDAO data = new SanPhamDAO();
+            sanPhamDAO data = new sanPhamDAO();
             ds = data.DocDanhSachSanPham();
         }
 
         public List<sanPhamDTO> layDanhSachSanPham()
         {
-            SanPhamDAO data = new SanPhamDAO();
+            sanPhamDAO data = new sanPhamDAO();
             return ds = data.DocDanhSachSanPham();
         }
 
         public bool them(sanPhamDTO ct)
         {
-            SanPhamDAO data = new SanPhamDAO();
+            sanPhamDAO data = new sanPhamDAO();
             bool kq = data.Them(ct);
             if(kq)
             {
@@ -37,7 +37,7 @@ namespace quanlycafe.BUS
         }
         public void xoaTatCaSanPham()
         {
-            SanPhamDAO dao = new SanPhamDAO();
+            sanPhamDAO dao = new sanPhamDAO();
             dao.xoaTatCa();
         }
 
@@ -45,7 +45,7 @@ namespace quanlycafe.BUS
 
         public bool Sua(sanPhamDTO sp)
         {
-            SanPhamDAO data = new SanPhamDAO();
+            sanPhamDAO data = new sanPhamDAO();
             bool result = data.Sua(sp);
 
             if (result)
@@ -72,7 +72,7 @@ namespace quanlycafe.BUS
 
         public bool Xoa(int maSP)
         {
-            SanPhamDAO data = new SanPhamDAO();
+            sanPhamDAO data = new sanPhamDAO();
             bool result = data.Xoa(maSP);
 
             if (result)
@@ -90,7 +90,7 @@ namespace quanlycafe.BUS
 
         public bool capNhatTrangThaiCT(int maSP, int trangThaiCT)
         {
-            SanPhamDAO data = new SanPhamDAO();
+            sanPhamDAO data = new sanPhamDAO();
             bool result = data.CapNhatTrangThaiCT(maSP, trangThaiCT);
 
             if (result)
@@ -118,7 +118,7 @@ namespace quanlycafe.BUS
         }
         public void NhapExcelThongMinh(List<sanPhamDTO> dsExcel)
         {
-            SanPhamDAO spDAO = new SanPhamDAO();
+            sanPhamDAO spDAO = new sanPhamDAO();
             loaiSanPhamDAO loaiDAO = new loaiSanPhamDAO();
 
             // 🔹 Danh sách mã loại đang có trong DB
@@ -189,6 +189,60 @@ namespace quanlycafe.BUS
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
             );
+        }
+
+
+        public List<sanPhamDTO> timKiemCoBan(string tim, int index)
+        {
+            List<sanPhamDTO> kq = new List<sanPhamDTO>();
+
+            if (ds == null)
+                docDSSanPham();
+
+            foreach (sanPhamDTO ct in ds)
+            {
+                switch (index)
+                {
+                    case 0:
+                        
+                            if (ct.MaSP.ToString().Contains(tim))
+                                kq.Add(ct);
+                        
+                        break;
+
+                    case 1:
+                        
+                            if (ct.MaLoai.ToString().Contains(tim))
+                                kq.Add(ct);
+                        
+                        break;
+
+                    case 2: 
+                        if (ct.TenSP.IndexOf(tim, StringComparison.OrdinalIgnoreCase) >= 0)
+                        
+                            kq.Add(ct);
+                       
+                        break;
+                    case 3:
+                        
+                            if (float.TryParse(tim, out float giaMin))
+                                if (ct.Gia >= giaMin)
+                                    kq.Add(ct);
+
+                        break;
+                    case 4:
+                        
+                            if (float.TryParse(tim, out float giaMax))
+                                if (ct.Gia <= giaMax)
+                                    kq.Add(ct);                       
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            return kq;
         }
 
 

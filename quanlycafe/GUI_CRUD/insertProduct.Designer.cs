@@ -41,12 +41,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnThoat = new System.Windows.Forms.Button();
             this.btnNhapSP = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picHinh)).BeginInit();
             this.panel2.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -172,38 +174,48 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.btnThoat);
-            this.panel2.Controls.Add(this.btnNhapSP);
+            this.panel2.Controls.Add(this.groupBox2);
             this.panel2.Location = new System.Drawing.Point(15, 450);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(508, 100);
             this.panel2.TabIndex = 1;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.btnThoat);
+            this.groupBox2.Controls.Add(this.btnNhapSP);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Location = new System.Drawing.Point(0, 0);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(508, 100);
+            this.groupBox2.TabIndex = 0;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Xác nhận nhập sản phẩm";
             // 
             // btnThoat
             // 
             this.btnThoat.BackColor = System.Drawing.Color.IndianRed;
             this.btnThoat.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnThoat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThoat.Location = new System.Drawing.Point(286, 25);
+            this.btnThoat.Location = new System.Drawing.Point(290, 34);
             this.btnThoat.Name = "btnThoat";
             this.btnThoat.Size = new System.Drawing.Size(135, 51);
-            this.btnThoat.TabIndex = 8;
+            this.btnThoat.TabIndex = 10;
             this.btnThoat.Text = "Thoát";
             this.btnThoat.UseVisualStyleBackColor = false;
-            this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click);
             // 
             // btnNhapSP
             // 
             this.btnNhapSP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.btnNhapSP.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnNhapSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNhapSP.Location = new System.Drawing.Point(79, 25);
+            this.btnNhapSP.Location = new System.Drawing.Point(83, 34);
             this.btnNhapSP.Name = "btnNhapSP";
             this.btnNhapSP.Size = new System.Drawing.Size(135, 51);
-            this.btnNhapSP.TabIndex = 6;
+            this.btnNhapSP.TabIndex = 9;
             this.btnNhapSP.Text = "Nhập sản phẩm";
             this.btnNhapSP.UseVisualStyleBackColor = false;
-            this.btnNhapSP.Click += new System.EventHandler(this.btnNhapSP_Click);
             // 
             // insertProduct
             // 
@@ -213,13 +225,14 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "insertProduct";
-            this.Text = "Form nhập sản phẩm";
+            this.Text = "Nhập sản phẩm";
             this.Load += new System.EventHandler(this.insertProduct_Load);
             this.panel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picHinh)).EndInit();
             this.panel2.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -239,6 +252,7 @@
         private System.Windows.Forms.TextBox txtTenSP;
         private System.Windows.Forms.ComboBox cbLoai;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnThoat;
         private System.Windows.Forms.Button btnNhapSP;
     }

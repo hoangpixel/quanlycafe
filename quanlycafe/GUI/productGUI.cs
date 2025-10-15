@@ -27,6 +27,15 @@ namespace quanlycafe.GUI
         public productGUI()
         {
             InitializeComponent();
+
+            // placeholder cho sản phẩm á
+            SetPlaceholder(txtTenSPTK, "Nhập tên sản phẩm");
+            SetPlaceholder(txtGiaMin, "Giá tối thiểu");
+            SetPlaceholder(txtGiaMax, "Giá tối đa");
+            SetPlaceholder(txtTimKiemSP, "Nhập giá trị cần tìm");
+            SetComboBoxPlaceholder(cboLoaiSP, "Chọn loại sản phẩm");
+            SetComboBoxPlaceholder(cboTrangThai, "Chọn trạng thái CT");
+            SetComboBoxPlaceholder(cboTimKiemSP, "Chọn giá trị TK");
         }
 
         private void loadDanhSachSanPham(List<sanPhamDTO> ds)
@@ -38,7 +47,7 @@ namespace quanlycafe.GUI
             dt.Columns.Add("Mã SP");
             dt.Columns.Add("Tên Loại");
             dt.Columns.Add("Tên SP");
-            dt.Columns.Add("Trạng thái SP");
+            //dt.Columns.Add("Trạng thái SP");
             dt.Columns.Add("Trạng thái CT");
             dt.Columns.Add("Hình");
             dt.Columns.Add("Giá");
@@ -49,16 +58,16 @@ namespace quanlycafe.GUI
             foreach (var sp in ds)
             {
                 string tenLoai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai)?.TenLoai ?? "Không xác định";
-                string trangThai = sp.TrangThai == 1 ? "Đang bán" : "Ngừng bán";
+                //string trangThai = sp.TrangThai == 1 ? "Đang bán" : "Ngừng bán";
                 string trangThaiCT = sp.TrangThaiCT == 1 ? "Đã có công thức" : "Chưa có công thức";
-                dt.Rows.Add(sp.MaSP, tenLoai, sp.TenSP, trangThai, trangThaiCT, sp.Hinh, string.Format("{0:N0}", sp.Gia));
+                dt.Rows.Add(sp.MaSP, tenLoai, sp.TenSP, trangThaiCT, sp.Hinh, string.Format("{0:N0}", sp.Gia));
             }
 
             tbSanPham.DataSource = dt;
             tbSanPham.ReadOnly = true;
+            rdoTimCoBan.Checked = true;
 
             tbSanPham.ClearSelection();
-
             btnSuaSP.Enabled = false;
             btnXoaSP.Enabled = false;
             btnChiTiet.Enabled = false;
@@ -103,10 +112,9 @@ namespace quanlycafe.GUI
                 return;
             }
 
-            // 🔹 Sắp xếp theo mã sản phẩm tăng dần
             var danhSachSapXep = ds
                 .OrderBy(x => x.MaSanPham)
-                .ThenBy(x => x.MaNguyenLieu) // sắp luôn theo mã nguyên liệu trong từng sản phẩm
+                .ThenBy(x => x.MaNguyenLieu) 
                 .Select(x => new
                 {
                     Mã_SP = x.MaSanPham,
@@ -119,14 +127,12 @@ namespace quanlycafe.GUI
 
             tableCongThuc.DataSource = danhSachSapXep;
 
-            // 🔧 Đặt lại tiêu đề cho cột
             tableCongThuc.Columns["Mã_SP"].HeaderText = "Mã SP";
             tableCongThuc.Columns["Tên_SP"].HeaderText = "Tên SP";
             tableCongThuc.Columns["Mã_NL"].HeaderText = "Mã NL";
             tableCongThuc.Columns["Tên_NL"].HeaderText = "Tên NL";
             tableCongThuc.Columns["Số_lượng"].HeaderText = "Số lượng";
 
-            // 🔹 Cho phép click tiêu đề để sắp xếp
             foreach (DataGridViewColumn col in tableCongThuc.Columns)
                 col.SortMode = DataGridViewColumnSortMode.Automatic;
 
@@ -187,10 +193,8 @@ namespace quanlycafe.GUI
         {
             if (tbSanPham.SelectedRows.Count > 0)
             {
-                // Lấy dòng đang chọn
                 DataGridViewRow row = tbSanPham.SelectedRows[0];
 
-                // Tạo đối tượng sanPhamDTO từ dữ liệu dòng
                 sanPhamDTO sp = new sanPhamDTO
                 {
                     MaSP = Convert.ToInt32(row.Cells["Mã SP"].Value),
@@ -199,18 +203,16 @@ namespace quanlycafe.GUI
                     TenSP = row.Cells["Tên SP"].Value.ToString(),
                     Hinh = row.Cells["Hình"].Value.ToString(),
                     Gia = float.Parse(row.Cells["Giá"].Value.ToString()),
-                    TrangThai = row.Cells["Trạng thái SP"].Value.ToString() == "Đang bán" ? 1 : 0,
+                    //TrangThai = row.Cells["Trạng thái SP"].Value.ToString() == "Đang bán" ? 1 : 0,
                     TrangThaiCT = row.Cells["Trạng thái CT"].Value.ToString() == "Đã có công thức" ? 1 : 0
                 };
 
-                // Mở form updateProduct và truyền dữ liệu
                 using (updateProduct form = new updateProduct(sp))
                 {
                     form.StartPosition = FormStartPosition.CenterParent;
                     form.ShowDialog();
                 }
 
-                // Sau khi đóng form update → reload lại table
                 sanPhamBUS bus = new sanPhamBUS();
                 bus.docDSSanPham();
                 loadDanhSachSanPham(sanPhamBUS.ds);
@@ -242,36 +244,34 @@ namespace quanlycafe.GUI
 
         private void ktraTableSanPham(object sender, DataGridViewCellEventArgs e)
         {
-            // Bỏ qua header
             if (e.RowIndex < 0) return;
-
-            // Nếu người dùng click lại dòng đang chọn → bỏ chọn
             if (e.RowIndex == lastSelectedRowSanPham)
             {
                 tbSanPham.ClearSelection();
                 lastSelectedRowSanPham = -1;
 
-                // Disable các nút khi không có dòng nào được chọn
-                btnThemSP.Enabled = true;   // vẫn cho thêm
+                btnThemSP.Enabled = true;  
                 btnSuaSP.Enabled = false;
                 btnXoaSP.Enabled = false;
                 btnChiTiet.Enabled = false;
                 return;
             }
 
-            // Nếu click dòng khác → chọn dòng đó
             tbSanPham.ClearSelection();
             tbSanPham.Rows[e.RowIndex].Selected = true;
             lastSelectedRowSanPham = e.RowIndex;
 
-            // Kiểm tra trạng thái sản phẩm
-            string trangThai = tbSanPham.Rows[e.RowIndex].Cells["Trạng thái SP"].Value.ToString();
-            bool isDisabled = trangThai.Equals("Ngừng bán", StringComparison.OrdinalIgnoreCase);
+            //string trangThai = tbSanPham.Rows[e.RowIndex].Cells["Trạng thái SP"].Value.ToString();
+            //bool isDisabled = trangThai.Equals("Ngừng bán", StringComparison.OrdinalIgnoreCase);
 
-            // Nếu “Ngừng bán” → disable các nút, ngược lại thì enable
-            //btnThem.Enabled = !isDisabled;
-            btnSuaSP.Enabled = !isDisabled;
-            btnXoaSP.Enabled = !isDisabled;
+            //btnSuaSP.Enabled = !isDisabled;
+            //btnXoaSP.Enabled = !isDisabled;
+            //btnChiTiet.Enabled = true;
+
+            // ✅ Khi chọn một dòng → bật hết các nút
+            btnThemSP.Enabled = true;
+            btnSuaSP.Enabled = true;
+            btnXoaSP.Enabled = true;
             btnChiTiet.Enabled = true;
         }
 
@@ -325,29 +325,23 @@ namespace quanlycafe.GUI
 
         private void tableNguyenLieu_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Bỏ qua header
             if (e.RowIndex < 0) return;
 
-            // Nếu người dùng click lại dòng đang chọn → bỏ chọn
             if (e.RowIndex == lastSelectedRowNguyenLieu)
             {
                 tableNguyenLieu.ClearSelection();
                 lastSelectedRowNguyenLieu = -1;
 
-                // Disable các nút khi không có dòng nào được chọn
-                btnThemNL.Enabled = true;   // vẫn cho thêm
+                btnThemNL.Enabled = true;   
                 btnSuaNL.Enabled = false;
                 btnXoaNL.Enabled = false;
                 btnChiTietNL.Enabled = false;
                 return;
             }
-
-            // Nếu click dòng khác → chọn dòng đó
             tableNguyenLieu.ClearSelection();
             tableNguyenLieu.Rows[e.RowIndex].Selected = true;
             lastSelectedRowNguyenLieu = e.RowIndex;
 
-            // Vì đã lọc bỏ "Ngừng bán" nên không cần kiểm tra trạng thái nữa
             btnSuaNL.Enabled = true;
             btnXoaNL.Enabled = true;
             btnChiTietNL.Enabled = true;
@@ -422,29 +416,22 @@ namespace quanlycafe.GUI
 
         private void tableCongThuc_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Bỏ qua header
             if (e.RowIndex < 0) return;
-
-            // Nếu người dùng click lại dòng đang chọn → bỏ chọn
             if (e.RowIndex == lastSelectedRowCongThuc)
             {
                 tableCongThuc.ClearSelection();
                 lastSelectedRowCongThuc = -1;
-
-                // Disable các nút khi không có dòng nào được chọn
-                btnThemCT.Enabled = true;   // vẫn cho thêm
+                btnThemCT.Enabled = true; 
                 btnSuaCT.Enabled = false;
                 btnXoaCT.Enabled = false;
                 btnChiTietCT.Enabled = false;
                 return;
             }
 
-            // Nếu click dòng khác → chọn dòng đó
             tableCongThuc.ClearSelection();
             tableCongThuc.Rows[e.RowIndex].Selected = true;
             lastSelectedRowCongThuc = e.RowIndex;
 
-            // Vì đã lọc bỏ "Ngừng bán" nên không cần kiểm tra trạng thái nữa
             btnSuaCT.Enabled = true;
             btnXoaCT.Enabled = true;
             btnChiTietCT.Enabled = true;
@@ -508,6 +495,23 @@ namespace quanlycafe.GUI
             sanPhamBUS bus = new sanPhamBUS();
             bus.docDSSanPham();
             loadDanhSachSanPham(sanPhamBUS.ds);
+
+            txtTimKiemSP.Clear();
+            txtGiaMin.Clear();
+            txtGiaMax.Clear();
+            txtTenSPTK.Clear();
+
+            cboTimKiemSP.SelectedIndex = -1;
+            cboLoaiSP.SelectedIndex = -1;
+            cboTrangThai.SelectedIndex = -1;
+
+            SetPlaceholder(txtTenSPTK, "Nhập tên sản phẩm");
+            SetPlaceholder(txtGiaMin, "Giá tối thiểu");
+            SetPlaceholder(txtGiaMax, "Giá tối đa");
+            SetPlaceholder(txtTimKiemSP, "Nhập giá trị cần tìm");
+            SetComboBoxPlaceholder(cboLoaiSP, "Chọn loại sản phẩm");
+            SetComboBoxPlaceholder(cboTrangThai, "Chọn trạng thái CT");
+            SetComboBoxPlaceholder(cboTimKiemSP, "Chọn giá trị TK");
         }
 
         private void btnChiTiet_Click(object sender, EventArgs e)
@@ -523,7 +527,7 @@ namespace quanlycafe.GUI
                     TenLoai = row.Cells["Tên Loại"].Value.ToString(),
                     Hinh = row.Cells["Hình"].Value.ToString(),
                     Gia = float.Parse(row.Cells["Giá"].Value.ToString()),
-                    TrangThai = row.Cells["Trạng thái SP"].Value.ToString() == "Đang bán" ? 1 : 0,
+                    //TrangThai = row.Cells["Trạng thái SP"].Value.ToString() == "Đang bán" ? 1 : 0,
                     TrangThaiCT = row.Cells["Trạng thái CT"].Value.ToString() == "Đã có công thức" ? 1 : 0
                 };
                 using (detailSanPham form = new detailSanPham(sp))
@@ -623,5 +627,146 @@ namespace quanlycafe.GUI
             var ds = bus.docTatCaCongThuc();
             loadDanhSachCongThuc(ds);
         }
+
+
+
+        // set placehover cho tìm kiếm nâng cao sản phẩm
+        private void SetPlaceholder(TextBox txt, string placeholder)
+        {
+            txt.ForeColor = Color.Gray;
+            txt.Text = placeholder;
+            txt.GotFocus += (s, e) =>
+            {
+                if (txt.Text == placeholder)
+                {
+                    txt.Text = "";
+                    txt.ForeColor = Color.Black;
+                }
+            };
+            txt.LostFocus += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(txt.Text))
+                {
+                    txt.ForeColor = Color.Gray;
+                    txt.Text = placeholder;
+                }
+            };
+        }
+
+
+        // set placehover cho tìm kiếm nâng cao sản phẩm
+        private void SetComboBoxPlaceholder(ComboBox cbo, string placeholder)
+        {
+
+            cbo.ForeColor = Color.Gray;
+            cbo.Text = placeholder;
+
+            cbo.GotFocus += (s, e) =>
+            {
+                if (cbo.Text == placeholder)
+                {
+                    cbo.Text = "";
+                    cbo.ForeColor = Color.Black;
+                }
+            };
+            cbo.LostFocus += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(cbo.Text))
+                {
+                    cbo.Text = placeholder;
+                    cbo.ForeColor = Color.Gray;
+                }
+            };
+        }
+
+
+        private void rdoTimCoBan_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdoTimCoBan.Checked)
+            {
+                rdoTimNangCao.Checked = false;
+                txtGiaMin.Enabled = false;
+                txtGiaMax.Enabled = false;
+                txtTenSPTK.Enabled = false;
+                cboTrangThai.Enabled = false;
+                cboLoaiSP.Enabled = false;
+            }else
+            {
+                txtGiaMin.Enabled = true;
+                txtGiaMax.Enabled = true;
+                txtTenSPTK.Enabled = true;
+                cboTrangThai.Enabled = true;
+                cboLoaiSP.Enabled = true;
+            }
+        }
+
+        private void rdoTimNangCao_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdoTimNangCao.Checked)
+            {
+                rdoTimCoBan.Checked = false;
+                txtTimKiemSP.Enabled = false;
+                cboTimKiemSP.Enabled = false;
+            }else
+            {
+                txtTimKiemSP.Enabled = true;
+                cboTimKiemSP.Enabled = true;
+            }
+        }
+
+        private void btnThucHienTimKiem_Click(object sender, EventArgs e)
+        {
+            if(rdoTimCoBan.Checked)
+            {
+                timKiemCoBan();
+            }else
+            {
+                timKiemNangCao();
+            }
+        }
+
+        private void timKiemCoBan()
+        {
+            string tim = txtTimKiemSP.Text.Trim();
+            int index = cboTimKiemSP.SelectedIndex;
+
+            if (index < 0 || string.IsNullOrWhiteSpace(tim))
+            {
+                MessageBox.Show("Vui lòng nhập thông tin tìm kiếm!", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            sanPhamBUS bus = new sanPhamBUS();
+            List<sanPhamDTO> kq = bus.timKiemCoBan(tim, index);
+
+            if (kq != null && kq.Count > 0)
+            {
+                tbSanPham.Columns.Clear();
+                tbSanPham.DataSource = null;
+                loadDanhSachSanPham(kq);
+            }
+            else
+            {
+                MessageBox.Show("Không có kết quả tìm kiếm!", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                bus.docDSSanPham(); 
+                loadDanhSachSanPham(sanPhamBUS.ds);
+
+                txtTimKiemSP.Clear();
+                cboTimKiemSP.SelectedIndex = -1;
+                SetPlaceholder(txtTimKiemSP, "Nhập giá trị cần tìm");
+                SetComboBoxPlaceholder(cboTimKiemSP, "Chọn giá trị TK");
+            }
+        }
+
+
+        private void timKiemNangCao()
+        {
+
+        }
+        // Thực hiện chức năng tìm kiếm cho page Sản Phẩm
+
     }
 }

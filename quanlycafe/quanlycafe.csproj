@@ -135,7 +135,7 @@
     <Compile Include="DAO\congThucDAO.cs" />
     <Compile Include="DAO\loaiSanPhamDAO.cs" />
     <Compile Include="DAO\nguyenLieuDAO.cs" />
-    <Compile Include="DAO\SanPhamDAO.cs" />
+    <Compile Include="DAO\sanPhamDAO.cs" />
     <Compile Include="DTO\congThucDTO.cs" />
     <Compile Include="DTO\loaiDTO.cs" />
     <Compile Include="DTO\nguyenLieuDTO.cs" />

@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace quanlycafe.DAO
 {
-    internal class SanPhamDAO
+    internal class sanPhamDAO
     {
         public List<sanPhamDTO> DocDanhSachSanPham()
         {

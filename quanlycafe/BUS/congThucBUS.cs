@@ -43,7 +43,7 @@ namespace quanlycafe.BUS
                 Console.WriteLine($"BUS: Đã thêm công thức cho SP {ct.MaSanPham}, NL {ct.MaNguyenLieu}");
 
                 // ✅ Cập nhật trạng thái CT cho sản phẩm
-                SanPhamDAO spDAO = new SanPhamDAO();
+                sanPhamDAO spDAO = new sanPhamDAO();
                 spDAO.CapNhatTrangThaiCT(ct.MaSanPham, 1);
             }
 
