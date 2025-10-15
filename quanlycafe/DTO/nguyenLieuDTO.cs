@@ -12,11 +12,12 @@ namespace quanlycafe.DTO
 
         public int TrangThai { get; set; }
 
-        public float TonKho { get; set; }
+        public decimal TonKho { get; set; }
+
 
         public nguyenLieuDTO() { }
 
-        public nguyenLieuDTO(int ma, string ten, string donVi, int trangThai, float tonKho)
+        public nguyenLieuDTO(int ma, string ten, string donVi, int trangThai, decimal tonKho)
         {
             MaNguyenLieu = ma;
             TenNguyenLieu = ten;

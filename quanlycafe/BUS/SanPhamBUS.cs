@@ -1,10 +1,11 @@
-﻿using System;
+﻿using quanlycafe.DAO;
+using quanlycafe.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using quanlycafe.DAO;
-using quanlycafe.DTO;
+using System.Windows.Forms;
 
 namespace quanlycafe.BUS
 {
@@ -18,6 +19,12 @@ namespace quanlycafe.BUS
             ds = data.DocDanhSachSanPham();
         }
 
+        public List<sanPhamDTO> layDanhSachSanPham()
+        {
+            SanPhamDAO data = new SanPhamDAO();
+            return ds = data.DocDanhSachSanPham();
+        }
+
         public bool them(sanPhamDTO ct)
         {
             SanPhamDAO data = new SanPhamDAO();
@@ -28,6 +35,13 @@ namespace quanlycafe.BUS
             }
             return kq;
         }
+        public void xoaTatCaSanPham()
+        {
+            SanPhamDAO dao = new SanPhamDAO();
+            dao.xoaTatCa();
+        }
+
+
 
         public bool Sua(sanPhamDTO sp)
         {
@@ -94,6 +108,89 @@ namespace quanlycafe.BUS
 
             return result;
         }
+
+        public bool LaSanPhamGiongNhau(sanPhamDTO a, sanPhamDTO b)
+        {
+            return a.MaLoai == b.MaLoai
+                && a.TenSP.Trim() == b.TenSP.Trim()
+                && Math.Abs(a.Gia - b.Gia) < 0.001f
+                && (a.Hinh ?? "") == (b.Hinh ?? "");
+        }
+        public void NhapExcelThongMinh(List<sanPhamDTO> dsExcel)
+        {
+            SanPhamDAO spDAO = new SanPhamDAO();
+            loaiSanPhamDAO loaiDAO = new loaiSanPhamDAO();
+
+            // 🔹 Danh sách mã loại đang có trong DB
+            var dsLoaiTonTai = loaiDAO.docDanhSachLoai().Select(l => l.MaLoai).ToList();
+
+            // 🔹 Dùng để kiểm tra trùng mã SP trong file Excel
+            HashSet<int> maSPDaGap = new HashSet<int>();
+            List<string> danhSachLoi = new List<string>();
+
+            // 🔍 Bước 1: Kiểm tra dữ liệu trước khi thêm
+            foreach (var sp in dsExcel)
+            {
+                // ⚠️ Kiểm tra trùng mã trong Excel
+                if (!maSPDaGap.Add(sp.MaSP))
+                {
+                    danhSachLoi.Add($"Mã SP {sp.MaSP} bị trùng trong file Excel (SP: {sp.TenSP}).");
+                }
+
+                // ⚠️ Kiểm tra mã loại hợp lệ
+                if (!dsLoaiTonTai.Contains(sp.MaLoai))
+                {
+                    danhSachLoi.Add($"Mã loại {sp.MaLoai} của sản phẩm '{sp.TenSP}' không tồn tại trong DB.");
+                }
+            }
+
+            // ❌ Nếu có lỗi → hiển thị cảnh báo và dừng
+            if (danhSachLoi.Count > 0)
+            {
+                string loiHienThi = string.Join("\n• ", danhSachLoi);
+                MessageBox.Show(
+                    $"Dữ liệu Excel không hợp lệ, không thể nhập!\n\nLỗi phát hiện:\n• {loiHienThi}",
+                    "Lỗi dữ liệu Excel",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return; // ⛔ Dừng, không thêm gì hết
+            }
+
+            // ✅ Bước 2: Nếu dữ liệu hợp lệ → tiến hành thêm/cập nhật
+            int soThem = 0, soCapNhat = 0, soBoQua = 0;
+
+            foreach (var spMoi in dsExcel)
+            {
+                var spCu = spDAO.TimTheoMa(spMoi.MaSP);
+
+                if (spCu == null)
+                {
+                    spDAO.Them(spMoi);
+                    soThem++;
+                }
+                else if (!LaSanPhamGiongNhau(spCu, spMoi))
+                {
+                    spDAO.Sua(spMoi);
+                    soCapNhat++;
+                }
+                else
+                {
+                    soBoQua++;
+                }
+            }
+
+            MessageBox.Show(
+                $"Nhập Excel thành công!\n" +
+                $"- {soThem} sản phẩm mới được thêm.\n" +
+                $"- {soCapNhat} sản phẩm được cập nhật.\n" +
+                $"- {soBoQua} sản phẩm giữ nguyên.",
+                "Kết quả nhập Excel",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
+        }
+
 
     }
 }

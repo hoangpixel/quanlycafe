@@ -1,7 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using quanlycafe.DAO;
+﻿using quanlycafe.DAO;
 using quanlycafe.DTO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace quanlycafe.BUS
 {
@@ -79,5 +81,107 @@ namespace quanlycafe.BUS
 
             return result;
         }
+
+
+        // 🟢 Tìm theo mã
+        public nguyenLieuDTO TimTheoMa(int ma)
+        {
+            nguyenLieuDAO data = new nguyenLieuDAO();
+            return data.TimTheoMa(ma);
+        }
+
+        // 🧹 Xóa toàn bộ dữ liệu (nếu cần làm mới khi nhập Excel)
+        public void XoaTatCa()
+        {
+            nguyenLieuDAO data = new nguyenLieuDAO();
+
+            var ds = data.docDanhSachNguyenLieu();
+            foreach (var nl in ds)
+            {
+                data.Xoa(nl.MaNguyenLieu);
+            }
+        }
+
+        // 🧭 Kiểm tra 2 nguyên liệu có giống nhau không
+        private bool LaNguyenLieuGiongNhau(nguyenLieuDTO a, nguyenLieuDTO b)
+        {
+            return a.TenNguyenLieu == b.TenNguyenLieu &&
+                   a.DonViCoSo == b.DonViCoSo &&
+                   a.TonKho == b.TonKho;
+        }
+
+        // 🧠 Nhập Excel thông minh: thêm / sửa / giữ nguyên
+        public void NhapExcelThongMinh(List<nguyenLieuDTO> dsExcel)
+        {
+            int soThem = 0, soCapNhat = 0, soBoQua = 0, soLoi = 0, soTrungTen = 0;
+            nguyenLieuDAO data = new nguyenLieuDAO();
+
+            // 🔍 Lấy toàn bộ danh sách hiện tại 1 lần để so sánh
+            var dsHienTai = data.docDanhSachNguyenLieu();
+
+            foreach (var nlMoi in dsExcel)
+            {
+                try
+                {
+                    // ✅ Nếu trạng thái chưa có hoặc = 0 → tự động set lại = 1
+                    if (nlMoi.TrangThai == 0)
+                        nlMoi.TrangThai = 1;
+
+                    // 🔎 Kiểm tra trùng tên nguyên liệu
+                    bool tenTrung = dsHienTai.Any(n =>
+                        string.Equals(n.TenNguyenLieu.Trim(), nlMoi.TenNguyenLieu.Trim(), StringComparison.OrdinalIgnoreCase));
+
+                    if (tenTrung)
+                    {
+                        // 🚫 Trùng tên → bỏ qua và ghi log
+                        Console.WriteLine($"⚠️ Nguyên liệu '{nlMoi.TenNguyenLieu}' đã tồn tại → bỏ qua!");
+                        soTrungTen++;
+                        continue;
+                    }
+
+                    // 🔍 Kiểm tra theo mã nguyên liệu
+                    var nlCu = data.TimTheoMa(nlMoi.MaNguyenLieu);
+
+                    if (nlCu == null)
+                    {
+                        // 🆕 Chưa có → thêm mới
+                        data.Them(nlMoi);
+                        dsHienTai.Add(nlMoi); // cập nhật vào danh sách hiện tại để tránh trùng thêm lần sau
+                        soThem++;
+                    }
+                    else if (!LaNguyenLieuGiongNhau(nlCu, nlMoi))
+                    {
+                        // 🔄 Có khác biệt → cập nhật
+                        data.Sua(nlMoi);
+                        soCapNhat++;
+                    }
+                    else
+                    {
+                        // ⚪ Giống hệt → bỏ qua
+                        soBoQua++;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("❌ Lỗi khi xử lý nguyên liệu Excel: " + ex.Message);
+                    soLoi++;
+                }
+            }
+
+            // 🧾 Tổng kết kết quả
+            MessageBox.Show(
+                $"✅ Nhập Excel hoàn tất!\n" +
+                $"- {soThem} nguyên liệu mới được thêm.\n" +
+                $"- {soCapNhat} nguyên liệu được cập nhật.\n" +
+                $"- {soBoQua} nguyên liệu giữ nguyên.\n" +
+                $"- {soTrungTen} nguyên liệu bị bỏ qua do trùng tên.\n" +
+                $"- {soLoi} dòng bị lỗi.",
+                "Kết quả nhập Excel",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
+        }
+
+
     }
 }

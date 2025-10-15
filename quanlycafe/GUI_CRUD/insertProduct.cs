@@ -75,41 +75,54 @@ namespace quanlycafe.GUI_CRUD
                 return;
             }
 
-            // Lấy tên file ảnh
+            if (string.IsNullOrEmpty(imagePath))
+            {
+                MessageBox.Show("Vui lòng chọn ảnh sản phẩm!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             string fileName = Path.GetFileName(imagePath);
 
-            // Tạo đường dẫn thư mục IMG/SP
-            string targetFolder = Path.Combine(Application.StartupPath, "IMG", "SP");
+            // ✅ Đường dẫn gốc project (chứa quanlycafe.csproj)
+            string projectDir = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\quanlycafe"));
+
+            // ✅ Thư mục Resources\IMG\SP trong project
+            string targetFolder = Path.Combine(projectDir, "Resources", "IMG", "SP");
             string targetPath = Path.Combine(targetFolder, fileName);
 
             try
             {
-                // Nếu thư mục chưa có thì tạo mới
+                // Nếu thư mục chưa có thì tạo
                 if (!Directory.Exists(targetFolder))
                     Directory.CreateDirectory(targetFolder);
 
-                // Sao chép file ảnh (nếu chưa tồn tại)
-                if (!File.Exists(targetPath))
-                    File.Copy(imagePath, targetPath, true);
-                //MessageBox.Show("Ảnh lưu tại: " + targetPath);
+                // Copy ảnh vào thư mục project
+                File.Copy(imagePath, targetPath, true);
 
+                // ✅ Copy thêm một bản xuống thư mục bin/Debug/IMG/SP để hiển thị ngay
+                string binFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "IMG", "SP");
+                string binPath = Path.Combine(binFolder, fileName);
+
+                if (!Directory.Exists(binFolder))
+                    Directory.CreateDirectory(binFolder);
+
+                File.Copy(imagePath, binPath, true);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi sao chép ảnh: " + ex.Message);
+                MessageBox.Show("Lỗi khi lưu ảnh: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // Tạo DTO để thêm sản phẩm
+            // ✅ Lưu đường dẫn tương đối — chỉ còn "SP/tên_ảnh" cho gọn (vì khi chạy form sẽ load từ bin)
             sanPhamDTO sp = new sanPhamDTO
             {
                 MaLoai = Convert.ToInt32(cbLoai.SelectedValue),
-                TenSP = txtTenSP.Text,
+                TenSP = txtTenSP.Text.Trim(),
                 Gia = float.Parse(txtGia.Text),
-                Hinh = "SP/" + fileName   // 👉 chỉ lưu "SP/tênfile.png" vào DB
+                Hinh = "SP/" + fileName
             };
 
-            // Gọi BUS để thêm sản phẩm
             sanPhamBUS bus = new sanPhamBUS();
             bus.them(sp);
 

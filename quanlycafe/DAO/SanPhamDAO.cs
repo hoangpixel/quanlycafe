@@ -3,6 +3,7 @@ using quanlycafe.config;
 using quanlycafe.DTO;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace quanlycafe.DAO
         public List<sanPhamDTO> DocDanhSachSanPham()
         {
             List<sanPhamDTO> ds = new List<sanPhamDTO>();
-            string qry = "SELECT * FROM sanpham";
+            string qry = "SELECT * FROM sanpham WHERE TRANGTHAI = 1";
             MySqlConnection conn = null;
 
             try
@@ -156,6 +157,55 @@ namespace quanlycafe.DAO
             }
         }
 
+        public void xoaTatCa()
+        {
+            try
+            {
+                string query = "DELETE FROM sanpham";
+                MySqlConnection conn = DBConnect.GetConnection();
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.ExecuteNonQuery();
+
+                Console.WriteLine("🧹 Đã xóa toàn bộ dữ liệu trong bảng sanpham!");
+                DBConnect.CloseConnection(conn);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("❌ Lỗi khi xóa toàn bộ sản phẩm: " + ex.Message);
+            }
+        }
+
+
+        public sanPhamDTO TimTheoMa(int maSP)
+        {
+            sanPhamDTO sp = null;
+            string qry = "SELECT * FROM sanpham WHERE MASANPHAM = @masp";
+
+            using (MySqlConnection conn = DBConnect.GetConnection())
+            using (MySqlCommand cmd = new MySqlCommand(qry, conn))
+            {
+                cmd.Parameters.AddWithValue("@masp", maSP);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        sp = new sanPhamDTO
+                        {
+                            MaSP = reader.GetInt32("MASANPHAM"),
+                            MaLoai = reader.GetInt32("MALOAI"),
+                            TenSP = reader.GetString("TENSANPHAM"),
+                            TrangThai = reader.GetInt32("TRANGTHAI"),
+                            TrangThaiCT = reader.GetInt32("TRANGTHAICT"),
+                            Gia = Convert.ToSingle(reader["GIA"]),
+                            Hinh = reader.IsDBNull(reader.GetOrdinal("HINH")) ? null : reader.GetString("HINH")
+                        };
+                    }
+                }
+            }
+
+            return sp;
+        }
 
 
 

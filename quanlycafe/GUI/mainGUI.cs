@@ -16,6 +16,11 @@ namespace quanlycafe.GUI
         public mainGUI()
         {
             InitializeComponent();
+            // 🔹 Tự động full màn hình khi chạy
+            this.WindowState = FormWindowState.Maximized;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.None; // nếu bạn muốn không có viền
+                                                         // this.FormBorderStyle = FormBorderStyle.Sizable; // nếu vẫn muốn resize được
             LoadLayout(); // Gọi hàm khởi tạo giao diện tổng
         }
 

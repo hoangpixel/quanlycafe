@@ -7,7 +7,7 @@ namespace quanlycafe.DTO
         public int MaSanPham { get; set; }
         public int MaNguyenLieu { get; set; }
         public float SoLuongCoSo { get; set; }
-        public int TrangThai { get; set; }
+        public int TrangThai { get; set; } = 1;
         public string TenNguyenLieu { get; set; }
         public string TenSanPham { get; set; }
         public congThucDTO() { }

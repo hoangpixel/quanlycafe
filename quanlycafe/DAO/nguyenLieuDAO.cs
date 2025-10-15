@@ -28,7 +28,7 @@ namespace quanlycafe.DAO
                         TenNguyenLieu = reader.GetString("TENNGUYENLIEU"),
                         DonViCoSo = reader.GetString("DONVICOSO"),
                         TrangThai = reader.GetInt32("TRANGTHAI"),
-                        TonKho = reader.GetFloat("TONKHO")
+                        TonKho = reader.GetDecimal("TONKHO")
                     };
 
                     ds.Add(nl);
@@ -143,6 +143,33 @@ namespace quanlycafe.DAO
             {
                 DBConnect.CloseConnection(conn);
             }
+        }
+
+
+
+        public nguyenLieuDTO TimTheoMa(int ma)
+        {
+            nguyenLieuDTO nl = null;
+            string qry = "SELECT * FROM nguyenlieu WHERE MANGUYENLIEU = @ma";
+            using (MySqlConnection conn = DBConnect.GetConnection())
+            using (MySqlCommand cmd = new MySqlCommand(qry, conn))
+            {
+                cmd.Parameters.AddWithValue("@ma", ma);
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        nl = new nguyenLieuDTO
+                        {
+                            MaNguyenLieu = reader.GetInt32("MANGUYENLIEU"),
+                            TenNguyenLieu = reader.GetString("TENNGUYENLIEU"),
+                            DonViCoSo = reader.GetString("DONVICOSO"),
+                            TonKho = reader.GetDecimal("TONKHO")
+                        };
+                    }
+                }
+            }
+            return nl;
         }
     }
 }

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using quanlycafe.DAO;
+using quanlycafe.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using quanlycafe.DAO;
-using quanlycafe.DTO;
+using System.Windows.Forms;
 
 namespace quanlycafe.BUS
 {
@@ -77,5 +78,62 @@ namespace quanlycafe.BUS
             return result;
         }
 
+
+       
+        // 🟢 Nhập Excel thông minh
+        public void NhapExcelThongMinh(List<congThucDTO> dsExcel)
+        {
+            int soThem = 0, soCapNhat = 0, soBoQua = 0, soLoi = 0;
+            congThucDAO data = new congThucDAO();
+            foreach (var ctMoi in dsExcel)
+            {
+                try
+                {
+                    // Kiểm tra dữ liệu đầu vào
+                    if (ctMoi.MaSanPham == 0 || ctMoi.MaNguyenLieu == 0)
+                    {
+                        soLoi++;
+                        continue;
+                    }
+
+                    ctMoi.TrangThai = 1;
+
+                    // Kiểm tra trùng mã (SP + NL)
+                    var dsHienTai = data.docTatCaCongThuc();
+                    var ctCu = dsHienTai.Find(x =>
+                        x.MaSanPham == ctMoi.MaSanPham &&
+                        x.MaNguyenLieu == ctMoi.MaNguyenLieu);
+
+                    if (ctCu == null)
+                    {
+                        data.Them(ctMoi);
+                        soThem++;
+                    }
+                    else if (Math.Abs(ctCu.SoLuongCoSo - ctMoi.SoLuongCoSo) > 0.0001f)
+                    {
+                        data.Sua(ctMoi);
+                        soCapNhat++;
+                    }
+                    else
+                        soBoQua++;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("❌ Lỗi khi xử lý công thức Excel: " + ex.Message);
+                    soLoi++;
+                }
+            }
+
+            MessageBox.Show(
+                $"✅ Nhập Excel hoàn tất!\n" +
+                $"- {soThem} công thức mới được thêm.\n" +
+                $"- {soCapNhat} công thức được cập nhật.\n" +
+                $"- {soBoQua} công thức giữ nguyên.\n" +
+                $"- {soLoi} dòng bị lỗi.",
+                "Kết quả nhập Excel",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
+        }
     }
 }

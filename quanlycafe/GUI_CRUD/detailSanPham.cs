@@ -34,7 +34,10 @@ namespace quanlycafe.GUI_CRUD
             txtMaSP.Text = ct.MaSP.ToString();
             txtGia.Text = ct.Gia.ToString();
             txtLoaiSP.Text = ct.TenLoai;
+
             string imgPath = Path.Combine(Application.StartupPath, "IMG", ct.Hinh);
+
+
             if (File.Exists(imgPath))
             {
                 picHinhSPCT.Image = Image.FromFile(imgPath);
@@ -59,7 +62,7 @@ namespace quanlycafe.GUI_CRUD
             DataTable dt = new DataTable();
             dt.Columns.Add("Mã NL");
             dt.Columns.Add("Tên NL");
-            dt.Columns.Add("Số lượng");
+            dt.Columns.Add("SL");
 
 
             nguyenLieuBUS nlBUS = new nguyenLieuBUS();
@@ -73,7 +76,9 @@ namespace quanlycafe.GUI_CRUD
             tableCongThuc.DataSource = dt;
             tableCongThuc.ReadOnly = true;
             tableCongThuc.RowHeadersVisible = false;
-
+            tableCongThuc.Columns["Mã NL"].Width = 80;
+            tableCongThuc.Columns["Tên NL"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            tableCongThuc.Columns["SL"].Width = 60;
             tableCongThuc.ClearSelection();
 
         }

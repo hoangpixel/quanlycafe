@@ -1,6 +1,7 @@
 ﻿using quanlycafe.BUS;
 using quanlycafe.DAO;
 using quanlycafe.DTO;
+using quanlycafe.EXCEL;
 using quanlycafe.GUI_CRUD;
 using ReaLTaiizor.Controls;
 using System;
@@ -559,6 +560,68 @@ namespace quanlycafe.GUI
             {
                 MessageBox.Show("Vui lòng chọn sản phẩm cần sửa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void btnChiTietCT_Click(object sender, EventArgs e)
+        {
+            if (tableCongThuc.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = tableCongThuc.SelectedRows[0];
+
+                congThucDTO ct = new congThucDTO();
+                ct.MaSanPham = Convert.ToInt32(row.Cells["Mã_SP"].Value);
+                ct.MaNguyenLieu = Convert.ToInt32(row.Cells["Mã_NL"].Value);
+                ct.TenSanPham = row.Cells["Tên_SP"].Value.ToString();
+                ct.TenNguyenLieu = row.Cells["Tên_NL"].Value.ToString();
+                ct.SoLuongCoSo = Convert.ToInt32(row.Cells["Số_lượng"].Value);
+
+                using (detailCongThuc form = new detailCongThuc(ct))
+                {
+                    form.StartPosition = FormStartPosition.CenterParent;
+                    form.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn sản phẩm cần sửa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnExcelSP_Click(object sender, EventArgs e)
+        {
+            using (selectExcelSanPham form = new selectExcelSanPham())
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.ShowDialog(this);
+            }
+            sanPhamBUS bus = new sanPhamBUS();
+            bus.docDSSanPham();
+            loadDanhSachSanPham(sanPhamBUS.ds);
+
+        }
+
+        private void btnExcelNL_Click(object sender, EventArgs e)
+        {
+            using (selectExcelNguyenLieu form = new selectExcelNguyenLieu())
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.ShowDialog(this);
+            }
+            nguyenLieuBUS bus = new nguyenLieuBUS();
+            bus.docDSNguyenLieu();
+            loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
+        }
+
+        private void btnExcelCT_Click(object sender, EventArgs e)
+        {
+            using (selectExcelCongThuc form = new selectExcelCongThuc())
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.ShowDialog(this);
+            }
+            congThucBUS bus = new congThucBUS();
+            var ds = bus.docTatCaCongThuc();
+            loadDanhSachCongThuc(ds);
         }
     }
 }
