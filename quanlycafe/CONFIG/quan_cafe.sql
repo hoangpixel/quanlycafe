@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2025 at 04:49 AM
+-- Generation Time: Oct 16, 2025 at 03:28 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -116,7 +116,9 @@ CREATE TABLE `ctphieunhap` (
   `MACTPN` int(11) NOT NULL,
   `MAPN` int(11) NOT NULL,
   `MANGUYENLIEU` int(11) NOT NULL,
-  `SOLUONGCOSO` decimal(12,2) NOT NULL
+  `SOLUONGCOSO` decimal(12,2) NOT NULL,
+  `DONGIA` decimal(14,2) NOT NULL DEFAULT 0.00,
+  `THANHTIEN` decimal(14,2) GENERATED ALWAYS AS (`SOLUONGCOSO` * `DONGIA`) STORED
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
