@@ -63,6 +63,46 @@ namespace quanlycafe.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _383199_add_user_icon {
+            get {
+                object obj = ResourceManager.GetObject("383199_add_user_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _383199_add_user_icon__1_ {
+            get {
+                object obj = ResourceManager.GetObject("383199_add_user_icon (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _4288571_balance_judge_justice_law_scale_icon {
+            get {
+                object obj = ResourceManager.GetObject("4288571_balance_judge_justice_law_scale_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _4288571_balance_judge_justice_law_scale_icon1 {
+            get {
+                object obj = ResourceManager.GetObject("4288571_balance_judge_justice_law_scale_icon1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _5094671_find_glass_search_zoom_icon {
             get {
                 object obj = ResourceManager.GetObject("5094671_find_glass_search_zoom_icon", resourceCulture);
@@ -96,6 +136,16 @@ namespace quanlycafe.Properties {
         internal static System.Drawing.Bitmap info {
             get {
                 object obj = ResourceManager.GetObject("info", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap quancf_drawio__10_ {
+            get {
+                object obj = ResourceManager.GetObject("quancf.drawio (10)", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

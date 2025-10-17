@@ -374,9 +374,14 @@
     <None Include="Resources\info.png" />
     <None Include="Resources\edit.png" />
     <Content Include="CONFIG\quan_cafe.sql" />
+    <None Include="Resources\4288571_balance_judge_justice_law_scale_icon.png" />
+    <None Include="Resources\383199_add_user_icon %281%29.png" />
+    <None Include="Resources\383199_add_user_icon.png" />
+    <None Include="Resources\4288571_balance_judge_justice_law_scale_icon1.png" />
     <Content Include="Resources\IMG\SP\cafe-den-da-8801.png" />
     <Content Include="Resources\IMG\SP\pngtree-cute-iced-coffee-takeaway-png-image_11477425.png" />
     <Content Include="Resources\IMG\SP\pngtree-ice-milk-coffee-png-image_9162395.png" />
+    <None Include="Resources\quancf.drawio %2810%29.png" />
     <Content Include="Resources\trash.png" />
     <None Include="Resources\trash1.png" />
   </ItemGroup>
