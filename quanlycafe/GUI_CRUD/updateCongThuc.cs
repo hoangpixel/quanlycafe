@@ -28,11 +28,35 @@ namespace quanlycafe.GUI_CRUD
 
         private void updateCongThuc_Load(object sender, EventArgs e)
         {
-            if(ct!=null)
+            try
             {
-                txtTenNguyenLieu.Text = ct.TenNguyenLieu;
-                txtTenSanPham.Text = ct.TenSanPham;
-                txtSoLuong.Value = (decimal)ct.SoLuongCoSo;
+                donViBUS dvBUS = new donViBUS();
+                var dsDonVi = dvBUS.layDanhSachDonVi();
+
+                cboDonVi.DisplayMember = "TenDonVi";
+                cboDonVi.ValueMember = "MaDonVi";
+                cboDonVi.DataSource = dsDonVi;
+
+                if (ct != null)
+                {
+                    txtTenSanPham.Text = ct.TenSanPham;
+                    txtTenNguyenLieu.Text = ct.TenNguyenLieu;
+                    txtSoLuong.Value = (decimal)ct.SoLuongCoSo;
+
+                    if (ct.MaDonViCoSo > 0)
+                    {
+                        cboDonVi.SelectedValue = ct.MaDonViCoSo;
+                    }
+                    else
+                    {
+                        cboDonVi.SelectedIndex = -1;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi load đơn vị: " + ex.Message,
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -40,13 +64,23 @@ namespace quanlycafe.GUI_CRUD
         {
             try
             {
+                if (cboDonVi.SelectedIndex < 0)
+                {
+                    MessageBox.Show("Vui lòng chọn đơn vị!", "Cảnh báo",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 DialogResult confirm = MessageBox.Show(
-                    "Bạn có chắc chắn muốn cập nhật số lượng cho công thức này không?",
+                    "Bạn có chắc chắn muốn cập nhật công thức này không?",
                     "Xác nhận cập nhật",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 
-                congThucBUS bus = new congThucBUS();
+                if (confirm == DialogResult.No) return;
+
+                int maDonViMoi = Convert.ToInt32(cboDonVi.SelectedValue);
+                string tenDonViMoi = cboDonVi.Text;
                 float soLuongMoi = (float)txtSoLuong.Value;
 
                 congThucDTO moi = new congThucDTO
@@ -54,21 +88,27 @@ namespace quanlycafe.GUI_CRUD
                     MaSanPham = ct.MaSanPham,
                     MaNguyenLieu = ct.MaNguyenLieu,
                     SoLuongCoSo = soLuongMoi,
-                    TrangThai = 1 
+                    MaDonViCoSo = maDonViMoi,
+                    TenDonViCoSo = tenDonViMoi,
+                    TrangThai = 1
                 };
 
+                congThucBUS bus = new congThucBUS();
                 bool kq = bus.suaCongThuc(moi);
 
                 if (kq)
-                    MessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("✅ Cập nhật công thức thành công!",
+                        "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
-                    MessageBox.Show("Cập nhật thất bại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("❌ Cập nhật thất bại!",
+                        "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi cập nhật: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi khi cập nhật: " + ex.Message,
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

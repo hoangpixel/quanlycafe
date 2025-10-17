@@ -75,6 +75,13 @@ namespace quanlycafe.GUI
 
         public void loadDanhSachNguyenLieu(List<nguyenLieuDTO> ds)
         {
+            if (ds == null || ds.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu nguyên liệu để hiển thị!",
+                                "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             tableNguyenLieu.Columns.Clear();
             tableNguyenLieu.DataSource = null;
 
@@ -84,22 +91,32 @@ namespace quanlycafe.GUI
             dt.Columns.Add("Đơn vị cơ sở");
             dt.Columns.Add("Trạng thái");
             dt.Columns.Add("Tồn kho");
+            dt.Columns.Add("Mã đơn vị");
+
+            donViBUS bus = new donViBUS();
+            List<donViDTO> dsDonVi = bus.layDanhSachDonVi() ?? new List<donViDTO>();
 
             foreach (var nl in ds)
             {
+                string tenDonVi = dsDonVi.FirstOrDefault(l => l.MaDonVi == nl.MaDonViCoSo)?.TenDonVi ?? "Không xác định";
                 string trangThai = nl.TrangThai == 1 ? "Còn hoạt động" : "Ngừng bán";
-                dt.Rows.Add(nl.MaNguyenLieu, nl.TenNguyenLieu, nl.DonViCoSo, trangThai, string.Format("{0:N0}",nl.TonKho));
+                dt.Rows.Add(nl.MaNguyenLieu, nl.TenNguyenLieu, tenDonVi, trangThai, string.Format("{0:N0}", nl.TonKho), nl.MaDonViCoSo);
             }
 
-            tableNguyenLieu.DataSource = dt;
-            tableNguyenLieu.ReadOnly = true;
+            tableNguyenLieu.DataSource = dt; 
 
-            tableNguyenLieu.ClearSelection();
-
+            if (tableNguyenLieu.Columns.Contains("Mã đơn vị"))
+            {
+                tableNguyenLieu.Columns["Mã đơn vị"].Visible = false;
+            }
             btnSuaNL.Enabled = false;
             btnXoaNL.Enabled = false;
             btnChiTietNL.Enabled = false;
+            tableNguyenLieu.ReadOnly = true;
+            tableNguyenLieu.ClearSelection();
         }
+
+
         private void loadDanhSachCongThuc(List<congThucDTO> ds)
         {
             tableCongThuc.Columns.Clear();
@@ -114,24 +131,31 @@ namespace quanlycafe.GUI
 
             var danhSachSapXep = ds
                 .OrderBy(x => x.MaSanPham)
-                .ThenBy(x => x.MaNguyenLieu) 
+                .ThenBy(x => x.MaNguyenLieu)
                 .Select(x => new
                 {
                     Mã_SP = x.MaSanPham,
                     Tên_SP = x.TenSanPham,
                     Mã_NL = x.MaNguyenLieu,
                     Tên_NL = x.TenNguyenLieu,
-                    Số_lượng = x.SoLuongCoSo
+                    Số_lượng = x.SoLuongCoSo,
+                    Đơn_vị = x.TenDonViCoSo,        // 🆕 hiển thị tên đơn vị
+                    Mã_Đơn_vị = x.MaDonViCoSo       // 🆕 ẩn trong grid
                 })
                 .ToList();
 
             tableCongThuc.DataSource = danhSachSapXep;
 
+            // 🧱 Đặt tiêu đề
             tableCongThuc.Columns["Mã_SP"].HeaderText = "Mã SP";
             tableCongThuc.Columns["Tên_SP"].HeaderText = "Tên SP";
             tableCongThuc.Columns["Mã_NL"].HeaderText = "Mã NL";
             tableCongThuc.Columns["Tên_NL"].HeaderText = "Tên NL";
             tableCongThuc.Columns["Số_lượng"].HeaderText = "Số lượng";
+            tableCongThuc.Columns["Đơn_vị"].HeaderText = "Đơn vị";
+
+            // Ẩn cột mã đơn vị
+            tableCongThuc.Columns["Mã_Đơn_vị"].Visible = false;
 
             foreach (DataGridViewColumn col in tableCongThuc.Columns)
                 col.SortMode = DataGridViewColumnSortMode.Automatic;
@@ -142,6 +166,7 @@ namespace quanlycafe.GUI
 
             tableCongThuc.ClearSelection();
         }
+
 
 
 
@@ -287,6 +312,14 @@ namespace quanlycafe.GUI
             {
                 nguyenLieuBUS bus = new nguyenLieuBUS();
                 bus.napDSNguyenLieu();
+
+                if (nguyenLieuBUS.ds == null || nguyenLieuBUS.ds.Count == 0)
+                {
+                    MessageBox.Show("Danh sách nguyên liệu đang trống hoặc chưa được tải!",
+                                    "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
             }
             else if (tabControl1.SelectedTab == tabCongThuc)
@@ -356,7 +389,7 @@ namespace quanlycafe.GUI
                 {
                     MaNguyenLieu = Convert.ToInt32(row.Cells["Mã NL"].Value),
                     TenNguyenLieu = row.Cells["Tên NL"].Value.ToString(),
-                    DonViCoSo = row.Cells["Đơn vị cơ sở"].Value.ToString(),
+                    MaDonViCoSo = Convert.ToInt32(row.Cells["Mã đơn vị"].Value),
                     TrangThai = 1 
                 };
 
@@ -439,17 +472,20 @@ namespace quanlycafe.GUI
 
         private void btnSuaCT_Click(object sender, EventArgs e)
         {
-            if(tableCongThuc.SelectedRows.Count > 0)
+            if (tableCongThuc.SelectedRows.Count > 0)
             {
                 DataGridViewRow row = tableCongThuc.SelectedRows[0];
-                congThucDTO ct = new congThucDTO();
-                ct.MaSanPham = Convert.ToInt32(row.Cells["Mã_SP"].Value);
-                ct.MaNguyenLieu = Convert.ToInt32(row.Cells["Mã_NL"].Value);
-                ct.TenSanPham = row.Cells["Tên_SP"].Value.ToString();
-                ct.TenNguyenLieu = row.Cells["Tên_NL"].Value.ToString();
-                ct.SoLuongCoSo = float.Parse(row.Cells["Số_lượng"].Value.ToString());
+                congThucDTO ct = new congThucDTO
+                {
+                    MaSanPham = Convert.ToInt32(row.Cells["Mã_SP"].Value),
+                    MaNguyenLieu = Convert.ToInt32(row.Cells["Mã_NL"].Value),
+                    TenSanPham = row.Cells["Tên_SP"].Value.ToString(),
+                    TenNguyenLieu = row.Cells["Tên_NL"].Value.ToString(),
+                    SoLuongCoSo = float.Parse(row.Cells["Số_lượng"].Value.ToString()),
+                    MaDonViCoSo = Convert.ToInt32(row.Cells["Mã_Đơn_vị"].Value),
+                    TenDonViCoSo = row.Cells["Đơn_vị"].Value.ToString()
+                };
 
-                
                 using (updateCongThuc form = new updateCongThuc(ct))
                 {
                     form.StartPosition = FormStartPosition.CenterParent;
@@ -551,7 +587,7 @@ namespace quanlycafe.GUI
                 nguyenLieuDTO ct = new nguyenLieuDTO();
                 ct.MaNguyenLieu = Convert.ToInt32(row.Cells["Mã NL"].Value);
                 ct.TenNguyenLieu = row.Cells["Tên NL"].Value.ToString();
-                ct.DonViCoSo = row.Cells["Đơn vị cơ sở"].Value.ToString();
+                ct.TenDonViCoSo = row.Cells["Đơn vị cơ sở"].Value.ToString();
                 ct.TonKho = Convert.ToInt32(row.Cells["Tồn kho"].Value);
 
                 using (detailNguyenLieu form = new detailNguyenLieu(ct))
@@ -572,12 +608,15 @@ namespace quanlycafe.GUI
             {
                 DataGridViewRow row = tableCongThuc.SelectedRows[0];
 
-                congThucDTO ct = new congThucDTO();
-                ct.MaSanPham = Convert.ToInt32(row.Cells["Mã_SP"].Value);
-                ct.MaNguyenLieu = Convert.ToInt32(row.Cells["Mã_NL"].Value);
-                ct.TenSanPham = row.Cells["Tên_SP"].Value.ToString();
-                ct.TenNguyenLieu = row.Cells["Tên_NL"].Value.ToString();
-                ct.SoLuongCoSo = Convert.ToInt32(row.Cells["Số_lượng"].Value);
+                congThucDTO ct = new congThucDTO
+                {
+                    MaSanPham = Convert.ToInt32(row.Cells["Mã_SP"].Value),
+                    MaNguyenLieu = Convert.ToInt32(row.Cells["Mã_NL"].Value),
+                    TenSanPham = row.Cells["Tên_SP"].Value.ToString(),
+                    TenNguyenLieu = row.Cells["Tên_NL"].Value.ToString(),
+                    SoLuongCoSo = float.Parse(row.Cells["Số_lượng"].Value.ToString()),
+                    TenDonViCoSo = row.Cells["Đơn_vị"].Value.ToString()
+                };
 
                 using (detailCongThuc form = new detailCongThuc(ct))
                 {
@@ -587,7 +626,8 @@ namespace quanlycafe.GUI
             }
             else
             {
-                MessageBox.Show("Vui lòng chọn sản phẩm cần sửa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Vui lòng chọn công thức cần xem chi tiết!", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

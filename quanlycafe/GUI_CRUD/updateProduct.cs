@@ -34,10 +34,14 @@ namespace quanlycafe.GUI
             cbLoai.DisplayMember = "TenLoai";
             cbLoai.ValueMember = "MaLoai";
             cbLoai.SelectedValue = sp.MaLoai;
+
             string imgPath = Path.Combine(Application.StartupPath, "IMG", sp.Hinh);
             if (File.Exists(imgPath))
             {
-                picHinh.Image = Image.FromFile(imgPath);
+                using (var fs = new FileStream(imgPath, FileMode.Open, FileAccess.Read))
+                {
+                    picHinh.Image = Image.FromStream(fs);
+                }
                 picHinh.SizeMode = PictureBoxSizeMode.Zoom;
             }
             else
@@ -45,8 +49,6 @@ namespace quanlycafe.GUI
                 picHinh.Image = null;
                 Console.WriteLine("Ảnh không tồn tại: " + imgPath);
             }
-
-
         }
 
         private void btnChonAnh_Click(object sender, EventArgs e)
@@ -57,8 +59,12 @@ namespace quanlycafe.GUI
             if (open.ShowDialog() == DialogResult.OK)
             {
                 imagePath = open.FileName;
-                sp.Hinh = imagePath;
-                picHinh.Image = Image.FromFile(imagePath);
+
+                using (var fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+                {
+                    picHinh.Image = Image.FromStream(fs);
+                }
+
                 picHinh.SizeMode = PictureBoxSizeMode.Zoom;
             }
         }
@@ -71,7 +77,7 @@ namespace quanlycafe.GUI
 
         private void btnThoat_Click(object sender, EventArgs e)
         {
-            Close();
+            this.Close();
         }
 
         private void btnNhapSP_Click(object sender, EventArgs e)
@@ -94,33 +100,39 @@ namespace quanlycafe.GUI
 
             try
             {
-                // Nếu có chọn ảnh mới
                 if (!string.IsNullOrEmpty(imagePath))
                 {
                     string fileName = Path.GetFileName(imagePath);
 
-                    // ✅ Lấy đường dẫn gốc project (chứa .csproj)
+                    // ✅ Đường dẫn gốc project (chứa .csproj)
                     string projectDir = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\quanlycafe"));
 
-                    // ✅ Copy ảnh vào thư mục Resources/IMG/SP trong project (để commit Git)
+                    // ✅ Thư mục Resources/IMG/SP
                     string targetFolderProject = Path.Combine(projectDir, "Resources", "IMG", "SP");
                     string targetPathProject = Path.Combine(targetFolderProject, fileName);
 
                     if (!Directory.Exists(targetFolderProject))
                         Directory.CreateDirectory(targetFolderProject);
 
-                    File.Copy(imagePath, targetPathProject, true);
+                    // ✅ Chỉ copy nếu ảnh chưa tồn tại
+                    if (!File.Exists(targetPathProject))
+                    {
+                        File.Copy(imagePath, targetPathProject);
+                    }
 
-                    // ✅ Copy thêm ảnh vào thư mục bin/Debug/IMG/SP (để hiển thị ngay)
+                    // ✅ Copy thêm 1 bản xuống bin/Debug/IMG/SP
                     string targetFolderBin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "IMG", "SP");
                     string targetPathBin = Path.Combine(targetFolderBin, fileName);
 
                     if (!Directory.Exists(targetFolderBin))
                         Directory.CreateDirectory(targetFolderBin);
 
-                    File.Copy(imagePath, targetPathBin, true);
+                    if (!File.Exists(targetPathBin))
+                    {
+                        File.Copy(imagePath, targetPathBin);
+                    }
 
-                    // ✅ Cập nhật đường dẫn ảnh trong DB
+                    // ✅ Cập nhật đường dẫn ảnh tương đối
                     sp.Hinh = "SP/" + fileName;
                 }
 
@@ -134,6 +146,7 @@ namespace quanlycafe.GUI
                 bus.Sua(sp);
 
                 MessageBox.Show("Cập nhật sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             catch (Exception ex)

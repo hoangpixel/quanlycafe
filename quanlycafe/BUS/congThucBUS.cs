@@ -50,7 +50,6 @@ namespace quanlycafe.BUS
             return kq;
         }
 
-
         public bool suaCongThuc(congThucDTO ct)
         {
             congThucDAO data = new congThucDAO();
@@ -61,11 +60,13 @@ namespace quanlycafe.BUS
                 if (existing != null)
                 {
                     existing.SoLuongCoSo = ct.SoLuongCoSo;
+                    existing.MaDonViCoSo = ct.MaDonViCoSo;
                     existing.TrangThai = ct.TrangThai;
                 }
             }
             return result;
         }
+
 
         public bool xoaCongThuc(int maSP, int maNL)
         {
@@ -79,17 +80,20 @@ namespace quanlycafe.BUS
         }
 
 
-       
+
         // 🟢 Nhập Excel thông minh
         public void NhapExcelThongMinh(List<congThucDTO> dsExcel)
         {
             int soThem = 0, soCapNhat = 0, soBoQua = 0, soLoi = 0;
             congThucDAO data = new congThucDAO();
+
+            // 🆕 chỉ đọc 1 lần
+            var dsHienTai = data.docTatCaCongThuc();
+
             foreach (var ctMoi in dsExcel)
             {
                 try
                 {
-                    // Kiểm tra dữ liệu đầu vào
                     if (ctMoi.MaSanPham == 0 || ctMoi.MaNguyenLieu == 0)
                     {
                         soLoi++;
@@ -98,9 +102,7 @@ namespace quanlycafe.BUS
 
                     ctMoi.TrangThai = 1;
 
-                    // Kiểm tra trùng mã (SP + NL)
-                    var dsHienTai = data.docTatCaCongThuc();
-                    var ctCu = dsHienTai.Find(x =>
+                    var ctCu = dsHienTai.FirstOrDefault(x =>
                         x.MaSanPham == ctMoi.MaSanPham &&
                         x.MaNguyenLieu == ctMoi.MaNguyenLieu);
 
@@ -109,13 +111,13 @@ namespace quanlycafe.BUS
                         data.Them(ctMoi);
                         soThem++;
                     }
-                    else if (Math.Abs(ctCu.SoLuongCoSo - ctMoi.SoLuongCoSo) > 0.0001f)
+                    else if (Math.Abs(ctCu.SoLuongCoSo - ctMoi.SoLuongCoSo) > 0.0001f ||
+                             ctCu.MaDonViCoSo != ctMoi.MaDonViCoSo)
                     {
                         data.Sua(ctMoi);
                         soCapNhat++;
                     }
-                    else
-                        soBoQua++;
+                    else soBoQua++;
                 }
                 catch (Exception ex)
                 {
@@ -135,5 +137,6 @@ namespace quanlycafe.BUS
                 MessageBoxIcon.Information
             );
         }
+
     }
 }

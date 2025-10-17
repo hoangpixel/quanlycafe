@@ -63,14 +63,20 @@ namespace quanlycafe.GUI_CRUD
             dt.Columns.Add("Mã NL");
             dt.Columns.Add("Tên NL");
             dt.Columns.Add("SL");
+            dt.Columns.Add("Đơn vị");
 
 
             nguyenLieuBUS nlBUS = new nguyenLieuBUS();
             List<nguyenLieuDTO> dsNL= nlBUS.docDSNguyenLieu();
+
+            donViBUS dvBUS = new donViBUS();
+            List<donViDTO> dsDV = dvBUS.layDanhSachDonVi();
             foreach (var sp in ds)
             {
                 string tenLoai = dsNL.FirstOrDefault(l => l.MaNguyenLieu == sp.MaNguyenLieu)?.TenNguyenLieu ?? "Không xác định";
-                dt.Rows.Add(sp.MaNguyenLieu, tenLoai, sp.SoLuongCoSo);
+                string tenDonVI = dsDV.FirstOrDefault(l => l.MaDonVi == sp.MaDonViCoSo)?.TenDonVi ?? "Không xác định";
+
+                dt.Rows.Add(sp.MaNguyenLieu, tenLoai, sp.SoLuongCoSo,tenDonVI);
             }
 
             tableCongThuc.DataSource = dt;
@@ -79,6 +85,7 @@ namespace quanlycafe.GUI_CRUD
             tableCongThuc.Columns["Mã NL"].Width = 80;
             tableCongThuc.Columns["Tên NL"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             tableCongThuc.Columns["SL"].Width = 60;
+            tableCongThuc.Columns["Đơn vị"].Width = 80;
             tableCongThuc.ClearSelection();
 
         }

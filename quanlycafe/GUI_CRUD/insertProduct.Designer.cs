@@ -204,6 +204,7 @@
             this.btnThoat.TabIndex = 10;
             this.btnThoat.Text = "Thoát";
             this.btnThoat.UseVisualStyleBackColor = false;
+            this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click_1);
             // 
             // btnNhapSP
             // 
@@ -216,6 +217,7 @@
             this.btnNhapSP.TabIndex = 9;
             this.btnNhapSP.Text = "Nhập sản phẩm";
             this.btnNhapSP.UseVisualStyleBackColor = false;
+            this.btnNhapSP.Click += new System.EventHandler(this.btnNhapSP_Click_1);
             // 
             // insertProduct
             // 

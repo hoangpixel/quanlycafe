@@ -38,7 +38,12 @@ namespace quanlycafe.GUI_CRUD
 
         private void insertCongThuc_Load(object sender, EventArgs e)
         {
-
+            donViBUS dvBUS = new donViBUS();
+            var dsDonVi = dvBUS.layDanhSachDonVi();
+            cboDonVi.DisplayMember = "TenDonVi";
+            cboDonVi.ValueMember = "MaDonVi";
+            cboDonVi.DataSource = dsDonVi;
+            cboDonVi.SelectedIndex = -1;
         }
 
         private void btnChonNL_Click(object sender, EventArgs e)
@@ -49,6 +54,7 @@ namespace quanlycafe.GUI_CRUD
                                 "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
             using (selectNguyenLieu form = new selectNguyenLieu())
             {
                 form.StartPosition = FormStartPosition.CenterParent;
@@ -56,6 +62,20 @@ namespace quanlycafe.GUI_CRUD
                 {
                     maNL = form.MaNL;
                     txtTenNguyenLieu.Text = form.TenNL;
+
+                    nguyenLieuBUS nlBUS = new nguyenLieuBUS();
+                    var dsNL = nlBUS.docDSNguyenLieu();
+                    var nl = dsNL.FirstOrDefault(x => x.MaNguyenLieu == maNL);
+
+                    if (nl != null)
+                    {
+                        cboDonVi.SelectedValue = nl.MaDonViCoSo;
+                    }
+                    else
+                    {
+                        cboDonVi.SelectedIndex = -1;
+                    }
+
                     txtSoLuong.Focus();
                 }
             }
@@ -63,64 +83,79 @@ namespace quanlycafe.GUI_CRUD
 
         private void btnNhapCT_Click(object sender, EventArgs e)
         {
-            // ✅ ép control cập nhật giá trị đang nhập trước khi đọc
-            txtSoLuong.Focus();
-            txtSoLuong.Select(0, txtSoLuong.Text.Length);
-            txtSoLuong.Validate();
-
-            if (maSP == -1 || maNL == -1 || txtSoLuong.Value <= 0)
+            if (maSP == -1 || maNL == -1 || txtSoLuong.Value <= 0 || cboDonVi.SelectedIndex < 0)
             {
-                MessageBox.Show("Vui lòng chọn đầy đủ sản phẩm, nguyên liệu và nhập số lượng hợp lệ!",
+                MessageBox.Show("Vui lòng chọn đủ sản phẩm, nguyên liệu, đơn vị và nhập số lượng hợp lệ!",
                                 "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Kiểm tra xem nguyên liệu này đã có trong danh sách tạm chưa
+            int maDonVi = Convert.ToInt32(cboDonVi.SelectedValue);
+            string tenDonVi = cboDonVi.Text;
+
             var tonTai = dsTam.FirstOrDefault(x => x.MaNguyenLieu == maNL);
 
             if (tonTai != null)
             {
-                // 🔁 Nếu đã có => cộng dồn số lượng
-                tonTai.SoLuongCoSo += (float)txtSoLuong.Value;
+                DialogResult confirm = MessageBox.Show(
+                    $"Nguyên liệu '{txtTenNguyenLieu.Text}' đã tồn tại trong danh sách.\n" +
+                    $"Bạn có muốn cộng dồn thêm {txtSoLuong.Value} {tenDonVi} không?",
+                    "Xác nhận cộng dồn",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
 
-                MessageBox.Show(
-                    $"Nguyên liệu '{txtTenNguyenLieu.Text}' đã có, hệ thống tự cộng dồn.\n" +
-                    $"→ Tổng mới: {tonTai.SoLuongCoSo}",
-                    "Cập nhật công thức tạm",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                if (confirm == DialogResult.Yes)
+                {
+                    tonTai.SoLuongCoSo += (float)txtSoLuong.Value;
+                    tonTai.MaDonViCoSo = maDonVi;
+                    tonTai.TenDonViCoSo = tenDonVi;
+
+                    MessageBox.Show(
+                        $"Đã cộng dồn nguyên liệu '{txtTenNguyenLieu.Text}'.\n" +
+                        $"Tổng mới: {tonTai.SoLuongCoSo} {tenDonVi}",
+                        "Cập nhật công thức tạm",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+                else
+                {
+                    return;
+                }
             }
             else
             {
-                // 🆕 Nếu chưa có => thêm mới
                 congThucDTO ct = new congThucDTO
                 {
                     MaSanPham = maSP,
                     MaNguyenLieu = maNL,
                     TenNguyenLieu = txtTenNguyenLieu.Text,
                     SoLuongCoSo = (float)txtSoLuong.Value,
+                    MaDonViCoSo = maDonVi,
+                    TenDonViCoSo = tenDonVi,
                     TrangThai = 1
                 };
 
                 dsTam.Add(ct);
-
             }
 
-            // 🔄 Cập nhật lại DataGridView
             tableCongThuc.DataSource = null;
             tableCongThuc.DataSource = dsTam.Select(x => new
             {
                 MaNL = x.MaNguyenLieu,
                 TenNL = x.TenNguyenLieu,
-                SoLuong = x.SoLuongCoSo
+                SoLuong = x.SoLuongCoSo,
+                DonVi = x.TenDonViCoSo
             }).ToList();
+
             tableCongThuc.Columns["MaNL"].HeaderText = "Mã NL";
             tableCongThuc.Columns["TenNL"].HeaderText = "Tên NL";
             tableCongThuc.Columns["SoLuong"].HeaderText = "Số lượng";
-            // 🧹 Reset input
+            tableCongThuc.Columns["DonVi"].HeaderText = "Đơn vị";
+
+            // 🧹 Dọn input
             btnChonSP.Enabled = false;
             txtTenNguyenLieu.Clear();
+            cboDonVi.SelectedIndex = -1;
             txtSoLuong.Value = 0;
             maNL = -1;
         }
@@ -137,19 +172,12 @@ namespace quanlycafe.GUI_CRUD
             congThucBUS bus = new congThucBUS();
             foreach (var ct in dsTam)
             {
-                //string debug = $"[Lưu CT xuống DB]\n" +
-                //       $"→ Mã SP: {ct.MaSanPham}\n" +
-                //       $"→ Mã NL: {ct.MaNguyenLieu}\n" +
-                //       $"→ Tên NL: {ct.TenNguyenLieu}\n" +
-                //       $"→ Số lượng: {ct.SoLuongCoSo}";
-                //MessageBox.Show(debug, "DEBUG - Gửi xuống DB", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 bool kq = bus.themCongThuc(ct);
                 Console.WriteLine($"Lưu CT cho SP {ct.MaSanPham}, NL {ct.MaNguyenLieu}: {kq}");
             }
 
             btnChonSP.Enabled = true;
-            txtTenSanPham.Text = "";
+            txtTenSanPham.Clear();
             dsTam.Clear();
             tableCongThuc.DataSource = null;
 
@@ -167,18 +195,22 @@ namespace quanlycafe.GUI_CRUD
                 tableCongThuc.DataSource = null;
                 tableCongThuc.DataSource = dsTam.Select(x => new
                 {
-                    Mã_NL = x.MaNguyenLieu,
-                    Tên_NL = x.TenNguyenLieu,
-                    Số_lượng = x.SoLuongCoSo
+                    MaNL = x.MaNguyenLieu,
+                    TenNL = x.TenNguyenLieu,
+                    SoLuong = x.SoLuongCoSo,
+                    DonVi = x.TenDonViCoSo
                 }).ToList();
 
-                tableCongThuc.Columns["Mã_NL"].HeaderText = "Mã NL";
-                tableCongThuc.Columns["Tên_NL"].HeaderText = "Tên NL";
-                tableCongThuc.Columns["Số_lượng"].HeaderText = "Số lượng";
-
+                tableCongThuc.Columns["MaNL"].HeaderText = "Mã NL";
+                tableCongThuc.Columns["TenNL"].HeaderText = "Tên NL";
+                tableCongThuc.Columns["SoLuong"].HeaderText = "Số lượng";
+                tableCongThuc.Columns["DonVi"].HeaderText = "Đơn vị";
 
                 if (dsTam.Count == 0)
+                {
                     btnChonSP.Enabled = true;
+                    txtTenSanPham.Clear();
+                }
             }
         }
 

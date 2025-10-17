@@ -26,7 +26,7 @@ namespace quanlycafe.DAO
                     {
                         MaNguyenLieu = reader.GetInt32("MANGUYENLIEU"),
                         TenNguyenLieu = reader.GetString("TENNGUYENLIEU"),
-                        DonViCoSo = reader.GetString("DONVICOSO"),
+                        MaDonViCoSo = reader.GetInt32("MADONVICOSO"),
                         TrangThai = reader.GetInt32("TRANGTHAI"),
                         TonKho = reader.GetDecimal("TONKHO")
                     };
@@ -54,14 +54,14 @@ namespace quanlycafe.DAO
             MySqlConnection conn = null;
             try
             {
-                string qry = @"INSERT INTO nguyenlieu (TENNGUYENLIEU, DONVICOSO, TRANGTHAI, TONKHO)
+                string qry = @"INSERT INTO nguyenlieu (TENNGUYENLIEU, MADONVICOSO, TRANGTHAI, TONKHO)
                                VALUES (@Ten, @DonVi, @TrangThai, @TonKho);
                                SELECT LAST_INSERT_ID();";
 
                 conn = DBConnect.GetConnection();
                 MySqlCommand cmd = new MySqlCommand(qry, conn);
                 cmd.Parameters.AddWithValue("@Ten", nl.TenNguyenLieu);
-                cmd.Parameters.AddWithValue("@DonVi", nl.DonViCoSo);
+                cmd.Parameters.AddWithValue("@DonVi", nl.MaDonViCoSo);
                 cmd.Parameters.AddWithValue("@TrangThai", nl.TrangThai);
                 cmd.Parameters.AddWithValue("@TonKho", nl.TonKho);
 
@@ -91,13 +91,13 @@ namespace quanlycafe.DAO
             try
             {
                 string qry = @"UPDATE nguyenlieu 
-                               SET TENNGUYENLIEU = @Ten, DONVICOSO = @DonVi, TONKHO = @TonKho, TRANGTHAI = @TrangThai
+                               SET TENNGUYENLIEU = @Ten, MADONVICOSO = @DonVi, TONKHO = @TonKho, TRANGTHAI = @TrangThai
                                WHERE MANGUYENLIEU = @Ma";
 
                 conn = DBConnect.GetConnection();
                 MySqlCommand cmd = new MySqlCommand(qry, conn);
                 cmd.Parameters.AddWithValue("@Ten", nl.TenNguyenLieu);
-                cmd.Parameters.AddWithValue("@DonVi", nl.DonViCoSo);
+                cmd.Parameters.AddWithValue("@DonVi", nl.MaDonViCoSo);
                 cmd.Parameters.AddWithValue("@TonKho", nl.TonKho);
                 cmd.Parameters.AddWithValue("@TrangThai", nl.TrangThai);
                 cmd.Parameters.AddWithValue("@Ma", nl.MaNguyenLieu);
@@ -163,7 +163,7 @@ namespace quanlycafe.DAO
                         {
                             MaNguyenLieu = reader.GetInt32("MANGUYENLIEU"),
                             TenNguyenLieu = reader.GetString("TENNGUYENLIEU"),
-                            DonViCoSo = reader.GetString("DONVICOSO"),
+                            MaDonViCoSo = reader.GetInt32("MADONVICOSO"),
                             TonKho = reader.GetDecimal("TONKHO")
                         };
                     }

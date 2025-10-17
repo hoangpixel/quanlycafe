@@ -15,6 +15,7 @@ namespace quanlycafe.GUI_CRUD
     public partial class updateNguyenLieu : Form
     {
         private nguyenLieuDTO ct;
+        private List<donViDTO> dsDonVi;
         public updateNguyenLieu()
         {
             InitializeComponent();
@@ -37,7 +38,7 @@ namespace quanlycafe.GUI_CRUD
             try
             {
                 ct.TenNguyenLieu = txtTenNL.Text.Trim();
-                ct.DonViCoSo = cbDonVi.Text.Trim();
+                ct.MaDonViCoSo = Convert.ToInt32(cbDonVi.SelectedValue);
                 ct.TrangThai = 1; 
 
                 nguyenLieuBUS bus = new nguyenLieuBUS();
@@ -61,10 +62,17 @@ namespace quanlycafe.GUI_CRUD
 
         private void updateNguyenLieu_Load(object sender, EventArgs e)
         {
+            donViBUS busDonVi = new donViBUS();
+            dsDonVi = busDonVi.layDanhSachDonVi();
+
+            cbDonVi.DataSource = dsDonVi;
+            cbDonVi.DisplayMember = "TenDonVi";
+            cbDonVi.ValueMember = "MaDonVi";
+
             if (ct != null)
             {
                 txtTenNL.Text = ct.TenNguyenLieu;
-                cbDonVi.Text = ct.DonViCoSo;
+                cbDonVi.SelectedValue = ct.MaDonViCoSo;
                 txtTenNL.Focus();
             }
         }

@@ -20,7 +20,7 @@ namespace quanlycafe.BUS
         public void napDSNguyenLieu()
         {
             nguyenLieuDAO data = new nguyenLieuDAO();
-            ds = data.docDanhSachNguyenLieu();
+            ds = data.docDanhSachNguyenLieu() ?? new List<nguyenLieuDTO>();
         }
 
         public bool themNguyenLieu(nguyenLieuDTO nl)
@@ -50,7 +50,7 @@ namespace quanlycafe.BUS
                 if (existing != null)
                 {
                     existing.TenNguyenLieu = nl.TenNguyenLieu;
-                    existing.DonViCoSo = nl.DonViCoSo;
+                    existing.MaDonViCoSo = nl.MaDonViCoSo;
                     existing.TonKho = nl.TonKho;
                     existing.TrangThai = nl.TrangThai;
                 }
@@ -106,7 +106,7 @@ namespace quanlycafe.BUS
         private bool LaNguyenLieuGiongNhau(nguyenLieuDTO a, nguyenLieuDTO b)
         {
             return a.TenNguyenLieu == b.TenNguyenLieu &&
-                   a.DonViCoSo == b.DonViCoSo &&
+                   a.MaDonViCoSo == b.MaDonViCoSo &&
                    a.TonKho == b.TonKho;
         }
 

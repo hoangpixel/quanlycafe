@@ -128,15 +128,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BUS\congThucBUS.cs" />
+    <Compile Include="BUS\donViBUS.cs" />
     <Compile Include="BUS\loaiSanPhamBUS.cs" />
     <Compile Include="BUS\nguyenLieuBUS.cs" />
     <Compile Include="BUS\sanPhamBUS.cs" />
     <Compile Include="CONFIG\DBConnection.cs" />
     <Compile Include="DAO\congThucDAO.cs" />
+    <Compile Include="DAO\donViDAO.cs" />
     <Compile Include="DAO\loaiSanPhamDAO.cs" />
     <Compile Include="DAO\nguyenLieuDAO.cs" />
     <Compile Include="DAO\sanPhamDAO.cs" />
     <Compile Include="DTO\congThucDTO.cs" />
+    <Compile Include="DTO\donViDTO.cs" />
     <Compile Include="DTO\loaiDTO.cs" />
     <Compile Include="DTO\nguyenLieuDTO.cs" />
     <Compile Include="DTO\sanPhamDTO.cs" />

@@ -14,6 +14,7 @@ namespace quanlycafe.GUI_CRUD
 {
     public partial class insertNguyenLieu : Form
     {
+        private List<donViDTO> dsDonVi;
         public insertNguyenLieu()
         {
             InitializeComponent();
@@ -36,43 +37,57 @@ namespace quanlycafe.GUI_CRUD
         }
 
         private void insertNguyenLieu_Load(object sender, EventArgs e)
-        {
+        {            
+            donViBUS busDonVi = new donViBUS();
+            dsDonVi = busDonVi.layDanhSachDonVi();
+
+            cbDonVi.DataSource = dsDonVi;
+            cbDonVi.DisplayMember = "TenDonVi";   
+            cbDonVi.ValueMember = "MaDonVi";     
+            cbDonVi.SelectedIndex = -1;
         }
 
         private void btnNhapNL_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtTenNL.Text) || cbDonVi.SelectedIndex == -1)
             {
-                MessageBox.Show("Vui lòng nhập tên và chọn đơn vị nguyên liệu!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng nhập tên và chọn đơn vị nguyên liệu!",
+                    "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
             try
             {
                 string tenNL = txtTenNL.Text.Trim();
-                string donVi = cbDonVi.Text.Trim().ToLower();
+                int maDonVi = Convert.ToInt32(cbDonVi.SelectedValue);
 
-                nguyenLieuDTO nl = new nguyenLieuDTO();
-                nl.TenNguyenLieu = tenNL;
-                nl.DonViCoSo = donVi;
-                nl.TonKho = 0;
-                nl.TrangThai = 1;
+                nguyenLieuDTO nl = new nguyenLieuDTO
+                {
+                    TenNguyenLieu = tenNL,
+                    MaDonViCoSo = maDonVi,
+                    TonKho = 0,
+                    TrangThai = 1
+                };
 
                 nguyenLieuBUS bus = new nguyenLieuBUS();
                 bool kq = bus.themNguyenLieu(nl);
 
                 if (kq)
                 {
-                    MessageBox.Show("Thêm nguyên liệu mới thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Thêm nguyên liệu mới thành công!",
+                        "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Lỗi khi thêm nguyên liệu!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Lỗi khi thêm nguyên liệu!",
+                        "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi thêm nguyên liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi khi thêm nguyên liệu: " + ex.Message,
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

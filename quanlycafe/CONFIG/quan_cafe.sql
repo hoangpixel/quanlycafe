@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 16, 2025 at 03:28 PM
+-- Generation Time: Oct 17, 2025 at 10:01 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -58,6 +58,7 @@ CREATE TABLE `congthuc` (
   `MASANPHAM` int(11) NOT NULL,
   `MANGUYENLIEU` int(11) NOT NULL,
   `SOLUONGCOSO` decimal(12,2) NOT NULL,
+  `MADONVICOSO` int(11) DEFAULT NULL,
   `TRANGTHAI` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -65,15 +66,15 @@ CREATE TABLE `congthuc` (
 -- Dumping data for table `congthuc`
 --
 
-INSERT INTO `congthuc` (`MASANPHAM`, `MANGUYENLIEU`, `SOLUONGCOSO`, `TRANGTHAI`) VALUES
-(1, 1, 25.00, 1),
-(1, 2, 5.00, 1),
-(2, 1, 25.00, 1),
-(2, 3, 40.00, 1),
-(3, 1, 20.00, 1),
-(3, 2, 5.00, 1),
-(3, 3, 25.00, 1),
-(3, 4, 120.00, 1);
+INSERT INTO `congthuc` (`MASANPHAM`, `MANGUYENLIEU`, `SOLUONGCOSO`, `MADONVICOSO`, `TRANGTHAI`) VALUES
+(1, 1, 25.00, 5, 1),
+(1, 2, 5.00, 5, 1),
+(2, 1, 25.00, 5, 1),
+(2, 3, 40.00, 5, 1),
+(3, 1, 20.00, 5, 1),
+(3, 2, 5.00, 5, 1),
+(3, 3, 25.00, 5, 1),
+(3, 4, 120.00, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -114,12 +115,59 @@ DELIMITER ;
 
 CREATE TABLE `ctphieunhap` (
   `MACTPN` int(11) NOT NULL,
-  `MAPN` int(11) NOT NULL,
+  `MAPN` int(11) DEFAULT NULL,
+  `MANGUYENLIEU` int(11) DEFAULT NULL,
+  `MADONVI` int(11) DEFAULT NULL,
+  `SOLUONG` decimal(10,2) DEFAULT NULL,
+  `SOLUONGCOSO` decimal(10,2) DEFAULT NULL,
+  `DONGIA` decimal(10,2) DEFAULT NULL,
+  `THANHTIEN` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `donvi`
+--
+
+CREATE TABLE `donvi` (
+  `MADONVI` int(11) NOT NULL,
+  `TENDONVI` varchar(50) NOT NULL,
+  `TRANGTHAI` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `donvi`
+--
+
+INSERT INTO `donvi` (`MADONVI`, `TENDONVI`, `TRANGTHAI`) VALUES
+(1, 'ml', 1),
+(2, 'chai', 1),
+(3, 'thùng', 1),
+(4, 'kg', 1),
+(5, 'g', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hesodonvi`
+--
+
+CREATE TABLE `hesodonvi` (
   `MANGUYENLIEU` int(11) NOT NULL,
-  `SOLUONGCOSO` decimal(12,2) NOT NULL,
-  `DONGIA` decimal(14,2) NOT NULL DEFAULT 0.00,
-  `THANHTIEN` decimal(14,2) GENERATED ALWAYS AS (`SOLUONGCOSO` * `DONGIA`) STORED
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `MADONVI` int(11) NOT NULL,
+  `HESO` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `hesodonvi`
+--
+
+INSERT INTO `hesodonvi` (`MANGUYENLIEU`, `MADONVI`, `HESO`) VALUES
+(1, 2, 1.00),
+(1, 3, 24.00),
+(2, 1, 1.00),
+(2, 2, 700.00);
 
 -- --------------------------------------------------------
 
@@ -205,20 +253,20 @@ INSERT INTO `loai` (`MALOAI`, `TENLOAI`, `TRANGTHAI`) VALUES
 CREATE TABLE `nguyenlieu` (
   `MANGUYENLIEU` int(11) NOT NULL,
   `TENNGUYENLIEU` varchar(120) NOT NULL,
-  `DONVICOSO` varchar(30) NOT NULL,
   `TRANGTHAI` tinyint(1) NOT NULL DEFAULT 1,
-  `TONKHO` decimal(14,3) NOT NULL DEFAULT 0.000
+  `TONKHO` decimal(14,3) NOT NULL DEFAULT 0.000,
+  `MADONVICOSO` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `nguyenlieu`
 --
 
-INSERT INTO `nguyenlieu` (`MANGUYENLIEU`, `TENNGUYENLIEU`, `DONVICOSO`, `TRANGTHAI`, `TONKHO`) VALUES
-(1, 'Bột cà phê', 'gram', 1, 0.000),
-(2, 'Đường trắng', 'gram', 1, 0.000),
-(3, 'Sữa đặc', 'gram', 1, 0.000),
-(4, 'Sữa tươi không đường', 'ml', 1, 0.000);
+INSERT INTO `nguyenlieu` (`MANGUYENLIEU`, `TENNGUYENLIEU`, `TRANGTHAI`, `TONKHO`, `MADONVICOSO`) VALUES
+(1, 'Bột cà phê', 1, 0.000, 5),
+(2, 'Đường trắng', 1, 0.000, 5),
+(3, 'Sữa đặc', 1, 0.000, 5),
+(4, 'Sữa tươi không đường', 1, 0.000, 5);
 
 -- --------------------------------------------------------
 
@@ -358,7 +406,8 @@ ALTER TABLE `calam`
 --
 ALTER TABLE `congthuc`
   ADD PRIMARY KEY (`MASANPHAM`,`MANGUYENLIEU`),
-  ADD KEY `FK_CT_NL` (`MANGUYENLIEU`);
+  ADD KEY `FK_CT_NL` (`MANGUYENLIEU`),
+  ADD KEY `fk_congthuc_donvi` (`MADONVICOSO`);
 
 --
 -- Indexes for table `cthd`
@@ -373,8 +422,22 @@ ALTER TABLE `cthd`
 --
 ALTER TABLE `ctphieunhap`
   ADD PRIMARY KEY (`MACTPN`),
-  ADD UNIQUE KEY `uq_ctpn` (`MAPN`,`MANGUYENLIEU`),
-  ADD KEY `FK_CTPN_NL` (`MANGUYENLIEU`);
+  ADD KEY `MAPN` (`MAPN`),
+  ADD KEY `MANGUYENLIEU` (`MANGUYENLIEU`),
+  ADD KEY `MADONVI` (`MADONVI`);
+
+--
+-- Indexes for table `donvi`
+--
+ALTER TABLE `donvi`
+  ADD PRIMARY KEY (`MADONVI`);
+
+--
+-- Indexes for table `hesodonvi`
+--
+ALTER TABLE `hesodonvi`
+  ADD PRIMARY KEY (`MANGUYENLIEU`,`MADONVI`),
+  ADD KEY `MADONVI` (`MADONVI`);
 
 --
 -- Indexes for table `hoadon`
@@ -421,7 +484,8 @@ ALTER TABLE `loai`
 --
 ALTER TABLE `nguyenlieu`
   ADD PRIMARY KEY (`MANGUYENLIEU`),
-  ADD UNIQUE KEY `uq_nl_ten` (`TENNGUYENLIEU`);
+  ADD UNIQUE KEY `uq_nl_ten` (`TENNGUYENLIEU`),
+  ADD KEY `MADONVICOSO` (`MADONVICOSO`);
 
 --
 -- Indexes for table `nhacungcap`
@@ -506,6 +570,12 @@ ALTER TABLE `cthd`
 --
 ALTER TABLE `ctphieunhap`
   MODIFY `MACTPN` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `donvi`
+--
+ALTER TABLE `donvi`
+  MODIFY `MADONVI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `hoadon`
@@ -594,7 +664,8 @@ ALTER TABLE `ban`
 --
 ALTER TABLE `congthuc`
   ADD CONSTRAINT `FK_CT_NL` FOREIGN KEY (`MANGUYENLIEU`) REFERENCES `nguyenlieu` (`MANGUYENLIEU`),
-  ADD CONSTRAINT `FK_CT_SP` FOREIGN KEY (`MASANPHAM`) REFERENCES `sanpham` (`MASANPHAM`);
+  ADD CONSTRAINT `FK_CT_SP` FOREIGN KEY (`MASANPHAM`) REFERENCES `sanpham` (`MASANPHAM`),
+  ADD CONSTRAINT `fk_congthuc_donvi` FOREIGN KEY (`MADONVICOSO`) REFERENCES `donvi` (`MADONVI`);
 
 --
 -- Constraints for table `cthd`
@@ -607,8 +678,16 @@ ALTER TABLE `cthd`
 -- Constraints for table `ctphieunhap`
 --
 ALTER TABLE `ctphieunhap`
-  ADD CONSTRAINT `FK_CTPN_NL` FOREIGN KEY (`MANGUYENLIEU`) REFERENCES `nguyenlieu` (`MANGUYENLIEU`),
-  ADD CONSTRAINT `FK_CTPN_PN` FOREIGN KEY (`MAPN`) REFERENCES `phieunhap` (`MAPN`);
+  ADD CONSTRAINT `ctphieunhap_ibfk_1` FOREIGN KEY (`MAPN`) REFERENCES `phieunhap` (`MAPN`),
+  ADD CONSTRAINT `ctphieunhap_ibfk_2` FOREIGN KEY (`MANGUYENLIEU`) REFERENCES `nguyenlieu` (`MANGUYENLIEU`),
+  ADD CONSTRAINT `ctphieunhap_ibfk_3` FOREIGN KEY (`MADONVI`) REFERENCES `donvi` (`MADONVI`);
+
+--
+-- Constraints for table `hesodonvi`
+--
+ALTER TABLE `hesodonvi`
+  ADD CONSTRAINT `hesodonvi_ibfk_1` FOREIGN KEY (`MANGUYENLIEU`) REFERENCES `nguyenlieu` (`MANGUYENLIEU`),
+  ADD CONSTRAINT `hesodonvi_ibfk_2` FOREIGN KEY (`MADONVI`) REFERENCES `donvi` (`MADONVI`);
 
 --
 -- Constraints for table `hoadon`
@@ -625,6 +704,12 @@ ALTER TABLE `hoadon`
 ALTER TABLE `lichlamviec`
   ADD CONSTRAINT `FK_LLV_CA` FOREIGN KEY (`MACA`) REFERENCES `calam` (`MACA`),
   ADD CONSTRAINT `FK_LLV_NV` FOREIGN KEY (`MANHANVIEN`) REFERENCES `nhanvien` (`MANHANVIEN`);
+
+--
+-- Constraints for table `nguyenlieu`
+--
+ALTER TABLE `nguyenlieu`
+  ADD CONSTRAINT `nguyenlieu_ibfk_1` FOREIGN KEY (`MADONVICOSO`) REFERENCES `donvi` (`MADONVI`);
 
 --
 -- Constraints for table `phieunhap`

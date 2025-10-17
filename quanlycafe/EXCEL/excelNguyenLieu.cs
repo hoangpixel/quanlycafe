@@ -26,7 +26,7 @@ namespace quanlycafe.EXCEL
                 var ws = package.Workbook.Worksheets.Add("Danh sách nguyên liệu");
 
                 // ==== Header ====
-                string[] headers = { "Mã NL", "Tên nguyên liệu", "Đơn vị cơ sở", "Tồn kho" };
+                string[] headers = { "Mã NL", "Tên nguyên liệu", "Mã đơn vị cơ sở", "Tồn kho" };
                 for (int i = 0; i < headers.Length; i++)
                 {
                     ws.Cells[1, i + 1].Value = headers[i];
@@ -39,7 +39,7 @@ namespace quanlycafe.EXCEL
                     int row = i + 2;
                     ws.Cells[row, 1].Value = nl.MaNguyenLieu;
                     ws.Cells[row, 2].Value = nl.TenNguyenLieu;
-                    ws.Cells[row, 3].Value = nl.DonViCoSo;
+                    ws.Cells[row, 3].Value = nl.MaDonViCoSo; // 🔹 mã đơn vị (int)
                     ws.Cells[row, 4].Value = nl.TonKho;
                 }
 
@@ -67,7 +67,7 @@ namespace quanlycafe.EXCEL
             }
         }
 
-        // 🟢 Nhập từ Excel
+        // 🟢 Nhập từ Excel (dạng MÃ đơn vị)
         public static List<nguyenLieuDTO> Import(string filePath)
         {
             var list = new List<nguyenLieuDTO>();
@@ -91,7 +91,7 @@ namespace quanlycafe.EXCEL
                         {
                             MaNguyenLieu = int.TryParse(ws.Cells[row, 1].Text, out int ma) ? ma : 0,
                             TenNguyenLieu = ws.Cells[row, 2].Text,
-                            DonViCoSo = ws.Cells[row, 3].Text,
+                            MaDonViCoSo = int.TryParse(ws.Cells[row, 3].Text, out int madv) ? madv : 0,
                             TonKho = decimal.TryParse(ws.Cells[row, 4].Text, out decimal ton) ? ton : 0
                         };
                         list.Add(nl);

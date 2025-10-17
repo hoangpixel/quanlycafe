@@ -1,4 +1,5 @@
 ﻿using quanlycafe.BUS;
+using quanlycafe.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -37,9 +38,13 @@ namespace quanlycafe.GUI_CRUD
             dt.Columns.Add("Tên NL");
             dt.Columns.Add("Đơn vị cơ sở");
 
+            donViBUS busDonVi = new donViBUS();
+            List<donViDTO> dsDonVi = busDonVi.layDanhSachDonVi();
+
             foreach (var nl in nguyenLieuBUS.ds.Where(x => x.TrangThai == 1))
             {
-                dt.Rows.Add(nl.MaNguyenLieu, nl.TenNguyenLieu, nl.DonViCoSo);
+                string tenDonVi = dsDonVi.FirstOrDefault(l => l.MaDonVi == nl.MaDonViCoSo)?.TenDonVi ?? "Không xác định";
+                dt.Rows.Add(nl.MaNguyenLieu, nl.TenNguyenLieu, tenDonVi);
             }
 
             tableNguyenLieu.DataSource = dt;

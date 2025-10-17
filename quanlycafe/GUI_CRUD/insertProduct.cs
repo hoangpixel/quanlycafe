@@ -30,7 +30,12 @@ namespace quanlycafe.GUI_CRUD
             if (open.ShowDialog() == DialogResult.OK)
             {
                 imagePath = open.FileName;
-                picHinh.Image = Image.FromFile(imagePath);
+
+                using (var fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+                {
+                    picHinh.Image = Image.FromStream(fs);
+                }
+
                 picHinh.SizeMode = PictureBoxSizeMode.Zoom;
             }
         }
@@ -69,6 +74,10 @@ namespace quanlycafe.GUI_CRUD
 
         private void btnNhapSP_Click(object sender, EventArgs e)
         {
+        }
+
+        private void btnNhapSP_Click_1(object sender, EventArgs e)
+        {
             if (string.IsNullOrWhiteSpace(txtTenSP.Text) || string.IsNullOrWhiteSpace(txtGia.Text))
             {
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin sản phẩm!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -96,23 +105,30 @@ namespace quanlycafe.GUI_CRUD
                 if (!Directory.Exists(targetFolder))
                     Directory.CreateDirectory(targetFolder);
 
-                // Copy ảnh vào thư mục project
-                File.Copy(imagePath, targetPath, true);
+                // Nếu file ảnh chưa tồn tại thì mới copy
+                if (!File.Exists(targetPath))
+                {
+                    File.Copy(imagePath, targetPath);
+                }
 
-                // ✅ Copy thêm một bản xuống thư mục bin/Debug/IMG/SP để hiển thị ngay
+                // ✅ Copy thêm 1 bản xuống bin/Debug/IMG/SP để hiển thị ngay
                 string binFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "IMG", "SP");
                 string binPath = Path.Combine(binFolder, fileName);
 
                 if (!Directory.Exists(binFolder))
                     Directory.CreateDirectory(binFolder);
 
-                File.Copy(imagePath, binPath, true);
+                if (!File.Exists(binPath))
+                {
+                    File.Copy(imagePath, binPath);
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi khi lưu ảnh: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
 
             // ✅ Lưu đường dẫn tương đối — chỉ còn "SP/tên_ảnh" cho gọn (vì khi chạy form sẽ load từ bin)
             sanPhamDTO sp = new sanPhamDTO
@@ -127,6 +143,11 @@ namespace quanlycafe.GUI_CRUD
             bus.them(sp);
 
             MessageBox.Show("Thêm sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            this.Close();
+        }
+
+        private void btnThoat_Click_1(object sender, EventArgs e)
+        {
             this.Close();
         }
     }

@@ -25,7 +25,7 @@ namespace quanlycafe.GUI_CRUD
         {
             txtMaNL.Text = ct.MaNguyenLieu.ToString();
             txtTenNL.Text = ct.TenNguyenLieu;
-            txtDonVi.Text = ct.DonViCoSo;
+            txtDonVi.Text = ct.TenDonViCoSo;
             txtTonKho.Text = ct.TonKho.ToString();
 
             congThucBUS bus = new congThucBUS();
@@ -61,6 +61,11 @@ namespace quanlycafe.GUI_CRUD
         private void btnThoat_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void txtDonVi_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

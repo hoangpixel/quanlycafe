@@ -12,76 +12,74 @@ namespace quanlycafe.DAO
         // 🟢 Lấy danh sách công thức đang hoạt động
         public List<congThucDTO> docDanhSachCongThucTheoSP(int maSP)
         {
-            List<congThucDTO> ds = new List<congThucDTO>();
-            string qry = $"SELECT * FROM congthuc WHERE MASANPHAM = {maSP} AND TRANGTHAI = 1";
-            MySqlConnection conn = null;
+            var ds = new List<congThucDTO>();
+            string qry = @"
+        SELECT c.MASANPHAM, c.MANGUYENLIEU, c.SOLUONGCOSO, c.MADONVICOSO, c.TRANGTHAI,
+               n.TENNGUYENLIEU, d.TENDONVI
+        FROM congthuc c
+        JOIN nguyenlieu n ON c.MANGUYENLIEU = n.MANGUYENLIEU
+        JOIN donvi d ON c.MADONVICOSO = d.MADONVI
+        WHERE c.MASANPHAM = @masp AND c.TRANGTHAI = 1";
 
-            try
+            using (var conn = DBConnect.GetConnection())
+            using (var cmd = new MySqlCommand(qry, conn))
             {
-                conn = DBConnect.GetConnection();
-                MySqlCommand cmd = new MySqlCommand(qry, conn);
-                MySqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    congThucDTO ct = new congThucDTO
-                    {
-                        MaSanPham = reader.GetInt32("MASANPHAM"),
-                        MaNguyenLieu = reader.GetInt32("MANGUYENLIEU"),
-                        SoLuongCoSo = reader.GetFloat("SOLUONGCOSO"),
-                        TrangThai = reader.GetInt32("TRANGTHAI")
-                    };
-                    ds.Add(ct);
-                }
-
-                reader.Close();
-                cmd.Dispose();
-            }
-            catch (MySqlException ex)
-            {
-                Console.WriteLine("Lỗi đọc danh sách công thức: " + ex.Message);
-            }
-            finally
-            {
-                DBConnect.CloseConnection(conn);
-            }
-
-            return ds;
-        }
-
-        public List<congThucDTO> docTatCaCongThuc()
-        {
-            List<congThucDTO> ds = new List<congThucDTO>();
-            try
-            {
-                string qry = @"
-            SELECT c.MASANPHAM, s.TENSANPHAM, 
-                   c.MANGUYENLIEU, n.TENNGUYENLIEU, 
-                   c.SOLUONGCOSO
-            FROM congthuc c
-            JOIN sanpham s ON c.MASANPHAM = s.MASANPHAM
-            JOIN nguyenlieu n ON c.MANGUYENLIEU = n.MANGUYENLIEU
-            WHERE c.TRANGTHAI = 1";
-
-                using (MySqlConnection conn = DBConnect.GetConnection())
-                using (MySqlCommand cmd = new MySqlCommand(qry, conn))
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                cmd.Parameters.AddWithValue("@masp", maSP);
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        congThucDTO ct = new congThucDTO
+                        ds.Add(new congThucDTO
+                        {
+                            MaSanPham = reader.GetInt32("MASANPHAM"),
+                            MaNguyenLieu = reader.GetInt32("MANGUYENLIEU"),
+                            SoLuongCoSo = reader.GetFloat("SOLUONGCOSO"),
+                            MaDonViCoSo = reader.GetInt32("MADONVICOSO"),
+                            TrangThai = reader.GetInt32("TRANGTHAI"),
+                            TenNguyenLieu = reader.GetString("TENNGUYENLIEU"),
+                            TenDonViCoSo = reader.GetString("TENDONVI")
+                        });
+                    }
+                }
+            }
+            return ds;
+        }
+
+
+        public List<congThucDTO> docTatCaCongThuc()
+        {
+            var ds = new List<congThucDTO>();
+            string qry = @"
+        SELECT c.MASANPHAM, s.TENSANPHAM,
+               c.MANGUYENLIEU, n.TENNGUYENLIEU,
+               c.SOLUONGCOSO, c.MADONVICOSO,
+               d.TENDONVI
+        FROM congthuc c
+        JOIN sanpham s   ON c.MASANPHAM   = s.MASANPHAM
+        JOIN nguyenlieu n ON c.MANGUYENLIEU = n.MANGUYENLIEU
+        JOIN donvi d     ON c.MADONVICOSO = d.MADONVI
+        WHERE c.TRANGTHAI = 1";
+
+            try
+            {
+                using (var conn = DBConnect.GetConnection())
+                using (var cmd = new MySqlCommand(qry, conn))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        ds.Add(new congThucDTO
                         {
                             MaSanPham = reader.GetInt32("MASANPHAM"),
                             TenSanPham = reader.GetString("TENSANPHAM"),
                             MaNguyenLieu = reader.GetInt32("MANGUYENLIEU"),
                             TenNguyenLieu = reader.GetString("TENNGUYENLIEU"),
-                            SoLuongCoSo = reader.GetFloat("SOLUONGCOSO")
-                        };
-                        ds.Add(ct);
+                            SoLuongCoSo = reader.GetFloat("SOLUONGCOSO"),
+                            MaDonViCoSo = reader.GetInt32("MADONVICOSO"),
+                            TenDonViCoSo = reader.GetString("TENDONVI")
+                        });
                     }
                 }
-
-                DBConnect.CloseConnection(null);
             }
             catch (Exception ex)
             {
@@ -92,6 +90,7 @@ namespace quanlycafe.DAO
         }
 
 
+
         // 🟢 Thêm công thức mới
         public bool Them(congThucDTO ct)
         {
@@ -99,8 +98,8 @@ namespace quanlycafe.DAO
             try
             {
                 string qry = @"INSERT INTO congthuc 
-                       (MASANPHAM, MANGUYENLIEU, SOLUONGCOSO, TRANGTHAI)
-                       VALUES (@masp, @manl, @soluong, @trangthai)";
+                       (MASANPHAM, MANGUYENLIEU, SOLUONGCOSO, MADONVICOSO,TRANGTHAI)
+                       VALUES (@masp, @manl, @soluong,@madonvi ,@trangthai)";
 
                 using (MySqlConnection conn = DBConnect.GetConnection())
                 {
@@ -110,6 +109,7 @@ namespace quanlycafe.DAO
                         cmd.Parameters.AddWithValue("@masp", ct.MaSanPham);
                         cmd.Parameters.AddWithValue("@manl", ct.MaNguyenLieu);
                         cmd.Parameters.AddWithValue("@soluong", ct.SoLuongCoSo);
+                        cmd.Parameters.AddWithValue("@madonvi", ct.MaDonViCoSo);
                         cmd.Parameters.AddWithValue("@trangthai", ct.TrangThai);
 
                         int rows = cmd.ExecuteNonQuery();
@@ -133,7 +133,7 @@ namespace quanlycafe.DAO
         // 🟡 Cập nhật định lượng
         public bool Sua(congThucDTO ct)
         {
-            string qry = "UPDATE congthuc SET SOLUONGCOSO = @soluong, TRANGTHAI = @trangthai " +
+            string qry = "UPDATE congthuc SET SOLUONGCOSO = @soluong, MADONVICOSO = @madonvi ,TRANGTHAI = @trangthai " +
                          "WHERE MASANPHAM = @masp AND MANGUYENLIEU = @manl";
 
             try
@@ -144,6 +144,7 @@ namespace quanlycafe.DAO
                     cmd.Parameters.AddWithValue("@masp", ct.MaSanPham);
                     cmd.Parameters.AddWithValue("@manl", ct.MaNguyenLieu);
                     cmd.Parameters.AddWithValue("@soluong", ct.SoLuongCoSo);
+                    cmd.Parameters.AddWithValue("@madonvi", ct.MaDonViCoSo);
                     cmd.Parameters.AddWithValue("@trangthai", ct.TrangThai);
 
                     int rows = cmd.ExecuteNonQuery();
@@ -225,8 +226,8 @@ namespace quanlycafe.DAO
             try
             {
                 string qry = @"
-            INSERT INTO congthuc (MASANPHAM, MANGUYENLIEU, SOLUONGCOSO, TRANGTHAI)
-            VALUES (@masp, @manl, @soluong, @trangthai)
+            INSERT INTO congthuc (MASANPHAM, MANGUYENLIEU, SOLUONGCOSO, MADONVICOSO,TRANGTHAI)
+            VALUES (@masp, @manl, @soluong, @madonvi,@trangthai)
             ON DUPLICATE KEY UPDATE 
                 SOLUONGCOSO = SOLUONGCOSO + @soluong,
                 TRANGTHAI = VALUES(TRANGTHAI);";
@@ -238,6 +239,7 @@ namespace quanlycafe.DAO
                         cmd.Parameters.AddWithValue("@masp", ct.MaSanPham);
                         cmd.Parameters.AddWithValue("@manl", ct.MaNguyenLieu);
                         cmd.Parameters.AddWithValue("@soluong", ct.SoLuongCoSo);
+                        cmd.Parameters.AddWithValue("@madonvi", ct.MaDonViCoSo);
                         cmd.Parameters.AddWithValue("@trangthai", ct.TrangThai);
 
                         cmd.ExecuteNonQuery();
