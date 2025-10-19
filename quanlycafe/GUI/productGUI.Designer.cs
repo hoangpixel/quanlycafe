@@ -46,10 +46,6 @@
             this.btnChiTietCT = new System.Windows.Forms.Button();
             this.btnXoaCT = new System.Windows.Forms.Button();
             this.btnThemCT = new System.Windows.Forms.Button();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.button17 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.tabSanPham = new System.Windows.Forms.TabPage();
             this.tbSanPham = new System.Windows.Forms.DataGridView();
             this.metroPanel2 = new ReaLTaiizor.Controls.MetroPanel();
@@ -101,12 +97,24 @@
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.button3 = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.comboBox5 = new System.Windows.Forms.ComboBox();
+            this.comboBox6 = new System.Windows.Forms.ComboBox();
             this.tabCongThuc.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tableCongThuc)).BeginInit();
             this.metroPanel3.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.groupBox5.SuspendLayout();
-            this.groupBox6.SuspendLayout();
             this.tabSanPham.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbSanPham)).BeginInit();
             this.metroPanel2.SuspendLayout();
@@ -124,6 +132,9 @@
             this.tableLayoutPanel5.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.tableLayoutPanel6.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabCongThuc
@@ -160,14 +171,14 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.tableCongThuc.DefaultCellStyle = dataGridViewCellStyle2;
             this.tableCongThuc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableCongThuc.Location = new System.Drawing.Point(0, 157);
+            this.tableCongThuc.Location = new System.Drawing.Point(0, 180);
             this.tableCongThuc.MultiSelect = false;
             this.tableCongThuc.Name = "tableCongThuc";
             this.tableCongThuc.RowHeadersVisible = false;
             this.tableCongThuc.RowHeadersWidth = 51;
             this.tableCongThuc.RowTemplate.Height = 24;
             this.tableCongThuc.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tableCongThuc.Size = new System.Drawing.Size(1783, 561);
+            this.tableCongThuc.Size = new System.Drawing.Size(1783, 538);
             this.tableCongThuc.TabIndex = 4;
             this.tableCongThuc.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableCongThuc_CellClick);
             // 
@@ -181,7 +192,7 @@
             this.metroPanel3.IsDerivedStyle = true;
             this.metroPanel3.Location = new System.Drawing.Point(0, 0);
             this.metroPanel3.Name = "metroPanel3";
-            this.metroPanel3.Size = new System.Drawing.Size(1783, 157);
+            this.metroPanel3.Size = new System.Drawing.Size(1783, 180);
             this.metroPanel3.Style = ReaLTaiizor.Enum.Metro.Style.Light;
             this.metroPanel3.StyleManager = null;
             this.metroPanel3.TabIndex = 2;
@@ -194,14 +205,14 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Controls.Add(this.groupBox5, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.groupBox6, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel6, 1, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.Padding = new System.Windows.Forms.Padding(7);
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(1783, 156);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1783, 180);
             this.tableLayoutPanel3.TabIndex = 7;
             // 
             // groupBox5
@@ -216,7 +227,7 @@
             this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox5.Location = new System.Drawing.Point(10, 10);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(878, 136);
+            this.groupBox5.Size = new System.Drawing.Size(878, 160);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Xử lý công thức";
@@ -227,7 +238,7 @@
             this.btnExcelCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExcelCT.ForeColor = System.Drawing.Color.Black;
             this.btnExcelCT.Image = global::quanlycafe.Properties.Resources.xls;
-            this.btnExcelCT.Location = new System.Drawing.Point(720, 21);
+            this.btnExcelCT.Location = new System.Drawing.Point(716, 35);
             this.btnExcelCT.Name = "btnExcelCT";
             this.btnExcelCT.Size = new System.Drawing.Size(112, 103);
             this.btnExcelCT.TabIndex = 13;
@@ -243,7 +254,7 @@
             this.btnReFreshCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReFreshCT.ForeColor = System.Drawing.Color.Black;
             this.btnReFreshCT.Image = global::quanlycafe.Properties.Resources.update_arrows;
-            this.btnReFreshCT.Location = new System.Drawing.Point(575, 21);
+            this.btnReFreshCT.Location = new System.Drawing.Point(571, 35);
             this.btnReFreshCT.Name = "btnReFreshCT";
             this.btnReFreshCT.Size = new System.Drawing.Size(112, 103);
             this.btnReFreshCT.TabIndex = 12;
@@ -259,7 +270,7 @@
             this.btnSuaCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSuaCT.ForeColor = System.Drawing.Color.Black;
             this.btnSuaCT.Image = global::quanlycafe.Properties.Resources.edit;
-            this.btnSuaCT.Location = new System.Drawing.Point(157, 21);
+            this.btnSuaCT.Location = new System.Drawing.Point(153, 35);
             this.btnSuaCT.Name = "btnSuaCT";
             this.btnSuaCT.Size = new System.Drawing.Size(112, 103);
             this.btnSuaCT.TabIndex = 10;
@@ -275,7 +286,7 @@
             this.btnChiTietCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnChiTietCT.ForeColor = System.Drawing.Color.Black;
             this.btnChiTietCT.Image = global::quanlycafe.Properties.Resources.info;
-            this.btnChiTietCT.Location = new System.Drawing.Point(434, 21);
+            this.btnChiTietCT.Location = new System.Drawing.Point(430, 35);
             this.btnChiTietCT.Name = "btnChiTietCT";
             this.btnChiTietCT.Size = new System.Drawing.Size(112, 103);
             this.btnChiTietCT.TabIndex = 11;
@@ -292,7 +303,7 @@
             this.btnXoaCT.ForeColor = System.Drawing.Color.Black;
             this.btnXoaCT.Image = global::quanlycafe.Properties.Resources.trash;
             this.btnXoaCT.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnXoaCT.Location = new System.Drawing.Point(292, 21);
+            this.btnXoaCT.Location = new System.Drawing.Point(288, 35);
             this.btnXoaCT.Name = "btnXoaCT";
             this.btnXoaCT.Size = new System.Drawing.Size(112, 103);
             this.btnXoaCT.TabIndex = 9;
@@ -307,7 +318,7 @@
             this.btnThemCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnThemCT.ForeColor = System.Drawing.Color.Black;
             this.btnThemCT.Image = global::quanlycafe.Properties.Resources.add;
-            this.btnThemCT.Location = new System.Drawing.Point(19, 21);
+            this.btnThemCT.Location = new System.Drawing.Point(15, 35);
             this.btnThemCT.Name = "btnThemCT";
             this.btnThemCT.Size = new System.Drawing.Size(112, 103);
             this.btnThemCT.TabIndex = 8;
@@ -316,49 +327,6 @@
             this.btnThemCT.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnThemCT.UseVisualStyleBackColor = true;
             this.btnThemCT.Click += new System.EventHandler(this.btnThemCT_Click);
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.button17);
-            this.groupBox6.Controls.Add(this.textBox2);
-            this.groupBox6.Controls.Add(this.comboBox2);
-            this.groupBox6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox6.Location = new System.Drawing.Point(894, 10);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(879, 136);
-            this.groupBox6.TabIndex = 6;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Tìm kiếm công thức";
-            // 
-            // button17
-            // 
-            this.button17.ForeColor = System.Drawing.Color.Black;
-            this.button17.Location = new System.Drawing.Point(472, 53);
-            this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(105, 33);
-            this.button17.TabIndex = 2;
-            this.button17.Text = "Tìm kiếm";
-            this.button17.UseVisualStyleBackColor = true;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(203, 58);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(251, 27);
-            this.textBox2.TabIndex = 1;
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
-            "Tên sản phẩm",
-            "Loại sản phẩm",
-            "giá"});
-            this.comboBox2.Location = new System.Drawing.Point(27, 58);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(152, 28);
-            this.comboBox2.TabIndex = 0;
             // 
             // tabSanPham
             // 
@@ -1109,6 +1077,157 @@
             this.comboBox1.Size = new System.Drawing.Size(224, 28);
             this.comboBox1.TabIndex = 0;
             // 
+            // tableLayoutPanel6
+            // 
+            this.tableLayoutPanel6.ColumnCount = 1;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.Controls.Add(this.groupBox9, 0, 1);
+            this.tableLayoutPanel6.Controls.Add(this.groupBox6, 0, 0);
+            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(894, 10);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 2;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(879, 160);
+            this.tableLayoutPanel6.TabIndex = 6;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.radioButton3);
+            this.groupBox6.Controls.Add(this.button3);
+            this.groupBox6.Controls.Add(this.textBox2);
+            this.groupBox6.Controls.Add(this.comboBox2);
+            this.groupBox6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox6.Location = new System.Drawing.Point(3, 3);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(873, 74);
+            this.groupBox6.TabIndex = 2;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Tìm kiếm cơ bản";
+            // 
+            // radioButton3
+            // 
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Location = new System.Drawing.Point(503, 34);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(17, 16);
+            this.radioButton3.TabIndex = 3;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button3.ForeColor = System.Drawing.Color.Black;
+            this.button3.Location = new System.Drawing.Point(608, 17);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(121, 47);
+            this.button3.TabIndex = 2;
+            this.button3.Text = "Tìm kiếm";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(257, 28);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(229, 27);
+            this.textBox2.TabIndex = 1;
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            "Theo mã",
+            "Theo mã loại",
+            "Theo tên sản phẩm",
+            "Theo giá trở xuống",
+            "Theo giá trở lên"});
+            this.comboBox2.Location = new System.Drawing.Point(6, 27);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(224, 28);
+            this.comboBox2.TabIndex = 0;
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.radioButton4);
+            this.groupBox9.Controls.Add(this.textBox6);
+            this.groupBox9.Controls.Add(this.textBox7);
+            this.groupBox9.Controls.Add(this.textBox8);
+            this.groupBox9.Controls.Add(this.comboBox5);
+            this.groupBox9.Controls.Add(this.comboBox6);
+            this.groupBox9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox9.Location = new System.Drawing.Point(3, 83);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(873, 74);
+            this.groupBox9.TabIndex = 3;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Tìm kiếm nâng cao";
+            // 
+            // radioButton4
+            // 
+            this.radioButton4.AutoSize = true;
+            this.radioButton4.Location = new System.Drawing.Point(712, 37);
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.Size = new System.Drawing.Size(17, 16);
+            this.radioButton4.TabIndex = 6;
+            this.radioButton4.TabStop = true;
+            this.radioButton4.UseVisualStyleBackColor = true;
+            // 
+            // textBox6
+            // 
+            this.textBox6.Location = new System.Drawing.Point(579, 31);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(123, 27);
+            this.textBox6.TabIndex = 5;
+            // 
+            // textBox7
+            // 
+            this.textBox7.Location = new System.Drawing.Point(434, 31);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(123, 27);
+            this.textBox7.TabIndex = 4;
+            // 
+            // textBox8
+            // 
+            this.textBox8.Location = new System.Drawing.Point(287, 30);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new System.Drawing.Size(123, 27);
+            this.textBox8.TabIndex = 3;
+            // 
+            // comboBox5
+            // 
+            this.comboBox5.FormattingEnabled = true;
+            this.comboBox5.Items.AddRange(new object[] {
+            "Theo mã",
+            "Theo mã loại",
+            "Theo tên sản phẩm",
+            "Theo tên loại",
+            "Theo giá trở xuống",
+            "Theo giá trở lên"});
+            this.comboBox5.Location = new System.Drawing.Point(143, 30);
+            this.comboBox5.Name = "comboBox5";
+            this.comboBox5.Size = new System.Drawing.Size(123, 28);
+            this.comboBox5.TabIndex = 2;
+            // 
+            // comboBox6
+            // 
+            this.comboBox6.FormattingEnabled = true;
+            this.comboBox6.Items.AddRange(new object[] {
+            "Theo mã",
+            "Theo mã loại",
+            "Theo tên sản phẩm",
+            "Theo tên loại",
+            "Theo giá trở xuống",
+            "Theo giá trở lên"});
+            this.comboBox6.Location = new System.Drawing.Point(6, 30);
+            this.comboBox6.Name = "comboBox6";
+            this.comboBox6.Size = new System.Drawing.Size(119, 28);
+            this.comboBox6.TabIndex = 1;
+            // 
             // productGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1122,8 +1241,6 @@
             this.metroPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
             this.tabSanPham.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tbSanPham)).EndInit();
             this.metroPanel2.ResumeLayout(false);
@@ -1145,6 +1262,11 @@
             this.groupBox8.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.tableLayoutPanel6.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1167,10 +1289,6 @@
         private System.Windows.Forms.Button btnChiTietCT;
         private System.Windows.Forms.Button btnXoaCT;
         private System.Windows.Forms.Button btnThemCT;
-        private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.Button button17;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.DataGridView tableNguyenLieu;
         private ReaLTaiizor.Controls.MetroPanel metroPanel4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
@@ -1217,5 +1335,18 @@
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.ComboBox comboBox3;
         private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.RadioButton radioButton4;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.ComboBox comboBox5;
+        private System.Windows.Forms.ComboBox comboBox6;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.ComboBox comboBox2;
     }
 }

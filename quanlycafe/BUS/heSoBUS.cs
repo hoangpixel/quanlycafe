@@ -63,5 +63,11 @@ namespace quanlycafe.BUS
             }
             return kq;
         }
+
+        public List<heSoDTO> layDanhSachTheoMaNL(int maNL)
+        {
+            heSoDAO data = new heSoDAO();
+            return data.layDanhSachHeSoTheoNL(maNL);
+        }
     }
 }

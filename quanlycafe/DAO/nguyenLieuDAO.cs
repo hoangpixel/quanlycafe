@@ -28,7 +28,8 @@ namespace quanlycafe.DAO
                         TenNguyenLieu = reader.GetString("TENNGUYENLIEU"),
                         MaDonViCoSo = reader.GetInt32("MADONVICOSO"),
                         TrangThai = reader.GetInt32("TRANGTHAI"),
-                        TonKho = reader.GetDecimal("TONKHO")
+                        TonKho = reader.GetDecimal("TONKHO"),
+                        TrangThaiDV = reader.GetInt32("TRANGTHAIDV")
                     };
 
                     ds.Add(nl);

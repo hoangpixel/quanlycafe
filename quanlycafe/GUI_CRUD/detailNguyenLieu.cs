@@ -31,6 +31,10 @@ namespace quanlycafe.GUI_CRUD
             congThucBUS bus = new congThucBUS();
             var ds = bus.docDSSanPhamTheoNguyenLieu(ct.MaNguyenLieu);
             loadDanhSachSanPham(ds);
+
+            heSoBUS busHs = new heSoBUS();
+            List<heSoDTO> dshs = busHs.layDanhSachTheoMaNL(ct.MaNguyenLieu);
+            loadDanhSachHeSo(dshs);
         }
 
         private void loadDanhSachSanPham(List<sanPhamDTO> ds)
@@ -43,10 +47,16 @@ namespace quanlycafe.GUI_CRUD
             dt.Columns.Add("Tên SP");
             dt.Columns.Add("Giá");
             dt.Columns.Add("Số lượng");
+            dt.Columns.Add("Đơn vị cơ sở");
+
+
+            donViBUS busdv = new donViBUS();
+            List<donViDTO> dsdv = busdv.layDanhSachDonVi();
 
             foreach (var sp in ds)
             {
-                dt.Rows.Add(sp.MaSP, sp.TenSP, sp.Gia, sp.SoLuongCoSo);
+                string tenDonVi = dsdv.FirstOrDefault(l => l.MaDonVi == sp.MaDonViCoSo)?.TenDonVi ?? "Không xác định";
+                dt.Rows.Add(sp.MaSP, sp.TenSP, sp.Gia, sp.SoLuongCoSo,tenDonVi);
             }
 
             tableNguyenLieu.DataSource = dt;
@@ -56,6 +66,37 @@ namespace quanlycafe.GUI_CRUD
 
             tableNguyenLieu.ClearSelection();
 
+        }
+
+        private void loadDanhSachHeSo(List<heSoDTO> ds)
+        {
+            tableHeSo.Columns.Clear();
+            tableHeSo.DataSource = null;
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Mã đơn vị");
+            dt.Columns.Add("Tên đơn vị");
+            dt.Columns.Add("Hệ số");
+
+            donViBUS busdv = new donViBUS();
+            List<donViDTO> dsdv = busdv.layDanhSachDonVi();
+
+            foreach (var sp in ds)
+            {
+                string tenDonVi = dsdv.FirstOrDefault(l => l.MaDonVi == sp.MaDonVi)?.TenDonVi ?? "Không xác định";
+                dt.Rows.Add(sp.MaDonVi,tenDonVi,sp.HeSo);
+            }
+
+            tableHeSo.DataSource = dt;
+            tableHeSo.RowHeadersVisible = false;
+
+            tableHeSo.ReadOnly = true;
+
+            tableHeSo.Columns["Mã đơn vị"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            tableHeSo.Columns["Tên đơn vị"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            tableHeSo.Columns["Hệ số"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            tableHeSo.ClearSelection();
         }
 
         private void btnThoat_Click(object sender, EventArgs e)

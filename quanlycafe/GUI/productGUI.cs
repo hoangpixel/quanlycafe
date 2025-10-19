@@ -89,7 +89,7 @@ namespace quanlycafe.GUI
             dt.Columns.Add("Mã NL");
             dt.Columns.Add("Tên NL");
             dt.Columns.Add("Đơn vị cơ sở");
-            dt.Columns.Add("Trạng thái");
+            dt.Columns.Add("Trạng thái ĐV");
             dt.Columns.Add("Tồn kho");
             dt.Columns.Add("Mã đơn vị");
 
@@ -99,8 +99,8 @@ namespace quanlycafe.GUI
             foreach (var nl in ds)
             {
                 string tenDonVi = dsDonVi.FirstOrDefault(l => l.MaDonVi == nl.MaDonViCoSo)?.TenDonVi ?? "Không xác định";
-                string trangThai = nl.TrangThai == 1 ? "Còn hoạt động" : "Ngừng bán";
-                dt.Rows.Add(nl.MaNguyenLieu, nl.TenNguyenLieu, tenDonVi, trangThai, string.Format("{0:N0}", nl.TonKho), nl.MaDonViCoSo);
+                string trangThaiDV = nl.TrangThaiDV == 1 ? "Đã có hệ số" : "Chưa xét hệ số";
+                dt.Rows.Add(nl.MaNguyenLieu, nl.TenNguyenLieu, tenDonVi, trangThaiDV, string.Format("{0:N0}", nl.TonKho), nl.MaDonViCoSo);
             }
 
             tableNguyenLieu.DataSource = dt; 
@@ -814,6 +814,9 @@ namespace quanlycafe.GUI
                 form.StartPosition = FormStartPosition.CenterParent;
                 form.ShowDialog(this);
             }
+            nguyenLieuBUS bus = new nguyenLieuBUS();
+            bus.docDSNguyenLieu();
+            loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
         }
         // Thực hiện chức năng tìm kiếm cho page Sản Phẩm
 

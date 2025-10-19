@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2025 at 11:08 AM
+-- Generation Time: Oct 19, 2025 at 02:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -263,6 +263,7 @@ CREATE TABLE `nguyenlieu` (
   `TENNGUYENLIEU` varchar(120) NOT NULL,
   `TRANGTHAI` tinyint(1) NOT NULL DEFAULT 1,
   `TONKHO` decimal(14,3) NOT NULL DEFAULT 0.000,
+  `TRANGTHAIDV` tinyint(1) NOT NULL DEFAULT 0,
   `MADONVICOSO` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -270,12 +271,12 @@ CREATE TABLE `nguyenlieu` (
 -- Dumping data for table `nguyenlieu`
 --
 
-INSERT INTO `nguyenlieu` (`MANGUYENLIEU`, `TENNGUYENLIEU`, `TRANGTHAI`, `TONKHO`, `MADONVICOSO`) VALUES
-(1, 'Bột cà phê', 1, 0.000, 2),
-(2, 'Đường trắng', 1, 0.000, 2),
-(3, 'Sữa đặc', 1, 0.000, 2),
-(4, 'Sữa tươi không đường', 1, 0.000, 4),
-(5, 'Coca cola', 1, 0.000, 5);
+INSERT INTO `nguyenlieu` (`MANGUYENLIEU`, `TENNGUYENLIEU`, `TRANGTHAI`, `TONKHO`, `TRANGTHAIDV`, `MADONVICOSO`) VALUES
+(1, 'Bột cà phê', 1, 0.000, 1, 2),
+(2, 'Đường trắng', 1, 0.000, 1, 2),
+(3, 'Sữa đặc', 1, 0.000, 1, 2),
+(4, 'Sữa tươi không đường', 1, 0.000, 1, 4),
+(5, 'Coca cola', 1, 0.000, 1, 5);
 
 -- --------------------------------------------------------
 

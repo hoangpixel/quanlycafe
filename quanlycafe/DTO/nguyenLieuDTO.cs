@@ -43,13 +43,14 @@ namespace quanlycafe.DTO
 
         public string TenNguyenLieu { get; set; }
 
-        public int MaDonViCoSo { get; set; }   // 🔹 liên kết tới bảng DONVI (thay cho DonViCoSo string)
+        public int MaDonViCoSo { get; set; }  
 
         public int TrangThai { get; set; } = 1;
 
+        public int TrangThaiDV { get; set; }
+
         public decimal TonKho { get; set; }
 
-        // 👇 Thuộc tính mở rộng — chỉ dùng khi cần hiển thị (JOIN)
         public string TenDonViCoSo { get; set; }
 
         public nguyenLieuDTO() { }
@@ -63,7 +64,6 @@ namespace quanlycafe.DTO
             TonKho = tonKho;
         }
 
-        // ToString() hiển thị rõ ràng tên và đơn vị (nếu có)
         public override string ToString()
         {
             return TenDonViCoSo != null

@@ -9,7 +9,6 @@ namespace quanlycafe.DAO
 {
     internal class congThucDAO
     {
-        // 🟢 Lấy danh sách công thức đang hoạt động
         public List<congThucDTO> docDanhSachCongThucTheoSP(int maSP)
         {
             var ds = new List<congThucDTO>();
@@ -120,7 +119,7 @@ namespace quanlycafe.DAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show("❌ Lỗi thêm công thức: " + ex.Message,
+                MessageBox.Show("Lỗi thêm công thức: " + ex.Message,
                                 "Lỗi SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return result;
@@ -173,7 +172,6 @@ namespace quanlycafe.DAO
                     cmd.ExecuteNonQuery();
                 }
 
-                // cập nhật lại trạng thái công thức của sản phẩm
                 string checkQry = "SELECT COUNT(*) FROM congthuc WHERE MASANPHAM = @maSP";
                 using (MySqlConnection conn = DBConnect.GetConnection())
                 using (MySqlCommand cmd = new MySqlCommand(checkQry, conn))
@@ -262,7 +260,7 @@ namespace quanlycafe.DAO
         {
             List<sanPhamDTO> ds = new List<sanPhamDTO>();
             string qry = @"
-        SELECT sp.MASANPHAM, sp.TENSANPHAM, sp.HINH, sp.GIA, c.SOLUONGCOSO
+        SELECT sp.MASANPHAM, sp.TENSANPHAM, sp.HINH, sp.GIA, c.SOLUONGCOSO, c.MADONVICOSO
         FROM congthuc c
         JOIN sanpham sp ON c.MASANPHAM = sp.MASANPHAM
         WHERE c.MANGUYENLIEU = @maNguyenLieu AND c.TRANGTHAI = 1;
@@ -283,7 +281,8 @@ namespace quanlycafe.DAO
                             TenSP = reader.GetString("TENSANPHAM"),
                             Hinh = reader.IsDBNull(reader.GetOrdinal("HINH")) ? "" : reader.GetString("HINH"),
                             Gia = reader.IsDBNull(reader.GetOrdinal("GIA")) ? 0 : Convert.ToSingle(reader["GIA"]),
-                            SoLuongCoSo = reader.IsDBNull(reader.GetOrdinal("SOLUONGCOSO")) ? 0 : reader.GetFloat("SOLUONGCOSO")
+                            SoLuongCoSo = reader.IsDBNull(reader.GetOrdinal("SOLUONGCOSO")) ? 0 : reader.GetFloat("SOLUONGCOSO"),
+                            MaDonViCoSo = reader.GetInt32("MADONVICOSO")
                         };
                         ds.Add(sp);
                     }

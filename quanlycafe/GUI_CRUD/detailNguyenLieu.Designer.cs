@@ -28,7 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnThoat = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableNguyenLieu = new System.Windows.Forms.DataGridView();
@@ -41,16 +44,20 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.tableHeSo = new System.Windows.Forms.DataGridView();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tableNguyenLieu)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tableHeSo)).BeginInit();
             this.SuspendLayout();
             // 
             // btnThoat
             // 
             this.btnThoat.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnThoat.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThoat.Location = new System.Drawing.Point(925, 560);
+            this.btnThoat.Location = new System.Drawing.Point(1056, 560);
             this.btnThoat.Name = "btnThoat";
             this.btnThoat.Size = new System.Drawing.Size(110, 46);
             this.btnThoat.TabIndex = 5;
@@ -61,10 +68,10 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.tableNguyenLieu);
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(489, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(546, 542);
+            this.groupBox2.Size = new System.Drawing.Size(677, 542);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Danh sách sản phẩm";
@@ -74,15 +81,23 @@
             this.tableNguyenLieu.AllowUserToAddRows = false;
             this.tableNguyenLieu.AllowUserToDeleteRows = false;
             this.tableNguyenLieu.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tableNguyenLieu.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tableNguyenLieu.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.tableNguyenLieu.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.tableNguyenLieu.DefaultCellStyle = dataGridViewCellStyle10;
             this.tableNguyenLieu.Enabled = false;
             this.tableNguyenLieu.GridColor = System.Drawing.Color.DarkGray;
             this.tableNguyenLieu.Location = new System.Drawing.Point(6, 26);
@@ -92,7 +107,7 @@
             this.tableNguyenLieu.RowHeadersWidth = 51;
             this.tableNguyenLieu.RowTemplate.Height = 24;
             this.tableNguyenLieu.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tableNguyenLieu.Size = new System.Drawing.Size(534, 510);
+            this.tableNguyenLieu.Size = new System.Drawing.Size(665, 510);
             this.tableNguyenLieu.TabIndex = 0;
             // 
             // groupBox1
@@ -105,10 +120,10 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(461, 325);
+            this.groupBox1.Size = new System.Drawing.Size(461, 265);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chi tiết nguyên liệu";
@@ -116,7 +131,7 @@
             // txtDonVi
             // 
             this.txtDonVi.Enabled = false;
-            this.txtDonVi.Location = new System.Drawing.Point(223, 193);
+            this.txtDonVi.Location = new System.Drawing.Point(223, 156);
             this.txtDonVi.Name = "txtDonVi";
             this.txtDonVi.Size = new System.Drawing.Size(163, 27);
             this.txtDonVi.TabIndex = 10;
@@ -125,7 +140,8 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(35, 196);
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(35, 156);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(61, 20);
             this.label5.TabIndex = 9;
@@ -134,7 +150,7 @@
             // txtTonKho
             // 
             this.txtTonKho.Enabled = false;
-            this.txtTonKho.Location = new System.Drawing.Point(223, 279);
+            this.txtTonKho.Location = new System.Drawing.Point(223, 211);
             this.txtTonKho.Name = "txtTonKho";
             this.txtTonKho.Size = new System.Drawing.Size(163, 27);
             this.txtTonKho.TabIndex = 8;
@@ -142,7 +158,7 @@
             // txtTenNL
             // 
             this.txtTenNL.Enabled = false;
-            this.txtTenNL.Location = new System.Drawing.Point(223, 116);
+            this.txtTenNL.Location = new System.Drawing.Point(223, 99);
             this.txtTenNL.Name = "txtTenNL";
             this.txtTenNL.Size = new System.Drawing.Size(163, 27);
             this.txtTenNL.TabIndex = 7;
@@ -158,7 +174,8 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(35, 279);
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(35, 211);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(73, 20);
             this.label4.TabIndex = 3;
@@ -167,7 +184,8 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(35, 116);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(30, 99);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(131, 20);
             this.label2.TabIndex = 1;
@@ -176,17 +194,64 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(35, 53);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(126, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Mã nguyên liệu:";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.tableHeSo);
+            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox3.Location = new System.Drawing.Point(12, 298);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(461, 256);
+            this.groupBox3.TabIndex = 6;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Danh sách hệ số";
+            // 
+            // tableHeSo
+            // 
+            this.tableHeSo.AllowUserToAddRows = false;
+            this.tableHeSo.AllowUserToDeleteRows = false;
+            this.tableHeSo.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tableHeSo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            this.tableHeSo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.tableHeSo.DefaultCellStyle = dataGridViewCellStyle12;
+            this.tableHeSo.Enabled = false;
+            this.tableHeSo.GridColor = System.Drawing.Color.DarkGray;
+            this.tableHeSo.Location = new System.Drawing.Point(6, 26);
+            this.tableHeSo.MultiSelect = false;
+            this.tableHeSo.Name = "tableHeSo";
+            this.tableHeSo.ReadOnly = true;
+            this.tableHeSo.RowHeadersWidth = 51;
+            this.tableHeSo.RowTemplate.Height = 24;
+            this.tableHeSo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.tableHeSo.Size = new System.Drawing.Size(449, 224);
+            this.tableHeSo.TabIndex = 1;
+            // 
             // detailNguyenLieu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1047, 615);
+            this.ClientSize = new System.Drawing.Size(1176, 615);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnThoat);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -197,6 +262,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.tableNguyenLieu)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tableHeSo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -215,5 +282,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.DataGridView tableHeSo;
     }
 }
