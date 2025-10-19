@@ -97,10 +97,10 @@ namespace quanlycafe.GUI_CRUD
                 bool kq = bus.suaCongThuc(moi);
 
                 if (kq)
-                    MessageBox.Show("✅ Cập nhật công thức thành công!",
+                    MessageBox.Show("Cập nhật công thức thành công!",
                         "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
-                    MessageBox.Show("❌ Cập nhật thất bại!",
+                    MessageBox.Show("Cập nhật thất bại!",
                         "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 this.Close();

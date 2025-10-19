@@ -10,7 +10,7 @@ namespace quanlycafe.BUS
 {
     internal class donViBUS
     {
-        List<donViDTO> ds = new List<donViDTO>();
+        public static List<donViDTO> ds = new List<donViDTO>();
         public void docDanhSachDonVi()
         {
             donViDAO data = new donViDAO();

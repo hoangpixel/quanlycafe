@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 17, 2025 at 10:01 AM
+-- Generation Time: Oct 19, 2025 at 11:08 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -67,14 +67,15 @@ CREATE TABLE `congthuc` (
 --
 
 INSERT INTO `congthuc` (`MASANPHAM`, `MANGUYENLIEU`, `SOLUONGCOSO`, `MADONVICOSO`, `TRANGTHAI`) VALUES
-(1, 1, 25.00, 5, 1),
-(1, 2, 5.00, 5, 1),
-(2, 1, 25.00, 5, 1),
-(2, 3, 40.00, 5, 1),
-(3, 1, 20.00, 5, 1),
-(3, 2, 5.00, 5, 1),
-(3, 3, 25.00, 5, 1),
-(3, 4, 120.00, 5, 1);
+(1, 1, 25.00, 1, 1),
+(1, 2, 5.00, 1, 1),
+(2, 1, 25.00, 1, 1),
+(2, 3, 40.00, 1, 1),
+(3, 1, 20.00, 1, 1),
+(3, 2, 5.00, 1, 1),
+(3, 3, 25.00, 1, 1),
+(3, 4, 120.00, 3, 1),
+(4, 5, 1.00, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -141,11 +142,15 @@ CREATE TABLE `donvi` (
 --
 
 INSERT INTO `donvi` (`MADONVI`, `TENDONVI`, `TRANGTHAI`) VALUES
-(1, 'ml', 1),
-(2, 'chai', 1),
-(3, 'thùng', 1),
-(4, 'kg', 1),
-(5, 'g', 1);
+(1, 'g', 1),
+(2, 'kg', 1),
+(3, 'ml', 1),
+(4, 'lít', 1),
+(5, 'lon', 1),
+(6, 'chai', 1),
+(7, 'lốc', 1),
+(8, 'thùng', 1),
+(9, 'hộp', 1);
 
 -- --------------------------------------------------------
 
@@ -165,9 +170,11 @@ CREATE TABLE `hesodonvi` (
 
 INSERT INTO `hesodonvi` (`MANGUYENLIEU`, `MADONVI`, `HESO`) VALUES
 (1, 2, 1.00),
-(1, 3, 24.00),
-(2, 1, 1.00),
-(2, 2, 700.00);
+(2, 2, 1.00),
+(3, 9, 1.00),
+(4, 9, 1.00),
+(5, 7, 6.00),
+(5, 8, 24.00);
 
 -- --------------------------------------------------------
 
@@ -242,7 +249,8 @@ CREATE TABLE `loai` (
 --
 
 INSERT INTO `loai` (`MALOAI`, `TENLOAI`, `TRANGTHAI`) VALUES
-(1, 'Cà phê', 1);
+(1, 'Cà phê', 1),
+(2, 'Nước ngọt', 1);
 
 -- --------------------------------------------------------
 
@@ -263,10 +271,11 @@ CREATE TABLE `nguyenlieu` (
 --
 
 INSERT INTO `nguyenlieu` (`MANGUYENLIEU`, `TENNGUYENLIEU`, `TRANGTHAI`, `TONKHO`, `MADONVICOSO`) VALUES
-(1, 'Bột cà phê', 1, 0.000, 5),
-(2, 'Đường trắng', 1, 0.000, 5),
-(3, 'Sữa đặc', 1, 0.000, 5),
-(4, 'Sữa tươi không đường', 1, 0.000, 5);
+(1, 'Bột cà phê', 1, 0.000, 2),
+(2, 'Đường trắng', 1, 0.000, 2),
+(3, 'Sữa đặc', 1, 0.000, 2),
+(4, 'Sữa tươi không đường', 1, 0.000, 4),
+(5, 'Coca cola', 1, 0.000, 5);
 
 -- --------------------------------------------------------
 
@@ -334,7 +343,8 @@ CREATE TABLE `sanpham` (
 INSERT INTO `sanpham` (`MASANPHAM`, `MALOAI`, `HINH`, `TENSANPHAM`, `TRANGTHAI`, `TRANGTHAICT`, `GIA`) VALUES
 (1, 1, 'SP/cafe-den-da-8801.png', 'Cà phê đen', 1, 1, 17000.00),
 (2, 1, 'SP/pngtree-ice-milk-coffee-png-image_9162395.png', 'Cà phê sữa', 1, 1, 25000.00),
-(3, 1, 'SP/pngtree-cute-iced-coffee-takeaway-png-image_11477425.png', 'Cà phê sữa tươi', 1, 1, 25000.00);
+(3, 1, 'SP/pngtree-cute-iced-coffee-takeaway-png-image_11477425.png', 'Cà phê sữa tươi', 1, 1, 25000.00),
+(4, 2, 'SP/s-1-lon-cocacola.png', 'Coca cola lon', 1, 1, 15000.00);
 
 -- --------------------------------------------------------
 
@@ -575,7 +585,7 @@ ALTER TABLE `ctphieunhap`
 -- AUTO_INCREMENT for table `donvi`
 --
 ALTER TABLE `donvi`
-  MODIFY `MADONVI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `MADONVI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `hoadon`
@@ -599,13 +609,13 @@ ALTER TABLE `khuvuc`
 -- AUTO_INCREMENT for table `loai`
 --
 ALTER TABLE `loai`
-  MODIFY `MALOAI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `MALOAI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `nguyenlieu`
 --
 ALTER TABLE `nguyenlieu`
-  MODIFY `MANGUYENLIEU` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `MANGUYENLIEU` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `nhacungcap`
@@ -629,7 +639,7 @@ ALTER TABLE `phieunhap`
 -- AUTO_INCREMENT for table `sanpham`
 --
 ALTER TABLE `sanpham`
-  MODIFY `MASANPHAM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `MASANPHAM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `taikhoan`

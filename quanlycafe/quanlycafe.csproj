@@ -129,17 +129,20 @@
   <ItemGroup>
     <Compile Include="BUS\congThucBUS.cs" />
     <Compile Include="BUS\donViBUS.cs" />
+    <Compile Include="BUS\heSoBUS.cs" />
     <Compile Include="BUS\loaiSanPhamBUS.cs" />
     <Compile Include="BUS\nguyenLieuBUS.cs" />
     <Compile Include="BUS\sanPhamBUS.cs" />
     <Compile Include="CONFIG\DBConnection.cs" />
     <Compile Include="DAO\congThucDAO.cs" />
     <Compile Include="DAO\donViDAO.cs" />
+    <Compile Include="DAO\heSoDAO.cs" />
     <Compile Include="DAO\loaiSanPhamDAO.cs" />
     <Compile Include="DAO\nguyenLieuDAO.cs" />
     <Compile Include="DAO\sanPhamDAO.cs" />
     <Compile Include="DTO\congThucDTO.cs" />
     <Compile Include="DTO\donViDTO.cs" />
+    <Compile Include="DTO\heSoDTO.cs" />
     <Compile Include="DTO\loaiDTO.cs" />
     <Compile Include="DTO\nguyenLieuDTO.cs" />
     <Compile Include="DTO\sanPhamDTO.cs" />
@@ -157,6 +160,12 @@
     </Compile>
     <Compile Include="GUI_CRUD\detailNguyenLieu.Designer.cs">
       <DependentUpon>detailNguyenLieu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\donVivaHeSoGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\donVivaHeSoGUI.Designer.cs">
+      <DependentUpon>donVivaHeSoGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_CRUD\loaiSPGUI.cs">
       <SubType>Form</SubType>
@@ -285,6 +294,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\detailNguyenLieu.resx">
       <DependentUpon>detailNguyenLieu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\donVivaHeSoGUI.resx">
+      <DependentUpon>donVivaHeSoGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\loaiSPGUI.resx">
       <DependentUpon>loaiSPGUI.cs</DependentUpon>

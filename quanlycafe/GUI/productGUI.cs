@@ -806,6 +806,15 @@ namespace quanlycafe.GUI
         {
 
         }
+
+        private void btnDonVi_Click(object sender, EventArgs e)
+        {
+            using(donVivaHeSoGUI form = new donVivaHeSoGUI())
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.ShowDialog(this);
+            }
+        }
         // Thực hiện chức năng tìm kiếm cho page Sản Phẩm
 
     }
