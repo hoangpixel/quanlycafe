@@ -90,14 +90,69 @@ namespace quanlycafe.GUI_CRUD
                 return;
             }
 
-            string fileName = Path.GetFileName(imagePath);
+            //string fileName = Path.GetFileName(imagePath);
+
+            //// ✅ Đường dẫn gốc project (chứa quanlycafe.csproj)
+            //string projectDir = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\quanlycafe"));
+
+            //// ✅ Thư mục Resources\IMG\SP trong project
+            //string targetFolder = Path.Combine(projectDir, "Resources", "IMG", "SP");
+            //string targetPath = Path.Combine(targetFolder, fileName);
+
+            //try
+            //{
+            //    // Nếu thư mục chưa có thì tạo
+            //    if (!Directory.Exists(targetFolder))
+            //        Directory.CreateDirectory(targetFolder);
+
+            //    // Nếu file ảnh chưa tồn tại thì mới copy
+            //    if (!File.Exists(targetPath))
+            //    {
+            //        File.Copy(imagePath, targetPath);
+            //    }
+
+            //    // ✅ Copy thêm 1 bản xuống bin/Debug/IMG/SP để hiển thị ngay
+            //    string binFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "IMG", "SP");
+            //    string binPath = Path.Combine(binFolder, fileName);
+
+            //    if (!Directory.Exists(binFolder))
+            //        Directory.CreateDirectory(binFolder);
+
+            //    if (!File.Exists(binPath))
+            //    {
+            //        File.Copy(imagePath, binPath);
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Lỗi khi lưu ảnh: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
+
+
+            //// ✅ Lưu đường dẫn tương đối — chỉ còn "SP/tên_ảnh" cho gọn (vì khi chạy form sẽ load từ bin)
+            //sanPhamDTO sp = new sanPhamDTO
+            //{
+            //    MaLoai = Convert.ToInt32(cbLoai.SelectedValue),
+            //    TenSP = txtTenSP.Text.Trim(),
+            //    Gia = float.Parse(txtGia.Text),
+            //    Hinh = "SP/" + fileName
+            //};
+
+            //sanPhamBUS bus = new sanPhamBUS();
+            //bus.them(sp);
+
+            //MessageBox.Show("Thêm sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //this.Close();
+
+            // ✅ Tạo tên file ngẫu nhiên
+            string extension = Path.GetExtension(imagePath);
+            string randomName = "sp_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Guid.NewGuid().ToString("N").Substring(0, 6) + extension;
 
             // ✅ Đường dẫn gốc project (chứa quanlycafe.csproj)
             string projectDir = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\quanlycafe"));
-
-            // ✅ Thư mục Resources\IMG\SP trong project
             string targetFolder = Path.Combine(projectDir, "Resources", "IMG", "SP");
-            string targetPath = Path.Combine(targetFolder, fileName);
+            string targetPath = Path.Combine(targetFolder, randomName);
 
             try
             {
@@ -105,23 +160,17 @@ namespace quanlycafe.GUI_CRUD
                 if (!Directory.Exists(targetFolder))
                     Directory.CreateDirectory(targetFolder);
 
-                // Nếu file ảnh chưa tồn tại thì mới copy
-                if (!File.Exists(targetPath))
-                {
-                    File.Copy(imagePath, targetPath);
-                }
+                // Copy file ảnh vào thư mục đích (với tên mới)
+                File.Copy(imagePath, targetPath, true);
 
                 // ✅ Copy thêm 1 bản xuống bin/Debug/IMG/SP để hiển thị ngay
                 string binFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "IMG", "SP");
-                string binPath = Path.Combine(binFolder, fileName);
+                string binPath = Path.Combine(binFolder, randomName);
 
                 if (!Directory.Exists(binFolder))
                     Directory.CreateDirectory(binFolder);
 
-                if (!File.Exists(binPath))
-                {
-                    File.Copy(imagePath, binPath);
-                }
+                File.Copy(imagePath, binPath, true);
             }
             catch (Exception ex)
             {
@@ -129,14 +178,13 @@ namespace quanlycafe.GUI_CRUD
                 return;
             }
 
-
-            // ✅ Lưu đường dẫn tương đối — chỉ còn "SP/tên_ảnh" cho gọn (vì khi chạy form sẽ load từ bin)
+            // ✅ Lưu vào database chỉ TÊN FILE (vd: "sp_20251019_xxx.png")
             sanPhamDTO sp = new sanPhamDTO
             {
                 MaLoai = Convert.ToInt32(cbLoai.SelectedValue),
                 TenSP = txtTenSP.Text.Trim(),
                 Gia = float.Parse(txtGia.Text),
-                Hinh = "SP/" + fileName
+                Hinh = randomName
             };
 
             sanPhamBUS bus = new sanPhamBUS();
@@ -144,6 +192,7 @@ namespace quanlycafe.GUI_CRUD
 
             MessageBox.Show("Thêm sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();
+
         }
 
         private void btnThoat_Click_1(object sender, EventArgs e)

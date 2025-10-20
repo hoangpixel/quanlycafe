@@ -32,10 +32,10 @@ namespace quanlycafe.GUI_CRUD
         {
             txtTenSP.Text = ct.TenSP;
             txtMaSP.Text = ct.MaSP.ToString();
-            txtGia.Text = ct.Gia.ToString();
+            txtGia.Text = ct.Gia.ToString("N0");
             txtLoaiSP.Text = ct.TenLoai;
 
-            string imgPath = Path.Combine(Application.StartupPath, "IMG", ct.Hinh);
+            string imgPath = Path.Combine(Application.StartupPath, "IMG","SP", ct.Hinh);
 
 
             if (File.Exists(imgPath))

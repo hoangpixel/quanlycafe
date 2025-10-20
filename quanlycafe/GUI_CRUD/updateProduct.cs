@@ -35,7 +35,7 @@ namespace quanlycafe.GUI
             cbLoai.ValueMember = "MaLoai";
             cbLoai.SelectedValue = sp.MaLoai;
 
-            string imgPath = Path.Combine(Application.StartupPath, "IMG", sp.Hinh);
+            string imgPath = Path.Combine(Application.StartupPath, "IMG", "SP" ,sp.Hinh);
             if (File.Exists(imgPath))
             {
                 using (var fs = new FileStream(imgPath, FileMode.Open, FileAccess.Read))
@@ -100,48 +100,51 @@ namespace quanlycafe.GUI
 
             try
             {
+                // ✅ Nếu người dùng chọn ảnh mới
                 if (!string.IsNullOrEmpty(imagePath))
                 {
-                    string fileName = Path.GetFileName(imagePath);
+                    // 🔹 Tạo tên file mới ngẫu nhiên
+                    string extension = Path.GetExtension(imagePath);
+                    string randomName = "sp_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" +
+                                        Guid.NewGuid().ToString("N").Substring(0, 6) + extension;
 
-                    // ✅ Đường dẫn gốc project (chứa .csproj)
+                    // 🔹 Đường dẫn project
                     string projectDir = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\quanlycafe"));
-
-                    // ✅ Thư mục Resources/IMG/SP
                     string targetFolderProject = Path.Combine(projectDir, "Resources", "IMG", "SP");
-                    string targetPathProject = Path.Combine(targetFolderProject, fileName);
+                    string targetPathProject = Path.Combine(targetFolderProject, randomName);
 
+                    // 🔹 Copy vào Resources
                     if (!Directory.Exists(targetFolderProject))
                         Directory.CreateDirectory(targetFolderProject);
 
-                    // ✅ Chỉ copy nếu ảnh chưa tồn tại
-                    if (!File.Exists(targetPathProject))
-                    {
-                        File.Copy(imagePath, targetPathProject);
-                    }
+                    File.Copy(imagePath, targetPathProject, true);
 
-                    // ✅ Copy thêm 1 bản xuống bin/Debug/IMG/SP
+                    // 🔹 Copy thêm vào bin/Debug
                     string targetFolderBin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "IMG", "SP");
-                    string targetPathBin = Path.Combine(targetFolderBin, fileName);
+                    string targetPathBin = Path.Combine(targetFolderBin, randomName);
 
                     if (!Directory.Exists(targetFolderBin))
                         Directory.CreateDirectory(targetFolderBin);
 
-                    if (!File.Exists(targetPathBin))
-                    {
-                        File.Copy(imagePath, targetPathBin);
-                    }
+                    File.Copy(imagePath, targetPathBin, true);
 
-                    // ✅ Cập nhật đường dẫn ảnh tương đối
-                    sp.Hinh = "SP/" + fileName;
+                    // 🔹 Cập nhật tên ảnh mới
+                    sp.Hinh = randomName;
                 }
 
                 // ✅ Cập nhật thông tin sản phẩm
                 sp.TenSP = txtTenSP.Text.Trim();
-                sp.Gia = float.Parse(txtGia.Text);
+
+                if (!float.TryParse(txtGia.Text, out float gia))
+                {
+                    MessageBox.Show("Giá sản phẩm không hợp lệ!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                sp.Gia = gia;
                 sp.MaLoai = Convert.ToInt32(cbLoai.SelectedValue);
 
-                // ✅ Gọi BUS để cập nhật
+                // ✅ Cập nhật CSDL
                 sanPhamBUS bus = new sanPhamBUS();
                 bus.Sua(sp);
 

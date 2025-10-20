@@ -754,6 +754,9 @@ namespace quanlycafe.GUI
             }
         }
 
+
+        // Thực hiện chức năng tìm kiếm cho page Sản Phẩm
+        // về cơ bản thì check vô radio nào thì thực hiện chức năng của cái đó thôi
         private void btnThucHienTimKiem_Click(object sender, EventArgs e)
         {
             if(rdoTimCoBan.Checked)
@@ -815,10 +818,9 @@ namespace quanlycafe.GUI
                 form.ShowDialog(this);
             }
             nguyenLieuBUS bus = new nguyenLieuBUS();
-            bus.docDSNguyenLieu();
+            bus.napDSNguyenLieu();
             loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
         }
-        // Thực hiện chức năng tìm kiếm cho page Sản Phẩm
 
     }
 }

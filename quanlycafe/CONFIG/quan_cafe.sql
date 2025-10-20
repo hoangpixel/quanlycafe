@@ -342,10 +342,10 @@ CREATE TABLE `sanpham` (
 --
 
 INSERT INTO `sanpham` (`MASANPHAM`, `MALOAI`, `HINH`, `TENSANPHAM`, `TRANGTHAI`, `TRANGTHAICT`, `GIA`) VALUES
-(1, 1, 'SP/cafe-den-da-8801.png', 'Cà phê đen', 1, 1, 17000.00),
-(2, 1, 'SP/pngtree-ice-milk-coffee-png-image_9162395.png', 'Cà phê sữa', 1, 1, 25000.00),
-(3, 1, 'SP/pngtree-cute-iced-coffee-takeaway-png-image_11477425.png', 'Cà phê sữa tươi', 1, 1, 25000.00),
-(4, 2, 'SP/s-1-lon-cocacola.png', 'Coca cola lon', 1, 1, 15000.00);
+(1, 1, 'cafe-den-da-8801.png', 'Cà phê đen', 1, 1, 17000.00),
+(2, 1, 'pngtree-ice-milk-coffee-png-image_9162395.png', 'Cà phê sữa', 1, 1, 25000.00),
+(3, 1, 'pngtree-cute-iced-coffee-takeaway-png-image_11477425.png', 'Cà phê sữa tươi', 1, 1, 25000.00),
+(4, 2, 's-1-lon-cocacola.png', 'Coca cola lon', 1, 1, 15000.00);
 
 -- --------------------------------------------------------
 
