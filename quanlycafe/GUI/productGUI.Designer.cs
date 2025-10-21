@@ -99,17 +99,17 @@
             this.btnThemNL = new System.Windows.Forms.Button();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.txtMaxNL = new System.Windows.Forms.TextBox();
+            this.txtMinNL = new System.Windows.Forms.TextBox();
+            this.rdNcNL = new System.Windows.Forms.RadioButton();
+            this.txtTenNLTK = new System.Windows.Forms.TextBox();
+            this.cbTrangThaiNL = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.rdCoBanNL = new System.Windows.Forms.RadioButton();
+            this.btnTimKiemNL = new System.Windows.Forms.Button();
+            this.txtTimKiemNL = new System.Windows.Forms.TextBox();
+            this.cboTimKiemNL = new System.Windows.Forms.ComboBox();
+            this.txtTenDonViTK = new System.Windows.Forms.TextBox();
             this.tabCongThuc.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tableCongThuc)).BeginInit();
             this.metroPanel3.SuspendLayout();
@@ -156,9 +156,9 @@
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.tableCongThuc.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.tableCongThuc.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -502,8 +502,8 @@
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.tbSanPham.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.tbSanPham.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -890,9 +890,9 @@
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.tableNguyenLieu.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.tableNguyenLieu.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -1098,12 +1098,12 @@
             // 
             // groupBox8
             // 
-            this.groupBox8.Controls.Add(this.radioButton2);
-            this.groupBox8.Controls.Add(this.textBox3);
-            this.groupBox8.Controls.Add(this.textBox4);
-            this.groupBox8.Controls.Add(this.textBox5);
-            this.groupBox8.Controls.Add(this.comboBox3);
-            this.groupBox8.Controls.Add(this.comboBox4);
+            this.groupBox8.Controls.Add(this.txtTenDonViTK);
+            this.groupBox8.Controls.Add(this.txtMaxNL);
+            this.groupBox8.Controls.Add(this.txtMinNL);
+            this.groupBox8.Controls.Add(this.rdNcNL);
+            this.groupBox8.Controls.Add(this.txtTenNLTK);
+            this.groupBox8.Controls.Add(this.cbTrangThaiNL);
             this.groupBox8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox8.Location = new System.Drawing.Point(3, 83);
@@ -1113,73 +1113,55 @@
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Tìm kiếm nâng cao";
             // 
-            // radioButton2
+            // txtMaxNL
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(712, 37);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(17, 16);
-            this.radioButton2.TabIndex = 6;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.txtMaxNL.Location = new System.Drawing.Point(550, 28);
+            this.txtMaxNL.Name = "txtMaxNL";
+            this.txtMaxNL.Size = new System.Drawing.Size(128, 27);
+            this.txtMaxNL.TabIndex = 8;
             // 
-            // textBox3
+            // txtMinNL
             // 
-            this.textBox3.Location = new System.Drawing.Point(579, 31);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(123, 27);
-            this.textBox3.TabIndex = 5;
+            this.txtMinNL.Location = new System.Drawing.Point(416, 28);
+            this.txtMinNL.Name = "txtMinNL";
+            this.txtMinNL.Size = new System.Drawing.Size(128, 27);
+            this.txtMinNL.TabIndex = 7;
             // 
-            // textBox4
+            // rdNcNL
             // 
-            this.textBox4.Location = new System.Drawing.Point(434, 31);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(123, 27);
-            this.textBox4.TabIndex = 4;
+            this.rdNcNL.AutoSize = true;
+            this.rdNcNL.Location = new System.Drawing.Point(701, 33);
+            this.rdNcNL.Name = "rdNcNL";
+            this.rdNcNL.Size = new System.Drawing.Size(17, 16);
+            this.rdNcNL.TabIndex = 6;
+            this.rdNcNL.TabStop = true;
+            this.rdNcNL.UseVisualStyleBackColor = true;
+            this.rdNcNL.CheckedChanged += new System.EventHandler(this.rdNcNL_CheckedChanged);
             // 
-            // textBox5
+            // txtTenNLTK
             // 
-            this.textBox5.Location = new System.Drawing.Point(287, 30);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(123, 27);
-            this.textBox5.TabIndex = 3;
+            this.txtTenNLTK.Location = new System.Drawing.Point(144, 29);
+            this.txtTenNLTK.Name = "txtTenNLTK";
+            this.txtTenNLTK.Size = new System.Drawing.Size(128, 27);
+            this.txtTenNLTK.TabIndex = 3;
             // 
-            // comboBox3
+            // cbTrangThaiNL
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
-            "Theo mã",
-            "Theo mã loại",
-            "Theo tên sản phẩm",
-            "Theo tên loại",
-            "Theo giá trở xuống",
-            "Theo giá trở lên"});
-            this.comboBox3.Location = new System.Drawing.Point(143, 30);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(123, 28);
-            this.comboBox3.TabIndex = 2;
-            // 
-            // comboBox4
-            // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Items.AddRange(new object[] {
-            "Theo mã",
-            "Theo mã loại",
-            "Theo tên sản phẩm",
-            "Theo tên loại",
-            "Theo giá trở xuống",
-            "Theo giá trở lên"});
-            this.comboBox4.Location = new System.Drawing.Point(6, 30);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(119, 28);
-            this.comboBox4.TabIndex = 1;
+            this.cbTrangThaiNL.FormattingEnabled = true;
+            this.cbTrangThaiNL.Items.AddRange(new object[] {
+            "Chưa có hệ số",
+            "Đã có hệ số"});
+            this.cbTrangThaiNL.Location = new System.Drawing.Point(6, 30);
+            this.cbTrangThaiNL.Name = "cbTrangThaiNL";
+            this.cbTrangThaiNL.Size = new System.Drawing.Size(128, 28);
+            this.cbTrangThaiNL.TabIndex = 1;
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.radioButton1);
-            this.groupBox4.Controls.Add(this.button1);
-            this.groupBox4.Controls.Add(this.textBox1);
-            this.groupBox4.Controls.Add(this.comboBox1);
+            this.groupBox4.Controls.Add(this.rdCoBanNL);
+            this.groupBox4.Controls.Add(this.btnTimKiemNL);
+            this.groupBox4.Controls.Add(this.txtTimKiemNL);
+            this.groupBox4.Controls.Add(this.cboTimKiemNL);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox4.Location = new System.Drawing.Point(3, 3);
@@ -1189,47 +1171,56 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Tìm kiếm cơ bản";
             // 
-            // radioButton1
+            // rdCoBanNL
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(503, 34);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(17, 16);
-            this.radioButton1.TabIndex = 3;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.rdCoBanNL.AutoSize = true;
+            this.rdCoBanNL.Location = new System.Drawing.Point(503, 34);
+            this.rdCoBanNL.Name = "rdCoBanNL";
+            this.rdCoBanNL.Size = new System.Drawing.Size(17, 16);
+            this.rdCoBanNL.TabIndex = 3;
+            this.rdCoBanNL.TabStop = true;
+            this.rdCoBanNL.UseVisualStyleBackColor = true;
+            this.rdCoBanNL.CheckedChanged += new System.EventHandler(this.rdCoBanNL_CheckedChanged);
             // 
-            // button1
+            // btnTimKiemNL
             // 
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(608, 17);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(121, 47);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Tìm kiếm";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnTimKiemNL.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTimKiemNL.ForeColor = System.Drawing.Color.Black;
+            this.btnTimKiemNL.Location = new System.Drawing.Point(608, 17);
+            this.btnTimKiemNL.Name = "btnTimKiemNL";
+            this.btnTimKiemNL.Size = new System.Drawing.Size(121, 47);
+            this.btnTimKiemNL.TabIndex = 2;
+            this.btnTimKiemNL.Text = "Tìm kiếm";
+            this.btnTimKiemNL.UseVisualStyleBackColor = true;
+            this.btnTimKiemNL.Click += new System.EventHandler(this.btnTimKiemNL_Click);
             // 
-            // textBox1
+            // txtTimKiemNL
             // 
-            this.textBox1.Location = new System.Drawing.Point(257, 28);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(229, 27);
-            this.textBox1.TabIndex = 1;
+            this.txtTimKiemNL.Location = new System.Drawing.Point(257, 28);
+            this.txtTimKiemNL.Name = "txtTimKiemNL";
+            this.txtTimKiemNL.Size = new System.Drawing.Size(229, 27);
+            this.txtTimKiemNL.TabIndex = 1;
             // 
-            // comboBox1
+            // cboTimKiemNL
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Theo mã",
-            "Theo mã loại",
-            "Theo tên sản phẩm",
-            "Theo giá trở xuống",
-            "Theo giá trở lên"});
-            this.comboBox1.Location = new System.Drawing.Point(6, 27);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(224, 28);
-            this.comboBox1.TabIndex = 0;
+            this.cboTimKiemNL.FormattingEnabled = true;
+            this.cboTimKiemNL.Items.AddRange(new object[] {
+            "Mã nguyên liệu",
+            "Tên nguyên liệu",
+            "Đơn vị",
+            "Tồn kho min",
+            "Tồn kho max"});
+            this.cboTimKiemNL.Location = new System.Drawing.Point(6, 27);
+            this.cboTimKiemNL.Name = "cboTimKiemNL";
+            this.cboTimKiemNL.Size = new System.Drawing.Size(224, 28);
+            this.cboTimKiemNL.TabIndex = 0;
+            // 
+            // txtTenDonViTK
+            // 
+            this.txtTenDonViTK.Location = new System.Drawing.Point(282, 28);
+            this.txtTenDonViTK.Name = "txtTenDonViTK";
+            this.txtTenDonViTK.Size = new System.Drawing.Size(128, 27);
+            this.txtTenDonViTK.TabIndex = 9;
             // 
             // productGUI
             // 
@@ -1326,18 +1317,15 @@
         private System.Windows.Forms.Button btnDonVi;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.RadioButton rdCoBanNL;
+        private System.Windows.Forms.Button btnTimKiemNL;
+        private System.Windows.Forms.TextBox txtTimKiemNL;
+        private System.Windows.Forms.ComboBox cboTimKiemNL;
         private System.Windows.Forms.Button btnExcelNL;
         private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.RadioButton rdNcNL;
+        private System.Windows.Forms.TextBox txtTenNLTK;
+        private System.Windows.Forms.ComboBox cbTrangThaiNL;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.RadioButton radioButton4;
@@ -1351,5 +1339,8 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.TextBox txtMinNL;
+        private System.Windows.Forms.TextBox txtMaxNL;
+        private System.Windows.Forms.TextBox txtTenDonViTK;
     }
 }

@@ -83,7 +83,6 @@ namespace quanlycafe.BUS
         }
 
 
-        // 🟢 Tìm theo mã
         public nguyenLieuDTO TimTheoMa(int ma)
         {
             nguyenLieuDAO data = new nguyenLieuDAO();
@@ -182,6 +181,67 @@ namespace quanlycafe.BUS
             );
         }
 
+        public List<nguyenLieuDTO> timKiemCoBanNL(string tim,int index)
+        {
+            List<nguyenLieuDTO> kq = new List<nguyenLieuDTO>();
+            if(ds == null)
+            {
+                docDSNguyenLieu();
+            }
+            foreach (nguyenLieuDTO ct in ds)
+            {
+                switch(index)
+                {
+                    case 0:
+                        {
+                            if(ct.MaNguyenLieu.ToString().Contains(tim))
+                            {
+                                kq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 1:
+                        {
+                            if(ct.TenNguyenLieu.IndexOf(tim,StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                kq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 2:
+                        {
 
+                            donViBUS bus = new donViBUS();
+                            List<donViDTO> dsdv = donViBUS.layDanhSachTK();
+                            var donVi = dsdv.FirstOrDefault(x => x.MaDonVi == ct.MaDonViCoSo);
+                            string tenDV = donVi != null ? donVi.TenDonVi : "";
+                            if (tenDV.IndexOf(tim,StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                kq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 3:
+                        {
+                            float tonKhoMin = float.Parse(tim.ToString());
+                            if(ct.TonKho >= tonKhoMin)
+                            {
+                                kq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 4:
+                        {
+                            float tonKhoMax = float.Parse(tim.ToString());
+                            if(ct.TonKho <= tonKhoMax)
+                            {
+                                kq.Add(ct);
+                            }
+                            break;
+                        }
+                }
+            }
+            return kq;
+        }
     }
 }

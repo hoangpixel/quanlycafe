@@ -29,13 +29,31 @@ namespace quanlycafe.GUI
             InitializeComponent();
 
             // placeholder cho sản phẩm á
+            hienThiPlaceHolderSanPham();
+            //palceholder cho nguyên liệu
+            hienThiPlaceHolderNguyenLieu();
+        }
+
+        private void hienThiPlaceHolderSanPham()
+        {
             SetPlaceholder(txtTenSPTK, "Nhập tên sản phẩm");
             SetPlaceholder(txtGiaMin, "Giá tối thiểu");
             SetPlaceholder(txtGiaMax, "Giá tối đa");
             SetPlaceholder(txtTimKiemSP, "Nhập giá trị cần tìm");
+            SetPlaceholder(txtTenDonViTK, "Tên đơn vị");
             SetComboBoxPlaceholder(cboLoaiSP, "Chọn loại sản phẩm");
             SetComboBoxPlaceholder(cboTrangThai, "Chọn trạng thái CT");
             SetComboBoxPlaceholder(cboTimKiemSP, "Chọn giá trị TK");
+        }
+
+        private void hienThiPlaceHolderNguyenLieu()
+        {
+            SetPlaceholder(txtTimKiemNL, "Nhập giá trị cần tìm");
+            SetPlaceholder(txtTenNLTK, "Nhập tên NL");
+            SetPlaceholder(txtMinNL, "Tồn kho min");
+            SetPlaceholder(txtMaxNL, "Tồn kho max");
+            SetComboBoxPlaceholder(cboTimKiemNL, "Chọn giá trị TK");
+            SetComboBoxPlaceholder(cbTrangThaiNL, "Chọn trạng thái");
         }
 
         private void loadDanhSachSanPham(List<sanPhamDTO> ds)
@@ -112,6 +130,7 @@ namespace quanlycafe.GUI
             btnSuaNL.Enabled = false;
             btnXoaNL.Enabled = false;
             btnChiTietNL.Enabled = false;
+            rdCoBanNL.Checked = true;
             tableNguyenLieu.ReadOnly = true;
             tableNguyenLieu.ClearSelection();
         }
@@ -433,6 +452,14 @@ namespace quanlycafe.GUI
             nguyenLieuBUS bus = new nguyenLieuBUS();
             bus.napDSNguyenLieu();
             loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
+            cboTimKiemNL.SelectedIndex = -1;
+            cbTrangThaiNL.SelectedIndex = -1;
+            txtMinNL.Clear();
+            txtMaxNL.Clear();
+            txtTenNLTK.Clear();
+            txtTimKiemNL.Clear();
+            hienThiPlaceHolderNguyenLieu();
+
         }
 
         private void btnThemCT_Click(object sender, EventArgs e)
@@ -541,13 +568,7 @@ namespace quanlycafe.GUI
             cboLoaiSP.SelectedIndex = -1;
             cboTrangThai.SelectedIndex = -1;
 
-            SetPlaceholder(txtTenSPTK, "Nhập tên sản phẩm");
-            SetPlaceholder(txtGiaMin, "Giá tối thiểu");
-            SetPlaceholder(txtGiaMax, "Giá tối đa");
-            SetPlaceholder(txtTimKiemSP, "Nhập giá trị cần tìm");
-            SetComboBoxPlaceholder(cboLoaiSP, "Chọn loại sản phẩm");
-            SetComboBoxPlaceholder(cboTrangThai, "Chọn trạng thái CT");
-            SetComboBoxPlaceholder(cboTimKiemSP, "Chọn giá trị TK");
+            hienThiPlaceHolderSanPham();
         }
 
         private void btnChiTiet_Click(object sender, EventArgs e)
@@ -822,5 +843,90 @@ namespace quanlycafe.GUI
             loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
         }
 
+        private void rdCoBanNL_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rdCoBanNL.Checked)
+            {
+                rdNcNL.Checked = false;
+                txtMinNL.Enabled = false;
+                txtMaxNL.Enabled = false;
+                cbTrangThaiNL.Enabled = false;
+                txtTenDonViTK.Enabled = false;
+                txtTenNLTK.Enabled = false;
+            }else
+            {
+                txtMinNL.Enabled = true;
+                txtMaxNL.Enabled = true;
+                cbTrangThaiNL.Enabled = true;
+                txtTenDonViTK.Enabled = true;
+                txtTenNLTK.Enabled = true;
+            }
+        }
+
+        private void rdNcNL_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rdNcNL.Checked)
+            {
+                rdCoBanNL.Checked = false;
+                cboTimKiemNL.Enabled = false;
+                txtTimKiemNL.Enabled = false;
+            }else
+            {
+                cboTimKiemNL.Enabled = true;
+                txtTimKiemNL.Enabled = true;
+            }
+        }
+
+        private void btnTimKiemNL_Click(object sender, EventArgs e)
+        {
+            if(rdCoBanNL.Checked)
+            {
+                timKiemCoBanNL();
+            }else
+            {
+                timKiemNangCaoNL();
+            }
+        }
+
+        private void timKiemCoBanNL()
+        {
+            string tim = txtTimKiemNL.Text.Trim();
+            int index = cboTimKiemNL.SelectedIndex;
+
+            if(index == -1 || string.IsNullOrWhiteSpace(tim))
+            {
+                MessageBox.Show("Vui lòng nhập thông tin tìm kiếm!", "Thông báo",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            nguyenLieuBUS bus = new nguyenLieuBUS();
+            List<nguyenLieuDTO> ds = bus.timKiemCoBanNL(tim, index);
+            if(ds != null && ds.Count > 0)
+            {
+                tableNguyenLieu.Columns.Clear();
+                tableNguyenLieu.DataSource = null;
+                loadDanhSachNguyenLieu(ds);
+            }
+            else
+            {
+                MessageBox.Show("Không có kết quả tìm kiếm!", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                bus.docDSNguyenLieu();
+                loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
+
+                txtTimKiemNL.Clear();
+                cboTimKiemNL.SelectedIndex = -1;
+                SetPlaceholder(txtTimKiemNL, "Nhập giá trị cần tìm");
+                SetComboBoxPlaceholder(cboTimKiemNL, "Chọn giá trị TK");
+            }
+
+        }
+
+        private void timKiemNangCaoNL()
+        {
+
+        }
     }
 }

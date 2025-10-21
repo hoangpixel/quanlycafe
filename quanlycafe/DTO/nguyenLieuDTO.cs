@@ -49,13 +49,13 @@ namespace quanlycafe.DTO
 
         public int TrangThaiDV { get; set; }
 
-        public decimal TonKho { get; set; }
+        public float TonKho { get; set; }
 
         public string TenDonViCoSo { get; set; }
 
         public nguyenLieuDTO() { }
 
-        public nguyenLieuDTO(int ma, string ten, int maDonVi, int trangThai, decimal tonKho)
+        public nguyenLieuDTO(int ma, string ten, int maDonVi, int trangThai, float tonKho)
         {
             MaNguyenLieu = ma;
             TenNguyenLieu = ten;

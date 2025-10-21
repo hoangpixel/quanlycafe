@@ -21,6 +21,13 @@ namespace quanlycafe.BUS
             donViDAO data = new donViDAO();
             return data.docDangSachDonVi();
         }
+
+        public static List<donViDTO> layDanhSachTK()
+        {
+            donViDAO data = new donViDAO();
+            return data.docDangSachDonVi();
+        }
+
         public bool themDonVi(donViDTO ct)
         {
             donViDAO data = new donViDAO();

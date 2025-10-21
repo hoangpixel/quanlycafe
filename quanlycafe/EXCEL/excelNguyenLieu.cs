@@ -92,7 +92,7 @@ namespace quanlycafe.EXCEL
                             MaNguyenLieu = int.TryParse(ws.Cells[row, 1].Text, out int ma) ? ma : 0,
                             TenNguyenLieu = ws.Cells[row, 2].Text,
                             MaDonViCoSo = int.TryParse(ws.Cells[row, 3].Text, out int madv) ? madv : 0,
-                            TonKho = decimal.TryParse(ws.Cells[row, 4].Text, out decimal ton) ? ton : 0
+                            TonKho = float.TryParse(ws.Cells[row, 4].Text, out float ton) ? ton : 0
                         };
                         list.Add(nl);
                     }
