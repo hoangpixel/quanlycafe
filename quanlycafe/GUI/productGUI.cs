@@ -41,8 +41,8 @@ namespace quanlycafe.GUI
             SetPlaceholder(txtGiaMax, "Giá tối đa");
             SetPlaceholder(txtTimKiemSP, "Nhập giá trị cần tìm");
             SetPlaceholder(txtTenDonViTK, "Tên đơn vị");
-            SetComboBoxPlaceholder(cboLoaiSP, "Chọn loại sản phẩm");
-            SetComboBoxPlaceholder(cboTrangThai, "Chọn trạng thái CT");
+            SetComboBoxPlaceholder(cboLoaiSP, "Loại SP");
+            SetComboBoxPlaceholder(cboTrangThai, "Trạng Thái CT");
             SetComboBoxPlaceholder(cboTimKiemSP, "Chọn giá trị TK");
         }
 
@@ -83,7 +83,7 @@ namespace quanlycafe.GUI
 
             tbSanPham.DataSource = dt;
             tbSanPham.ReadOnly = true;
-            rdoTimCoBan.Checked = true;
+            //rdoTimCoBan.Checked = true;
 
             tbSanPham.ClearSelection();
             btnSuaSP.Enabled = false;
@@ -158,8 +158,8 @@ namespace quanlycafe.GUI
                     Mã_NL = x.MaNguyenLieu,
                     Tên_NL = x.TenNguyenLieu,
                     Số_lượng = x.SoLuongCoSo,
-                    Đơn_vị = x.TenDonViCoSo,        // 🆕 hiển thị tên đơn vị
-                    Mã_Đơn_vị = x.MaDonViCoSo       // 🆕 ẩn trong grid
+                    Đơn_vị = x.TenDonViCoSo,
+                    Mã_Đơn_vị = x.MaDonViCoSo   
                 })
                 .ToList();
 
@@ -211,6 +211,8 @@ namespace quanlycafe.GUI
             bus.docDSSanPham();
             loadDanhSachSanPham(sanPhamBUS.ds);
             tbSanPham.ClearSelection();
+            loadComboBoxLoaiSPTK();
+            rdoTimCoBan.Checked = true;
         }
 
 
@@ -361,6 +363,7 @@ namespace quanlycafe.GUI
                 form.StartPosition = FormStartPosition.CenterParent;
                 form.ShowDialog();
             }
+            loadComboBoxLoaiSPTK();
         }
 
         private void btnThemNL_Click(object sender, EventArgs e)
@@ -825,11 +828,106 @@ namespace quanlycafe.GUI
             }
         }
 
+        private void loadComboBoxLoaiSPTK()
+        {
+            loaiSanPhamBUS bus = new loaiSanPhamBUS();
+            List<loaiDTO> dsLoai = bus.layDanhSachLoai();
+
+            cboLoaiSP.DataSource = dsLoai;
+            cboLoaiSP.DisplayMember = "TenLoai";
+            cboLoaiSP.ValueMember = "MaLoai";
+            cboLoaiSP.SelectedIndex = -1;
+            SetComboBoxPlaceholder(cboLoaiSP, "Loại SP");
+
+            cboTrangThai.Items.Clear();
+            cboTrangThai.Items.Add("Tất cả");
+            cboTrangThai.Items.Add("Chưa có công thức");
+            cboTrangThai.Items.Add("Đã có công thức"); 
+            cboTrangThai.SelectedIndex = 0;
+            SetComboBoxPlaceholder(cboTrangThai, "Trạng thái CT");
+        }
 
         private void timKiemNangCao()
         {
+            int maLoai = (cboLoaiSP.SelectedValue == null) ? -1 : Convert.ToInt32(cboLoaiSP.SelectedValue);
+            int trangThaiCT = (cboTrangThai.SelectedIndex <= 0) ? -1 : cboTrangThai.SelectedIndex - 1;
 
+            string tenSP = string.IsNullOrWhiteSpace(txtTenSPTK.Text) ? null : txtTenSPTK.Text.Trim();
+            // Nếu đang là placeholder thì xem như rỗng
+            if (txtTenSPTK.Text == "Nhập tên sản phẩm") tenSP = null;
+            float giaMin = -1, giaMax = -1;
+            string txtMin = txtGiaMin.Text.Trim();
+            string txtMax = txtGiaMax.Text.Trim();
+
+            // Nếu đang là placeholder thì xem như rỗng
+            if (txtMin == "Giá tối thiểu") txtMin = "";
+            if (txtMax == "Giá tối đa") txtMax = "";
+
+            if (!string.IsNullOrEmpty(txtMin))
+            {
+                if (!float.TryParse(txtMin.Replace(".", "").Replace(",", "."), System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo.InvariantCulture, out giaMin))
+                {
+                    MessageBox.Show("Giá tối thiểu không hợp lệ. Vui lòng nhập số hợp lệ!",
+                        "Lỗi nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(txtMax))
+            {
+                if (!float.TryParse(txtMax.Replace(".", "").Replace(",", "."), System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo.InvariantCulture, out giaMax))
+                {
+                    MessageBox.Show("Giá tối đa không hợp lệ. Vui lòng nhập số hợp lệ!",
+                        "Lỗi nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
+            if (giaMin != -1 && giaMax != -1 && giaMin > giaMax)
+            {
+                MessageBox.Show("Giá tối thiểu phải ≤ giá tối đa.", "Lỗi nhập liệu",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (maLoai == -1 && trangThaiCT == -1 && tenSP == null && giaMin == -1 && giaMax == -1)
+            {
+                MessageBox.Show("Vui lòng nhập ít nhất một điều kiện để tìm kiếm!",
+                    "Thông báo rỗng", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            //// Debug
+            //string debugInfo =
+            //    $"[DEBUG - TÌM KIẾM NÂNG CAO]\n\n" +
+            //    $"Mã loại: {maLoai}\n" +
+            //    $"Trạng thái CT: {trangThaiCT}\n" +
+            //    $"Tên SP: {(tenSP ?? "(null)")}\n" +
+            //    $"Giá tối thiểu: {(giaMin == -1 ? "(không lọc)" : giaMin.ToString())}\n" +
+            //    $"Giá tối đa: {(giaMax == -1 ? "(không lọc)" : giaMax.ToString())}";
+
+            //MessageBox.Show(debugInfo, "DEBUG", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            sanPhamBUS bus = new sanPhamBUS();
+            var dskq = bus.timKiemNangCaoSP(maLoai, trangThaiCT, giaMin, giaMax, tenSP);
+
+            if (dskq != null && dskq.Count > 0)
+            {
+                loadDanhSachSanPham(dskq);
+                hienThiPlaceHolderSanPham();
+            }
+            else
+            {
+                MessageBox.Show("Không có kết quả tìm kiếm!", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                bus.docDSSanPham();
+                loadDanhSachSanPham(sanPhamBUS.ds);
+            }
         }
+
+
 
         private void btnDonVi_Click(object sender, EventArgs e)
         {

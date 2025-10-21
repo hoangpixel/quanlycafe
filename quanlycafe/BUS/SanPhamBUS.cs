@@ -245,6 +245,27 @@ namespace quanlycafe.BUS
             return kq;
         }
 
+        public List<sanPhamDTO> timKiemNangCaoSP(int maLoai, int trangThaiCT, float giaMin, float giaMax, string tenSP)
+        {
+            var dskq = new List<sanPhamDTO>();
+            if (ds == null) docDSSanPham();
+
+            foreach (var ct in ds)
+            {
+                bool dk = true;
+
+                if (maLoai != -1 && ct.MaLoai != maLoai) dk = false;
+                if (trangThaiCT != -1 && ct.TrangThaiCT != trangThaiCT) dk = false;
+                if (giaMin != -1 && ct.Gia < giaMin) dk = false;
+                if (giaMax != -1 && ct.Gia > giaMax) dk = false;
+                if (!string.IsNullOrEmpty(tenSP) &&
+                    ct.TenSP.IndexOf(tenSP, StringComparison.OrdinalIgnoreCase) < 0) dk = false;
+
+                if (dk) dskq.Add(ct);
+            }
+
+            return dskq;
+        }
 
     }
 }
