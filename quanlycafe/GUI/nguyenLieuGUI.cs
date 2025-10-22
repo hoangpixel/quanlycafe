@@ -25,9 +25,9 @@ namespace quanlycafe.GUI
         private void hienThiPlaceHolderNguyenLieu()
         {
             SetPlaceholder(txtTimKiemNL, "Nhập giá trị cần tìm");
-            SetPlaceholder(txtTenNLTK, "Nhập tên NL");
-            SetPlaceholder(txtMinNL, "Tồn kho min");
-            SetPlaceholder(txtMaxNL, "Tồn kho max");
+            SetPlaceholder(txtTenNLTK, "Tên NL");
+            SetPlaceholder(txtMinNL, "Tồn min");
+            SetPlaceholder(txtMaxNL, "Tồn max");
             SetPlaceholder(txtTenDonViTK, "Tên đơn vị");
             SetComboBoxPlaceholder(cboTimKiemNL, "Chọn giá trị TK");
             SetComboBoxPlaceholder(cbTrangThaiNL, "Chọn trạng thái");
@@ -287,54 +287,6 @@ namespace quanlycafe.GUI
             loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
         }
 
-        private void rdCoBanNL_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rdCoBanNL.Checked)
-            {
-                rdNcNL.Checked = false;
-                txtMinNL.Enabled = false;
-                txtMaxNL.Enabled = false;
-                cbTrangThaiNL.Enabled = false;
-                txtTenDonViTK.Enabled = false;
-                txtTenNLTK.Enabled = false;
-            }
-            else
-            {
-                txtMinNL.Enabled = true;
-                txtMaxNL.Enabled = true;
-                cbTrangThaiNL.Enabled = true;
-                txtTenDonViTK.Enabled = true;
-                txtTenNLTK.Enabled = true;
-            }
-        }
-
-        private void rdNcNL_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rdNcNL.Checked)
-            {
-                rdCoBanNL.Checked = false;
-                cboTimKiemNL.Enabled = false;
-                txtTimKiemNL.Enabled = false;
-            }
-            else
-            {
-                cboTimKiemNL.Enabled = true;
-                txtTimKiemNL.Enabled = true;
-            }
-        }
-
-        private void btnTimKiemNL_Click(object sender, EventArgs e)
-        {
-            if (rdCoBanNL.Checked)
-            {
-                timKiemCoBanNL();
-            }
-            else
-            {
-                timKiemNangCaoNL();
-            }
-        }
-
         private void timKiemCoBanNL()
         {
             string tim = txtTimKiemNL.Text.Trim();
@@ -380,6 +332,54 @@ namespace quanlycafe.GUI
         private void tableNguyenLieu_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             tableNguyenLieu.ClearSelection();
+        }
+
+        private void rdCoBanNL_CheckedChanged_1(object sender, EventArgs e)
+        {
+            if (rdCoBanNL.Checked)
+            {
+                rdNcNL.Checked = false;
+                txtMinNL.Enabled = false;
+                txtMaxNL.Enabled = false;
+                cbTrangThaiNL.Enabled = false;
+                txtTenDonViTK.Enabled = false;
+                txtTenNLTK.Enabled = false;
+            }
+            else
+            {
+                txtMinNL.Enabled = true;
+                txtMaxNL.Enabled = true;
+                cbTrangThaiNL.Enabled = true;
+                txtTenDonViTK.Enabled = true;
+                txtTenNLTK.Enabled = true;
+            }
+        }
+
+        private void btnTimKiemNL_Click(object sender, EventArgs e)
+        {
+            if (rdCoBanNL.Checked)
+            {
+                timKiemCoBanNL();
+            }
+            else
+            {
+                timKiemNangCaoNL();
+            }
+        }
+
+        private void rdNcNL_CheckedChanged_1(object sender, EventArgs e)
+        {
+            if (rdNcNL.Checked)
+            {
+                rdCoBanNL.Checked = false;
+                cboTimKiemNL.Enabled = false;
+                txtTimKiemNL.Enabled = false;
+            }
+            else
+            {
+                cboTimKiemNL.Enabled = true;
+                txtTimKiemNL.Enabled = true;
+            }
         }
     }
 }

@@ -211,10 +211,15 @@ namespace quanlycafe.BUS
                         break;
 
                     case 1:
-                        
-                            if (ct.MaLoai.ToString().Contains(tim))
-                                kq.Add(ct);
-                        
+
+                        loaiSanPhamBUS busLoai = new loaiSanPhamBUS();
+                        List<loaiDTO> dsLoai = busLoai.layDanhSachLoai();
+                        var loai = dsLoai.FirstOrDefault(x => x.MaLoai == ct.MaLoai);
+                        string tenLoai = loai != null ? loai.TenLoai : "";
+                        if (tenLoai.IndexOf(tim, StringComparison.OrdinalIgnoreCase) >= 0)
+                        {
+                            kq.Add(ct);
+                        }
                         break;
 
                     case 2: 

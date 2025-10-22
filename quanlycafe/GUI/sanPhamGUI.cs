@@ -226,53 +226,6 @@ namespace quanlycafe.GUI
             loadDanhSachSanPham(sanPhamBUS.ds);
         }
 
-        private void rdoTimCoBan_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rdoTimCoBan.Checked)
-            {
-                rdoTimNangCao.Checked = false;
-                txtGiaMin.Enabled = false;
-                txtGiaMax.Enabled = false;
-                txtTenSPTK.Enabled = false;
-                cboTrangThai.Enabled = false;
-                cboLoaiSP.Enabled = false;
-            }
-            else
-            {
-                txtGiaMin.Enabled = true;
-                txtGiaMax.Enabled = true;
-                txtTenSPTK.Enabled = true;
-                cboTrangThai.Enabled = true;
-                cboLoaiSP.Enabled = true;
-            }
-        }
-
-        private void rdoTimNangCao_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rdoTimNangCao.Checked)
-            {
-                rdoTimCoBan.Checked = false;
-                txtTimKiemSP.Enabled = false;
-                cboTimKiemSP.Enabled = false;
-            }
-            else
-            {
-                txtTimKiemSP.Enabled = true;
-                cboTimKiemSP.Enabled = true;
-            }
-        }
-
-        private void btnThucHienTimKiem_Click(object sender, EventArgs e)
-        {
-            if (rdoTimCoBan.Checked)
-            {
-                timKiemCoBan();
-            }
-            else
-            {
-                timKiemNangCao();
-            }
-        }
 
         private void timKiemCoBan()
         {
@@ -441,9 +394,9 @@ namespace quanlycafe.GUI
 
         private void hienThiPlaceHolderSanPham()
         {
-            SetPlaceholder(txtTenSPTK, "Nhập tên sản phẩm");
-            SetPlaceholder(txtGiaMin, "Giá tối thiểu");
-            SetPlaceholder(txtGiaMax, "Giá tối đa");
+            SetPlaceholder(txtTenSPTK, "Tên SP");
+            SetPlaceholder(txtGiaMin, "Giá min");
+            SetPlaceholder(txtGiaMax, "Giá max");
             SetPlaceholder(txtTimKiemSP, "Nhập giá trị cần tìm");
             //SetPlaceholder(txtTenDonViTK, "Tên đơn vị");
             SetComboBoxPlaceholder(cboLoaiSP, "Loại SP");
@@ -474,6 +427,54 @@ namespace quanlycafe.GUI
         private void tbSanPham_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             tbSanPham.ClearSelection();
+        }
+
+        private void rdoTimNangCao_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdoTimNangCao.Checked)
+            {
+                rdoTimCoBan.Checked = false;
+                txtTimKiemSP.Enabled = false;
+                cboTimKiemSP.Enabled = false;
+            }
+            else
+            {
+                txtTimKiemSP.Enabled = true;
+                cboTimKiemSP.Enabled = true;
+            }
+        }
+
+        private void rdoTimCoBan_CheckedChanged_1(object sender, EventArgs e)
+        {
+            if (rdoTimCoBan.Checked)
+            {
+                rdoTimNangCao.Checked = false;
+                txtGiaMin.Enabled = false;
+                txtGiaMax.Enabled = false;
+                txtTenSPTK.Enabled = false;
+                cboTrangThai.Enabled = false;
+                cboLoaiSP.Enabled = false;
+            }
+            else
+            {
+                txtGiaMin.Enabled = true;
+                txtGiaMax.Enabled = true;
+                txtTenSPTK.Enabled = true;
+                cboTrangThai.Enabled = true;
+                cboLoaiSP.Enabled = true;
+            }
+        }
+
+        private void btnThucHienTimKiem_Click_1(object sender, EventArgs e)
+        {
+            if (rdoTimCoBan.Checked)
+            {
+                timKiemCoBan();
+            }
+            else
+            {
+                timKiemNangCao();
+            }
         }
     }
 }

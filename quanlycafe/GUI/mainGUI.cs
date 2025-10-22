@@ -11,7 +11,7 @@ namespace quanlycafe.GUI
             InitializeComponent();
             if (!DesignMode)
             {
-                this.Size = new System.Drawing.Size(1500, 720);
+                this.Size = new System.Drawing.Size(1480, 720);
                 //this.WindowState = FormWindowState.Maximized;
                 this.StartPosition = FormStartPosition.CenterScreen;
                 this.FormBorderStyle = FormBorderStyle.None;
