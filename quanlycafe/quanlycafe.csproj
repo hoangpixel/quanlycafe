@@ -134,6 +134,9 @@
     <Compile Include="BUS\nguyenLieuBUS.cs" />
     <Compile Include="BUS\sanPhamBUS.cs" />
     <Compile Include="CONFIG\DBConnection.cs" />
+    <Compile Include="CONFIG\RoundedPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DAO\congThucDAO.cs" />
     <Compile Include="DAO\donViDAO.cs" />
     <Compile Include="DAO\heSoDAO.cs" />
@@ -149,6 +152,30 @@
     <Compile Include="EXCEL\excelCongThuc.cs" />
     <Compile Include="EXCEL\excelNguyenLieu.cs" />
     <Compile Include="EXCEL\excelSanPham.cs" />
+    <Compile Include="GUI\congThucGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\congThucGUI.Designer.cs">
+      <DependentUpon>congThucGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\mainContentGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\mainContentGUI.Designer.cs">
+      <DependentUpon>mainContentGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\nguyenLieuGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\nguyenLieuGUI.Designer.cs">
+      <DependentUpon>nguyenLieuGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\sanPhamGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\sanPhamGUI.Designer.cs">
+      <DependentUpon>sanPhamGUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_CRUD\detailCongThuc.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -257,12 +284,6 @@
     <Compile Include="GUI\navbarGUI.Designer.cs">
       <DependentUpon>navbarGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\productGUI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\productGUI.Designer.cs">
-      <DependentUpon>productGUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\homeGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -289,6 +310,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI\congThucGUI.resx">
+      <DependentUpon>congThucGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\nguyenLieuGUI.resx">
+      <DependentUpon>nguyenLieuGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\sanPhamGUI.resx">
+      <DependentUpon>sanPhamGUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\detailCongThuc.resx">
       <DependentUpon>detailCongThuc.cs</DependentUpon>
     </EmbeddedResource>
@@ -339,9 +369,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\mainGUI.resx">
       <DependentUpon>mainGUI.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\productGUI.resx">
-      <DependentUpon>productGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\updateCongThuc.resx">
       <DependentUpon>updateCongThuc.cs</DependentUpon>

@@ -46,9 +46,11 @@ namespace quanlycafe.GUI
 
             // 🔹 Các nút menu
             AddNavButton("🏠  Trang chủ", "home");
-            AddNavButton("📦  Sản phẩm", "product");
-            AddNavButton("👨‍🍳  Nhân viên", "staff");
-            AddNavButton("📊  Báo cáo", "report");
+            AddNavButton("📦  Sản phẩm", "sanpham");
+            AddNavButton("👨‍🍳  Công thức", "congthuc");
+            AddNavButton("🥣  Nguyên liệu", "nguyenlieu");
+            AddNavButton("👨‍💼  Nhân viên", "nhanvien");
+            AddNavButton("📊  Báo cáo", "baocao");
             AddNavButton("🚪  Thoát", "exit");
         }
 
