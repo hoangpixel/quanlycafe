@@ -21,6 +21,8 @@ namespace quanlycafe.GUI_CRUD
         {
             InitializeComponent();
             this.ct = ct;
+            //this.FormBorderStyle = FormBorderStyle.None;
+
         }
 
         private void btnThoat_Click(object sender, EventArgs e)

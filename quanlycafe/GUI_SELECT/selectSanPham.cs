@@ -21,6 +21,7 @@ namespace quanlycafe.GUI_CRUD
         public selectSanPham()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.None;
         }
 
         private void chooseSanPham_Load(object sender, EventArgs e)
@@ -31,29 +32,110 @@ namespace quanlycafe.GUI_CRUD
             DataTable dt = new DataTable();
             dt.Columns.Add("Mã SP");
             dt.Columns.Add("Tên SP");
+            dt.Columns.Add("Tên loại");
             dt.Columns.Add("Giá");
+
+            loaiSanPhamBUS busLoai = new loaiSanPhamBUS();
+            List<loaiDTO> dsLoai = busLoai.layDanhSachLoai();
 
             foreach (var sp in sanPhamBUS.ds.Where(x => x.TrangThai == 1))
             {
-                dt.Rows.Add(sp.MaSP, sp.TenSP, string.Format("{0:N0}", sp.Gia));
+                string tenLoai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai)?.TenLoai ?? "Không xác định";
+                dt.Rows.Add(sp.MaSP, sp.TenSP, tenLoai, string.Format("{0:N0}", sp.Gia));
             }
 
             tableSanPham.DataSource = dt;
             tableSanPham.ReadOnly = true;
             tableSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             tableSanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            tableSanPham.ClearSelection();
         }
 
         private void tableSanPham_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
         }
 
-        private void btnThoat_Click(object sender, EventArgs e)
+
+        private void btnThoat_Click_1(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void tableSanPham_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void btnTimKiem_Click_1(object sender, EventArgs e)
+        {
+            int index = cboTimKiem.SelectedIndex;
+            string tim = txtTimKiem.Text.Trim();
+            if (index == -1 || string.IsNullOrWhiteSpace(tim))
+            {
+                MessageBox.Show("Vui lòng nhập dữ liệu tìm kiếm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            sanPhamBUS bus = new sanPhamBUS();
+            List<sanPhamDTO> dskq = bus.timKiemCoBan(tim, index);
+
+            loaiSanPhamBUS busLoai = new loaiSanPhamBUS();
+            List<loaiDTO> dsLoai = busLoai.layDanhSachLoai();
+
+            if (dskq != null && dskq.Count > 0)
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Mã SP");
+                dt.Columns.Add("Tên SP");
+                dt.Columns.Add("Tên loại");
+                dt.Columns.Add("Giá");
+
+                foreach (var sp in dskq.Where(x => x.TrangThai == 1))
+                {
+                    string tenLoai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai)?.TenLoai ?? "Không xác định";
+                    dt.Rows.Add(sp.MaSP, sp.TenSP, tenLoai, string.Format("{0:N0}", sp.Gia));
+                }
+
+                tableSanPham.DataSource = dt;
+                tableSanPham.ReadOnly = true;
+                tableSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                tableSanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                tableSanPham.ClearSelection();
+
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy kết quả", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+        }
+
+        private void btnRefresh_Click_1(object sender, EventArgs e)
+        {
+            sanPhamBUS bus = new sanPhamBUS();
+            bus.docDSSanPham();
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Mã SP");
+            dt.Columns.Add("Tên SP");
+            dt.Columns.Add("Tên loại");
+            dt.Columns.Add("Giá");
+
+            loaiSanPhamBUS busLoai = new loaiSanPhamBUS();
+            List<loaiDTO> dsLoai = busLoai.layDanhSachLoai();
+
+            foreach (var sp in sanPhamBUS.ds.Where(x => x.TrangThai == 1))
+            {
+                string tenLoai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai)?.TenLoai ?? "Không xác định";
+                dt.Rows.Add(sp.MaSP, sp.TenSP, tenLoai, string.Format("{0:N0}", sp.Gia));
+            }
+
+            tableSanPham.DataSource = dt;
+            tableSanPham.ReadOnly = true;
+            tableSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            tableSanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            tableSanPham.ClearSelection();
+
+
+            cboTimKiem.SelectedIndex = -1;
+            txtTimKiem.Clear();
+        }
+
+        private void tableSanPham_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
