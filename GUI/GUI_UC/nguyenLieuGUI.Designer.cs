@@ -225,7 +225,7 @@
             // 
             this.cbTrangThaiNL.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cbTrangThaiNL.FormattingEnabled = true;
-            this.cbTrangThaiNL.Location = new System.Drawing.Point(3, 10);
+            this.cbTrangThaiNL.Location = new System.Drawing.Point(3, 8);
             this.cbTrangThaiNL.Name = "cbTrangThaiNL";
             this.cbTrangThaiNL.Size = new System.Drawing.Size(114, 28);
             this.cbTrangThaiNL.TabIndex = 6;
@@ -270,7 +270,7 @@
             "Tên ĐV",
             "Tồn min",
             "Tồn max"});
-            this.cboTimKiemNL.Location = new System.Drawing.Point(10, 8);
+            this.cboTimKiemNL.Location = new System.Drawing.Point(10, 10);
             this.cboTimKiemNL.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemNL.Name = "cboTimKiemNL";
             this.cboTimKiemNL.Size = new System.Drawing.Size(176, 28);
