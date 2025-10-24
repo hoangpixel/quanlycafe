@@ -383,7 +383,7 @@
     <Content Include="Resources\IMG\SP\pngtree-ice-milk-coffee-png-image_9162395.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-    <Target Name="CopyImagesToBin" AfterTargets="Build">
+  <Target Name="CopyImagesToBin" AfterTargets="Build">
     <ItemGroup>
       <_Images Include="Resources\IMG\SP\**\*.*" />
     </ItemGroup>
