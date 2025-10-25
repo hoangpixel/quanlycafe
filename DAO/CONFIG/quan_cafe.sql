@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2025 at 02:52 PM
+-- Generation Time: Oct 25, 2025 at 01:37 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -58,7 +58,7 @@ CREATE TABLE `congthuc` (
   `MASANPHAM` int(11) NOT NULL,
   `MANGUYENLIEU` int(11) NOT NULL,
   `SOLUONGCOSO` decimal(12,2) NOT NULL,
-  `MADONVICOSO` int(11) DEFAULT NULL,
+  `MADONVICOSO` int(11) NOT NULL,
   `TRANGTHAI` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -416,7 +416,7 @@ ALTER TABLE `calam`
 -- Indexes for table `congthuc`
 --
 ALTER TABLE `congthuc`
-  ADD PRIMARY KEY (`MASANPHAM`,`MANGUYENLIEU`),
+  ADD PRIMARY KEY (`MASANPHAM`,`MANGUYENLIEU`,`MADONVICOSO`),
   ADD KEY `FK_CT_NL` (`MANGUYENLIEU`),
   ADD KEY `fk_congthuc_donvi` (`MADONVICOSO`);
 
