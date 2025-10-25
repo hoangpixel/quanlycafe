@@ -77,5 +77,12 @@ namespace BUS
 
             return result;
         }
+
+        public List<donViDTO> layDanhSachDonViTheoNguyenLieu(int maNguyenLieu)
+        {
+            donViDAO dao = new donViDAO();
+            return dao.layDanhSachDonViTheoNguyenLieu(maNguyenLieu);
+        }
+
     }
 }

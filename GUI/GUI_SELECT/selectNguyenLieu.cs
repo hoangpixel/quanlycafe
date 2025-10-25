@@ -21,11 +21,6 @@ namespace GUI.GUI_SELECT
             InitializeComponent();
         }
 
-        private void btnThoat_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void selectNguyenLieu_Load(object sender, EventArgs e)
         {
             nguyenLieuBUS bus = new nguyenLieuBUS();
@@ -37,6 +32,7 @@ namespace GUI.GUI_SELECT
             dt.Columns.Add("Mã NL");
             dt.Columns.Add("Tên NL");
             dt.Columns.Add("Đơn vị cơ sở");
+            dt.Columns.Add("Tồn kho");
 
             donViBUS busDonVi = new donViBUS();
             List<donViDTO> dsDonVi = busDonVi.layDanhSachDonVi();
@@ -44,7 +40,7 @@ namespace GUI.GUI_SELECT
             foreach (var nl in nguyenLieuBUS.ds.Where(x => x.TrangThai == 1))
             {
                 string tenDonVi = dsDonVi.FirstOrDefault(l => l.MaDonVi == nl.MaDonViCoSo)?.TenDonVi ?? "Không xác định";
-                dt.Rows.Add(nl.MaNguyenLieu, nl.TenNguyenLieu, tenDonVi);
+                dt.Rows.Add(nl.MaNguyenLieu, nl.TenNguyenLieu, tenDonVi,nl.TonKho);
             }
 
             tableNguyenLieu.DataSource = dt;
@@ -53,7 +49,86 @@ namespace GUI.GUI_SELECT
             tableNguyenLieu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
-        private void tableNguyenLieu_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void tableNguyenLieu_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            int index = cboTimKiem.SelectedIndex;
+            string tim = txtTimKiem.Text.Trim();
+            if(index == -1 || string.IsNullOrWhiteSpace(tim))
+            {
+                MessageBox.Show("Vui lòng nhập dữ liệu tìm kiếm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            nguyenLieuBUS bus = new nguyenLieuBUS();
+            List<nguyenLieuDTO> dsNL = bus.timKiemCoBanNL(tim,index);
+            if(dsNL!=null && dsNL.Count > 0)
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Mã NL");
+                dt.Columns.Add("Tên NL");
+                dt.Columns.Add("Đơn vị cơ sở");
+                dt.Columns.Add("Tồn kho");
+
+                donViBUS busDonVi = new donViBUS();
+                List<donViDTO> dsDonVi = busDonVi.layDanhSachDonVi();
+
+                foreach (var nl in dsNL.Where(x => x.TrangThai == 1))
+                {
+                    string tenDonVi = dsDonVi.FirstOrDefault(l => l.MaDonVi == nl.MaDonViCoSo)?.TenDonVi ?? "Không xác định";
+                    dt.Rows.Add(nl.MaNguyenLieu, nl.TenNguyenLieu, tenDonVi,nl.TonKho);
+                }
+
+                tableNguyenLieu.DataSource = dt;
+                tableNguyenLieu.ReadOnly = true;
+                tableNguyenLieu.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                tableNguyenLieu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                tableNguyenLieu.ClearSelection();
+                cboTimKiem.SelectedIndex = -1;
+                txtTimKiem.Clear();
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy kết quả", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            nguyenLieuBUS bus = new nguyenLieuBUS();
+            bus.napDSNguyenLieu();
+
+            //MessageBox.Show("Số lượng nguyên liệu: " + nguyenLieuBUS.ds.Count);
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Mã NL");
+            dt.Columns.Add("Tên NL");
+            dt.Columns.Add("Đơn vị cơ sở");
+            dt.Columns.Add("Tồn kho");
+
+            donViBUS busDonVi = new donViBUS();
+            List<donViDTO> dsDonVi = busDonVi.layDanhSachDonVi();
+
+            foreach (var nl in nguyenLieuBUS.ds.Where(x => x.TrangThai == 1))
+            {
+                string tenDonVi = dsDonVi.FirstOrDefault(l => l.MaDonVi == nl.MaDonViCoSo)?.TenDonVi ?? "Không xác định";
+                dt.Rows.Add(nl.MaNguyenLieu, nl.TenNguyenLieu, tenDonVi, nl.TonKho);
+            }
+
+            tableNguyenLieu.DataSource = dt;
+            tableNguyenLieu.ReadOnly = true;
+            tableNguyenLieu.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            tableNguyenLieu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            tableNguyenLieu.ClearSelection();
+            cboTimKiem.SelectedIndex = -1;
+            txtTimKiem.Clear();
+        }
+
+        private void tableNguyenLieu_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
@@ -64,9 +139,9 @@ namespace GUI.GUI_SELECT
             }
         }
 
-        private void tableNguyenLieu_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void btnThoat_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
     }
 }

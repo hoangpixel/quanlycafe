@@ -21,7 +21,7 @@ namespace GUI.GUI_SELECT
         public selectSanPham()
         {
             InitializeComponent();
-            this.FormBorderStyle = FormBorderStyle.None;
+            //this.FormBorderStyle = FormBorderStyle.None;
         }
 
         private void chooseSanPham_Load(object sender, EventArgs e)

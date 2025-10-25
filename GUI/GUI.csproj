@@ -89,6 +89,12 @@
     <Compile Include="EXCEL\excelCongThuc.cs" />
     <Compile Include="EXCEL\excelNguyenLieu.cs" />
     <Compile Include="EXCEL\excelSanPham.cs" />
+    <Compile Include="GUI_SELECT\selectDonVi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_SELECT\selectDonVi.Designer.cs">
+      <DependentUpon>selectDonVi.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_UC\congThucGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -247,6 +253,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI_SELECT\selectDonVi.resx">
+      <DependentUpon>selectDonVi.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\congThucGUI.resx">
       <DependentUpon>congThucGUI.cs</DependentUpon>
     </EmbeddedResource>

@@ -141,5 +141,43 @@ namespace DAO
                 DBConnect.CloseConnection(conn);
             }
         }
+
+        public List<donViDTO> layDanhSachDonViTheoNguyenLieu(int maNguyenLieu)
+        {
+            List<donViDTO> ds = new List<donViDTO>();
+            try
+            {
+                string qry = @"
+            SELECT d.MADONVI, d.TENDONVI
+            FROM hesodonvi h
+            JOIN donvi d ON h.MADONVI = d.MADONVI
+            WHERE h.MANGUYENLIEU = @maNL;";
+
+                using (MySqlConnection conn = DBConnect.GetConnection())
+                using (MySqlCommand cmd = new MySqlCommand(qry, conn))
+                {
+                    cmd.Parameters.AddWithValue("@maNL", maNguyenLieu);
+                    using (MySqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            donViDTO dv = new donViDTO
+                            {
+                                MaDonVi = dr.GetInt32("MADONVI"),
+                                TenDonVi = dr.GetString("TENDONVI")
+                            };
+                            ds.Add(dv);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Lỗi lấy danh sách đơn vị theo nguyên liệu: " + ex.Message);
+            }
+
+            return ds;
+        }
+
     }
 }
