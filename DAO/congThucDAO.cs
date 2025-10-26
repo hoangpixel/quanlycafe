@@ -89,7 +89,6 @@ namespace DAO
 
 
 
-        // 🟢 Thêm công thức mới
         public bool Them(congThucDTO ct)
         {
             bool result = false;
@@ -101,7 +100,6 @@ namespace DAO
 
                 using (MySqlConnection conn = DBConnect.GetConnection())
                 {
-                    // ❌ Đừng mở lại kết nối ở đây!
                     using (MySqlCommand cmd = new MySqlCommand(qry, conn))
                     {
                         cmd.Parameters.AddWithValue("@masp", ct.MaSanPham);
@@ -124,10 +122,6 @@ namespace DAO
         }
 
 
-
-
-
-        // 🟡 Cập nhật định lượng
         public bool Sua(congThucDTO ct)
         {
             string qry = "UPDATE congthuc SET SOLUONGCOSO = @soluong, MADONVICOSO = @madonvi ,TRANGTHAI = @trangthai " +
@@ -155,8 +149,6 @@ namespace DAO
             }
         }
 
-
-        // 🔴 Ẩn công thức (set trạng thái = 0)
         public bool Xoa(int maSP, int maNL)
         {
             try
@@ -195,8 +187,6 @@ namespace DAO
             }
         }
 
-
-        // 🔵 Xóa toàn bộ công thức của 1 sản phẩm (ẩn đi)
         public bool XoaTheoSanPham(int maSP)
         {
             try

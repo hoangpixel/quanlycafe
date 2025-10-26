@@ -28,7 +28,8 @@ namespace DAO
                     loaiDTO l = new loaiDTO
                     {
                         MaLoai = reader.GetInt32("MALOAI"),
-                        TenLoai = reader.GetString("TENLOAI")
+                        TenLoai = reader.GetString("TENLOAI"),
+                        MaNhom = reader.GetInt32("MANHOM")
                     };
 
                     ds.Add(l);
@@ -55,16 +56,15 @@ namespace DAO
             MySqlConnection conn = null;
             try
             {
-                string qry = "INSERT INTO loai (TENLOAI) VALUES (@TenLoai); SELECT LAST_INSERT_ID();";
+                string qry = "INSERT INTO loai (TENLOAI,MANHOM) VALUES (@TenLoai, @MaNhom); SELECT LAST_INSERT_ID();";
 
                 conn = DBConnect.GetConnection();
                 MySqlCommand cmd = new MySqlCommand(qry, conn);
                 cmd.Parameters.AddWithValue("@TenLoai", ct.TenLoai);
+                cmd.Parameters.AddWithValue("@MaNhom", ct.MaNhom);
                 object result = cmd.ExecuteScalar();
                 if (result != null)
                 {
-                    ct.MaLoai = Convert.ToInt32(result);
-                    Console.WriteLine($"Thêm loại sản phẩm thành công! Mã loại mới = {ct.MaLoai}");
                     return true;
                 }
                 return false;
@@ -85,17 +85,19 @@ namespace DAO
         {
             try
             {
-                string qry = "UPDATE loai SET ";
-                qry = $"UPDATE loai SET TENLOAI = '{ct.TenLoai}' WHERE MALOAI = {ct.MaLoai}";
-
-
+                string qry = @"UPDATE loai SET TENLOAI = @TenLoai, MANHOM = @MaNhom WHERE MALOAI = @MaLoai";
                 MySqlConnection conn = DBConnect.GetConnection();
                 MySqlCommand cmd = new MySqlCommand(qry, conn);
-                cmd.ExecuteNonQuery();
+                cmd.Parameters.AddWithValue("@TenLoai", ct.TenLoai);
+                cmd.Parameters.AddWithValue("@MaNhom", ct.MaNhom);
+                cmd.Parameters.AddWithValue("@Maloai", ct.MaLoai);
 
-                Console.WriteLine("Sửa loại sản phẩm thành công!");
-                DBConnect.CloseConnection(conn);
-                return true;
+                int row = cmd.ExecuteNonQuery();
+                if(row > 0)
+                {
+                    return true;
+                }
+                return false;
             }
             catch (Exception e)
             {

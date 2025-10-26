@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 25, 2025 at 01:37 PM
+-- Generation Time: Oct 26, 2025 at 11:36 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -240,6 +240,7 @@ CREATE TABLE `lichlamviec` (
 
 CREATE TABLE `loai` (
   `MALOAI` int(11) NOT NULL,
+  `MANHOM` int(11) DEFAULT NULL,
   `TENLOAI` varchar(100) NOT NULL,
   `TRANGTHAI` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -248,9 +249,9 @@ CREATE TABLE `loai` (
 -- Dumping data for table `loai`
 --
 
-INSERT INTO `loai` (`MALOAI`, `TENLOAI`, `TRANGTHAI`) VALUES
-(1, 'Cà phê', 1),
-(2, 'Nước ngọt', 1);
+INSERT INTO `loai` (`MALOAI`, `MANHOM`, `TENLOAI`, `TRANGTHAI`) VALUES
+(1, 1, 'Cà phê', 1),
+(2, 1, 'Nước ngọt', 1);
 
 -- --------------------------------------------------------
 
@@ -307,6 +308,27 @@ CREATE TABLE `nhanvien` (
   `LUONG` decimal(12,2) DEFAULT 0.00,
   `NGAYTAO` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nhom`
+--
+
+CREATE TABLE `nhom` (
+  `MANHOM` int(11) NOT NULL,
+  `TENNHOM` varchar(100) NOT NULL,
+  `TRANGTHAI` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `nhom`
+--
+
+INSERT INTO `nhom` (`MANHOM`, `TENNHOM`, `TRANGTHAI`) VALUES
+(1, 'Đồ uống', 1),
+(2, 'Đồ ăn', 1),
+(3, 'Khác', 1);
 
 -- --------------------------------------------------------
 
@@ -488,7 +510,8 @@ ALTER TABLE `lichlamviec`
 --
 ALTER TABLE `loai`
   ADD PRIMARY KEY (`MALOAI`),
-  ADD UNIQUE KEY `uq_loai_ten` (`TENLOAI`);
+  ADD UNIQUE KEY `uq_loai_ten` (`TENLOAI`),
+  ADD KEY `FK_LOAI_NHOM` (`MANHOM`);
 
 --
 -- Indexes for table `nguyenlieu`
@@ -510,6 +533,12 @@ ALTER TABLE `nhacungcap`
 ALTER TABLE `nhanvien`
   ADD PRIMARY KEY (`MANHANVIEN`),
   ADD UNIQUE KEY `uq_nhanvien_email` (`EMAIL`);
+
+--
+-- Indexes for table `nhom`
+--
+ALTER TABLE `nhom`
+  ADD PRIMARY KEY (`MANHOM`);
 
 --
 -- Indexes for table `phieunhap`
@@ -631,6 +660,12 @@ ALTER TABLE `nhanvien`
   MODIFY `MANHANVIEN` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `nhom`
+--
+ALTER TABLE `nhom`
+  MODIFY `MANHOM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `phieunhap`
 --
 ALTER TABLE `phieunhap`
@@ -715,6 +750,12 @@ ALTER TABLE `hoadon`
 ALTER TABLE `lichlamviec`
   ADD CONSTRAINT `FK_LLV_CA` FOREIGN KEY (`MACA`) REFERENCES `calam` (`MACA`),
   ADD CONSTRAINT `FK_LLV_NV` FOREIGN KEY (`MANHANVIEN`) REFERENCES `nhanvien` (`MANHANVIEN`);
+
+--
+-- Constraints for table `loai`
+--
+ALTER TABLE `loai`
+  ADD CONSTRAINT `FK_LOAI_NHOM` FOREIGN KEY (`MANHOM`) REFERENCES `nhom` (`MANHOM`);
 
 --
 -- Constraints for table `nguyenlieu`

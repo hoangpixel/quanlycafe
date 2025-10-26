@@ -99,6 +99,7 @@
     <Compile Include="heSoDAO.cs" />
     <Compile Include="loaiSanPhamDAO.cs" />
     <Compile Include="nguyenLieuDAO.cs" />
+    <Compile Include="nhomDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sanPhamDAO.cs" />
   </ItemGroup>

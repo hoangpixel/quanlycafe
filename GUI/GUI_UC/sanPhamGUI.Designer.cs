@@ -268,8 +268,9 @@
             this.cboTimKiemSP.FormattingEnabled = true;
             this.cboTimKiemSP.Items.AddRange(new object[] {
             "Mã SP",
-            "Tên loai",
             "Tên SP",
+            "Tên loai",
+            "Tên nhóm",
             "Giá min",
             "Giá max"});
             this.cboTimKiemSP.Location = new System.Drawing.Point(10, 8);

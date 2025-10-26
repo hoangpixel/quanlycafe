@@ -40,8 +40,9 @@ namespace GUI.GUI_UC
 
             DataTable dt = new DataTable();
             dt.Columns.Add("Mã SP");
-            dt.Columns.Add("Tên Loại");
             dt.Columns.Add("Tên SP");
+            dt.Columns.Add("Tên Loại");
+            dt.Columns.Add("Tên nhóm");
             //dt.Columns.Add("Trạng thái SP");
             dt.Columns.Add("Trạng thái CT");
             dt.Columns.Add("Hình");
@@ -50,12 +51,18 @@ namespace GUI.GUI_UC
             loaiSanPhamBUS loaiBus = new loaiSanPhamBUS();
             List<loaiDTO> dsLoai = loaiBus.layDanhSachLoai();
 
+            nhomBUS nhomBus = new nhomBUS();
+            List<nhomDTO> dsNhom = nhomBus.layDanhSach();
+
             foreach (var sp in ds)
             {
                 string tenLoai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai)?.TenLoai ?? "Không xác định";
                 //string trangThai = sp.TrangThai == 1 ? "Đang bán" : "Ngừng bán";
+                loaiDTO loai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai);
+                string tenNhom = dsNhom.FirstOrDefault(n => n.MaNhom == (loai != null ? loai.MaNhom : -1))?.TenNhom ?? "Không xác định";
+
                 string trangThaiCT = sp.TrangThaiCT == 1 ? "Đã có công thức" : "Chưa có công thức";
-                dt.Rows.Add(sp.MaSP, tenLoai, sp.TenSP, trangThaiCT, sp.Hinh, string.Format("{0:N0}", sp.Gia));
+                dt.Rows.Add(sp.MaSP, sp.TenSP, tenLoai, tenNhom,sp.TrangThaiCT, sp.Hinh, string.Format("{0:N0}", sp.Gia));
             }
 
             tbSanPham.DataSource = dt;
@@ -271,14 +278,14 @@ namespace GUI.GUI_UC
 
             string tenSP = string.IsNullOrWhiteSpace(txtTenSPTK.Text) ? null : txtTenSPTK.Text.Trim();
             // Nếu đang là placeholder thì xem như rỗng
-            if (txtTenSPTK.Text == "Nhập tên sản phẩm") tenSP = null;
+            if (txtTenSPTK.Text == "Tên SP") tenSP = null;
             float giaMin = -1, giaMax = -1;
             string txtMin = txtGiaMin.Text.Trim();
             string txtMax = txtGiaMax.Text.Trim();
 
             // Nếu đang là placeholder thì xem như rỗng
-            if (txtMin == "Giá tối thiểu") txtMin = "";
-            if (txtMax == "Giá tối đa") txtMax = "";
+            if (txtMin == "Giá min") txtMin = "";
+            if (txtMax == "Giá max") txtMax = "";
 
             if (!string.IsNullOrEmpty(txtMin))
             {
@@ -317,15 +324,15 @@ namespace GUI.GUI_UC
             }
 
             //// Debug
-            //string debugInfo =
-            //    $"[DEBUG - TÌM KIẾM NÂNG CAO]\n\n" +
-            //    $"Mã loại: {maLoai}\n" +
-            //    $"Trạng thái CT: {trangThaiCT}\n" +
-            //    $"Tên SP: {(tenSP ?? "(null)")}\n" +
-            //    $"Giá tối thiểu: {(giaMin == -1 ? "(không lọc)" : giaMin.ToString())}\n" +
-            //    $"Giá tối đa: {(giaMax == -1 ? "(không lọc)" : giaMax.ToString())}";
+            string debugInfo =
+                $"[DEBUG - TÌM KIẾM NÂNG CAO]\n\n" +
+                $"Mã loại: {maLoai}\n" +
+                $"Trạng thái CT: {trangThaiCT}\n" +
+                $"Tên SP: {(tenSP ?? "(null)")}\n" +
+                $"Giá tối thiểu: {(giaMin == -1 ? "(không lọc)" : giaMin.ToString())}\n" +
+                $"Giá tối đa: {(giaMax == -1 ? "(không lọc)" : giaMax.ToString())}";
 
-            //MessageBox.Show(debugInfo, "DEBUG", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(debugInfo, "DEBUG", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             sanPhamBUS bus = new sanPhamBUS();
             var dskq = bus.timKiemNangCaoSP(maLoai, trangThaiCT, giaMin, giaMax, tenSP);

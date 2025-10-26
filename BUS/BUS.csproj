@@ -46,6 +46,7 @@
     <Compile Include="heSoBUS.cs" />
     <Compile Include="loaiSanPhamBUS.cs" />
     <Compile Include="nguyenLieuBUS.cs" />
+    <Compile Include="nhomBUS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sanPhamBUS.cs" />
   </ItemGroup>

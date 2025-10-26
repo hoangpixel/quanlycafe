@@ -198,49 +198,74 @@ namespace BUS
             if (ds == null)
                 docDSSanPham();
 
+            loaiSanPhamBUS busLoai = new loaiSanPhamBUS();
+            List<loaiDTO> dsLoai = busLoai.layDanhSachLoai();
+
+            nhomBUS busNhom = new nhomBUS();
+            List<nhomDTO> dsNhom = busNhom.layDanhSach();
+
             foreach (sanPhamDTO ct in ds)
             {
                 switch (index)
                 {
                     case 0:
-                        
-                            if (ct.MaSP.ToString().Contains(tim))
-                                kq.Add(ct);
-                        
-                        break;
-
-                    case 1:
-
-                        loaiSanPhamBUS busLoai = new loaiSanPhamBUS();
-                        List<loaiDTO> dsLoai = busLoai.layDanhSachLoai();
-                        var loai = dsLoai.FirstOrDefault(x => x.MaLoai == ct.MaLoai);
-                        string tenLoai = loai != null ? loai.TenLoai : "";
-                        if (tenLoai.IndexOf(tim, StringComparison.OrdinalIgnoreCase) >= 0)
                         {
-                            kq.Add(ct);
+                            if (ct.MaSP.ToString().Contains(tim))
+                            {
+                                kq.Add(ct);
+                            }
+                            break;
                         }
-                        break;
-
-                    case 2: 
-                        if (ct.TenSP.IndexOf(tim, StringComparison.OrdinalIgnoreCase) >= 0)
-                        
-                            kq.Add(ct);
-                       
-                        break;
+                    case 1:
+                        {
+                            if (ct.TenSP.IndexOf(tim, StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                kq.Add(ct);
+                            }                            
+                            break;
+                        }
+                    case 2:
+                        {
+                            var loai = dsLoai.FirstOrDefault(x => x.MaLoai == ct.MaLoai);
+                            string tenLoai = loai != null ? loai.TenLoai : "";
+                            if (tenLoai.IndexOf(tim, StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                kq.Add(ct);
+                            }
+                            break;
+                        }
                     case 3:
-                        
-                            if (float.TryParse(tim, out float giaMin))
-                                if (ct.Gia >= giaMin)
-                                    kq.Add(ct);
-
-                        break;
+                        {
+                            loaiDTO loai = dsLoai.FirstOrDefault(l => l.MaLoai == ct.MaLoai);
+                            string tenNhom = dsNhom.FirstOrDefault(n => n.MaNhom == (loai != null ? loai.MaNhom : -1))?.TenNhom ?? "";
+                            if(tenNhom.IndexOf(tim, StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                kq.Add(ct);
+                            }
+                            break;
+                        }
                     case 4:
-                        
+                        {
+                            if (float.TryParse(tim, out float giaMin))
+                            {
+                                if (ct.Gia >= giaMin)
+                                {
+                                    kq.Add(ct);
+                                }
+                            }
+                            break;
+                        }
+                    case 5:
+                        {
                             if (float.TryParse(tim, out float giaMax))
+                            {
                                 if (ct.Gia <= giaMax)
-                                    kq.Add(ct);                       
-                        break;
-
+                                {
+                                    kq.Add(ct);
+                                }
+                            }
+                            break;
+                        }
                     default:
                         break;
                 }
