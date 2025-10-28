@@ -1,5 +1,6 @@
 ﻿using BUS;
 using GUI.EXCEL;
+using GUI.FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -53,6 +54,12 @@ namespace GUI.GUI_CRUD
                     MessageBox.Show("Lỗi khi nhập Excel: " + ex.Message);
                 }
             }
+        }
+
+        private void selectExcelCongThuc_Load(object sender, EventArgs e)
+        {
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
         }
     }
 }

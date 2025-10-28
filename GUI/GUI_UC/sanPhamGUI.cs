@@ -20,63 +20,97 @@ namespace GUI.GUI_UC
         public sanPhamGUI()
         {
             InitializeComponent();
-            hienThiPlaceHolderSanPham();
         }
 
         private void sanPhamGUI_Load(object sender, EventArgs e)
         {
+
+            FontManager.LoadFont();
+            hienThiPlaceHolderSanPham();
+            FontManager.ApplyFontToAllControls(this);
+
             sanPhamBUS bus = new sanPhamBUS();
             bus.docDSSanPham();
             loadDanhSachSanPham(sanPhamBUS.ds);
             tbSanPham.ClearSelection();
             loadComboBoxLoaiSPTK();
             rdoTimCoBan.Checked = true;
-
-            FontManager.LoadFont();
-            FontManager.ApplyFontToAllControls(this);
         }
 
-        private void loadDanhSachSanPham(List<sanPhamDTO> ds)
+
+        private void loadFontChuVaSize()
         {
-            tbSanPham.Columns.Clear();
-            tbSanPham.DataSource = null;
-
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Mã SP");
-            dt.Columns.Add("Tên SP");
-            dt.Columns.Add("Tên Loại");
-            dt.Columns.Add("Tên nhóm");
-            //dt.Columns.Add("Trạng thái SP");
-            dt.Columns.Add("Trạng thái CT");
-            dt.Columns.Add("Hình");
-            dt.Columns.Add("Giá");
-
-            loaiSanPhamBUS loaiBus = new loaiSanPhamBUS();
-            List<loaiDTO> dsLoai = loaiBus.layDanhSachLoai();
-
-            nhomBUS nhomBus = new nhomBUS();
-            List<nhomDTO> dsNhom = nhomBus.layDanhSach();
-
-            foreach (var sp in ds)
+            // --- Căn giữa và tắt sort ---
+            foreach (DataGridViewColumn col in tbSanPham.Columns)
             {
-                string tenLoai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai)?.TenLoai ?? "Không xác định";
-                //string trangThai = sp.TrangThai == 1 ? "Đang bán" : "Ngừng bán";
-                loaiDTO loai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai);
-                string tenNhom = dsNhom.FirstOrDefault(n => n.MaNhom == (loai != null ? loai.MaNhom : -1))?.TenNhom ?? "Không xác định";
-
-                string trangThaiCT = sp.TrangThaiCT == 1 ? "Đã có công thức" : "Chưa có công thức";
-                dt.Rows.Add(sp.MaSP, sp.TenSP, tenLoai, tenNhom,sp.TrangThaiCT, sp.Hinh, string.Format("{0:N0}", sp.Gia));
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
 
-            tbSanPham.DataSource = dt;
-            tbSanPham.ReadOnly = true;
-            //rdoTimCoBan.Checked = true;
+            tbSanPham.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            tbSanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            tbSanPham.ClearSelection();
-            btnSuaSP.Enabled = false;
-            btnXoaSP.Enabled = false;
-            btnChiTiet.Enabled = false;
+            // font cho dữ liệu trong table
+            tbSanPham.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            //font cho header trong table
+            tbSanPham.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(12);
+
+            // --- Fix lỗi mất text khi đổi font ---
+            tbSanPham.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tbSanPham.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            tbSanPham.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            tbSanPham.Refresh();
         }
+
+
+        private void loadDanhSachSanPham(List<sanPhamDTO> ds)
+            {
+                tbSanPham.Columns.Clear();
+                tbSanPham.DataSource = null;
+
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Mã SP");
+                dt.Columns.Add("Tên SP");
+                dt.Columns.Add("Tên Loại");
+                dt.Columns.Add("Tên nhóm");
+                //dt.Columns.Add("Trạng thái SP");
+                dt.Columns.Add("Trạng thái CT");
+                dt.Columns.Add("Hình");
+                dt.Columns.Add("Giá");
+
+                loaiSanPhamBUS loaiBus = new loaiSanPhamBUS();
+                List<loaiDTO> dsLoai = loaiBus.layDanhSachLoai();
+
+                nhomBUS nhomBus = new nhomBUS();
+                List<nhomDTO> dsNhom = nhomBus.layDanhSach();
+
+                foreach (var sp in ds)
+                {
+                    string tenLoai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai)?.TenLoai ?? "Không xác định";
+                    //string trangThai = sp.TrangThai == 1 ? "Đang bán" : "Ngừng bán";
+                    loaiDTO loai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai);
+                    string tenNhom = dsNhom.FirstOrDefault(n => n.MaNhom == (loai != null ? loai.MaNhom : -1))?.TenNhom ?? "Không xác định";
+
+                    string trangThaiCT = sp.TrangThaiCT == 1 ? "Đã có công thức" : "Chưa có công thức";
+                    dt.Rows.Add(sp.MaSP, sp.TenSP, tenLoai, tenNhom, trangThaiCT, sp.Hinh, string.Format("{0:N0}", sp.Gia));
+                }
+
+                tbSanPham.DataSource = dt;
+
+            loadFontChuVaSize();
+
+            tbSanPham.ReadOnly = true;
+
+                //rdoTimCoBan.Checked = true;
+
+                tbSanPham.ClearSelection();
+                btnSuaSP.Enabled = false;
+                btnXoaSP.Enabled = false;
+                btnChiTiet.Enabled = false;
+            }
 
         private void loadComboBoxLoaiSPTK()
         {
@@ -377,8 +411,6 @@ namespace GUI.GUI_UC
             };
         }
 
-
-        // set placehover cho tìm kiếm nâng cao sản phẩm
         private void SetComboBoxPlaceholder(ComboBox cbo, string placeholder)
         {
 
@@ -402,6 +434,8 @@ namespace GUI.GUI_UC
                 }
             };
         }
+
+
 
         private void hienThiPlaceHolderSanPham()
         {

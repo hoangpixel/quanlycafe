@@ -1,5 +1,6 @@
 ﻿using BUS;
 using GUI.EXCEL;
+using GUI.FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -65,6 +66,12 @@ namespace GUI.GUI_CRUD
                         "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void selectExcelNguyenLieu_Load(object sender, EventArgs e)
+        {
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
         }
     }
 }

@@ -393,15 +393,31 @@
             // 
             // txtHeSo
             // 
+            this.txtHeSo.DecimalPlaces = 3;
+            this.txtHeSo.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
             this.txtHeSo.Location = new System.Drawing.Point(117, 102);
             this.txtHeSo.Maximum = new decimal(new int[] {
             99999,
             0,
             0,
             0});
+            this.txtHeSo.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
             this.txtHeSo.Name = "txtHeSo";
             this.txtHeSo.Size = new System.Drawing.Size(129, 24);
             this.txtHeSo.TabIndex = 5;
+            this.txtHeSo.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
             // 
             // label4
             // 

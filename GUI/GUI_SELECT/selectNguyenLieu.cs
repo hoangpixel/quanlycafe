@@ -1,5 +1,6 @@
 ﻿using BUS;
 using DTO;
+using GUI.FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,6 +24,9 @@ namespace GUI.GUI_SELECT
 
         private void selectNguyenLieu_Load(object sender, EventArgs e)
         {
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
+
             nguyenLieuBUS bus = new nguyenLieuBUS();
             bus.napDSNguyenLieu();
 

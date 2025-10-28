@@ -1,5 +1,6 @@
 ﻿using BUS;
 using GUI.EXCEL;
+using GUI.FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,7 +22,8 @@ namespace GUI.GUI_CRUD
 
         private void selectExcelSanPham_Load(object sender, EventArgs e)
         {
-
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
         }
 
         private void btnNhapExcel_Click(object sender, EventArgs e)

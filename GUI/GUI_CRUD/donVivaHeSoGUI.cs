@@ -1,4 +1,7 @@
-﻿using DTO;
+﻿using BUS;
+using DTO;
+using GUI.FONTS;
+using GUI.GUI_SELECT;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,8 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using BUS;
-using GUI.GUI_SELECT;
 namespace GUI.GUI_CRUD
 {
     public partial class donVivaHeSoGUI : Form
@@ -83,6 +84,14 @@ namespace GUI.GUI_CRUD
 
         private void donVivaHeSoGUI_Load(object sender, EventArgs e)
         {
+            txtHeSo.DecimalPlaces = 3;
+            txtHeSo.Increment = 0.001M;
+            txtHeSo.Minimum = 0.000M;
+            txtHeSo.Maximum = 999.999M;
+
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
+
             donViBUS bus = new donViBUS();
             bus.docDanhSachDonVi();
             loadDanhSachDonVi(donViBUS.ds);
@@ -98,8 +107,6 @@ namespace GUI.GUI_CRUD
 
             tableHeSo.ClearSelection();
             tableDonVi.ClearSelection();
-            txtHeSo.DecimalPlaces = 1;
-            txtHeSo.Increment = 0.1M;
         }
 
         private void btnThemDonVI_Click(object sender, EventArgs e)
@@ -345,7 +352,7 @@ namespace GUI.GUI_CRUD
             }
 
             int maDV = Convert.ToInt32(cboDonVi.SelectedValue);
-            float heso = (float)txtHeSo.Value;
+            decimal heso = (decimal)txtHeSo.Value;
             heSoBUS bus = new heSoBUS();
             heSoDTO ct = new heSoDTO();
             ct.MaNguyenLieu = maNL;
@@ -376,7 +383,7 @@ namespace GUI.GUI_CRUD
             }
 
             int maDV = (int)cboDonVi.SelectedValue;
-            float heso = (float)txtHeSo.Value;
+            decimal heso = (decimal)txtHeSo.Value;
 
             DialogResult result = MessageBox.Show(
                 "Bạn có chắc muốn sửa hệ số này không?",

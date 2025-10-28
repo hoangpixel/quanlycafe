@@ -1,5 +1,6 @@
 ﻿using BUS;
 using DTO;
+using GUI.FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,6 +27,9 @@ namespace GUI.GUI_SELECT
 
         private void selectDonVi_Load(object sender, EventArgs e)
         {
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
+
             List<donViDTO> dsDonVi = new List<donViDTO>();
             donViBUS bus = new donViBUS();
 

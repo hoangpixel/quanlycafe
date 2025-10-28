@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GUI.FONTS;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -47,8 +48,8 @@ namespace GUI.GUI_UC
             // 🔹 Các nút menu
             AddNavButton("🏠  Trang chủ", "home");
             AddNavButton("📦  Sản phẩm", "sanpham");
-            AddNavButton("👨‍🍳  Công thức", "congthuc");
             AddNavButton("🥣  Nguyên liệu", "nguyenlieu");
+            AddNavButton("👨‍🍳  Công thức", "congthuc");
             AddNavButton("test bán hàng", "banhang");
             AddNavButton("👨‍💼  Nhân viên", "nhanvien");
             AddNavButton("📊  Báo cáo", "baocao");
@@ -119,6 +120,12 @@ namespace GUI.GUI_UC
             string tag = btn.Tag.ToString();
             if (tag == "exit") Application.Exit();
             else OnNavClick?.Invoke(tag);
+        }
+
+        private void navbarGUI_Load(object sender, EventArgs e)
+        {
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
         }
     }
 }

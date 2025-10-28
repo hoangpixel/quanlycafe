@@ -1,4 +1,5 @@
 ﻿using BUS;
+using GUI.FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,6 +39,12 @@ namespace GUI.GUI_CRUD
         private void btnHuy_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void deleteNguyenLieu_Load(object sender, EventArgs e)
+        {
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
         }
     }
 }

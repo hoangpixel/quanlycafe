@@ -104,6 +104,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "selectExcelNguyenLieu";
             this.Text = "Nhập / Xuất Excel nguyên liệu";
+            this.Load += new System.EventHandler(this.selectExcelNguyenLieu_Load);
             this.panel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

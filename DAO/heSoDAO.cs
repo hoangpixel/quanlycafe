@@ -28,7 +28,7 @@ namespace DAO
                         MaDonVi = reader.GetInt32("MADONVI"),
                         HeSo = reader.IsDBNull(reader.GetOrdinal("HESO"))
                             ? 0
-                            : reader.GetFloat("HESO")
+                            : reader.GetDecimal("HESO")
                     };
                     ds.Add(hs);
                 }
@@ -173,7 +173,7 @@ namespace DAO
                     ct.MaDonVi = reader.GetInt32("MADONVI");
                     ct.HeSo = reader.IsDBNull(reader.GetOrdinal("HESO"))
                             ? 0
-                            : reader.GetFloat("HESO");
+                            : reader.GetDecimal("HESO");
                     dskq.Add(ct);
                 }
                 reader.Close();

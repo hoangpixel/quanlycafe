@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 26, 2025 at 11:36 AM
+-- Generation Time: Oct 28, 2025 at 10:08 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -161,7 +161,7 @@ INSERT INTO `donvi` (`MADONVI`, `TENDONVI`, `TRANGTHAI`) VALUES
 CREATE TABLE `hesodonvi` (
   `MANGUYENLIEU` int(11) NOT NULL,
   `MADONVI` int(11) NOT NULL,
-  `HESO` decimal(10,2) DEFAULT NULL
+  `HESO` decimal(10,3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -169,12 +169,12 @@ CREATE TABLE `hesodonvi` (
 --
 
 INSERT INTO `hesodonvi` (`MANGUYENLIEU`, `MADONVI`, `HESO`) VALUES
-(1, 2, 1.00),
-(2, 2, 1.00),
-(3, 9, 1.00),
-(4, 9, 1.00),
-(5, 7, 6.00),
-(5, 8, 24.00);
+(1, 2, 1.000),
+(2, 2, 1.000),
+(3, 9, 1.000),
+(4, 9, 1.000),
+(5, 7, 6.000),
+(5, 8, 24.000);
 
 -- --------------------------------------------------------
 

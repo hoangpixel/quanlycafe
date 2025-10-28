@@ -1,5 +1,6 @@
 ﻿using BUS;
 using DTO;
+using GUI.FONTS;
 using GUI.GUI_CRUD;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,8 @@ namespace GUI.GUI_UC
         public nguyenLieuGUI()
         {
             InitializeComponent();
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
             hienThiPlaceHolderNguyenLieu();
         }
 
@@ -91,8 +94,8 @@ namespace GUI.GUI_UC
                 return;
             }
 
-            tableNguyenLieu.Columns.Clear();
-            tableNguyenLieu.DataSource = null;
+            //tableNguyenLieu.Columns.Clear();
+            //tableNguyenLieu.DataSource = null;
 
             DataTable dt = new DataTable();
             dt.Columns.Add("Mã NL");
@@ -113,6 +116,8 @@ namespace GUI.GUI_UC
             }
 
             tableNguyenLieu.DataSource = dt;
+            loadFontChuVaSize();
+
 
             if (tableNguyenLieu.Columns.Contains("Mã đơn vị"))
             {
@@ -125,6 +130,33 @@ namespace GUI.GUI_UC
             tableNguyenLieu.ReadOnly = true;
             tableNguyenLieu.ClearSelection();
         }
+        private void loadFontChuVaSize()
+        {
+            // --- Căn giữa và tắt sort ---
+            foreach (DataGridViewColumn col in tableNguyenLieu.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            tableNguyenLieu.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            tableNguyenLieu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // font cho dữ liệu trong table
+            tableNguyenLieu.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            //font cho header trong table
+            tableNguyenLieu.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(12);
+
+            // --- Fix lỗi mất text khi đổi font ---
+            tableNguyenLieu.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tableNguyenLieu.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            tableNguyenLieu.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            tableNguyenLieu.Refresh();
+        }
+
 
         private void nguyenLieuGUI_Load(object sender, EventArgs e)
         {
@@ -172,7 +204,7 @@ namespace GUI.GUI_UC
                 form.StartPosition = FormStartPosition.CenterParent;
                 form.ShowDialog();
                 nguyenLieuBUS bus = new nguyenLieuBUS();
-                bus.napDSNguyenLieu();
+                bus.docDSNguyenLieu();
                 loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
             }
         }
@@ -270,9 +302,9 @@ namespace GUI.GUI_UC
                 form.StartPosition = FormStartPosition.CenterParent;
                 form.ShowDialog(this);
             }
-            nguyenLieuBUS bus = new nguyenLieuBUS();
-            bus.napDSNguyenLieu();
-            loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
+            //nguyenLieuBUS bus = new nguyenLieuBUS();
+            //bus.napDSNguyenLieu();
+            //loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
         }
 
         private void btnExcelNL_Click(object sender, EventArgs e)

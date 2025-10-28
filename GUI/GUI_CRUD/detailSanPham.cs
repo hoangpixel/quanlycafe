@@ -1,5 +1,6 @@
 ﻿using BUS;
 using DTO;
+using GUI.FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,6 +33,9 @@ namespace GUI.GUI_CRUD
 
         private void detailSanPham_Load(object sender, EventArgs e)
         {
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
+
             txtTenSP.Text = ct.TenSP;
             txtMaSP.Text = ct.MaSP.ToString();
             txtGia.Text = ct.Gia.ToString("N0");

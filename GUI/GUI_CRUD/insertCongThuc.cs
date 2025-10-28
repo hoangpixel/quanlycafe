@@ -1,5 +1,7 @@
 ﻿using BUS;
 using DTO;
+using GUI.FONTS;
+using GUI.GUI_SELECT;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GUI.GUI_SELECT;
 
 namespace GUI.GUI_CRUD
 {
@@ -28,6 +29,9 @@ namespace GUI.GUI_CRUD
 
         private void insertCongThuc_Load(object sender, EventArgs e)
         {
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
+
             btnSuaCT.Enabled = false;
             btnXoaCT.Enabled = false;
         }

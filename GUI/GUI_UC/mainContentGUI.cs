@@ -44,8 +44,8 @@ namespace GUI.GUI_UC
             // ⚡ 4. Khởi tạo các trang
             pages["home"] = new homeGUI() { Dock = DockStyle.Fill };
             pages["sanpham"] = new sanPhamGUI() { Dock = DockStyle.Fill };
-            pages["congthuc"] = new congThucGUI() { Dock = DockStyle.Fill };
             pages["nguyenlieu"] = new nguyenLieuGUI() { Dock = DockStyle.Fill };
+            pages["congthuc"] = new congThucGUI() { Dock = DockStyle.Fill };
             pages["banhang"] = new testGUI() { Dock = DockStyle.Fill };
 
             foreach (var p in pages.Values)

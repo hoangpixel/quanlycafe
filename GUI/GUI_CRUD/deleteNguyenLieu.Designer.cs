@@ -92,6 +92,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "deleteNguyenLieu";
             this.Text = "Xóa nguyên liệu";
+            this.Load += new System.EventHandler(this.deleteNguyenLieu_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

@@ -71,7 +71,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(508, 413);
@@ -83,14 +83,14 @@
             // 
             this.txtGia.Location = new System.Drawing.Point(199, 172);
             this.txtGia.Name = "txtGia";
-            this.txtGia.Size = new System.Drawing.Size(269, 27);
+            this.txtGia.Size = new System.Drawing.Size(269, 28);
             this.txtGia.TabIndex = 9;
             // 
             // txtTenSP
             // 
             this.txtTenSP.Location = new System.Drawing.Point(199, 58);
             this.txtTenSP.Name = "txtTenSP";
-            this.txtTenSP.Size = new System.Drawing.Size(269, 27);
+            this.txtTenSP.Size = new System.Drawing.Size(269, 28);
             this.txtTenSP.TabIndex = 8;
             // 
             // cbLoai
@@ -98,7 +98,7 @@
             this.cbLoai.FormattingEnabled = true;
             this.cbLoai.Location = new System.Drawing.Point(199, 108);
             this.cbLoai.Name = "cbLoai";
-            this.cbLoai.Size = new System.Drawing.Size(269, 28);
+            this.cbLoai.Size = new System.Drawing.Size(269, 30);
             this.cbLoai.TabIndex = 7;
             this.cbLoai.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -106,9 +106,10 @@
             // 
             this.btnXoaAnh.BackColor = System.Drawing.Color.IndianRed;
             this.btnXoaAnh.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnXoaAnh.Location = new System.Drawing.Point(379, 291);
+            this.btnXoaAnh.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnXoaAnh.Location = new System.Drawing.Point(382, 291);
             this.btnXoaAnh.Name = "btnXoaAnh";
-            this.btnXoaAnh.Size = new System.Drawing.Size(89, 36);
+            this.btnXoaAnh.Size = new System.Drawing.Size(120, 40);
             this.btnXoaAnh.TabIndex = 6;
             this.btnXoaAnh.Text = "Xóa ảnh";
             this.btnXoaAnh.UseVisualStyleBackColor = false;
@@ -118,9 +119,10 @@
             // 
             this.btnChonAnh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.btnChonAnh.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnChonAnh.Location = new System.Drawing.Point(379, 237);
+            this.btnChonAnh.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnChonAnh.Location = new System.Drawing.Point(382, 237);
             this.btnChonAnh.Name = "btnChonAnh";
-            this.btnChonAnh.Size = new System.Drawing.Size(89, 36);
+            this.btnChonAnh.Size = new System.Drawing.Size(120, 40);
             this.btnChonAnh.TabIndex = 5;
             this.btnChonAnh.Text = "Chọn ảnh";
             this.btnChonAnh.UseVisualStyleBackColor = false;
@@ -139,6 +141,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(33, 237);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(132, 20);
@@ -148,6 +151,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(31, 172);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(123, 20);
@@ -157,6 +161,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(33, 108);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(129, 20);
@@ -166,6 +171,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(31, 58);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(125, 20);
@@ -185,7 +191,7 @@
             this.groupBox2.Controls.Add(this.btnThoat);
             this.groupBox2.Controls.Add(this.btnNhapSP);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(508, 100);
@@ -197,10 +203,10 @@
             // 
             this.btnThoat.BackColor = System.Drawing.Color.IndianRed;
             this.btnThoat.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnThoat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnThoat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnThoat.Location = new System.Drawing.Point(290, 34);
             this.btnThoat.Name = "btnThoat";
-            this.btnThoat.Size = new System.Drawing.Size(135, 51);
+            this.btnThoat.Size = new System.Drawing.Size(150, 51);
             this.btnThoat.TabIndex = 10;
             this.btnThoat.Text = "Thoát";
             this.btnThoat.UseVisualStyleBackColor = false;
@@ -210,10 +216,10 @@
             // 
             this.btnNhapSP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.btnNhapSP.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnNhapSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNhapSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNhapSP.Location = new System.Drawing.Point(83, 34);
             this.btnNhapSP.Name = "btnNhapSP";
-            this.btnNhapSP.Size = new System.Drawing.Size(135, 51);
+            this.btnNhapSP.Size = new System.Drawing.Size(150, 51);
             this.btnNhapSP.TabIndex = 9;
             this.btnNhapSP.Text = "Nhập sản phẩm";
             this.btnNhapSP.UseVisualStyleBackColor = false;

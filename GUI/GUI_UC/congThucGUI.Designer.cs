@@ -101,7 +101,7 @@
             this.chucNangPanel.Location = new System.Drawing.Point(0, 60);
             this.chucNangPanel.Name = "chucNangPanel";
             this.chucNangPanel.Padding = new System.Windows.Forms.Padding(10);
-            this.chucNangPanel.Size = new System.Drawing.Size(1550, 200);
+            this.chucNangPanel.Size = new System.Drawing.Size(1550, 215);
             this.chucNangPanel.TabIndex = 7;
             // 
             // roundedChucNang
@@ -115,7 +115,7 @@
             this.roundedChucNang.Location = new System.Drawing.Point(10, 10);
             this.roundedChucNang.Name = "roundedChucNang";
             this.roundedChucNang.Padding = new System.Windows.Forms.Padding(10);
-            this.roundedChucNang.Size = new System.Drawing.Size(1530, 180);
+            this.roundedChucNang.Size = new System.Drawing.Size(1530, 195);
             this.roundedChucNang.TabIndex = 0;
             // 
             // layoutChucNang
@@ -130,7 +130,7 @@
             this.layoutChucNang.Name = "layoutChucNang";
             this.layoutChucNang.RowCount = 1;
             this.layoutChucNang.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.layoutChucNang.Size = new System.Drawing.Size(1510, 160);
+            this.layoutChucNang.Size = new System.Drawing.Size(1510, 175);
             this.layoutChucNang.TabIndex = 0;
             // 
             // tableLayoutPanel6
@@ -146,7 +146,7 @@
             this.tableLayoutPanel6.RowCount = 2;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(645, 154);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(645, 169);
             this.tableLayoutPanel6.TabIndex = 7;
             // 
             // groupBox8
@@ -154,9 +154,9 @@
             this.groupBox8.Controls.Add(this.layoutTimKiemNangCao);
             this.groupBox8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox8.Location = new System.Drawing.Point(3, 80);
+            this.groupBox8.Location = new System.Drawing.Point(3, 87);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(639, 71);
+            this.groupBox8.Size = new System.Drawing.Size(639, 79);
             this.groupBox8.TabIndex = 5;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Tìm kiếm nâng cao";
@@ -181,13 +181,13 @@
             this.layoutTimKiemNangCao.Name = "layoutTimKiemNangCao";
             this.layoutTimKiemNangCao.RowCount = 1;
             this.layoutTimKiemNangCao.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.layoutTimKiemNangCao.Size = new System.Drawing.Size(633, 45);
+            this.layoutTimKiemNangCao.Size = new System.Drawing.Size(633, 53);
             this.layoutTimKiemNangCao.TabIndex = 1;
             // 
             // textBox2
             // 
             this.textBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox2.Location = new System.Drawing.Point(5, 9);
+            this.textBox2.Location = new System.Drawing.Point(5, 13);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(109, 27);
             this.textBox2.TabIndex = 7;
@@ -196,7 +196,7 @@
             // 
             this.comboBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(245, 8);
+            this.comboBox1.Location = new System.Drawing.Point(245, 14);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(109, 28);
             this.comboBox1.TabIndex = 6;
@@ -204,7 +204,7 @@
             // textBox1
             // 
             this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox1.Location = new System.Drawing.Point(125, 9);
+            this.textBox1.Location = new System.Drawing.Point(125, 13);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(109, 27);
             this.textBox1.TabIndex = 5;
@@ -212,7 +212,7 @@
             // txtGiaMax
             // 
             this.txtGiaMax.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtGiaMax.Location = new System.Drawing.Point(485, 9);
+            this.txtGiaMax.Location = new System.Drawing.Point(485, 13);
             this.txtGiaMax.Name = "txtGiaMax";
             this.txtGiaMax.Size = new System.Drawing.Size(109, 27);
             this.txtGiaMax.TabIndex = 3;
@@ -220,7 +220,7 @@
             // txtGiaMin
             // 
             this.txtGiaMin.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtGiaMin.Location = new System.Drawing.Point(365, 9);
+            this.txtGiaMin.Location = new System.Drawing.Point(365, 13);
             this.txtGiaMin.Name = "txtGiaMin";
             this.txtGiaMin.Size = new System.Drawing.Size(109, 27);
             this.txtGiaMin.TabIndex = 2;
@@ -229,7 +229,7 @@
             // 
             this.rdoTimNangCao.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rdoTimNangCao.AutoSize = true;
-            this.rdoTimNangCao.Location = new System.Drawing.Point(605, 14);
+            this.rdoTimNangCao.Location = new System.Drawing.Point(605, 18);
             this.rdoTimNangCao.Margin = new System.Windows.Forms.Padding(3, 3, 9, 3);
             this.rdoTimNangCao.Name = "rdoTimNangCao";
             this.rdoTimNangCao.Size = new System.Drawing.Size(17, 16);
@@ -244,7 +244,7 @@
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox4.Location = new System.Drawing.Point(3, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(639, 71);
+            this.groupBox4.Size = new System.Drawing.Size(639, 78);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Tìm kiếm cơ bản";
@@ -277,7 +277,7 @@
             "Tên SP",
             "Giá min",
             "Giá max"});
-            this.cboTimKiemSP.Location = new System.Drawing.Point(10, 10);
+            this.cboTimKiemSP.Location = new System.Drawing.Point(10, 8);
             this.cboTimKiemSP.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemSP.Name = "cboTimKiemSP";
             this.cboTimKiemSP.Size = new System.Drawing.Size(176, 28);
@@ -321,7 +321,7 @@
             this.xulycongthuc.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xulycongthuc.Location = new System.Drawing.Point(3, 3);
             this.xulycongthuc.Name = "xulycongthuc";
-            this.xulycongthuc.Size = new System.Drawing.Size(853, 154);
+            this.xulycongthuc.Size = new System.Drawing.Size(853, 169);
             this.xulycongthuc.TabIndex = 0;
             this.xulycongthuc.TabStop = false;
             this.xulycongthuc.Text = "Xử lý công thức";
@@ -346,20 +346,20 @@
             this.tableLayoutChoChucNang.Name = "tableLayoutChoChucNang";
             this.tableLayoutChoChucNang.RowCount = 1;
             this.tableLayoutChoChucNang.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutChoChucNang.Size = new System.Drawing.Size(847, 128);
+            this.tableLayoutChoChucNang.Size = new System.Drawing.Size(847, 143);
             this.tableLayoutChoChucNang.TabIndex = 0;
             // 
             // btnExcelCT
             // 
             this.btnExcelCT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnExcelCT.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnExcelCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExcelCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExcelCT.Image = global::GUI.Properties.Resources.xls;
             this.btnExcelCT.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnExcelCT.Location = new System.Drawing.Point(727, 10);
             this.btnExcelCT.Margin = new System.Windows.Forms.Padding(22, 10, 22, 10);
             this.btnExcelCT.Name = "btnExcelCT";
-            this.btnExcelCT.Size = new System.Drawing.Size(98, 108);
+            this.btnExcelCT.Size = new System.Drawing.Size(98, 123);
             this.btnExcelCT.TabIndex = 7;
             this.btnExcelCT.Text = "Excel";
             this.btnExcelCT.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -370,13 +370,13 @@
             // 
             this.btnReFreshCT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnReFreshCT.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnReFreshCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReFreshCT.Image = global::GUI.Properties.Resources.update_arrows;
+            this.btnReFreshCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReFreshCT.Image = global::GUI.Properties.Resources._6372969_loading_refresh_refresh_button_reload_repeat_icon;
             this.btnReFreshCT.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnReFreshCT.Location = new System.Drawing.Point(586, 10);
             this.btnReFreshCT.Margin = new System.Windows.Forms.Padding(22, 10, 22, 10);
             this.btnReFreshCT.Name = "btnReFreshCT";
-            this.btnReFreshCT.Size = new System.Drawing.Size(97, 108);
+            this.btnReFreshCT.Size = new System.Drawing.Size(97, 123);
             this.btnReFreshCT.TabIndex = 4;
             this.btnReFreshCT.Text = "Làm mới";
             this.btnReFreshCT.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -387,13 +387,13 @@
             // 
             this.btnChiTietCT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnChiTietCT.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnChiTietCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnChiTietCT.Image = global::GUI.Properties.Resources.info;
+            this.btnChiTietCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnChiTietCT.Image = global::GUI.Properties.Resources._299086_info_sign_icon__1_;
             this.btnChiTietCT.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnChiTietCT.Location = new System.Drawing.Point(445, 10);
             this.btnChiTietCT.Margin = new System.Windows.Forms.Padding(22, 10, 22, 10);
             this.btnChiTietCT.Name = "btnChiTietCT";
-            this.btnChiTietCT.Size = new System.Drawing.Size(97, 108);
+            this.btnChiTietCT.Size = new System.Drawing.Size(97, 123);
             this.btnChiTietCT.TabIndex = 3;
             this.btnChiTietCT.Text = "Chi tiết";
             this.btnChiTietCT.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -404,13 +404,13 @@
             // 
             this.btnXoaCT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnXoaCT.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnXoaCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnXoaCT.Image = global::GUI.Properties.Resources.trash;
+            this.btnXoaCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnXoaCT.Image = global::GUI.Properties.Resources._9004852_trash_delete_bin_remove_icon;
             this.btnXoaCT.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnXoaCT.Location = new System.Drawing.Point(304, 10);
             this.btnXoaCT.Margin = new System.Windows.Forms.Padding(22, 10, 22, 10);
             this.btnXoaCT.Name = "btnXoaCT";
-            this.btnXoaCT.Size = new System.Drawing.Size(97, 108);
+            this.btnXoaCT.Size = new System.Drawing.Size(97, 123);
             this.btnXoaCT.TabIndex = 2;
             this.btnXoaCT.Text = "Xóa";
             this.btnXoaCT.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -421,13 +421,13 @@
             // 
             this.btnSuaCT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSuaCT.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnSuaCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSuaCT.Image = global::GUI.Properties.Resources.edit;
+            this.btnSuaCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSuaCT.Image = global::GUI.Properties.Resources._299100_screwdriver_wrench_icon;
             this.btnSuaCT.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnSuaCT.Location = new System.Drawing.Point(163, 10);
             this.btnSuaCT.Margin = new System.Windows.Forms.Padding(22, 10, 22, 10);
             this.btnSuaCT.Name = "btnSuaCT";
-            this.btnSuaCT.Size = new System.Drawing.Size(97, 108);
+            this.btnSuaCT.Size = new System.Drawing.Size(97, 123);
             this.btnSuaCT.TabIndex = 1;
             this.btnSuaCT.Text = "Sửa";
             this.btnSuaCT.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -438,13 +438,13 @@
             // 
             this.btnThemCT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnThemCT.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnThemCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThemCT.Image = global::GUI.Properties.Resources.add;
+            this.btnThemCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnThemCT.Image = global::GUI.Properties.Resources._299068_add_sign_icon;
             this.btnThemCT.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnThemCT.Location = new System.Drawing.Point(22, 10);
             this.btnThemCT.Margin = new System.Windows.Forms.Padding(22, 10, 22, 10);
             this.btnThemCT.Name = "btnThemCT";
-            this.btnThemCT.Size = new System.Drawing.Size(97, 108);
+            this.btnThemCT.Size = new System.Drawing.Size(97, 123);
             this.btnThemCT.TabIndex = 0;
             this.btnThemCT.Text = "Thêm";
             this.btnThemCT.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -456,10 +456,10 @@
             this.panelTable.BackColor = System.Drawing.Color.White;
             this.panelTable.Controls.Add(this.tableCongThuc);
             this.panelTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelTable.Location = new System.Drawing.Point(0, 260);
+            this.panelTable.Location = new System.Drawing.Point(0, 275);
             this.panelTable.Name = "panelTable";
             this.panelTable.Padding = new System.Windows.Forms.Padding(10);
-            this.panelTable.Size = new System.Drawing.Size(1550, 400);
+            this.panelTable.Size = new System.Drawing.Size(1550, 385);
             this.panelTable.TabIndex = 8;
             // 
             // tableCongThuc
@@ -495,7 +495,7 @@
             this.tableCongThuc.RowHeadersWidth = 51;
             this.tableCongThuc.RowTemplate.Height = 24;
             this.tableCongThuc.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tableCongThuc.Size = new System.Drawing.Size(1530, 380);
+            this.tableCongThuc.Size = new System.Drawing.Size(1530, 365);
             this.tableCongThuc.TabIndex = 5;
             this.tableCongThuc.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.kiemTraClickTable);
             this.tableCongThuc.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tableCongThuc_DataBindingComplete);

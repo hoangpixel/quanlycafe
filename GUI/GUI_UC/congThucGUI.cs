@@ -1,5 +1,6 @@
 ﻿using BUS;
 using DTO;
+using GUI.FONTS;
 using GUI.GUI_CRUD;
 using System;
 using System.Collections.Generic;
@@ -62,7 +63,15 @@ namespace GUI.GUI_UC
             tableCongThuc.Columns["Mã_Đơn_vị"].Visible = false;
 
             foreach (DataGridViewColumn col in tableCongThuc.Columns)
-                col.SortMode = DataGridViewColumnSortMode.Automatic;
+            {
+                loadFontChuVaSize();
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+            tableCongThuc.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            tableCongThuc.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
 
             btnSuaCT.Enabled = false;
             btnXoaCT.Enabled = false;
@@ -73,9 +82,39 @@ namespace GUI.GUI_UC
 
         private void congThucGUI_Load(object sender, EventArgs e)
         {
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
+
             congThucBUS bus = new congThucBUS();
             var ds = bus.docTatCaCongThuc();
             loadDanhSachCongThuc(ds);
+        }
+
+        private void loadFontChuVaSize()
+        {
+            // --- Căn giữa và tắt sort ---
+            foreach (DataGridViewColumn col in tableCongThuc.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            tableCongThuc.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            tableCongThuc.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // font cho dữ liệu trong table
+            tableCongThuc.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            //font cho header trong table
+            tableCongThuc.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(12);
+
+            // --- Fix lỗi mất text khi đổi font ---
+            tableCongThuc.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tableCongThuc.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            tableCongThuc.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            tableCongThuc.Refresh();
         }
 
         private void kiemTraClickTable(object sender, DataGridViewCellEventArgs e)

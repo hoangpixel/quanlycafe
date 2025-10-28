@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BUS;
+using DTO;
+using GUI.FONTS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,8 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DTO;
-using BUS;
 namespace GUI.GUI_CRUD
 {
     public partial class loaiSPGUI : Form
@@ -58,6 +59,9 @@ namespace GUI.GUI_CRUD
 
         private void loaiSPGUI_Load(object sender, EventArgs e)
         {
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
+
             loaiSanPhamBUS bus = new loaiSanPhamBUS();
             bus.docDsLoaiSP();
             loadDanhSachLoaiSP(loaiSanPhamBUS.ds);

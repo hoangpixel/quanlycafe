@@ -1,5 +1,6 @@
-﻿using DTO;
-using BUS;
+﻿using BUS;
+using DTO;
+using GUI.FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,6 +24,9 @@ namespace GUI.GUI_CRUD
 
         private void detailNguyenLieu_Load(object sender, EventArgs e)
         {
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
+
             txtMaNL.Text = ct.MaNguyenLieu.ToString();
             txtTenNL.Text = ct.TenNguyenLieu;
             txtDonVi.Text = ct.TenDonViCoSo;

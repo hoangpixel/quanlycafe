@@ -1,5 +1,6 @@
 ﻿using BUS;
 using DTO;
+using GUI.FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -37,7 +38,10 @@ namespace GUI.GUI_CRUD
         }
 
         private void insertNguyenLieu_Load(object sender, EventArgs e)
-        {            
+        {
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
+
             donViBUS busDonVi = new donViBUS();
             dsDonVi = busDonVi.layDanhSachDonVi();
 

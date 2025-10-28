@@ -104,6 +104,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "selectExcelCongThuc";
             this.Text = "Nhập / Xuất Excel công thức";
+            this.Load += new System.EventHandler(this.selectExcelCongThuc_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
