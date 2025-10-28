@@ -251,6 +251,12 @@
     <Compile Include="GUI_UC\sanPhamGUI.Designer.cs">
       <DependentUpon>sanPhamGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_UC\testGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI_UC\testGUI.Designer.cs">
+      <DependentUpon>testGUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GUI_SELECT\selectDonVi.resx">
@@ -325,6 +331,9 @@
     <EmbeddedResource Include="GUI_UC\sanPhamGUI.resx">
       <DependentUpon>sanPhamGUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI_UC\testGUI.resx">
+      <DependentUpon>testGUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -387,6 +396,7 @@
     <None Include="Resources\4288571_balance_judge_justice_law_scale_icon1.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\567514931_1193850649327913_8278814637654723416_n.jpg" />
     <Content Include="Resources\IMG\SP\cafe-den-da-8801.png" />
     <Content Include="Resources\IMG\SP\pngtree-cute-iced-coffee-takeaway-png-image_11477425.png" />
     <Content Include="Resources\IMG\SP\pngtree-ice-milk-coffee-png-image_9162395.png" />

@@ -33,8 +33,6 @@
             this.topPanel = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.chucNangPanel = new System.Windows.Forms.Panel();
-            this.panelTable = new System.Windows.Forms.Panel();
-            this.tableCongThuc = new System.Windows.Forms.DataGridView();
             this.roundedChucNang = new GUI.COMPONENTS.RoundedPanel();
             this.layoutChucNang = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
@@ -60,9 +58,9 @@
             this.btnXoaCT = new System.Windows.Forms.Button();
             this.btnSuaCT = new System.Windows.Forms.Button();
             this.btnThemCT = new System.Windows.Forms.Button();
+            this.panelTable = new System.Windows.Forms.Panel();
+            this.tableCongThuc = new System.Windows.Forms.DataGridView();
             this.chucNangPanel.SuspendLayout();
-            this.panelTable.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tableCongThuc)).BeginInit();
             this.roundedChucNang.SuspendLayout();
             this.layoutChucNang.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
@@ -72,6 +70,8 @@
             this.layoutTimKiemCoban.SuspendLayout();
             this.xulycongthuc.SuspendLayout();
             this.tableLayoutChoChucNang.SuspendLayout();
+            this.panelTable.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tableCongThuc)).BeginInit();
             this.SuspendLayout();
             // 
             // topPanel
@@ -103,55 +103,6 @@
             this.chucNangPanel.Padding = new System.Windows.Forms.Padding(10);
             this.chucNangPanel.Size = new System.Drawing.Size(1550, 200);
             this.chucNangPanel.TabIndex = 7;
-            // 
-            // panelTable
-            // 
-            this.panelTable.BackColor = System.Drawing.Color.White;
-            this.panelTable.Controls.Add(this.tableCongThuc);
-            this.panelTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelTable.Location = new System.Drawing.Point(0, 260);
-            this.panelTable.Name = "panelTable";
-            this.panelTable.Padding = new System.Windows.Forms.Padding(10);
-            this.panelTable.Size = new System.Drawing.Size(1550, 400);
-            this.panelTable.TabIndex = 8;
-            // 
-            // tableCongThuc
-            // 
-            this.tableCongThuc.AllowUserToAddRows = false;
-            this.tableCongThuc.AllowUserToDeleteRows = false;
-            this.tableCongThuc.AllowUserToResizeColumns = false;
-            this.tableCongThuc.AllowUserToResizeRows = false;
-            this.tableCongThuc.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tableCongThuc.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.tableCongThuc.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.tableCongThuc.DefaultCellStyle = dataGridViewCellStyle2;
-            this.tableCongThuc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableCongThuc.EnableHeadersVisualStyles = false;
-            this.tableCongThuc.Location = new System.Drawing.Point(10, 10);
-            this.tableCongThuc.MultiSelect = false;
-            this.tableCongThuc.Name = "tableCongThuc";
-            this.tableCongThuc.RowHeadersVisible = false;
-            this.tableCongThuc.RowHeadersWidth = 51;
-            this.tableCongThuc.RowTemplate.Height = 24;
-            this.tableCongThuc.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tableCongThuc.Size = new System.Drawing.Size(1530, 380);
-            this.tableCongThuc.TabIndex = 5;
-            this.tableCongThuc.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.kiemTraClickTable);
-            this.tableCongThuc.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tableCongThuc_DataBindingComplete);
             // 
             // roundedChucNang
             // 
@@ -245,7 +196,7 @@
             // 
             this.comboBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(245, 10);
+            this.comboBox1.Location = new System.Drawing.Point(245, 8);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(109, 28);
             this.comboBox1.TabIndex = 6;
@@ -326,7 +277,7 @@
             "Tên SP",
             "Giá min",
             "Giá max"});
-            this.cboTimKiemSP.Location = new System.Drawing.Point(10, 8);
+            this.cboTimKiemSP.Location = new System.Drawing.Point(10, 10);
             this.cboTimKiemSP.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemSP.Name = "cboTimKiemSP";
             this.cboTimKiemSP.Size = new System.Drawing.Size(176, 28);
@@ -500,6 +451,55 @@
             this.btnThemCT.UseVisualStyleBackColor = true;
             this.btnThemCT.Click += new System.EventHandler(this.btnThemCT_Click);
             // 
+            // panelTable
+            // 
+            this.panelTable.BackColor = System.Drawing.Color.White;
+            this.panelTable.Controls.Add(this.tableCongThuc);
+            this.panelTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelTable.Location = new System.Drawing.Point(0, 260);
+            this.panelTable.Name = "panelTable";
+            this.panelTable.Padding = new System.Windows.Forms.Padding(10);
+            this.panelTable.Size = new System.Drawing.Size(1550, 400);
+            this.panelTable.TabIndex = 8;
+            // 
+            // tableCongThuc
+            // 
+            this.tableCongThuc.AllowUserToAddRows = false;
+            this.tableCongThuc.AllowUserToDeleteRows = false;
+            this.tableCongThuc.AllowUserToResizeColumns = false;
+            this.tableCongThuc.AllowUserToResizeRows = false;
+            this.tableCongThuc.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tableCongThuc.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.tableCongThuc.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.tableCongThuc.DefaultCellStyle = dataGridViewCellStyle2;
+            this.tableCongThuc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableCongThuc.EnableHeadersVisualStyles = false;
+            this.tableCongThuc.Location = new System.Drawing.Point(10, 10);
+            this.tableCongThuc.MultiSelect = false;
+            this.tableCongThuc.Name = "tableCongThuc";
+            this.tableCongThuc.RowHeadersVisible = false;
+            this.tableCongThuc.RowHeadersWidth = 51;
+            this.tableCongThuc.RowTemplate.Height = 24;
+            this.tableCongThuc.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.tableCongThuc.Size = new System.Drawing.Size(1530, 380);
+            this.tableCongThuc.TabIndex = 5;
+            this.tableCongThuc.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.kiemTraClickTable);
+            this.tableCongThuc.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tableCongThuc_DataBindingComplete);
+            // 
             // congThucGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -512,8 +512,6 @@
             this.Size = new System.Drawing.Size(1550, 720);
             this.Load += new System.EventHandler(this.congThucGUI_Load);
             this.chucNangPanel.ResumeLayout(false);
-            this.panelTable.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tableCongThuc)).EndInit();
             this.roundedChucNang.ResumeLayout(false);
             this.layoutChucNang.ResumeLayout(false);
             this.tableLayoutPanel6.ResumeLayout(false);
@@ -525,6 +523,8 @@
             this.layoutTimKiemCoban.PerformLayout();
             this.xulycongthuc.ResumeLayout(false);
             this.tableLayoutChoChucNang.ResumeLayout(false);
+            this.panelTable.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tableCongThuc)).EndInit();
             this.ResumeLayout(false);
 
         }

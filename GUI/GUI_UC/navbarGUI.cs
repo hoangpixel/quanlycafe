@@ -49,6 +49,7 @@ namespace GUI.GUI_UC
             AddNavButton("📦  Sản phẩm", "sanpham");
             AddNavButton("👨‍🍳  Công thức", "congthuc");
             AddNavButton("🥣  Nguyên liệu", "nguyenlieu");
+            AddNavButton("test bán hàng", "banhang");
             AddNavButton("👨‍💼  Nhân viên", "nhanvien");
             AddNavButton("📊  Báo cáo", "baocao");
             AddNavButton("🚪  Thoát", "exit");
