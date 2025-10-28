@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GUI.GUI_SELECT;
-
+using GUI.FONTS;
 namespace GUI.GUI_UC
 {
     public partial class sanPhamGUI : UserControl
@@ -31,6 +31,9 @@ namespace GUI.GUI_UC
             tbSanPham.ClearSelection();
             loadComboBoxLoaiSPTK();
             rdoTimCoBan.Checked = true;
+
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
         }
 
         private void loadDanhSachSanPham(List<sanPhamDTO> ds)
