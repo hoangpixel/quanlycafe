@@ -196,7 +196,7 @@
             // 
             this.comboBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(245, 14);
+            this.comboBox1.Location = new System.Drawing.Point(245, 12);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(109, 28);
             this.comboBox1.TabIndex = 6;
@@ -277,7 +277,7 @@
             "Tên SP",
             "Giá min",
             "Giá max"});
-            this.cboTimKiemSP.Location = new System.Drawing.Point(10, 8);
+            this.cboTimKiemSP.Location = new System.Drawing.Point(10, 10);
             this.cboTimKiemSP.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemSP.Name = "cboTimKiemSP";
             this.cboTimKiemSP.Size = new System.Drawing.Size(176, 28);
@@ -371,7 +371,7 @@
             this.btnReFreshCT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnReFreshCT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnReFreshCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReFreshCT.Image = global::GUI.Properties.Resources._6372969_loading_refresh_refresh_button_reload_repeat_icon;
+            this.btnReFreshCT.Image = global::GUI.Properties.Resources.reload;
             this.btnReFreshCT.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnReFreshCT.Location = new System.Drawing.Point(586, 10);
             this.btnReFreshCT.Margin = new System.Windows.Forms.Padding(22, 10, 22, 10);
@@ -388,7 +388,7 @@
             this.btnChiTietCT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnChiTietCT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnChiTietCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnChiTietCT.Image = global::GUI.Properties.Resources._299086_info_sign_icon__1_;
+            this.btnChiTietCT.Image = global::GUI.Properties.Resources.info;
             this.btnChiTietCT.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnChiTietCT.Location = new System.Drawing.Point(445, 10);
             this.btnChiTietCT.Margin = new System.Windows.Forms.Padding(22, 10, 22, 10);
@@ -405,7 +405,7 @@
             this.btnXoaCT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnXoaCT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnXoaCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnXoaCT.Image = global::GUI.Properties.Resources._9004852_trash_delete_bin_remove_icon;
+            this.btnXoaCT.Image = global::GUI.Properties.Resources.delete;
             this.btnXoaCT.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnXoaCT.Location = new System.Drawing.Point(304, 10);
             this.btnXoaCT.Margin = new System.Windows.Forms.Padding(22, 10, 22, 10);
@@ -422,7 +422,7 @@
             this.btnSuaCT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSuaCT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSuaCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSuaCT.Image = global::GUI.Properties.Resources._299100_screwdriver_wrench_icon;
+            this.btnSuaCT.Image = global::GUI.Properties.Resources.update;
             this.btnSuaCT.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnSuaCT.Location = new System.Drawing.Point(163, 10);
             this.btnSuaCT.Margin = new System.Windows.Forms.Padding(22, 10, 22, 10);
@@ -439,7 +439,7 @@
             this.btnThemCT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnThemCT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnThemCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThemCT.Image = global::GUI.Properties.Resources._299068_add_sign_icon;
+            this.btnThemCT.Image = global::GUI.Properties.Resources.add;
             this.btnThemCT.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnThemCT.Location = new System.Drawing.Point(22, 10);
             this.btnThemCT.Margin = new System.Windows.Forms.Padding(22, 10, 22, 10);

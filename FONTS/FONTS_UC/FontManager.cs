@@ -4,7 +4,7 @@ using System.Drawing.Text;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace GUI.FONTS
+namespace FONTS
 {
     public static class FontManager
     {
@@ -20,7 +20,7 @@ namespace GUI.FONTS
         {
             try
             {
-                string fontsFolder = System.IO.Path.Combine(Application.StartupPath, "FONTS");
+                string fontsFolder = System.IO.Path.Combine(Application.StartupPath, "FONTS_UC");
 
                 string regularPath = System.IO.Path.Combine(fontsFolder, "Saira-Regular.ttf");
                 string boldPath = System.IO.Path.Combine(fontsFolder, "Saira-Bold.ttf");

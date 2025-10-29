@@ -1,6 +1,6 @@
 ﻿using BUS;
 using DTO;
-using GUI.FONTS;
+using FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,7 +33,7 @@ namespace GUI.GUI_CRUD
             txtTonKho.Text = ct.TonKho.ToString();
 
             congThucBUS bus = new congThucBUS();
-            var ds = bus.docDSSanPhamTheoNguyenLieu(ct.MaNguyenLieu);
+            BindingList<sanPhamDTO> ds = bus.docDSSanPhamTheoNguyenLieu(ct.MaNguyenLieu);
             loadDanhSachSanPham(ds);
 
             heSoBUS busHs = new heSoBUS();
@@ -41,7 +41,7 @@ namespace GUI.GUI_CRUD
             loadDanhSachHeSo(dshs);
         }
 
-        private void loadDanhSachSanPham(List<sanPhamDTO> ds)
+        private void loadDanhSachSanPham(BindingList<sanPhamDTO> ds)
         {
             tableNguyenLieu.Columns.Clear();
             tableNguyenLieu.DataSource = null;
@@ -55,7 +55,7 @@ namespace GUI.GUI_CRUD
 
 
             donViBUS busdv = new donViBUS();
-            List<donViDTO> dsdv = busdv.layDanhSachDonVi();
+            BindingList<donViDTO> dsdv = busdv.LayDanhSach();
 
             foreach (var sp in ds)
             {
@@ -83,7 +83,7 @@ namespace GUI.GUI_CRUD
             dt.Columns.Add("Hệ số");
 
             donViBUS busdv = new donViBUS();
-            List<donViDTO> dsdv = busdv.layDanhSachDonVi();
+            BindingList<donViDTO> dsdv = busdv.LayDanhSach();
 
             foreach (var sp in ds)
             {

@@ -2,32 +2,35 @@
 using DTO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO.Ports;
 using System.Linq;
 
 namespace BUS
 {
     public class congThucBUS
     {
-        public static List<congThucDTO> ds = new List<congThucDTO>();
+        public static BindingList<congThucDTO> ds = new BindingList<congThucDTO>();
 
-        public List<congThucDTO> docDSCongThucTheoSP(int maSP)
+        public BindingList<congThucDTO> docDSCongThucTheoSP(int maSP)
         {
             congThucDAO data = new congThucDAO();
             ds = data.docDanhSachCongThucTheoSP(maSP);
             return ds;
         }
 
-        public List<sanPhamDTO> docDSSanPhamTheoNguyenLieu(int maNL)
+        public BindingList<sanPhamDTO> docDSSanPhamTheoNguyenLieu(int maNL)
         {
             congThucDAO data = new congThucDAO();
             return data.docDanhSachSanPhamTheoNguyenLieu(maNL);
         }
 
 
-        public List<congThucDTO> docTatCaCongThuc()
+        public BindingList<congThucDTO> LayDanhSach()
         {
             congThucDAO data = new congThucDAO();
-            return data.docTatCaCongThuc();
+            ds = data.docTatCaCongThuc();
+            return ds;
         }
 
         public bool themCongThuc(congThucDTO ct)
@@ -55,12 +58,12 @@ namespace BUS
             bool result = data.Sua(ct);
             if (result)
             {
-                var existing = ds.FirstOrDefault(x => x.MaSanPham == ct.MaSanPham && x.MaNguyenLieu == ct.MaNguyenLieu);
-                if (existing != null)
+                congThucDTO tontai = ds.FirstOrDefault(x => x.MaSanPham == ct.MaSanPham && x.MaNguyenLieu == ct.MaNguyenLieu);
+                if (tontai != null)
                 {
-                    existing.SoLuongCoSo = ct.SoLuongCoSo;
-                    existing.MaDonViCoSo = ct.MaDonViCoSo;
-                    existing.TrangThai = ct.TrangThai;
+                    tontai.SoLuongCoSo = ct.SoLuongCoSo;
+                    tontai.MaDonViCoSo = ct.MaDonViCoSo;
+                    tontai.TrangThai = ct.TrangThai;
                 }
             }
             return result;
@@ -73,7 +76,11 @@ namespace BUS
             bool result = data.Xoa(maSP, maNL);
             if (result)
             {
-                ds.RemoveAll(x => x.MaSanPham == maSP && x.MaNguyenLieu == maNL);
+                congThucDTO cth = ds.FirstOrDefault(x => x.MaSanPham == maSP && x.MaNguyenLieu == maNL);
+                if (cth != null)
+                {
+                    ds.Remove(cth);
+                }
             }
             return result;
         }
@@ -81,7 +88,7 @@ namespace BUS
 
 
         // 🟢 Nhập Excel thông minh
-        public void NhapExcelThongMinh(List<congThucDTO> dsExcel)
+        public void NhapExcelThongMinh(BindingList<congThucDTO> dsExcel)
         {
             int soThem = 0, soCapNhat = 0, soBoQua = 0, soLoi = 0;
             congThucDAO data = new congThucDAO();

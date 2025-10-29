@@ -390,7 +390,7 @@
             this.btnRefreshSP.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnRefreshSP.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnRefreshSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRefreshSP.Image = global::GUI.Properties.Resources._6372969_loading_refresh_refresh_button_reload_repeat_icon;
+            this.btnRefreshSP.Image = global::GUI.Properties.Resources.reload;
             this.btnRefreshSP.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnRefreshSP.Location = new System.Drawing.Point(494, 10);
             this.btnRefreshSP.Margin = new System.Windows.Forms.Padding(10);
@@ -407,7 +407,7 @@
             this.btnChiTiet.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnChiTiet.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnChiTiet.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnChiTiet.Image = global::GUI.Properties.Resources._299086_info_sign_icon__1_;
+            this.btnChiTiet.Image = global::GUI.Properties.Resources.info;
             this.btnChiTiet.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnChiTiet.Location = new System.Drawing.Point(373, 10);
             this.btnChiTiet.Margin = new System.Windows.Forms.Padding(10);
@@ -424,7 +424,7 @@
             this.btnXoaSP.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnXoaSP.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnXoaSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnXoaSP.Image = global::GUI.Properties.Resources._9004852_trash_delete_bin_remove_icon;
+            this.btnXoaSP.Image = global::GUI.Properties.Resources.delete;
             this.btnXoaSP.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnXoaSP.Location = new System.Drawing.Point(252, 10);
             this.btnXoaSP.Margin = new System.Windows.Forms.Padding(10);
@@ -441,7 +441,7 @@
             this.btnSuaSP.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSuaSP.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSuaSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSuaSP.Image = global::GUI.Properties.Resources._299100_screwdriver_wrench_icon;
+            this.btnSuaSP.Image = global::GUI.Properties.Resources.update;
             this.btnSuaSP.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnSuaSP.Location = new System.Drawing.Point(131, 10);
             this.btnSuaSP.Margin = new System.Windows.Forms.Padding(10);
@@ -458,7 +458,7 @@
             this.btnThemSP.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnThemSP.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnThemSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThemSP.Image = global::GUI.Properties.Resources._299068_add_sign_icon;
+            this.btnThemSP.Image = global::GUI.Properties.Resources.add;
             this.btnThemSP.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnThemSP.Location = new System.Drawing.Point(10, 10);
             this.btnThemSP.Margin = new System.Windows.Forms.Padding(10);

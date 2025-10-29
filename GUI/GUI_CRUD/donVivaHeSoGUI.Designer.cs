@@ -313,6 +313,7 @@
             this.tableHeSo.Size = new System.Drawing.Size(329, 217);
             this.tableHeSo.TabIndex = 0;
             this.tableHeSo.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableHeSo_CellClick);
+            this.tableHeSo.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tableHeSo_DataBindingComplete);
             // 
             // groupBox5
             // 

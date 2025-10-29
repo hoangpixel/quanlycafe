@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GUI.GUI_SELECT;
-using GUI.FONTS;
+using FONTS;
 namespace GUI.GUI_UC
 {
     public partial class sanPhamGUI : UserControl
@@ -30,7 +30,7 @@ namespace GUI.GUI_UC
             FontManager.ApplyFontToAllControls(this);
 
             sanPhamBUS bus = new sanPhamBUS();
-            bus.docDSSanPham();
+            bus.LayDanhSach();
             loadDanhSachSanPham(sanPhamBUS.ds);
             tbSanPham.ClearSelection();
             loadComboBoxLoaiSPTK();
@@ -66,7 +66,7 @@ namespace GUI.GUI_UC
         }
 
 
-        private void loadDanhSachSanPham(List<sanPhamDTO> ds)
+        private void loadDanhSachSanPham(BindingList<sanPhamDTO> ds)
             {
                 tbSanPham.Columns.Clear();
                 tbSanPham.DataSource = null;
@@ -82,10 +82,10 @@ namespace GUI.GUI_UC
                 dt.Columns.Add("Giá");
 
                 loaiSanPhamBUS loaiBus = new loaiSanPhamBUS();
-                List<loaiDTO> dsLoai = loaiBus.layDanhSachLoai();
+                BindingList<loaiDTO> dsLoai = loaiBus.LayDanhSach();
 
                 nhomBUS nhomBus = new nhomBUS();
-                List<nhomDTO> dsNhom = nhomBus.layDanhSach();
+                BindingList<nhomDTO> dsNhom = nhomBus.layDanhSach();
 
                 foreach (var sp in ds)
                 {
@@ -100,9 +100,9 @@ namespace GUI.GUI_UC
 
                 tbSanPham.DataSource = dt;
 
-            loadFontChuVaSize();
+                loadFontChuVaSize();
 
-            tbSanPham.ReadOnly = true;
+                tbSanPham.ReadOnly = true;
 
                 //rdoTimCoBan.Checked = true;
 
@@ -115,7 +115,7 @@ namespace GUI.GUI_UC
         private void loadComboBoxLoaiSPTK()
         {
             loaiSanPhamBUS bus = new loaiSanPhamBUS();
-            List<loaiDTO> dsLoai = bus.layDanhSachLoai();
+            BindingList<loaiDTO> dsLoai = bus.LayDanhSach();
 
             cboLoaiSP.DataSource = dsLoai;
             cboLoaiSP.DisplayMember = "TenLoai";
@@ -138,7 +138,7 @@ namespace GUI.GUI_UC
                 form.StartPosition = FormStartPosition.CenterParent;
                 form.ShowDialog();
                 sanPhamBUS bus = new sanPhamBUS();
-                bus.docDSSanPham();
+                bus.LayDanhSach();
                 loadDanhSachSanPham(sanPhamBUS.ds);
             }
         }
@@ -152,7 +152,7 @@ namespace GUI.GUI_UC
                 sanPhamDTO sp = new sanPhamDTO
                 {
                     MaSP = Convert.ToInt32(row.Cells["Mã SP"].Value),
-                    MaLoai = new loaiSanPhamBUS().layDanhSachLoai()
+                    MaLoai = new loaiSanPhamBUS().LayDanhSach()
                                 .FirstOrDefault(l => l.TenLoai == row.Cells["Tên Loại"].Value.ToString())?.MaLoai ?? 0,
                     TenSP = row.Cells["Tên SP"].Value.ToString(),
                     Hinh = row.Cells["Hình"].Value.ToString(),
@@ -168,7 +168,7 @@ namespace GUI.GUI_UC
                 }
 
                 sanPhamBUS bus = new sanPhamBUS();
-                bus.docDSSanPham();
+                bus.LayDanhSach();
                 loadDanhSachSanPham(sanPhamBUS.ds);
             }
             else
@@ -187,7 +187,7 @@ namespace GUI.GUI_UC
                 form.ShowDialog();
 
                 sanPhamBUS bus = new sanPhamBUS();
-                bus.docDSSanPham();
+                bus.LayDanhSach();
                 loadDanhSachSanPham(sanPhamBUS.ds);
             }
             else
@@ -267,7 +267,7 @@ namespace GUI.GUI_UC
                 form.ShowDialog(this);
             }
             sanPhamBUS bus = new sanPhamBUS();
-            bus.docDSSanPham();
+            bus.LayDanhSach();
             loadDanhSachSanPham(sanPhamBUS.ds);
         }
 
@@ -285,7 +285,7 @@ namespace GUI.GUI_UC
             }
 
             sanPhamBUS bus = new sanPhamBUS();
-            List<sanPhamDTO> kq = bus.timKiemCoBan(tim, index);
+            BindingList<sanPhamDTO> kq = bus.timKiemCoBan(tim, index);
 
             if (kq != null && kq.Count > 0)
             {
@@ -298,7 +298,7 @@ namespace GUI.GUI_UC
                 MessageBox.Show("Không có kết quả tìm kiếm!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                bus.docDSSanPham();
+                bus.LayDanhSach();
                 loadDanhSachSanPham(sanPhamBUS.ds);
 
                 txtTimKiemSP.Clear();
@@ -383,7 +383,7 @@ namespace GUI.GUI_UC
             {
                 MessageBox.Show("Không có kết quả tìm kiếm!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-                bus.docDSSanPham();
+                bus.LayDanhSach();
                 loadDanhSachSanPham(sanPhamBUS.ds);
             }
         }
@@ -452,7 +452,7 @@ namespace GUI.GUI_UC
         private void btnRefreshSP_Click(object sender, EventArgs e)
         {
             sanPhamBUS bus = new sanPhamBUS();
-            bus.docDSSanPham();
+            bus.LayDanhSach();
             loadDanhSachSanPham(sanPhamBUS.ds);
 
             txtTimKiemSP.Clear();

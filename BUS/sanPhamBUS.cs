@@ -2,6 +2,7 @@
 using DTO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,18 +11,13 @@ namespace BUS
 {
     public class sanPhamBUS
     {
-        public static List<sanPhamDTO> ds = new List<sanPhamDTO>();
+        public static BindingList<sanPhamDTO> ds = new BindingList<sanPhamDTO>();
 
-        public void docDSSanPham()
+        public BindingList<sanPhamDTO> LayDanhSach()
         {
             sanPhamDAO data = new sanPhamDAO();
             ds = data.DocDanhSachSanPham();
-        }
-
-        public List<sanPhamDTO> layDanhSachSanPham()
-        {
-            sanPhamDAO data = new sanPhamDAO();
-            return ds = data.DocDanhSachSanPham();
+            return ds;
         }
 
         public bool them(sanPhamDTO ct)
@@ -49,15 +45,15 @@ namespace BUS
 
             if (result)
             {
-                var existing = ds.Find(x => x.MaSP == sp.MaSP);
-                if (existing != null)
+                sanPhamDTO tontai = ds.FirstOrDefault(x => x.MaSP == sp.MaSP);
+                if (tontai != null)
                 {
-                    existing.MaLoai = sp.MaLoai;
-                    existing.TenSP = sp.TenSP;
-                    existing.Hinh = sp.Hinh;
-                    existing.TrangThai = sp.TrangThai;
-                    existing.TrangThaiCT = sp.TrangThaiCT;
-                    existing.Gia = sp.Gia;
+                    tontai.MaLoai = sp.MaLoai;
+                    tontai.TenSP = sp.TenSP;
+                    tontai.Hinh = sp.Hinh;
+                    tontai.TrangThai = sp.TrangThai;
+                    tontai.TrangThaiCT = sp.TrangThaiCT;
+                    tontai.Gia = sp.Gia;
                 }
                 Console.WriteLine("BUS: Sửa sản phẩm thành công!");
             }
@@ -76,8 +72,11 @@ namespace BUS
 
             if (result)
             {
-                ds.RemoveAll(x => x.MaSP == maSP);
-                Console.WriteLine("BUS: Xóa sản phẩm thành công!");
+                sanPhamDTO sp = ds.FirstOrDefault(x => x.MaSP == maSP);
+                if(sp != null)
+                {
+                    ds.Remove(sp);
+                }
             }
             else
             {
@@ -115,7 +114,7 @@ namespace BUS
                 && Math.Abs(a.Gia - b.Gia) < 0.001f
                 && (a.Hinh ?? "") == (b.Hinh ?? "");
         }
-        public void NhapExcelThongMinh(List<sanPhamDTO> dsExcel)
+        public void NhapExcelThongMinh(BindingList<sanPhamDTO> dsExcel)
         {
             sanPhamDAO spDAO = new sanPhamDAO();
             loaiSanPhamDAO loaiDAO = new loaiSanPhamDAO();
@@ -125,7 +124,7 @@ namespace BUS
 
             // 🔹 Dùng để kiểm tra trùng mã SP trong file Excel
             HashSet<int> maSPDaGap = new HashSet<int>();
-            List<string> danhSachLoi = new List<string>();
+            BindingList<string> danhSachLoi = new BindingList<string>();
 
             // 🔍 Bước 1: Kiểm tra dữ liệu trước khi thêm
             foreach (var sp in dsExcel)
@@ -191,18 +190,18 @@ namespace BUS
         }
 
 
-        public List<sanPhamDTO> timKiemCoBan(string tim, int index)
+        public BindingList<sanPhamDTO> timKiemCoBan(string tim, int index)
         {
-            List<sanPhamDTO> kq = new List<sanPhamDTO>();
+            BindingList<sanPhamDTO> kq = new BindingList<sanPhamDTO>();
 
             if (ds == null)
-                docDSSanPham();
+                LayDanhSach();
 
             loaiSanPhamBUS busLoai = new loaiSanPhamBUS();
-            List<loaiDTO> dsLoai = busLoai.layDanhSachLoai();
+            BindingList<loaiDTO> dsLoai = busLoai.LayDanhSach();
 
             nhomBUS busNhom = new nhomBUS();
-            List<nhomDTO> dsNhom = busNhom.layDanhSach();
+            BindingList<nhomDTO> dsNhom = busNhom.layDanhSach();
 
             foreach (sanPhamDTO ct in ds)
             {
@@ -226,7 +225,7 @@ namespace BUS
                         }
                     case 2:
                         {
-                            var loai = dsLoai.FirstOrDefault(x => x.MaLoai == ct.MaLoai);
+                            loaiDTO loai = dsLoai.FirstOrDefault(x => x.MaLoai == ct.MaLoai);
                             string tenLoai = loai != null ? loai.TenLoai : "";
                             if (tenLoai.IndexOf(tim, StringComparison.OrdinalIgnoreCase) >= 0)
                             {
@@ -274,12 +273,12 @@ namespace BUS
             return kq;
         }
 
-        public List<sanPhamDTO> timKiemNangCaoSP(int maLoai, int trangThaiCT, float giaMin, float giaMax, string tenSP)
+        public BindingList<sanPhamDTO> timKiemNangCaoSP(int maLoai, int trangThaiCT, float giaMin, float giaMax, string tenSP)
         {
-            var dskq = new List<sanPhamDTO>();
-            if (ds == null) docDSSanPham();
+            BindingList<sanPhamDTO> dskq = new BindingList<sanPhamDTO>();
+            if (ds == null) LayDanhSach();
 
-            foreach (var ct in ds)
+            foreach (sanPhamDTO ct in ds)
             {
                 bool dk = true;
 

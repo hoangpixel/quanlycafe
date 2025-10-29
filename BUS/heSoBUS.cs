@@ -1,26 +1,22 @@
-﻿using System;
+﻿using DAO;
+using DTO;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAO;
-using DTO;
 namespace BUS
 {
     public class heSoBUS
     {
-        public static List<heSoDTO> ds = new List<heSoDTO>();
+        public static BindingList<heSoDTO> ds = new BindingList<heSoDTO>();
 
-        public void docDanhSachHeSo()
+        public BindingList<heSoDTO> LayDanhSach()
         {
             heSoDAO data = new heSoDAO();
             ds = data.DocDanhSachHeSo();
-        }
-
-        public List<heSoDTO> layDanhSachheSo()
-        {
-            heSoDAO data = new heSoDAO();
-            return data.DocDanhSachHeSo();
+            return ds;
         }
 
         public bool Them(heSoDTO ct)
@@ -40,7 +36,7 @@ namespace BUS
             bool kq = data.CapNhat(ct);
             if (kq)
             {
-                var old = ds.FirstOrDefault(x => x.MaNguyenLieu == ct.MaNguyenLieu && x.MaDonVi == ct.MaDonVi);
+                heSoDTO old = ds.FirstOrDefault(x => x.MaNguyenLieu == ct.MaNguyenLieu && x.MaDonVi == ct.MaDonVi);
                 if (old != null)
                 {
                     old.HeSo = ct.HeSo;
@@ -55,7 +51,11 @@ namespace BUS
             bool kq = data.Xoa(maNL, maDV);
             if(kq)
             {
-                ds.RemoveAll(x => x.MaNguyenLieu == maNL && x.MaDonVi == maDV);
+                heSoDTO hs = ds.FirstOrDefault(x => x.MaNguyenLieu == maNL && x.MaDonVi == maDV);
+                if(hs != null)
+                {
+                    ds.Remove(hs);
+                }
             }
             else
             {

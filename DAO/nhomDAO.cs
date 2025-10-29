@@ -4,6 +4,7 @@ using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -13,9 +14,9 @@ namespace DAO
 {
     public class nhomDAO
     {
-        public List<nhomDTO> layDanhSachNhom()
+        public BindingList<nhomDTO> layDanhSachNhom()
         {
-            List<nhomDTO> ds = new List<nhomDTO>();
+            BindingList<nhomDTO> ds = new BindingList<nhomDTO>();
             string qry = "SELECT * FROM nhom WHERE TRANGTHAI = 1";
             MySqlConnection conn = null;
             try

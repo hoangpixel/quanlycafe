@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GUI.FONTS;
+using FONTS;
 
 
 namespace GUI.GUI_CRUD
@@ -61,7 +61,7 @@ namespace GUI.GUI_CRUD
         public void loadComBoBox()
         {
             loaiSanPhamBUS bus = new loaiSanPhamBUS();
-            List<loaiDTO> dsLoai = bus.layDanhSachLoai();
+            BindingList<loaiDTO> dsLoai = bus.LayDanhSach();
 
             cbLoai.DataSource = dsLoai;
             cbLoai.DisplayMember = "TenLoai";

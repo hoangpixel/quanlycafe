@@ -1,6 +1,6 @@
 ﻿using BUS;
 using GUI.EXCEL;
-using GUI.FONTS;
+using FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,7 +29,7 @@ namespace GUI.GUI_CRUD
             if (save.ShowDialog() == DialogResult.OK)
             {
                 congThucBUS bus = new congThucBUS();
-                excelCongThuc.Export(bus.docTatCaCongThuc(), save.FileName);
+                excelCongThuc.Export(bus.LayDanhSach(), save.FileName);
                 MessageBox.Show("Xuất Excel thành công!");
             }
         }

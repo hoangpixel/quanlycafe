@@ -92,7 +92,6 @@
     <Compile Include="EXCEL\excelCongThuc.cs" />
     <Compile Include="EXCEL\excelNguyenLieu.cs" />
     <Compile Include="EXCEL\excelSanPham.cs" />
-    <Compile Include="FONTS\FontManager.cs" />
     <Compile Include="GUI_SELECT\selectDonVi.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -255,12 +254,6 @@
     <Compile Include="GUI_UC\sanPhamGUI.Designer.cs">
       <DependentUpon>sanPhamGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI_UC\testGUI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI_UC\testGUI.Designer.cs">
-      <DependentUpon>testGUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GUI_SELECT\selectDonVi.resx">
@@ -338,9 +331,6 @@
     <EmbeddedResource Include="GUI_UC\sanPhamGUI.resx">
       <DependentUpon>sanPhamGUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI_UC\testGUI.resx">
-      <DependentUpon>testGUI.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -351,15 +341,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Content Include="FONTS\Saira-Regular.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="FONTS\Saira-Bold.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="FONTS\Saira-Light.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -383,42 +364,26 @@
       <Project>{af8e7519-b81a-48be-9e09-8be2d43016d7}</Project>
       <Name>DTO</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\add.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\edit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\info.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\trash.png" />
+    <ProjectReference Include="..\FONTS\FONTS.csproj">
+      <Project>{a9c501e1-87c4-4749-9bab-8c93dbb1bbd7}</Project>
+      <Name>FONTS</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\type.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\update-arrows.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\xls.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\4288571_balance_judge_justice_law_scale_icon.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\4288571_balance_judge_justice_law_scale_icon1.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\567514931_1193850649327913_8278814637654723416_n.jpg" />
     <None Include="Resources\add_icon.png" />
     <None Include="Resources\299068_add_sign_icon.png" />
     <None Include="Resources\299100_screwdriver_wrench_icon.png" />
     <None Include="Resources\299086_info_sign_icon %281%29.png" />
     <None Include="Resources\9004852_trash_delete_bin_remove_icon.png" />
-    <None Include="Resources\974778_arrow_refresh_reload_renew_syncronize_icon.png" />
     <None Include="Resources\6372969_loading_refresh_refresh button_reload_repeat_icon.png" />
     <Content Include="Resources\IMG\SP\cafe-den-da-8801.png" />
     <Content Include="Resources\IMG\SP\pngtree-cute-iced-coffee-takeaway-png-image_11477425.png" />

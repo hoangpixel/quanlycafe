@@ -1,6 +1,6 @@
 ﻿using BUS;
 using GUI.EXCEL;
-using GUI.FONTS;
+using FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DTO;
 
 namespace GUI.GUI_CRUD
 {
@@ -35,7 +36,7 @@ namespace GUI.GUI_CRUD
             {
                 try
                 {
-                    var ds = excelSanPham.Import(open.FileName);
+                    BindingList<sanPhamDTO> ds = excelSanPham.Import(open.FileName);
                     sanPhamBUS bus = new sanPhamBUS();
                     bus.NhapExcelThongMinh(ds);
                     MessageBox.Show("Nhập Excel thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -58,7 +59,7 @@ namespace GUI.GUI_CRUD
             if (save.ShowDialog() == DialogResult.OK)
             {
                 sanPhamBUS bus = new sanPhamBUS();
-                excelSanPham.Export(bus.layDanhSachSanPham(), save.FileName);
+                excelSanPham.Export(bus.LayDanhSach(), save.FileName);
                 MessageBox.Show("Xuất Excel thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }

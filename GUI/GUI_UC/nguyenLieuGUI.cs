@@ -1,6 +1,6 @@
 ﻿using BUS;
 using DTO;
-using GUI.FONTS;
+using FONTS;
 using GUI.GUI_CRUD;
 using System;
 using System.Collections.Generic;
@@ -85,7 +85,7 @@ namespace GUI.GUI_UC
             };
         }
 
-        public void loadDanhSachNguyenLieu(List<nguyenLieuDTO> ds)
+        public void loadDanhSachNguyenLieu(BindingList<nguyenLieuDTO> ds)
         {
             if (ds == null || ds.Count == 0)
             {
@@ -106,7 +106,7 @@ namespace GUI.GUI_UC
             dt.Columns.Add("Mã đơn vị");
 
             donViBUS bus = new donViBUS();
-            List<donViDTO> dsDonVi = bus.layDanhSachDonVi() ?? new List<donViDTO>();
+            BindingList<donViDTO> dsDonVi = bus.LayDanhSach() ?? new BindingList<donViDTO>();
 
             foreach (var nl in ds)
             {
@@ -161,7 +161,7 @@ namespace GUI.GUI_UC
         private void nguyenLieuGUI_Load(object sender, EventArgs e)
         {
             nguyenLieuBUS bus = new nguyenLieuBUS();
-            bus.napDSNguyenLieu();
+            bus.LayDanhSach();
 
             if (nguyenLieuBUS.ds == null || nguyenLieuBUS.ds.Count == 0)
             {
@@ -204,7 +204,7 @@ namespace GUI.GUI_UC
                 form.StartPosition = FormStartPosition.CenterParent;
                 form.ShowDialog();
                 nguyenLieuBUS bus = new nguyenLieuBUS();
-                bus.docDSNguyenLieu();
+                bus.LayDanhSach();
                 loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
             }
         }
@@ -229,7 +229,7 @@ namespace GUI.GUI_UC
                 }
 
                 nguyenLieuBUS bus = new nguyenLieuBUS();
-                bus.docDSNguyenLieu();
+                bus.LayDanhSach();
                 loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
             }
             else
@@ -248,7 +248,7 @@ namespace GUI.GUI_UC
                 form.ShowDialog();
 
                 nguyenLieuBUS bus = new nguyenLieuBUS();
-                bus.docDSNguyenLieu();
+                bus.LayDanhSach();
                 loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
             }
             else
@@ -284,7 +284,7 @@ namespace GUI.GUI_UC
         private void btnRefreshNL_Click(object sender, EventArgs e)
         {
             nguyenLieuBUS bus = new nguyenLieuBUS();
-            bus.napDSNguyenLieu();
+            bus.LayDanhSach();
             loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
             cboTimKiemNL.SelectedIndex = -1;
             cbTrangThaiNL.SelectedIndex = -1;
@@ -315,7 +315,7 @@ namespace GUI.GUI_UC
                 form.ShowDialog(this);
             }
             nguyenLieuBUS bus = new nguyenLieuBUS();
-            bus.docDSNguyenLieu();
+            bus.LayDanhSach();
             loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
         }
 
@@ -332,7 +332,7 @@ namespace GUI.GUI_UC
             }
 
             nguyenLieuBUS bus = new nguyenLieuBUS();
-            List<nguyenLieuDTO> ds = bus.timKiemCoBanNL(tim, index);
+            BindingList<nguyenLieuDTO> ds = bus.timKiemCoBanNL(tim, index);
             if (ds != null && ds.Count > 0)
             {
                 tableNguyenLieu.Columns.Clear();
@@ -344,7 +344,7 @@ namespace GUI.GUI_UC
                 MessageBox.Show("Không có kết quả tìm kiếm!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                bus.docDSNguyenLieu();
+                bus.LayDanhSach();
                 loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
 
                 txtTimKiemNL.Clear();

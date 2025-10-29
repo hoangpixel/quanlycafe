@@ -7,14 +7,15 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace DAO
 {
     public class sanPhamDAO
     {
-        public List<sanPhamDTO> DocDanhSachSanPham()
+        public BindingList<sanPhamDTO> DocDanhSachSanPham()
         {
-            List<sanPhamDTO> ds = new List<sanPhamDTO>();
+            BindingList<sanPhamDTO> ds = new BindingList<sanPhamDTO>();
             string qry = "SELECT * FROM sanpham WHERE TRANGTHAI = 1";
             MySqlConnection conn = null;
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,18 +11,13 @@ namespace BUS
 {
     public class loaiSanPhamBUS
     {
-        public static List<loaiDTO> ds = new List<loaiDTO>();
+        public static BindingList<loaiDTO> ds = new BindingList<loaiDTO>();
 
-        public List<loaiDTO> layDanhSachLoai()
-        {
-            loaiSanPhamDAO data = new loaiSanPhamDAO(); 
-            return data.docDanhSachLoai();             
-        }
-
-        public void docDsLoaiSP()
+        public BindingList<loaiDTO> LayDanhSach()
         {
             loaiSanPhamDAO data = new loaiSanPhamDAO();
             ds = data.docDanhSachLoai();
+            return ds;
         }
 
         public bool themLoai(loaiDTO ct)
@@ -42,18 +38,12 @@ namespace BUS
 
             if (result)
             {
-                var existing = ds.Find(x => x.MaLoai == ct.MaLoai);
-                if (existing != null)
+                loaiDTO tontai = ds.FirstOrDefault(x => x.MaLoai == ct.MaLoai);
+                if (tontai != null)
                 {
-                    existing.TenLoai = ct.TenLoai;
+                    tontai.TenLoai = ct.TenLoai;
                 }
-                Console.WriteLine("BUS: Sửa loại sản phẩm thành công!");
             }
-            else
-            {
-                Console.WriteLine("BUS: Lỗi khi sửa loại sản phẩm!");
-            }
-
             return result;
         }
 
@@ -61,15 +51,13 @@ namespace BUS
         {
             loaiSanPhamDAO data = new loaiSanPhamDAO();
             bool result = data.Xoa(maLoai);
-
             if (result)
             {
-                ds.RemoveAll(x => x.MaLoai == maLoai);
-                Console.WriteLine("BUS: Xóa loại sản phẩm thành công!");
-            }
-            else
-            {
-                Console.WriteLine("BUS: Lỗi khi xóa loại sản phẩm!");
+                loaiDTO loai = ds.FirstOrDefault(x => x.MaLoai == maLoai);
+                if(loai != null)
+                {
+                    ds.Remove(loai);
+                }
             }
 
             return result;

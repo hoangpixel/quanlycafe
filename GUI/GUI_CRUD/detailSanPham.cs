@@ -1,6 +1,6 @@
 ﻿using BUS;
 using DTO;
-using GUI.FONTS;
+using FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -56,11 +56,11 @@ namespace GUI.GUI_CRUD
             }
 
             congThucBUS bus = new congThucBUS();
-            var ds = bus.docDSCongThucTheoSP(ct.MaSP);
+            BindingList<congThucDTO> ds = bus.docDSCongThucTheoSP(ct.MaSP);
             loadDanhSachCongThuc(ds);
         }
 
-        private void loadDanhSachCongThuc(List<congThucDTO> ds)
+        private void loadDanhSachCongThuc(BindingList<congThucDTO> ds)
         {
             tableCongThuc.Columns.Clear();
             tableCongThuc.DataSource = null;
@@ -73,10 +73,10 @@ namespace GUI.GUI_CRUD
 
 
             nguyenLieuBUS nlBUS = new nguyenLieuBUS();
-            List<nguyenLieuDTO> dsNL= nlBUS.docDSNguyenLieu();
+            BindingList<nguyenLieuDTO> dsNL= nlBUS.LayDanhSach();
 
             donViBUS dvBUS = new donViBUS();
-            List<donViDTO> dsDV = dvBUS.layDanhSachDonVi();
+            BindingList<donViDTO> dsDV = dvBUS.LayDanhSach();
             foreach (var sp in ds)
             {
                 string tenLoai = dsNL.FirstOrDefault(l => l.MaNguyenLieu == sp.MaNguyenLieu)?.TenNguyenLieu ?? "Không xác định";

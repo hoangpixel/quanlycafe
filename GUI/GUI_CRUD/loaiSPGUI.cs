@@ -1,6 +1,6 @@
 ﻿using BUS;
 using DTO;
-using GUI.FONTS;
+using FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,7 +20,7 @@ namespace GUI.GUI_CRUD
             InitializeComponent();
         }
 
-        private void loadDanhSachLoaiSP(List<loaiDTO> ds)
+        private void loadDanhSachLoaiSP(BindingList<loaiDTO> ds)
         {
             tableLoaiSP.Columns.Clear();
             tableLoaiSP.DataSource = null;
@@ -31,7 +31,7 @@ namespace GUI.GUI_CRUD
             dt.Columns.Add("Tên nhóm");
 
             nhomBUS busNhom = new nhomBUS();
-            List<nhomDTO> dsNhom = busNhom.layDanhSach();
+            BindingList<nhomDTO> dsNhom = busNhom.layDanhSach();
 
             foreach (var ct in ds)
             {
@@ -50,7 +50,7 @@ namespace GUI.GUI_CRUD
         public void loadComboNhom()
         {
             nhomBUS bus = new nhomBUS();
-            List<nhomDTO> dsNhom = bus.layDanhSach();
+            BindingList<nhomDTO> dsNhom = bus.layDanhSach();
             cboNhom.DisplayMember = "TenNhom";
             cboNhom.ValueMember = "MaNhom";
             cboNhom.DataSource = dsNhom;
@@ -63,7 +63,7 @@ namespace GUI.GUI_CRUD
             FontManager.ApplyFontToAllControls(this);
 
             loaiSanPhamBUS bus = new loaiSanPhamBUS();
-            bus.docDsLoaiSP();
+            bus.LayDanhSach();
             loadDanhSachLoaiSP(loaiSanPhamBUS.ds);
             tableLoaiSP.ClearSelection();
 
@@ -132,7 +132,7 @@ namespace GUI.GUI_CRUD
                 cboNhom.SelectedIndex = -1;
                 txtLoaiSp.Focus();
                 tableLoaiSP.ClearSelection();
-                bus.docDsLoaiSP();
+                bus.LayDanhSach();
                 loadDanhSachLoaiSP(loaiSanPhamBUS.ds);
             }
 
@@ -176,7 +176,7 @@ namespace GUI.GUI_CRUD
             if (kq)
             {
                 MessageBox.Show("Sửa loại sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                bus.docDsLoaiSP();
+                bus.LayDanhSach();
                 loadDanhSachLoaiSP(loaiSanPhamBUS.ds);
                 ResetForm();
             }
@@ -206,7 +206,7 @@ namespace GUI.GUI_CRUD
             if (kq)
             {
                 MessageBox.Show("Xóa loại sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                bus.docDsLoaiSP();
+                bus.LayDanhSach();
                 loadDanhSachLoaiSP(loaiSanPhamBUS.ds);
                 ResetForm();
             }

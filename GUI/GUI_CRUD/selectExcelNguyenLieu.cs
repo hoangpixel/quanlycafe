@@ -1,6 +1,6 @@
 ﻿using BUS;
 using GUI.EXCEL;
-using GUI.FONTS;
+using FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DTO;
 
 namespace GUI.GUI_CRUD
 {
@@ -29,7 +30,7 @@ namespace GUI.GUI_CRUD
             {
                 try
                 {
-                    var ds = excelNguyenLieu.Import(open.FileName);
+                    BindingList<nguyenLieuDTO> ds = excelNguyenLieu.Import(open.FileName);
                     nguyenLieuBUS bus = new nguyenLieuBUS();
                     bus.NhapExcelThongMinh(ds);
 
@@ -53,9 +54,9 @@ namespace GUI.GUI_CRUD
                 try
                 {
                     nguyenLieuBUS bus = new nguyenLieuBUS();
-                    var ds = bus.docDSNguyenLieu(); // 🔹 Lấy dữ liệu từ DB
+                    BindingList<nguyenLieuDTO> ds = bus.LayDanhSach();
 
-                    excelNguyenLieu.Export(ds, save.FileName); // 🔹 Xuất ra file Excel
+                    excelNguyenLieu.Export(ds, save.FileName);
 
                     MessageBox.Show("✅ Xuất Excel thành công!",
                         "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);

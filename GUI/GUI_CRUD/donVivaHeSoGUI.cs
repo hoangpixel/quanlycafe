@@ -1,6 +1,6 @@
 ﻿using BUS;
 using DTO;
-using GUI.FONTS;
+using FONTS;
 using GUI.GUI_SELECT;
 using System;
 using System.Collections.Generic;
@@ -21,7 +21,7 @@ namespace GUI.GUI_CRUD
             InitializeComponent();
         }
 
-        private void loadDanhSachDonVi(List<donViDTO> ds)
+        private void loadDanhSachDonVi(BindingList<donViDTO> ds)
         {
             tableDonVi.Columns.Clear();
             tableDonVi.DataSource = null;
@@ -46,7 +46,7 @@ namespace GUI.GUI_CRUD
             tableDonVi.ClearSelection();
         }
 
-        private void loadDanhSachHeSo(List<heSoDTO> ds)
+        private void loadDanhSachHeSo(BindingList<heSoDTO> ds)
         {
             tableHeSo.Columns.Clear();
             tableHeSo.DataSource = null;
@@ -57,10 +57,10 @@ namespace GUI.GUI_CRUD
             dt.Columns.Add("Hệ số");
 
             nguyenLieuBUS busNL = new nguyenLieuBUS();
-            List<nguyenLieuDTO> dsNL = busNL.docDSNguyenLieu();
+            BindingList<nguyenLieuDTO> dsNL = busNL.LayDanhSach();
 
             donViBUS busDV = new donViBUS();
-            List<donViDTO> dsDV = busDV.layDanhSachDonVi();
+            BindingList<donViDTO> dsDV = busDV.LayDanhSach();
 
             foreach (var hs in ds)
             {
@@ -93,14 +93,14 @@ namespace GUI.GUI_CRUD
             FontManager.ApplyFontToAllControls(this);
 
             donViBUS bus = new donViBUS();
-            bus.docDanhSachDonVi();
+            bus.LayDanhSach();
             loadDanhSachDonVi(donViBUS.ds);
 
             heSoBUS busHS = new heSoBUS();
-            busHS.docDanhSachHeSo();
+            busHS.LayDanhSach();
             loadDanhSachHeSo(heSoBUS.ds);
 
-            cboDonVi.DataSource = bus.layDanhSachDonVi();
+            cboDonVi.DataSource = bus.LayDanhSach();
             cboDonVi.DisplayMember = "TenDonVi";
             cboDonVi.ValueMember = "MaDonVi";
             cboDonVi.SelectedIndex = -1;
@@ -202,7 +202,7 @@ namespace GUI.GUI_CRUD
             if (kq)
             {
                 MessageBox.Show("Sửa đơn vị thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                bus.docDanhSachDonVi();
+                bus.LayDanhSach();
                 loadDanhSachDonVi(donViBUS.ds);
                 ResetForm();
             }
@@ -232,7 +232,7 @@ namespace GUI.GUI_CRUD
             if (kq)
             {
                 MessageBox.Show("Xóa đơn vị thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                bus.docDanhSachDonVi();
+                bus.LayDanhSach();
                 loadDanhSachDonVi(donViBUS.ds);
                 ResetForm();
             }
@@ -279,8 +279,8 @@ namespace GUI.GUI_CRUD
                 cboDonVi.SelectedIndex = cboDonVi.FindStringExact(tenDV);
 
                 nguyenLieuBUS nlBUS = new nguyenLieuBUS();
-                var dsNL = nlBUS.docDSNguyenLieu();
-                var nl = dsNL.FirstOrDefault(x => x.TenNguyenLieu == tenNL);
+                BindingList<nguyenLieuDTO> dsNL = nlBUS.LayDanhSach();
+                nguyenLieuDTO nl = dsNL.FirstOrDefault(x => x.TenNguyenLieu == tenNL);
                 if (nl != null)
                 {
                     maNL = nl.MaNguyenLieu;  
@@ -318,8 +318,8 @@ namespace GUI.GUI_CRUD
                     txtTenNL.Text = form.TenNL;
 
                     nguyenLieuBUS nlBUS = new nguyenLieuBUS();
-                    var dsNL = nlBUS.docDSNguyenLieu();
-                    var nl = dsNL.FirstOrDefault(x => x.MaNguyenLieu == maNL);
+                    BindingList<nguyenLieuDTO> dsNL = nlBUS.LayDanhSach();
+                    nguyenLieuDTO nl = dsNL.FirstOrDefault(x => x.MaNguyenLieu == maNL);
 
                     if (nl != null)
                     {
@@ -408,7 +408,7 @@ namespace GUI.GUI_CRUD
             if (kq)
             {
                 MessageBox.Show("Sửa hệ số thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                bus.docDanhSachHeSo();
+                bus.LayDanhSach();
                 loadDanhSachHeSo(heSoBUS.ds);
                 ResetHeSoForm();
             }
@@ -451,7 +451,7 @@ namespace GUI.GUI_CRUD
             if (kq)
             {
                 MessageBox.Show("Xóa hệ số thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                bus.docDanhSachHeSo();
+                bus.LayDanhSach();
                 loadDanhSachHeSo(heSoBUS.ds);
                 ResetHeSoForm();
             }
@@ -459,6 +459,11 @@ namespace GUI.GUI_CRUD
             {
                 MessageBox.Show("Lỗi khi xóa hệ số!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void tableHeSo_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            tableHeSo.ClearSelection();
         }
     }
 }

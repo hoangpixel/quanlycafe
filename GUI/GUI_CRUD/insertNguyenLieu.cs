@@ -1,6 +1,6 @@
 ﻿using BUS;
 using DTO;
-using GUI.FONTS;
+using FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +15,7 @@ namespace GUI.GUI_CRUD
 {
     public partial class insertNguyenLieu : Form
     {
-        private List<donViDTO> dsDonVi;
+        private BindingList<donViDTO> dsDonVi;
         public insertNguyenLieu()
         {
             InitializeComponent();
@@ -43,7 +43,7 @@ namespace GUI.GUI_CRUD
             FontManager.ApplyFontToAllControls(this);
 
             donViBUS busDonVi = new donViBUS();
-            dsDonVi = busDonVi.layDanhSachDonVi();
+            dsDonVi = busDonVi.LayDanhSach();
 
             cbDonVi.DataSource = dsDonVi;
             cbDonVi.DisplayMember = "TenDonVi";   

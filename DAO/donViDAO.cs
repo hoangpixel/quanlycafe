@@ -6,14 +6,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace DAO
 {
     public class donViDAO
     {
-        public List<donViDTO> docDangSachDonVi()
+        public BindingList<donViDTO> docDangSachDonVi()
         {
-            List<donViDTO> ds = new List<donViDTO>();
+            BindingList<donViDTO> ds = new BindingList<donViDTO>();
             string qry = "SELECT * FROM donvi WHERE TRANGTHAI = 1";
             MySqlConnection conn = null;
 
@@ -142,9 +143,9 @@ namespace DAO
             }
         }
 
-        public List<donViDTO> layDanhSachDonViTheoNguyenLieu(int maNguyenLieu)
+        public BindingList<donViDTO> layDanhSachDonViTheoNguyenLieu(int maNguyenLieu)
         {
-            List<donViDTO> ds = new List<donViDTO>();
+            BindingList<donViDTO> ds = new BindingList<donViDTO>();
             try
             {
                 string qry = @"

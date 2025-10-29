@@ -1,16 +1,17 @@
-﻿using MySql.Data.MySqlClient;
-using DAO.CONFIG;
+﻿using DAO.CONFIG;
 using DTO;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace DAO
 {
     public class heSoDAO
     {
-        public List<heSoDTO> DocDanhSachHeSo()
+        public BindingList<heSoDTO> DocDanhSachHeSo()
         {
-            List<heSoDTO> ds = new List<heSoDTO>();
+            BindingList<heSoDTO> ds = new BindingList<heSoDTO>();
             string qry = "SELECT * FROM hesodonvi";
             MySqlConnection conn = null;
 

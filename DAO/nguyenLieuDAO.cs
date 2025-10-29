@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using DAO.CONFIG;
 using DTO;
+using System.ComponentModel;
 
 namespace DAO
 {
     public class nguyenLieuDAO
     {
-        public List<nguyenLieuDTO> docDanhSachNguyenLieu()
+        public BindingList<nguyenLieuDTO> docDanhSachNguyenLieu()
         {
-            List<nguyenLieuDTO> ds = new List<nguyenLieuDTO>();
+            BindingList<nguyenLieuDTO> ds = new BindingList<nguyenLieuDTO>();
             string qry = "SELECT * FROM nguyenlieu WHERE TRANGTHAI = 1";
             MySqlConnection conn = null;
 

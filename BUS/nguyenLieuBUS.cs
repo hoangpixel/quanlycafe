@@ -2,24 +2,20 @@
 using DTO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace BUS
 {
     public class nguyenLieuBUS
     {
-        public static List<nguyenLieuDTO> ds = new List<nguyenLieuDTO>();
+        public static BindingList<nguyenLieuDTO> ds = new BindingList<nguyenLieuDTO>();
 
-        public List<nguyenLieuDTO> docDSNguyenLieu()
+        public BindingList<nguyenLieuDTO> LayDanhSach()
         {
             nguyenLieuDAO data = new nguyenLieuDAO();
-            return data.docDanhSachNguyenLieu();
-        }
-
-        public void napDSNguyenLieu()
-        {
-            nguyenLieuDAO data = new nguyenLieuDAO();
-            ds = data.docDanhSachNguyenLieu() ?? new List<nguyenLieuDTO>();
+            ds = data.docDanhSachNguyenLieu();
+            return ds;
         }
 
         public bool themNguyenLieu(nguyenLieuDTO nl)
@@ -45,13 +41,13 @@ namespace BUS
 
             if (result)
             {
-                var existing = ds.Find(x => x.MaNguyenLieu == nl.MaNguyenLieu);
-                if (existing != null)
+                nguyenLieuDTO tontai = ds.FirstOrDefault(x => x.MaNguyenLieu == nl.MaNguyenLieu);
+                if (tontai != null)
                 {
-                    existing.TenNguyenLieu = nl.TenNguyenLieu;
-                    existing.MaDonViCoSo = nl.MaDonViCoSo;
-                    existing.TonKho = nl.TonKho;
-                    existing.TrangThai = nl.TrangThai;
+                    tontai.TenNguyenLieu = nl.TenNguyenLieu;
+                    tontai.MaDonViCoSo = nl.MaDonViCoSo;
+                    tontai.TonKho = nl.TonKho;
+                    tontai.TrangThai = nl.TrangThai;
                 }
                 Console.WriteLine("BUS: Sửa nguyên liệu thành công!");
             }
@@ -70,14 +66,12 @@ namespace BUS
 
             if (result)
             {
-                ds.RemoveAll(x => x.MaNguyenLieu == maNguyenLieu);
-                Console.WriteLine("BUS: Đã ẩn nguyên liệu thành công!");
+                nguyenLieuDTO ct = ds.FirstOrDefault(x => x.MaNguyenLieu == maNguyenLieu);
+                if(ct != null)
+                {
+                    ds.Remove(ct);
+                }
             }
-            else
-            {
-                Console.WriteLine("BUS: Lỗi khi ẩn nguyên liệu!");
-            }
-
             return result;
         }
 
@@ -109,7 +103,7 @@ namespace BUS
         }
 
         // 🧠 Nhập Excel thông minh: thêm / sửa / giữ nguyên
-        public void NhapExcelThongMinh(List<nguyenLieuDTO> dsExcel)
+        public void NhapExcelThongMinh(BindingList<nguyenLieuDTO> dsExcel)
         {
             int soThem = 0, soCapNhat = 0, soBoQua = 0, soLoi = 0, soTrungTen = 0;
             nguyenLieuDAO data = new nguyenLieuDAO();
@@ -179,12 +173,12 @@ namespace BUS
             //);
         }
 
-        public List<nguyenLieuDTO> timKiemCoBanNL(string tim,int index)
+        public BindingList<nguyenLieuDTO> timKiemCoBanNL(string tim,int index)
         {
-            List<nguyenLieuDTO> kq = new List<nguyenLieuDTO>();
+            BindingList<nguyenLieuDTO> kq = new BindingList<nguyenLieuDTO>();
             if(ds == null)
             {
-                docDSNguyenLieu();
+                LayDanhSach();
             }
             foreach (nguyenLieuDTO ct in ds)
             {
@@ -210,8 +204,8 @@ namespace BUS
                         {
 
                             donViBUS bus = new donViBUS();
-                            List<donViDTO> dsdv = donViBUS.layDanhSachTK();
-                            var donVi = dsdv.FirstOrDefault(x => x.MaDonVi == ct.MaDonViCoSo);
+                            BindingList<donViDTO> dsdv = bus.LayDanhSach();
+                            donViDTO donVi = dsdv.FirstOrDefault(x => x.MaDonVi == ct.MaDonViCoSo);
                             string tenDV = donVi != null ? donVi.TenDonVi : "";
                             if (tenDV.IndexOf(tim,StringComparison.OrdinalIgnoreCase) >= 0)
                             {

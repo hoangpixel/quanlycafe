@@ -2,6 +2,7 @@
 using DTO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.SymbolStore;
 using System.Linq;
 using System.Text;
@@ -11,13 +12,13 @@ namespace BUS
 {
     public class nhomBUS
     {
-        public static List<nhomDTO> ds = new List<nhomDTO>();
+        public static BindingList<nhomDTO> ds = new BindingList<nhomDTO>();
         public void docDanhSach()
         {
             nhomDAO data = new nhomDAO();
             ds = data.layDanhSachNhom();
         }
-        public List<nhomDTO> layDanhSach()
+        public BindingList<nhomDTO> layDanhSach()
         {
             nhomDAO data = new nhomDAO();
             return data.layDanhSachNhom();
@@ -38,7 +39,7 @@ namespace BUS
             bool kq = data.sua(ct);
             if(kq)
             {
-                nhomDTO tonTai = ds.Find(x => x.MaNhom == ct.MaNhom);
+                nhomDTO tonTai = ds.FirstOrDefault(x => x.MaNhom == ct.MaNhom);
                 if(tonTai != null)
                 {
                     tonTai.TenNhom = ct.TenNhom;
@@ -52,7 +53,11 @@ namespace BUS
             bool kq = data.xoa(maXoa);
             if(kq)
             {
-                ds.RemoveAll(x => x.MaNhom == maXoa);
+                nhomDTO nhom = ds.FirstOrDefault(x => x.MaNhom == maXoa);
+                if(nhom != null)
+                {
+                    ds.Remove(nhom);
+                }
             }
             return kq;
         }

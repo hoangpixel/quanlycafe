@@ -1,6 +1,6 @@
 ﻿using BUS;
 using DTO;
-using GUI.FONTS;
+using FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,7 +30,7 @@ namespace GUI.GUI_SELECT
             FontManager.ApplyFontToAllControls(this);
 
             sanPhamBUS bus = new sanPhamBUS();
-            bus.docDSSanPham();
+            bus.LayDanhSach();
 
             DataTable dt = new DataTable();
             dt.Columns.Add("Mã SP");
@@ -39,7 +39,7 @@ namespace GUI.GUI_SELECT
             dt.Columns.Add("Giá");
 
             loaiSanPhamBUS busLoai = new loaiSanPhamBUS();
-            List<loaiDTO> dsLoai = busLoai.layDanhSachLoai();
+            BindingList<loaiDTO> dsLoai = busLoai.LayDanhSach();
 
             foreach (var sp in sanPhamBUS.ds.Where(x => x.TrangThai == 1))
             {
@@ -74,10 +74,10 @@ namespace GUI.GUI_SELECT
                 return;
             }
             sanPhamBUS bus = new sanPhamBUS();
-            List<sanPhamDTO> dskq = bus.timKiemCoBan(tim, index);
+            BindingList<sanPhamDTO> dskq = bus.timKiemCoBan(tim, index);
 
             loaiSanPhamBUS busLoai = new loaiSanPhamBUS();
-            List<loaiDTO> dsLoai = busLoai.layDanhSachLoai();
+            BindingList<loaiDTO> dsLoai = busLoai.LayDanhSach();
 
             if (dskq != null && dskq.Count > 0)
             {
@@ -110,7 +110,7 @@ namespace GUI.GUI_SELECT
         private void btnRefresh_Click_1(object sender, EventArgs e)
         {
             sanPhamBUS bus = new sanPhamBUS();
-            bus.docDSSanPham();
+            bus.LayDanhSach();
 
             DataTable dt = new DataTable();
             dt.Columns.Add("Mã SP");
@@ -119,7 +119,7 @@ namespace GUI.GUI_SELECT
             dt.Columns.Add("Giá");
 
             loaiSanPhamBUS busLoai = new loaiSanPhamBUS();
-            List<loaiDTO> dsLoai = busLoai.layDanhSachLoai();
+            BindingList<loaiDTO> dsLoai = busLoai.LayDanhSach();
 
             foreach (var sp in sanPhamBUS.ds.Where(x => x.TrangThai == 1))
             {

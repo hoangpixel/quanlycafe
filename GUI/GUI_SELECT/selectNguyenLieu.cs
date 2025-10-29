@@ -1,6 +1,6 @@
 ﻿using BUS;
 using DTO;
-using GUI.FONTS;
+using FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,7 +28,7 @@ namespace GUI.GUI_SELECT
             FontManager.ApplyFontToAllControls(this);
 
             nguyenLieuBUS bus = new nguyenLieuBUS();
-            bus.napDSNguyenLieu();
+            bus.LayDanhSach();
 
             //MessageBox.Show("Số lượng nguyên liệu: " + nguyenLieuBUS.ds.Count);
 
@@ -39,7 +39,7 @@ namespace GUI.GUI_SELECT
             dt.Columns.Add("Tồn kho");
 
             donViBUS busDonVi = new donViBUS();
-            List<donViDTO> dsDonVi = busDonVi.layDanhSachDonVi();
+            BindingList<donViDTO> dsDonVi = busDonVi.LayDanhSach();
 
             foreach (var nl in nguyenLieuBUS.ds.Where(x => x.TrangThai == 1))
             {
@@ -68,7 +68,7 @@ namespace GUI.GUI_SELECT
                 return;
             }
             nguyenLieuBUS bus = new nguyenLieuBUS();
-            List<nguyenLieuDTO> dsNL = bus.timKiemCoBanNL(tim,index);
+            BindingList<nguyenLieuDTO> dsNL = bus.timKiemCoBanNL(tim,index);
             if(dsNL!=null && dsNL.Count > 0)
             {
                 DataTable dt = new DataTable();
@@ -78,7 +78,7 @@ namespace GUI.GUI_SELECT
                 dt.Columns.Add("Tồn kho");
 
                 donViBUS busDonVi = new donViBUS();
-                List<donViDTO> dsDonVi = busDonVi.layDanhSachDonVi();
+                BindingList<donViDTO> dsDonVi = busDonVi.LayDanhSach();
 
                 foreach (var nl in dsNL.Where(x => x.TrangThai == 1))
                 {
@@ -104,7 +104,7 @@ namespace GUI.GUI_SELECT
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             nguyenLieuBUS bus = new nguyenLieuBUS();
-            bus.napDSNguyenLieu();
+            bus.LayDanhSach();
 
             //MessageBox.Show("Số lượng nguyên liệu: " + nguyenLieuBUS.ds.Count);
 
@@ -115,7 +115,7 @@ namespace GUI.GUI_SELECT
             dt.Columns.Add("Tồn kho");
 
             donViBUS busDonVi = new donViBUS();
-            List<donViDTO> dsDonVi = busDonVi.layDanhSachDonVi();
+            BindingList<donViDTO> dsDonVi = busDonVi.LayDanhSach();
 
             foreach (var nl in nguyenLieuBUS.ds.Where(x => x.TrangThai == 1))
             {

@@ -425,7 +425,7 @@
             this.btnDonVi.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDonVi.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnDonVi.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDonVi.Image = global::GUI.Properties.Resources._4288571_balance_judge_justice_law_scale_icon1;
+            this.btnDonVi.Image = global::GUI.Properties.Resources.scale;
             this.btnDonVi.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnDonVi.Location = new System.Drawing.Point(615, 10);
             this.btnDonVi.Margin = new System.Windows.Forms.Padding(10);
@@ -442,7 +442,7 @@
             this.btnRefreshNL.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnRefreshNL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnRefreshNL.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRefreshNL.Image = global::GUI.Properties.Resources._6372969_loading_refresh_refresh_button_reload_repeat_icon;
+            this.btnRefreshNL.Image = global::GUI.Properties.Resources.reload;
             this.btnRefreshNL.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnRefreshNL.Location = new System.Drawing.Point(494, 10);
             this.btnRefreshNL.Margin = new System.Windows.Forms.Padding(10);
@@ -459,7 +459,7 @@
             this.btnChiTietNL.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnChiTietNL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnChiTietNL.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnChiTietNL.Image = global::GUI.Properties.Resources._299086_info_sign_icon__1_;
+            this.btnChiTietNL.Image = global::GUI.Properties.Resources.info;
             this.btnChiTietNL.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnChiTietNL.Location = new System.Drawing.Point(373, 10);
             this.btnChiTietNL.Margin = new System.Windows.Forms.Padding(10);
@@ -476,7 +476,7 @@
             this.btnXoaNL.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnXoaNL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnXoaNL.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnXoaNL.Image = global::GUI.Properties.Resources._9004852_trash_delete_bin_remove_icon;
+            this.btnXoaNL.Image = global::GUI.Properties.Resources.delete;
             this.btnXoaNL.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnXoaNL.Location = new System.Drawing.Point(252, 10);
             this.btnXoaNL.Margin = new System.Windows.Forms.Padding(10);
@@ -493,7 +493,7 @@
             this.btnSuaNL.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSuaNL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSuaNL.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSuaNL.Image = global::GUI.Properties.Resources._299100_screwdriver_wrench_icon;
+            this.btnSuaNL.Image = global::GUI.Properties.Resources.update;
             this.btnSuaNL.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnSuaNL.Location = new System.Drawing.Point(131, 10);
             this.btnSuaNL.Margin = new System.Windows.Forms.Padding(10);
@@ -510,7 +510,7 @@
             this.btnThemNL.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnThemNL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnThemNL.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThemNL.Image = global::GUI.Properties.Resources._299068_add_sign_icon;
+            this.btnThemNL.Image = global::GUI.Properties.Resources.add;
             this.btnThemNL.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnThemNL.Location = new System.Drawing.Point(10, 10);
             this.btnThemNL.Margin = new System.Windows.Forms.Padding(10);

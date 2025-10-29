@@ -1,33 +1,24 @@
-﻿using System;
+﻿using DAO;
+using DTO;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using DAO;
-using DTO;
 namespace BUS
 {
     public class donViBUS
     {
-        public static List<donViDTO> ds = new List<donViDTO>();
-        public void docDanhSachDonVi()
+        public static BindingList<donViDTO> ds = new BindingList<donViDTO>();
+
+        public BindingList<donViDTO> LayDanhSach()
         {
             donViDAO data = new donViDAO();
             ds = data.docDangSachDonVi();
+            return ds;
         }
-        public List<donViDTO> layDanhSachDonVi()
-        {
-            donViDAO data = new donViDAO();
-            return data.docDangSachDonVi();
-        }
-
-        public static List<donViDTO> layDanhSachTK()
-        {
-            donViDAO data = new donViDAO();
-            return data.docDangSachDonVi();
-        }
-
         public bool themDonVi(donViDTO ct)
         {
             donViDAO data = new donViDAO();
@@ -46,18 +37,13 @@ namespace BUS
 
             if (result)
             {
-                var existing = ds.Find(x => x.MaDonVi == ct.MaDonVi);
-                if (existing != null)
+                donViDTO tontai = ds.FirstOrDefault(x => x.MaDonVi == ct.MaDonVi);
+                if (tontai != null)
                 {
-                    existing.TenDonVi = ct.TenDonVi;
-                    existing.TrangThai = ct.TrangThai;
+                    tontai.TenDonVi = ct.TenDonVi;
+                    tontai.TrangThai = ct.TrangThai;
                 }
             }
-            else
-            {
-                Console.WriteLine("Lỗi khi sửa đơn vị");
-            }
-
             return result;
         }
 
@@ -68,7 +54,11 @@ namespace BUS
 
             if (result)
             {
-                ds.RemoveAll(x => x.MaDonVi == maDonVi);
+                donViDTO dv = ds.FirstOrDefault(x => x.MaDonVi == maDonVi);
+                if(dv != null)
+                {
+                    ds.Remove(dv);
+                }
             }
             else
             {
@@ -78,7 +68,7 @@ namespace BUS
             return result;
         }
 
-        public List<donViDTO> layDanhSachDonViTheoNguyenLieu(int maNguyenLieu)
+        public BindingList<donViDTO> layDanhSachDonViTheoNguyenLieu(int maNguyenLieu)
         {
             donViDAO dao = new donViDAO();
             return dao.layDanhSachDonViTheoNguyenLieu(maNguyenLieu);

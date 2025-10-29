@@ -1,6 +1,6 @@
 ﻿using BUS;
 using DTO;
-using GUI.FONTS;
+using FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,7 +34,7 @@ namespace GUI.GUI_CRUD
             try
             {
                 donViBUS dvBUS = new donViBUS();
-                var dsDonVi = dvBUS.layDanhSachDonVi();
+                BindingList<donViDTO> dsDonVi = dvBUS.LayDanhSach();
 
                 cboDonVi.DisplayMember = "TenDonVi";
                 cboDonVi.ValueMember = "MaDonVi";

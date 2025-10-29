@@ -1,6 +1,6 @@
 ﻿using BUS;
 using DTO;
-using GUI.FONTS;
+using FONTS;
 using GUI.GUI_CRUD;
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace GUI.GUI_UC
             InitializeComponent();
         }
 
-        private void loadDanhSachCongThuc(List<congThucDTO> ds)
+        private void loadDanhSachCongThuc(BindingList<congThucDTO> ds)
         {
             tableCongThuc.Columns.Clear();
             tableCongThuc.DataSource = null;
@@ -86,7 +86,7 @@ namespace GUI.GUI_UC
             FontManager.ApplyFontToAllControls(this);
 
             congThucBUS bus = new congThucBUS();
-            var ds = bus.docTatCaCongThuc();
+            BindingList<congThucDTO> ds = bus.LayDanhSach();
             loadDanhSachCongThuc(ds);
         }
 
@@ -147,7 +147,7 @@ namespace GUI.GUI_UC
                 form.StartPosition = FormStartPosition.CenterParent;
                 form.ShowDialog();
                 congThucBUS bus = new congThucBUS();
-                var ds = bus.docTatCaCongThuc();
+                BindingList<congThucDTO> ds = bus.LayDanhSach();
                 loadDanhSachCongThuc(ds);
             }
         }
@@ -175,7 +175,7 @@ namespace GUI.GUI_UC
                 }
 
                 congThucBUS bus = new congThucBUS();
-                var ds = bus.docTatCaCongThuc();
+                BindingList<congThucDTO> ds = bus.LayDanhSach();
                 loadDanhSachCongThuc(ds);
             }
         }
@@ -192,12 +192,13 @@ namespace GUI.GUI_UC
                 using (deleteCongThuc form = new deleteCongThuc(maSP, maNL))
                 {
                     form.StartPosition = FormStartPosition.CenterParent;
-                    form.ShowDialog();
+                    if(form.ShowDialog() == DialogResult.OK)
+                    {
+                        congThucBUS bus = new congThucBUS();
+                        BindingList<congThucDTO> ds = bus.LayDanhSach();
+                        loadDanhSachCongThuc(ds);
+                    }
                 }
-
-                congThucBUS bus = new congThucBUS();
-                var ds = bus.docTatCaCongThuc();
-                loadDanhSachCongThuc(ds);
             }
         }
 
@@ -233,7 +234,7 @@ namespace GUI.GUI_UC
         private void btnReFreshCT_Click(object sender, EventArgs e)
         {
             congThucBUS bus = new congThucBUS();
-            var ds = bus.docTatCaCongThuc();
+            BindingList<congThucDTO> ds = bus.LayDanhSach();
             loadDanhSachCongThuc(ds);
         }
 
@@ -245,7 +246,7 @@ namespace GUI.GUI_UC
                 form.ShowDialog(this);
             }
             congThucBUS bus = new congThucBUS();
-            var ds = bus.docTatCaCongThuc();
+            BindingList<congThucDTO> ds = bus.LayDanhSach();
             loadDanhSachCongThuc(ds);
         }
 

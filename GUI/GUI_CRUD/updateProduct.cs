@@ -1,6 +1,6 @@
 ﻿using BUS;
 using DTO;
-using GUI.FONTS;
+using FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,7 +33,7 @@ namespace GUI.GUI_CRUD
             txtGia.Text = sp.Gia.ToString();
 
             loaiSanPhamBUS loaiBus = new loaiSanPhamBUS();
-            cbLoai.DataSource = loaiBus.layDanhSachLoai();
+            cbLoai.DataSource = loaiBus.LayDanhSach();
             cbLoai.DisplayMember = "TenLoai";
             cbLoai.ValueMember = "MaLoai";
             cbLoai.SelectedValue = sp.MaLoai;

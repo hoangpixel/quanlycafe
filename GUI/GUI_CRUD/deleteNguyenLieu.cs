@@ -1,5 +1,5 @@
 ﻿using BUS;
-using GUI.FONTS;
+using FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

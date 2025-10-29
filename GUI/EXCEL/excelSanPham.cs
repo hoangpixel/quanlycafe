@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.ComponentModel;
 
 namespace GUI.EXCEL
 {
@@ -12,11 +13,11 @@ namespace GUI.EXCEL
     {
         static excelSanPham()
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
         }
 
         // 🟢 Xuất Excel
-        public static void Export(List<sanPhamDTO> dsSanPham, string path)
+        public static void Export(BindingList<sanPhamDTO> dsSanPham, string path)
         {
             if (File.Exists(path))
                 File.Delete(path);
@@ -75,9 +76,9 @@ namespace GUI.EXCEL
         }
 
         // 🟢 Nhập Excel → List<sanPhamDTO>
-        public static List<sanPhamDTO> Import(string filePath)
+        public static BindingList<sanPhamDTO> Import(string filePath)
         {
-            var list = new List<sanPhamDTO>();
+            BindingList<sanPhamDTO> list = new BindingList<sanPhamDTO>();
 
             if (!File.Exists(filePath))
                 throw new FileNotFoundException("Không tìm thấy file Excel: " + filePath);

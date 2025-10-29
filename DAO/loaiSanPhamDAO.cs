@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 using DTO;
 using MySql.Data.MySqlClient;
 using DAO.CONFIG;
+using System.ComponentModel;
 
 namespace DAO
 {
     public class loaiSanPhamDAO
     {
-        public List<loaiDTO> docDanhSachLoai()
+        public BindingList<loaiDTO> docDanhSachLoai()
         {
-            List<loaiDTO> ds = new List<loaiDTO>();
+            BindingList<loaiDTO> ds = new BindingList<loaiDTO>();
             string qry = "SELECT * FROM loai WHERE TRANGTHAI = 1";
             MySqlConnection conn = null;
 

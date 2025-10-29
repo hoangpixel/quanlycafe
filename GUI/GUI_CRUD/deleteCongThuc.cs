@@ -1,5 +1,5 @@
 ﻿using BUS;
-using GUI.FONTS;
+using FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,13 +27,26 @@ namespace GUI.GUI_CRUD
             try
             {
                 congThucBUS bus = new congThucBUS();
-                bus.xoaCongThuc(maSP,maNL);
-                MessageBox.Show("Xóa công thức thành công");
-                this.Close();
+                bool kq = bus.xoaCongThuc(maSP, maNL);
+
+                if (kq)
+                {
+                    MessageBox.Show("Xóa công thức thành công!", "Thông báo",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = DialogResult.OK;
+                }
+                else
+                {
+                    MessageBox.Show("Xóa công thức thất bại!", "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.DialogResult = DialogResult.Cancel;
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Xóa công thức thất bại: " + ex);
+                MessageBox.Show("Lỗi khi xóa công thức: " + ex.Message, "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.DialogResult = DialogResult.Abort;
             }
         }
 

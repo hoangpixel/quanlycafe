@@ -1,6 +1,6 @@
 ﻿using BUS;
 using DTO;
-using GUI.FONTS;
+using FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,7 +30,7 @@ namespace GUI.GUI_SELECT
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
 
-            List<donViDTO> dsDonVi = new List<donViDTO>();
+            BindingList<donViDTO> dsDonVi = new BindingList<donViDTO>();
             donViBUS bus = new donViBUS();
 
             if(chiLayHeSo && maNguyenLieu > 0)
@@ -45,7 +45,7 @@ namespace GUI.GUI_SELECT
                 }
             }else
             {
-                bus.docDanhSachDonVi();
+                bus.LayDanhSach();
                 dsDonVi = donViBUS.ds;
             }
 
