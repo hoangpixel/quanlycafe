@@ -24,6 +24,33 @@ namespace GUI.GUI_SELECT
             //this.FormBorderStyle = FormBorderStyle.None;
         }
 
+        private void loadFontChuVaSizeTableSanPham()
+        {
+            // --- Căn giữa và tắt sort ---
+            foreach (DataGridViewColumn col in tableSanPham.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            tableSanPham.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            tableSanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // font cho dữ liệu trong table
+            tableSanPham.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            //font cho header trong table
+            tableSanPham.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
+
+            // --- Fix lỗi mất text khi đổi font ---
+            tableSanPham.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tableSanPham.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            tableSanPham.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            tableSanPham.Refresh();
+        }
+
         private void chooseSanPham_Load(object sender, EventArgs e)
         {
             FontManager.LoadFont();
@@ -48,6 +75,7 @@ namespace GUI.GUI_SELECT
             }
 
             tableSanPham.DataSource = dt;
+            loadFontChuVaSizeTableSanPham();
             tableSanPham.ReadOnly = true;
             tableSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             tableSanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -147,6 +175,11 @@ namespace GUI.GUI_SELECT
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

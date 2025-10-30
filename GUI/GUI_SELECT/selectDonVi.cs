@@ -25,6 +25,32 @@ namespace GUI.GUI_SELECT
             InitializeComponent();
         }
 
+        private void loadFontChuVaSizeTableDonVi()
+        {
+            // --- Căn giữa và tắt sort ---
+            foreach (DataGridViewColumn col in tableDonVi.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            tableDonVi.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            tableDonVi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // font cho dữ liệu trong table
+            tableDonVi.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            //font cho header trong table
+            tableDonVi.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
+
+            // --- Fix lỗi mất text khi đổi font ---
+            tableDonVi.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tableDonVi.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            tableDonVi.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            tableDonVi.Refresh();
+        }
         private void selectDonVi_Load(object sender, EventArgs e)
         {
             FontManager.LoadFont();
@@ -59,6 +85,7 @@ namespace GUI.GUI_SELECT
             }
 
             tableDonVi.DataSource = dt;
+            loadFontChuVaSizeTableDonVi();
             tableDonVi.ReadOnly = true;
             tableDonVi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             tableDonVi.ClearSelection();
@@ -77,6 +104,11 @@ namespace GUI.GUI_SELECT
         }
 
         private void btnThoat_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
         }

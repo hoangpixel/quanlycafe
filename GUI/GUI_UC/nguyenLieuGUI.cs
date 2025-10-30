@@ -219,6 +219,7 @@ namespace GUI.GUI_UC
                     MaNguyenLieu = Convert.ToInt32(row.Cells["Mã NL"].Value),
                     TenNguyenLieu = row.Cells["Tên NL"].Value.ToString(),
                     MaDonViCoSo = Convert.ToInt32(row.Cells["Mã đơn vị"].Value),
+                    TenDonViCoSo = row.Cells["Đơn vị cơ sở"].Value.ToString(),
                     TrangThai = 1
                 };
 

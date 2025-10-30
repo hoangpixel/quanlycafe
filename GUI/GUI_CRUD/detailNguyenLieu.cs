@@ -22,6 +22,59 @@ namespace GUI.GUI_CRUD
             this.ct = ct;
         }
 
+        private void loadFontChuVaSizeTableNguyenLieu()
+        {
+            // --- Căn giữa và tắt sort ---
+            foreach (DataGridViewColumn col in tableNguyenLieu.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            tableNguyenLieu.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            tableNguyenLieu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // font cho dữ liệu trong table
+            tableNguyenLieu.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            //font cho header trong table
+            tableNguyenLieu.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
+
+            // --- Fix lỗi mất text khi đổi font ---
+            tableNguyenLieu.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tableNguyenLieu.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            tableNguyenLieu.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            tableNguyenLieu.Refresh();
+        }
+
+        private void loadFontChuVaSizeTableHeSo()
+        {
+            // --- Căn giữa và tắt sort ---
+            foreach (DataGridViewColumn col in tableHeSo.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            tableHeSo.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            tableHeSo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // font cho dữ liệu trong table
+            tableHeSo.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            //font cho header trong table
+            tableNguyenLieu.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
+
+            // --- Fix lỗi mất text khi đổi font ---
+            tableHeSo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tableHeSo.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            tableHeSo.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            tableHeSo.Refresh();
+        }
         private void detailNguyenLieu_Load(object sender, EventArgs e)
         {
             FontManager.LoadFont();
@@ -51,7 +104,7 @@ namespace GUI.GUI_CRUD
             dt.Columns.Add("Tên SP");
             dt.Columns.Add("Giá");
             dt.Columns.Add("Số lượng");
-            dt.Columns.Add("Đơn vị cơ sở");
+            dt.Columns.Add("Đơn vị");
 
 
             donViBUS busdv = new donViBUS();
@@ -60,10 +113,11 @@ namespace GUI.GUI_CRUD
             foreach (var sp in ds)
             {
                 string tenDonVi = dsdv.FirstOrDefault(l => l.MaDonVi == sp.MaDonViCoSo)?.TenDonVi ?? "Không xác định";
-                dt.Rows.Add(sp.MaSP, sp.TenSP, sp.Gia, sp.SoLuongCoSo,tenDonVi);
+                dt.Rows.Add(sp.MaSP, sp.TenSP, string.Format("{0:N0}", sp.Gia), sp.SoLuongCoSo,tenDonVi);
             }
 
             tableNguyenLieu.DataSource = dt;
+            loadFontChuVaSizeTableNguyenLieu();
             tableNguyenLieu.RowHeadersVisible = false;
 
             tableNguyenLieu.ReadOnly = true;
@@ -92,6 +146,7 @@ namespace GUI.GUI_CRUD
             }
 
             tableHeSo.DataSource = dt;
+            loadFontChuVaSizeTableHeSo();
             tableHeSo.RowHeadersVisible = false;
 
             tableHeSo.ReadOnly = true;
@@ -111,6 +166,16 @@ namespace GUI.GUI_CRUD
         private void txtDonVi_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void bigLabel1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

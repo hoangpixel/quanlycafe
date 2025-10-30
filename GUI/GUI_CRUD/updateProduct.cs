@@ -54,7 +54,7 @@ namespace GUI.GUI_CRUD
             }
         }
 
-        private void btnChonAnh_Click(object sender, EventArgs e)
+        private void btnChonAnh_Click_1(object sender, EventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog();
             open.Filter = "Ảnh sản phẩm (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
@@ -72,18 +72,13 @@ namespace GUI.GUI_CRUD
             }
         }
 
-        private void btnXoaAnh_Click(object sender, EventArgs e)
+        private void btnXoaAnh_Click_1(object sender, EventArgs e)
         {
             picHinh.Image = null;
             imagePath = "";
         }
 
-        private void btnThoat_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void btnNhapSP_Click(object sender, EventArgs e)
+        private void btnNhapSP_Click_1(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtTenSP.Text) || string.IsNullOrWhiteSpace(txtGia.Text))
             {
@@ -103,26 +98,26 @@ namespace GUI.GUI_CRUD
 
             try
             {
-                // ✅ Nếu người dùng chọn ảnh mới
+                // Nếu người dùng chọn ảnh mới
                 if (!string.IsNullOrEmpty(imagePath))
                 {
-                    // 🔹 Tạo tên file mới ngẫu nhiên
+                    // Tạo tên file mới ngẫu nhiên
                     string extension = Path.GetExtension(imagePath);
                     string randomName = "sp_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" +
                                         Guid.NewGuid().ToString("N").Substring(0, 6) + extension;
 
-                    // 🔹 Đường dẫn project
+                    // Đường dẫn project
                     string projectDir = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\GUI"));
                     string targetFolderProject = Path.Combine(projectDir, "Resources", "IMG", "SP");
                     string targetPathProject = Path.Combine(targetFolderProject, randomName);
 
-                    // 🔹 Copy vào Resources
+                    // Copy vào Resources
                     if (!Directory.Exists(targetFolderProject))
                         Directory.CreateDirectory(targetFolderProject);
 
                     File.Copy(imagePath, targetPathProject, true);
 
-                    // 🔹 Copy thêm vào bin/Debug
+                    // Copy thêm vào bin/Debug
                     string targetFolderBin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "IMG", "SP");
                     string targetPathBin = Path.Combine(targetFolderBin, randomName);
 
@@ -131,11 +126,11 @@ namespace GUI.GUI_CRUD
 
                     File.Copy(imagePath, targetPathBin, true);
 
-                    // 🔹 Cập nhật tên ảnh mới
+                    // Cập nhật tên ảnh mới
                     sp.Hinh = randomName;
                 }
 
-                // ✅ Cập nhật thông tin sản phẩm
+                // Cập nhật thông tin sản phẩm
                 sp.TenSP = txtTenSP.Text.Trim();
 
                 if (!float.TryParse(txtGia.Text, out float gia))
@@ -147,7 +142,7 @@ namespace GUI.GUI_CRUD
                 sp.Gia = gia;
                 sp.MaLoai = Convert.ToInt32(cbLoai.SelectedValue);
 
-                // ✅ Cập nhật CSDL
+                // Cập nhật CSDL
                 sanPhamBUS bus = new sanPhamBUS();
                 bus.Sua(sp);
 
@@ -159,6 +154,11 @@ namespace GUI.GUI_CRUD
             {
                 MessageBox.Show("Lỗi cập nhật sản phẩm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btnThoat_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

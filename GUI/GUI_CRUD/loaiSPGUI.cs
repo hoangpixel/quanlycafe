@@ -20,6 +20,33 @@ namespace GUI.GUI_CRUD
             InitializeComponent();
         }
 
+        private void loadFontChuVaSize()
+        {
+            // --- Căn giữa và tắt sort ---
+            foreach (DataGridViewColumn col in tableLoaiSP.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            tableLoaiSP.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            tableLoaiSP.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // font cho dữ liệu trong table
+            tableLoaiSP.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            //font cho header trong table
+            tableLoaiSP.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
+
+            // --- Fix lỗi mất text khi đổi font ---
+            tableLoaiSP.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tableLoaiSP.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            tableLoaiSP.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            tableLoaiSP.Refresh();
+        }
+
         private void loadDanhSachLoaiSP(BindingList<loaiDTO> ds)
         {
             tableLoaiSP.Columns.Clear();
@@ -40,6 +67,9 @@ namespace GUI.GUI_CRUD
             }
 
             tableLoaiSP.DataSource = dt;
+
+            loadFontChuVaSize();
+
             tableLoaiSP.ReadOnly = true;
 
             tableLoaiSP.Columns["Mã Loại"].Width = 90;
@@ -217,6 +247,11 @@ namespace GUI.GUI_CRUD
         }
 
         private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
         }

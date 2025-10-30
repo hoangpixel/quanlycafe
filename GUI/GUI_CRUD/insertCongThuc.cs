@@ -27,6 +27,33 @@ namespace GUI.GUI_CRUD
             InitializeComponent();
         }
 
+        private void loadFontChuVaSizeTableCongThuc()
+        {
+            // --- Căn giữa và tắt sort ---
+            foreach (DataGridViewColumn col in tableCongThuc.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            tableCongThuc.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            tableCongThuc.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // font cho dữ liệu trong table
+            tableCongThuc.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            //font cho header trong table
+            tableCongThuc.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
+
+            // --- Fix lỗi mất text khi đổi font ---
+            tableCongThuc.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tableCongThuc.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            tableCongThuc.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            tableCongThuc.Refresh();
+        }
+
         private void insertCongThuc_Load(object sender, EventArgs e)
         {
             FontManager.LoadFont();
@@ -65,6 +92,8 @@ namespace GUI.GUI_CRUD
             tableCongThuc.Columns["SoLuong"].HeaderText = "Số lượng";
             tableCongThuc.Columns["DonVi"].HeaderText = "Đơn vị";
             tableCongThuc.Columns["MaDonVi"].Visible = false;
+
+            loadFontChuVaSizeTableCongThuc();
 
             tableCongThuc.ClearSelection();
         }
@@ -321,6 +350,11 @@ namespace GUI.GUI_CRUD
                     }
                 }
             }
+        }
+
+        private void tableCongThuc_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            tableCongThuc.ClearSelection();
         }
     }
 }

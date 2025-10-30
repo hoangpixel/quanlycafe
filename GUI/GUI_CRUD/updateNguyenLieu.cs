@@ -1,6 +1,7 @@
 ﻿using BUS;
 using DTO;
 using FONTS;
+using GUI.GUI_SELECT;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +17,8 @@ namespace GUI.GUI_CRUD
     public partial class updateNguyenLieu : Form
     {
         private nguyenLieuDTO ct;
-        private BindingList<donViDTO> dsDonVi;
+        private int maDonVi = -1;
+        private string tenDonVi = "";
         public updateNguyenLieu()
         {
             InitializeComponent();
@@ -28,54 +30,16 @@ namespace GUI.GUI_CRUD
             this.Shown += updateNguyenLieu_Shown;
         }
 
-        private void btnSuaNL_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtTenNL.Text) || cbDonVi.SelectedIndex == -1)
-            {
-                MessageBox.Show("Vui lòng nhập tên và chọn đơn vị nguyên liệu!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            try
-            {
-                ct.TenNguyenLieu = txtTenNL.Text.Trim();
-                ct.MaDonViCoSo = Convert.ToInt32(cbDonVi.SelectedValue);
-                ct.TrangThai = 1; 
-
-                nguyenLieuBUS bus = new nguyenLieuBUS();
-                bool kq = bus.suaNguyenLieu(ct);
-
-                if (kq)
-                {
-                    MessageBox.Show("Cập nhật nguyên liệu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Close(); 
-                }
-                else
-                {
-                    MessageBox.Show("Lỗi khi cập nhật nguyên liệu!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi sửa nguyên liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private void updateNguyenLieu_Load(object sender, EventArgs e)
         {
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
-            donViBUS busDonVi = new donViBUS();
-            dsDonVi = busDonVi.LayDanhSach();
-
-            cbDonVi.DataSource = dsDonVi;
-            cbDonVi.DisplayMember = "TenDonVi";
-            cbDonVi.ValueMember = "MaDonVi";
 
             if (ct != null)
             {
                 txtTenNL.Text = ct.TenNguyenLieu;
-                cbDonVi.SelectedValue = ct.MaDonViCoSo;
+                maDonVi = ct.MaDonViCoSo;
+                txtTenDonVi.Text = ct.TenDonViCoSo;
                 txtTenNL.Focus();
             }
         }
@@ -88,6 +52,58 @@ namespace GUI.GUI_CRUD
         private void updateNguyenLieu_Shown(object sender, EventArgs e)
         {
             this.ActiveControl = null;
+        }
+
+        private void btnSuaNL_Click_1(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtTenNL.Text) || maDonVi == -1)
+            {
+                MessageBox.Show("Vui lòng nhập tên và chọn đơn vị nguyên liệu!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                ct.TenNguyenLieu = txtTenNL.Text.Trim();
+                ct.MaDonViCoSo = maDonVi;
+                ct.TrangThai = 1;
+
+                nguyenLieuBUS bus = new nguyenLieuBUS();
+                bool kq = bus.suaNguyenLieu(ct);
+
+                if (kq)
+                {
+                    MessageBox.Show("Cập nhật nguyên liệu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Lỗi khi cập nhật nguyên liệu!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi sửa nguyên liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnThoat_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnDonVi_Click(object sender, EventArgs e)
+        {
+            using (selectDonVi form = new selectDonVi())
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    maDonVi = form.maDonVi;
+                    tenDonVi = form.tenDonVi;
+                    txtTenDonVi.Text = form.tenDonVi;
+                }
+            }
         }
     }
 }

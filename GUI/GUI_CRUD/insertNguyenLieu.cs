@@ -1,12 +1,14 @@
 ﻿using BUS;
 using DTO;
 using FONTS;
+using GUI.GUI_SELECT;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,7 +17,8 @@ namespace GUI.GUI_CRUD
 {
     public partial class insertNguyenLieu : Form
     {
-        private BindingList<donViDTO> dsDonVi;
+        private int maDonVi = -1;
+        private string tenDonVi = "";
         public insertNguyenLieu()
         {
             InitializeComponent();
@@ -41,19 +44,11 @@ namespace GUI.GUI_CRUD
         {
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
-
-            donViBUS busDonVi = new donViBUS();
-            dsDonVi = busDonVi.LayDanhSach();
-
-            cbDonVi.DataSource = dsDonVi;
-            cbDonVi.DisplayMember = "TenDonVi";   
-            cbDonVi.ValueMember = "MaDonVi";     
-            cbDonVi.SelectedIndex = -1;
         }
 
         private void btnNhapNL_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtTenNL.Text) || cbDonVi.SelectedIndex == -1)
+            if (string.IsNullOrWhiteSpace(txtTenNL.Text) || maDonVi == -1)
             {
                 MessageBox.Show("Vui lòng nhập tên và chọn đơn vị nguyên liệu!",
                     "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -63,7 +58,6 @@ namespace GUI.GUI_CRUD
             try
             {
                 string tenNL = txtTenNL.Text.Trim();
-                int maDonVi = Convert.ToInt32(cbDonVi.SelectedValue);
 
                 nguyenLieuDTO nl = new nguyenLieuDTO
                 {
@@ -99,6 +93,20 @@ namespace GUI.GUI_CRUD
         {
             txtTenNL.Focus();
 
+        }
+
+        private void btnDonVi_Click(object sender, EventArgs e)
+        {
+            using(selectDonVi form = new selectDonVi())
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                if(form.ShowDialog() == DialogResult.OK)
+                {
+                    maDonVi = form.maDonVi;
+                    tenDonVi = form.tenDonVi;
+                    txtTenDonVi.Text = form.tenDonVi;
+                }
+            }
         }
     }
 }

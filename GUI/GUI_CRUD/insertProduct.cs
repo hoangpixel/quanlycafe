@@ -24,7 +24,24 @@ namespace GUI.GUI_CRUD
             loadComBoBox();
         }
 
-        private void btnChonAnh_Click(object sender, EventArgs e)
+        public void loadComBoBox()
+        {
+            loaiSanPhamBUS bus = new loaiSanPhamBUS();
+            BindingList<loaiDTO> dsLoai = bus.LayDanhSach();
+
+            cbLoai.DataSource = dsLoai;
+            cbLoai.DisplayMember = "TenLoai";
+            cbLoai.ValueMember = "MaLoai";
+            cbLoai.SelectedIndex = -1;
+        }
+
+        private void insertProduct_Load(object sender, EventArgs e)
+        {
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
+        }
+
+        private void btnChonAnh_Click_1(object sender, EventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog();
             open.Filter = "Ảnh sản phẩm (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
@@ -42,45 +59,13 @@ namespace GUI.GUI_CRUD
             }
         }
 
-        private void btnXoaAnh_Click(object sender, EventArgs e)
+        private void btnXoaAnh_Click_1(object sender, EventArgs e)
         {
             picHinh.Image = null;
             imagePath = "";
         }
 
-        private void btnThoat_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-           
-        }
-
-        public void loadComBoBox()
-        {
-            loaiSanPhamBUS bus = new loaiSanPhamBUS();
-            BindingList<loaiDTO> dsLoai = bus.LayDanhSach();
-
-            cbLoai.DataSource = dsLoai;
-            cbLoai.DisplayMember = "TenLoai";
-            cbLoai.ValueMember = "MaLoai";
-            cbLoai.SelectedIndex = -1;
-
-        }
-
-        private void insertProduct_Load(object sender, EventArgs e)
-        {
-            FontManager.LoadFont();
-            FontManager.ApplyFontToAllControls(this);
-        }
-
-        private void btnNhapSP_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void btnNhapSP_Click_1(object sender, EventArgs e)
+        private void btnNhapSP_Click_2(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtTenSP.Text) || string.IsNullOrWhiteSpace(txtGia.Text))
             {
@@ -94,11 +79,11 @@ namespace GUI.GUI_CRUD
                 return;
             }
 
-            // ✅ Tạo tên file ngẫu nhiên
+            // Tạo tên file ngẫu nhiên
             string extension = Path.GetExtension(imagePath);
             string randomName = "sp_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Guid.NewGuid().ToString("N").Substring(0, 6) + extension;
 
-            // ✅ Đường dẫn gốc project (chứa quanlycafe.csproj)
+            // Đường dẫn gốc project (chứa quanlycafe.csproj)
             string projectDir = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\GUI"));
             string targetFolder = Path.Combine(projectDir, "Resources", "IMG", "SP");
             string targetPath = Path.Combine(targetFolder, randomName);
@@ -112,7 +97,7 @@ namespace GUI.GUI_CRUD
                 // Copy file ảnh vào thư mục đích (với tên mới)
                 File.Copy(imagePath, targetPath, true);
 
-                // ✅ Copy thêm 1 bản xuống bin/Debug/IMG/SP để hiển thị ngay
+                // Copy thêm 1 bản xuống bin/Debug/IMG/SP để hiển thị ngay
                 string binFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "IMG", "SP");
                 string binPath = Path.Combine(binFolder, randomName);
 
@@ -141,10 +126,9 @@ namespace GUI.GUI_CRUD
 
             MessageBox.Show("Thêm sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();
-
         }
 
-        private void btnThoat_Click_1(object sender, EventArgs e)
+        private void btnThoat_Click(object sender, EventArgs e)
         {
             this.Close();
         }

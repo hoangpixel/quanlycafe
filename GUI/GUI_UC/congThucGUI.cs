@@ -215,7 +215,7 @@ namespace GUI.GUI_UC
                     TenSanPham = row.Cells["Tên_SP"].Value.ToString(),
                     TenNguyenLieu = row.Cells["Tên_NL"].Value.ToString(),
                     SoLuongCoSo = float.Parse(row.Cells["Số_lượng"].Value.ToString()),
-                    TenDonViCoSo = row.Cells["Đơn_vị"].Value.ToString()
+                    TenDonViCoSo = row.Cells["Đơn_vị"].Value.ToString(),
                 };
 
                 using (detailCongThuc form = new detailCongThuc(ct))

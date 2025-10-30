@@ -32,10 +32,14 @@ namespace GUI.GUI_CRUD
             txtTenSP.Text = ct.TenSanPham;
             txtTenNL.Text = ct.TenNguyenLieu;
             txtSoL.Text = ct.SoLuongCoSo.ToString();
-
+            txtTenDV.Text = ct.TenDonViCoSo;
         }
 
-        private void btnThoat_Click(object sender, EventArgs e)
+        private void panel2_Resize(object sender, EventArgs e)
+        {
+        }
+
+        private void btnThoat_Click_1(object sender, EventArgs e)
         {
             this.Close();
         }

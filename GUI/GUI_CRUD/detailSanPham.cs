@@ -26,6 +26,32 @@ namespace GUI.GUI_CRUD
 
         }
 
+        private void loadFontChuVaSizeTableNguyenLieu()
+        {
+            // --- Căn giữa và tắt sort ---
+            foreach (DataGridViewColumn col in tableCongThuc.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            tableCongThuc.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            tableCongThuc.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // font cho dữ liệu trong table
+            tableCongThuc.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            //font cho header trong table
+            tableCongThuc.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
+
+            // --- Fix lỗi mất text khi đổi font ---
+            tableCongThuc.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tableCongThuc.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            tableCongThuc.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            tableCongThuc.Refresh();
+        }
         private void btnThoat_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -86,6 +112,7 @@ namespace GUI.GUI_CRUD
             }
 
             tableCongThuc.DataSource = dt;
+            loadFontChuVaSizeTableNguyenLieu();
             tableCongThuc.ReadOnly = true;
             tableCongThuc.RowHeadersVisible = false;
             tableCongThuc.Columns["Mã NL"].Width = 80;
@@ -99,6 +126,11 @@ namespace GUI.GUI_CRUD
         private void tableCongThuc_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

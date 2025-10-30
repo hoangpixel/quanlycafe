@@ -22,6 +22,33 @@ namespace GUI.GUI_SELECT
             InitializeComponent();
         }
 
+        private void loadFontChuVaSizeTableNguyenLieu()
+        {
+            // --- Căn giữa và tắt sort ---
+            foreach (DataGridViewColumn col in tableNguyenLieu.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            tableNguyenLieu.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            tableNguyenLieu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // font cho dữ liệu trong table
+            tableNguyenLieu.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            //font cho header trong table
+            tableNguyenLieu.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
+
+            // --- Fix lỗi mất text khi đổi font ---
+            tableNguyenLieu.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tableNguyenLieu.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            tableNguyenLieu.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            tableNguyenLieu.Refresh();
+        }
+
         private void selectNguyenLieu_Load(object sender, EventArgs e)
         {
             FontManager.LoadFont();
@@ -35,7 +62,7 @@ namespace GUI.GUI_SELECT
             DataTable dt = new DataTable();
             dt.Columns.Add("Mã NL");
             dt.Columns.Add("Tên NL");
-            dt.Columns.Add("Đơn vị cơ sở");
+            dt.Columns.Add("Đơn vị");
             dt.Columns.Add("Tồn kho");
 
             donViBUS busDonVi = new donViBUS();
@@ -48,6 +75,7 @@ namespace GUI.GUI_SELECT
             }
 
             tableNguyenLieu.DataSource = dt;
+            loadFontChuVaSizeTableNguyenLieu();
             tableNguyenLieu.ReadOnly = true;
             tableNguyenLieu.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             tableNguyenLieu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -144,6 +172,11 @@ namespace GUI.GUI_SELECT
         }
 
         private void btnThoat_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
         }
