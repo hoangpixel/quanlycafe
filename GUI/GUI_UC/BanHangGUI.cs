@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace GUI.GUI_UC
 {
-    public partial class BanHangGUI : UserControl
+    public partial class banHangGUI : UserControl
     {
-        public BanHangGUI()
+        public banHangGUI()
         {
             InitializeComponent();
         }

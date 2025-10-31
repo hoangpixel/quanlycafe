@@ -98,11 +98,11 @@
     <Compile Include="GUI_SELECT\selectDonVi.Designer.cs">
       <DependentUpon>selectDonVi.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI_UC\BanHangGUI.cs">
+    <Compile Include="GUI_UC\banHangGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI_UC\BanHangGUI.Designer.cs">
-      <DependentUpon>BanHangGUI.cs</DependentUpon>
+    <Compile Include="GUI_UC\banHangGUI.Designer.cs">
+      <DependentUpon>banHangGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_UC\congThucGUI.cs">
       <SubType>UserControl</SubType>
@@ -259,8 +259,8 @@
     <EmbeddedResource Include="GUI_SELECT\selectDonVi.resx">
       <DependentUpon>selectDonVi.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI_UC\BanHangGUI.resx">
-      <DependentUpon>BanHangGUI.cs</DependentUpon>
+    <EmbeddedResource Include="GUI_UC\banHangGUI.resx">
+      <DependentUpon>banHangGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\congThucGUI.resx">
       <DependentUpon>congThucGUI.cs</DependentUpon>
