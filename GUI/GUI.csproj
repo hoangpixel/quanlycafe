@@ -104,12 +104,6 @@
     <Compile Include="GUI_UC\congThucGUI.Designer.cs">
       <DependentUpon>congThucGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI_UC\homeGUI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI_UC\homeGUI.Designer.cs">
-      <DependentUpon>homeGUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI_UC\mainContentGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
