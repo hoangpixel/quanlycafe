@@ -252,10 +252,6 @@ namespace GUI.GUI_UC
                 bus.LayDanhSach();
                 loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
             }
-            else
-            {
-                MessageBox.Show("Vui lòng chọn sản phẩm cần xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
         }
 
         private void btnChiTietNL_Click(object sender, EventArgs e)

@@ -42,7 +42,7 @@ namespace GUI.GUI_UC
             nav.OnNavClick += HandleNavClick;
 
             // ⚡ 4. Khởi tạo các trang
-            pages["home"] = new homeGUI() { Dock = DockStyle.Fill };
+            pages["home"] = new BanHangGUI() { Dock = DockStyle.Fill };
             pages["sanpham"] = new sanPhamGUI() { Dock = DockStyle.Fill };
             pages["nguyenlieu"] = new nguyenLieuGUI() { Dock = DockStyle.Fill };
             pages["congthuc"] = new congThucGUI() { Dock = DockStyle.Fill };

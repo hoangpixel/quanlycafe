@@ -26,8 +26,8 @@ namespace GUI.GUI_UC
 
         private void loadDanhSachCongThuc(BindingList<congThucDTO> ds)
         {
-            tableCongThuc.Columns.Clear();
-            tableCongThuc.DataSource = null;
+            //tableCongThuc.Columns.Clear();
+            //tableCongThuc.DataSource = null;
 
             if (ds == null || ds.Count == 0)
             {
@@ -197,7 +197,13 @@ namespace GUI.GUI_UC
                         congThucBUS bus = new congThucBUS();
                         BindingList<congThucDTO> ds = bus.LayDanhSach();
                         loadDanhSachCongThuc(ds);
-                    }
+                    }else
+                    {
+                        tableCongThuc.ClearSelection();
+                        btnSuaCT.Enabled = false;
+                        btnXoaCT.Enabled = false;
+                        btnChiTietCT.Enabled = false;
+                    }    
                 }
             }
         }

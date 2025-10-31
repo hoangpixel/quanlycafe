@@ -36,7 +36,7 @@ namespace GUI.GUI_UC
             // 🔹 Logo / Header
             Label lblHeader = new Label
             {
-                Text = "☕  Cafe Manager",
+                Text = "☕  XANHCAFE",
                 Dock = DockStyle.Top,
                 Height = 70,
                 TextAlign = ContentAlignment.MiddleCenter,
