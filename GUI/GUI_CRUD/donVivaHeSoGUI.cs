@@ -21,11 +21,61 @@ namespace GUI.GUI_CRUD
             InitializeComponent();
         }
 
+        private void loadFontChuVaSizeTableDonVi()
+        {
+            // --- Căn giữa và tắt sort ---
+            foreach (DataGridViewColumn col in tableDonVi.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            tableDonVi.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            tableDonVi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // font cho dữ liệu trong table
+            tableDonVi.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            //font cho header trong table
+            tableDonVi.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
+
+            // --- Fix lỗi mất text khi đổi font ---
+            tableDonVi.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tableDonVi.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            tableDonVi.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            tableDonVi.Refresh();
+        }
+
+        private void loadFontChuVaSizeTableHeSo()
+        {
+            // --- Căn giữa và tắt sort ---
+            foreach (DataGridViewColumn col in tableHeSo.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            tableHeSo.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            tableHeSo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // font cho dữ liệu trong table
+            tableHeSo.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            //font cho header trong table
+            tableHeSo.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
+
+            // --- Fix lỗi mất text khi đổi font ---
+            tableHeSo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tableHeSo.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            tableHeSo.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            tableHeSo.Refresh();
+        }
         private void loadDanhSachDonVi(BindingList<donViDTO> ds)
         {
-            tableDonVi.Columns.Clear();
-            tableDonVi.DataSource = null;
-
             DataTable dt = new DataTable();
             dt.Columns.Add("Mã đơn vị");
             dt.Columns.Add("Tên đơn vị");
@@ -36,6 +86,7 @@ namespace GUI.GUI_CRUD
             }
 
             tableDonVi.DataSource = dt;
+            loadFontChuVaSizeTableDonVi();
             tableDonVi.ReadOnly = true;
             tableDonVi.Columns["Mã đơn vị"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             tableDonVi.Columns["Tên đơn vị"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -48,11 +99,8 @@ namespace GUI.GUI_CRUD
 
         private void loadDanhSachHeSo(BindingList<heSoDTO> ds)
         {
-            tableHeSo.Columns.Clear();
-            tableHeSo.DataSource = null;
-
             DataTable dt = new DataTable();
-            dt.Columns.Add("Tên nguyên liệu");
+            dt.Columns.Add("Tên NL");
             dt.Columns.Add("Tên đơn vị");
             dt.Columns.Add("Hệ số");
 
@@ -72,9 +120,7 @@ namespace GUI.GUI_CRUD
 
             tableHeSo.DataSource = dt;
             tableHeSo.ReadOnly = true;
-            tableHeSo.Columns["Tên nguyên liệu"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            tableHeSo.Columns["Tên đơn vị"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            tableHeSo.Columns["Hệ số"].Width = 60;
+            loadFontChuVaSizeTableHeSo();
 
             btnSuaHS.Enabled = false;
             btnXoaHeSO.Enabled = false;
@@ -272,7 +318,7 @@ namespace GUI.GUI_CRUD
 
                 DataGridViewRow row = tableHeSo.Rows[e.RowIndex];
                 string tenDV = row.Cells["Tên đơn vị"].Value.ToString();
-                string tenNL = row.Cells["Tên nguyên liệu"].Value.ToString();
+                string tenNL = row.Cells["Tên NL"].Value.ToString();
                 string heSoStr = row.Cells["Hệ số"].Value.ToString();
 
                 txtTenNL.Text = tenNL;
@@ -464,6 +510,46 @@ namespace GUI.GUI_CRUD
         private void tableHeSo_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             tableHeSo.ClearSelection();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnTim_Click(object sender, EventArgs e)
+        {
+            if(cboTimDV.SelectedIndex == -1 || string.IsNullOrWhiteSpace(txtTimDV.Text))
+            {
+                MessageBox.Show("Vui lòng nhập giá trị cần tìm","Thông báo",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                return;
+            }
+            int index = cboTimDV.SelectedIndex;
+            string tim = txtTimDV.Text.Trim();
+            donViBUS bus = new donViBUS();
+            BindingList<donViDTO> dskq = bus.timKiemCoBan(tim, index);
+            if(dskq != null && dskq.Count > 0)
+            {
+                loadDanhSachDonVi(dskq);
+            }else
+            {
+                MessageBox.Show("Không tìm thấy kết quả", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+        }
+
+        private void btnRs_Click(object sender, EventArgs e)
+        {
+            cboDonVi.SelectedIndex = -1;
+            txtTimDV.Clear();
+            donViBUS bus = new donViBUS();
+            BindingList<donViDTO> dskq = donViBUS.ds;
+            loadDanhSachDonVi(dskq);
+        }
+
+        private void btnTKhs_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

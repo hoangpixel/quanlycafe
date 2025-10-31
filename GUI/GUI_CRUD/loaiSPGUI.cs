@@ -49,9 +49,6 @@ namespace GUI.GUI_CRUD
 
         private void loadDanhSachLoaiSP(BindingList<loaiDTO> ds)
         {
-            tableLoaiSP.Columns.Clear();
-            tableLoaiSP.DataSource = null;
-
             DataTable dt = new DataTable();
             dt.Columns.Add("Mã Loại");
             dt.Columns.Add("Tên Loại");
@@ -67,8 +64,6 @@ namespace GUI.GUI_CRUD
             }
 
             tableLoaiSP.DataSource = dt;
-
-            loadFontChuVaSize();
 
             tableLoaiSP.ReadOnly = true;
 
@@ -95,10 +90,9 @@ namespace GUI.GUI_CRUD
             loaiSanPhamBUS bus = new loaiSanPhamBUS();
             bus.LayDanhSach();
             loadDanhSachLoaiSP(loaiSanPhamBUS.ds);
-            tableLoaiSP.ClearSelection();
-
+            loadFontChuVaSize();
             loadComboNhom();
-
+                
             btnSuaLoaiSp.Enabled = false;
             btnXoaLoaiSP.Enabled = false;
         }
@@ -254,6 +248,42 @@ namespace GUI.GUI_CRUD
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnTim_Click(object sender, EventArgs e)
+        {
+            if(cboLoai.SelectedIndex == -1 || string.IsNullOrWhiteSpace(txtTim.Text))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin tìm kiếm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            int index = cboLoai.SelectedIndex;
+            string tim = txtTim.Text.Trim();
+            loaiSanPhamBUS bus = new loaiSanPhamBUS();
+            BindingList<loaiDTO> dskq = bus.timKiemCoBan(tim, index);
+            if (dskq != null && dskq.Count > 0)
+            {
+                loadDanhSachLoaiSP(dskq);
+                tableLoaiSP.ClearSelection();
+            }else
+            {
+                MessageBox.Show("Không tìm thấy kết quả cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+        }
+
+        private void btnRs_Click(object sender, EventArgs e)
+        {
+            cboLoai.SelectedIndex = -1;
+            txtTim.Clear();
+            loaiSanPhamBUS bus = new loaiSanPhamBUS();
+            bus.LayDanhSach();
+            loadDanhSachLoaiSP(loaiSanPhamBUS.ds);
+        }
+
+        private void tableLoaiSP_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            tableLoaiSP.ClearSelection();
         }
     }
 }

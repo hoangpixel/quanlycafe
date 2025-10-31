@@ -62,5 +62,59 @@ namespace BUS
 
             return result;
         }
+
+        public BindingList<loaiDTO> timKiemCoBan(string tim, int index)
+        {
+            BindingList<loaiDTO> dskq = new BindingList<loaiDTO>();
+            if(ds == null)
+            {
+                LayDanhSach();
+            }
+
+            nhomBUS busNhom = new nhomBUS();
+            BindingList<nhomDTO> dsNhom = busNhom.layDanhSach();
+
+            foreach (loaiDTO ct in ds)
+            {
+                switch(index)
+                {
+                    case 0:
+                        {
+                            if(ct.MaLoai.ToString().Contains(tim))
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 1:
+                        {
+                            if(ct.MaNhom.ToString().Contains(tim))
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 2:
+                        {
+                            if (ct.TenLoai.IndexOf(tim, StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 3:
+                        {
+                            nhomDTO nhom = dsNhom.FirstOrDefault(x => x.MaNhom == ct.MaNhom);
+                            string tenNhom = nhom != null ? nhom.TenNhom : "";
+                            if(tenNhom.IndexOf(tim,StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                }
+            }
+            return dskq;
+        }
     }
 }

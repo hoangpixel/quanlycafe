@@ -74,5 +74,37 @@ namespace BUS
             return dao.layDanhSachDonViTheoNguyenLieu(maNguyenLieu);
         }
 
+        public BindingList<donViDTO> timKiemCoBan(string tim,int index)
+        {
+            BindingList<donViDTO> dskq = new BindingList<donViDTO>();
+            if(ds == null)
+            {
+                LayDanhSach();
+            }
+            foreach (donViDTO ct in ds)
+            {
+                switch(index)
+                {
+                    case 0:
+                        {
+                            if(ct.MaDonVi.ToString().Contains(tim))
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 1:
+                        {
+                            if(ct.TenDonVi.IndexOf(tim,StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                }
+            }
+            return dskq;
+        }
+
     }
 }
