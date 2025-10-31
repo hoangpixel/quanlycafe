@@ -17,6 +17,9 @@ namespace GUI.GUI_UC
     public partial class sanPhamGUI : UserControl
     {
         private int lastSelectedRowSanPham = -1;
+        private BindingList<loaiDTO> dsLoai;
+        private BindingList<nhomDTO> dsNhom;
+        private sanPhamBUS busSanPham = new sanPhamBUS();
         public sanPhamGUI()
         {
             InitializeComponent();
@@ -32,7 +35,9 @@ namespace GUI.GUI_UC
             sanPhamBUS bus = new sanPhamBUS();
             bus.LayDanhSach();
             loadDanhSachSanPham(sanPhamBUS.ds);
+            loadFontChuVaSize();
             tbSanPham.ClearSelection();
+
             loadComboBoxLoaiSPTK();
             rdoTimCoBan.Checked = true;
         }
@@ -40,7 +45,6 @@ namespace GUI.GUI_UC
 
         private void loadFontChuVaSize()
         {
-            // --- Căn giữa và tắt sort ---
             foreach (DataGridViewColumn col in tbSanPham.Columns)
             {
                 col.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -51,13 +55,10 @@ namespace GUI.GUI_UC
             tbSanPham.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             tbSanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // font cho dữ liệu trong table
             tbSanPham.DefaultCellStyle.Font = FontManager.GetLightFont(10);
 
-            //font cho header trong table
             tbSanPham.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(12);
 
-            // --- Fix lỗi mất text khi đổi font ---
             tbSanPham.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tbSanPham.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             tbSanPham.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
@@ -67,51 +68,87 @@ namespace GUI.GUI_UC
 
 
         private void loadDanhSachSanPham(BindingList<sanPhamDTO> ds)
+        {
+            loaiSanPhamBUS loaiBus = new loaiSanPhamBUS();
+            dsLoai = loaiBus.LayDanhSach();
+
+            nhomBUS nhomBus = new nhomBUS();
+            dsNhom = nhomBus.layDanhSach();
+
+            tbSanPham.AutoGenerateColumns = false;
+            tbSanPham.DataSource = ds;
+            
+            tbSanPham.Columns.Clear();
+
+            tbSanPham.Columns.Add(new DataGridViewTextBoxColumn
             {
-                tbSanPham.Columns.Clear();
-                tbSanPham.DataSource = null;
+                DataPropertyName = "MaSP",
+                HeaderText = "Mã SP"
+            });
+            tbSanPham.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "TenSP",
+                HeaderText = "Tên SP"
+            });
+            tbSanPham.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "MaLoai",
+                HeaderText = "Tên loại"
+            });
+            tbSanPham.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "MaLoai",
+                HeaderText = "Tên nhóm"
+            });
+            tbSanPham.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "TrangThaiCT",
+                HeaderText = "Trạng thái CT"
+            });
+            tbSanPham.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Hinh",
+                HeaderText = "Hình"
+            });
+            tbSanPham.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Gia",
+                HeaderText = "Giá",
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" }
+            });
 
-                DataTable dt = new DataTable();
-                dt.Columns.Add("Mã SP");
-                dt.Columns.Add("Tên SP");
-                dt.Columns.Add("Tên Loại");
-                dt.Columns.Add("Tên nhóm");
-                //dt.Columns.Add("Trạng thái SP");
-                dt.Columns.Add("Trạng thái CT");
-                dt.Columns.Add("Hình");
-                dt.Columns.Add("Giá");
 
-                loaiSanPhamBUS loaiBus = new loaiSanPhamBUS();
-                BindingList<loaiDTO> dsLoai = loaiBus.LayDanhSach();
+            btnSuaSP.Enabled = false;
+            btnXoaSP.Enabled = false;
+            btnChiTiet.Enabled = false;
+            tbSanPham.ReadOnly = true;
+            tbSanPham.ClearSelection();
+        }
+        private void tbSanPham_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
 
-                nhomBUS nhomBus = new nhomBUS();
-                BindingList<nhomDTO> dsNhom = nhomBus.layDanhSach();
+            sanPhamDTO sp = tbSanPham.Rows[e.RowIndex].DataBoundItem as sanPhamDTO;
+            if (sp == null) return;
 
-                foreach (var sp in ds)
-                {
-                    string tenLoai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai)?.TenLoai ?? "Không xác định";
-                    //string trangThai = sp.TrangThai == 1 ? "Đang bán" : "Ngừng bán";
-                    loaiDTO loai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai);
-                    string tenNhom = dsNhom.FirstOrDefault(n => n.MaNhom == (loai != null ? loai.MaNhom : -1))?.TenNhom ?? "Không xác định";
-
-                    string trangThaiCT = sp.TrangThaiCT == 1 ? "Đã có công thức" : "Chưa có công thức";
-                    dt.Rows.Add(sp.MaSP, sp.TenSP, tenLoai, tenNhom, trangThaiCT, sp.Hinh, string.Format("{0:N0}", sp.Gia));
-                }
-
-                tbSanPham.DataSource = dt;
-
-                loadFontChuVaSize();
-
-                tbSanPham.ReadOnly = true;
-
-                //rdoTimCoBan.Checked = true;
-
-                tbSanPham.ClearSelection();
-                btnSuaSP.Enabled = false;
-                btnXoaSP.Enabled = false;
-                btnChiTiet.Enabled = false;
+            if (tbSanPham.Columns[e.ColumnIndex].HeaderText == "Tên loại")
+            {
+                loaiDTO loai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai);
+                e.Value = loai?.TenLoai ?? "Không xác định";
             }
 
+            if (tbSanPham.Columns[e.ColumnIndex].HeaderText == "Tên nhóm")
+            {
+                loaiDTO loai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai);
+                nhomDTO nhom = dsNhom.FirstOrDefault(n => n.MaNhom == (loai != null ? loai.MaNhom : -1));
+                e.Value = nhom?.TenNhom ?? "Không xác định";
+            }
+
+            if (tbSanPham.Columns[e.ColumnIndex].HeaderText == "Trạng thái CT")
+            {
+                e.Value = sp.TrangThaiCT == 1 ? "Đã có công thức" : "Chưa có công thức";
+            }
+        }
         private void loadComboBoxLoaiSPTK()
         {
             loaiSanPhamBUS bus = new loaiSanPhamBUS();
@@ -133,13 +170,16 @@ namespace GUI.GUI_UC
 
         private void btnThemSP_Click(object sender, EventArgs e)
         {
-            using (insertProduct form = new insertProduct())
+            using (insertProduct form = new insertProduct(null))
             {
                 form.StartPosition = FormStartPosition.CenterParent;
-                form.ShowDialog();
-                sanPhamBUS bus = new sanPhamBUS();
-                bus.LayDanhSach();
-                loadDanhSachSanPham(sanPhamBUS.ds);
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    sanPhamDTO ct = form.ct;
+                    busSanPham.them(ct);
+                    tbSanPham.Refresh();
+                    tbSanPham.ClearSelection();
+                }
             }
         }
 
@@ -148,32 +188,21 @@ namespace GUI.GUI_UC
             if (tbSanPham.SelectedRows.Count > 0)
             {
                 DataGridViewRow row = tbSanPham.SelectedRows[0];
+                sanPhamDTO sp = row.DataBoundItem as sanPhamDTO;
 
-                sanPhamDTO sp = new sanPhamDTO
+                if(sp != null)
                 {
-                    MaSP = Convert.ToInt32(row.Cells["Mã SP"].Value),
-                    MaLoai = new loaiSanPhamBUS().LayDanhSach()
-                                .FirstOrDefault(l => l.TenLoai == row.Cells["Tên Loại"].Value.ToString())?.MaLoai ?? 0,
-                    TenSP = row.Cells["Tên SP"].Value.ToString(),
-                    Hinh = row.Cells["Hình"].Value.ToString(),
-                    Gia = float.Parse(row.Cells["Giá"].Value.ToString()),
-                    //TrangThai = row.Cells["Trạng thái SP"].Value.ToString() == "Đang bán" ? 1 : 0,
-                    TrangThaiCT = row.Cells["Trạng thái CT"].Value.ToString() == "Đã có công thức" ? 1 : 0
-                };
-
-                using (updateProduct form = new updateProduct(sp))
-                {
-                    form.StartPosition = FormStartPosition.CenterParent;
-                    form.ShowDialog();
+                    using (updateProduct form = new updateProduct(sp))
+                    {
+                        form.StartPosition = FormStartPosition.CenterParent;
+                        if(form.ShowDialog() == DialogResult.OK)
+                        {
+                            sanPhamDTO kq = form.spSua;
+                            busSanPham.Sua(kq);
+                            tbSanPham.Refresh();
+                        }
+                    }
                 }
-
-                sanPhamBUS bus = new sanPhamBUS();
-                bus.LayDanhSach();
-                loadDanhSachSanPham(sanPhamBUS.ds);
-            }
-            else
-            {
-                MessageBox.Show("Vui lòng chọn sản phẩm cần sửa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -181,18 +210,18 @@ namespace GUI.GUI_UC
         {
             if (tbSanPham.SelectedRows.Count > 0)
             {
-                int maSP = Convert.ToInt32(tbSanPham.SelectedRows[0].Cells["Mã SP"].Value);
-                deleteProduct form = new deleteProduct(maSP);
-                form.StartPosition = FormStartPosition.CenterParent;
-                form.ShowDialog();
+                DataGridViewRow row = tbSanPham.SelectedRows[0];
+                sanPhamDTO sp = row.DataBoundItem as sanPhamDTO;
 
-                sanPhamBUS bus = new sanPhamBUS();
-                bus.LayDanhSach();
-                loadDanhSachSanPham(sanPhamBUS.ds);
-            }
-            else
-            {
-                MessageBox.Show("Vui lòng chọn sản phẩm cần xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                using (deleteProduct form = new deleteProduct())
+                {
+                    form.StartPosition = FormStartPosition.CenterParent;
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        int maSP = sp.MaSP;
+                        busSanPham.Xoa(maSP);
+                    }
+                }
             }
         }
 
@@ -200,22 +229,16 @@ namespace GUI.GUI_UC
         {
             if (tbSanPham.SelectedRows.Count > 0)
             {
-                DataGridViewRow row = tbSanPham.SelectedRows[0];
+                DataGridViewRow selectedRow = tbSanPham.SelectedRows[0];
+                sanPhamDTO sp = selectedRow.DataBoundItem as sanPhamDTO;
 
-                sanPhamDTO sp = new sanPhamDTO
+                if (sp != null)
                 {
-                    MaSP = Convert.ToInt32(row.Cells["Mã SP"].Value),
-                    TenSP = row.Cells["Tên SP"].Value.ToString(),
-                    TenLoai = row.Cells["Tên Loại"].Value.ToString(),
-                    Hinh = row.Cells["Hình"].Value.ToString(),
-                    Gia = float.Parse(row.Cells["Giá"].Value.ToString()),
-                    //TrangThai = row.Cells["Trạng thái SP"].Value.ToString() == "Đang bán" ? 1 : 0,
-                    TrangThaiCT = row.Cells["Trạng thái CT"].Value.ToString() == "Đã có công thức" ? 1 : 0
-                };
-                using (detailSanPham form = new detailSanPham(sp))
-                {
-                    form.StartPosition = FormStartPosition.CenterParent;
-                    form.ShowDialog();
+                    using (detailSanPham form = new detailSanPham(sp))
+                    {
+                        form.StartPosition = FormStartPosition.CenterParent;
+                        form.ShowDialog();
+                    }
                 }
             }
             else
@@ -521,5 +544,7 @@ namespace GUI.GUI_UC
                 timKiemNangCao();
             }
         }
+
+
     }
 }

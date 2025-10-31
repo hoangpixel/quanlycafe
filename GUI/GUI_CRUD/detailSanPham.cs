@@ -28,7 +28,6 @@ namespace GUI.GUI_CRUD
 
         private void loadFontChuVaSizeTableNguyenLieu()
         {
-            // --- Căn giữa và tắt sort ---
             foreach (DataGridViewColumn col in tableCongThuc.Columns)
             {
                 col.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -39,13 +38,10 @@ namespace GUI.GUI_CRUD
             tableCongThuc.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             tableCongThuc.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // font cho dữ liệu trong table
             tableCongThuc.DefaultCellStyle.Font = FontManager.GetLightFont(10);
 
-            //font cho header trong table
             tableCongThuc.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
 
-            // --- Fix lỗi mất text khi đổi font ---
             tableCongThuc.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tableCongThuc.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             tableCongThuc.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
@@ -65,7 +61,17 @@ namespace GUI.GUI_CRUD
             txtTenSP.Text = ct.TenSP;
             txtMaSP.Text = ct.MaSP.ToString();
             txtGia.Text = ct.Gia.ToString("N0");
-            txtLoaiSP.Text = ct.TenLoai;
+
+            loaiSanPhamBUS busLoai = new loaiSanPhamBUS();
+            BindingList<loaiDTO> dsLoai = busLoai.LayDanhSach();
+
+            nhomBUS nhomBus = new nhomBUS();
+            BindingList<nhomDTO> dsNhom = nhomBus.layDanhSach();
+
+            loaiDTO loai = dsLoai.FirstOrDefault(x => x.MaLoai == ct.MaLoai);
+            nhomDTO nhom = dsNhom.FirstOrDefault(x => x.MaNhom == (loai != null ? loai.MaNhom : -1));
+
+            txtLoaiSP.Text = loai?.TenLoai ?? "Không xác định";
 
             string imgPath = Path.Combine(Application.StartupPath, "IMG","SP", ct.Hinh);
 

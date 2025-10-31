@@ -17,6 +17,7 @@ namespace GUI.GUI_CRUD
     {
         private string imagePath = "";
         private sanPhamDTO sp;
+        public sanPhamDTO spSua;
 
         public updateProduct(sanPhamDTO sp)
         {
@@ -142,11 +143,8 @@ namespace GUI.GUI_CRUD
                 sp.Gia = gia;
                 sp.MaLoai = Convert.ToInt32(cbLoai.SelectedValue);
 
-                // Cập nhật CSDL
-                sanPhamBUS bus = new sanPhamBUS();
-                bus.Sua(sp);
-
                 MessageBox.Show("Cập nhật sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                spSua = sp;
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }

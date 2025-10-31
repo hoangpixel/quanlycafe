@@ -18,10 +18,12 @@ namespace GUI.GUI_CRUD
     public partial class insertProduct : Form
     {
         private string imagePath = "";
-        public insertProduct()
+        public sanPhamDTO ct;
+        public insertProduct(sanPhamDTO ct)
         {
             InitializeComponent();
             loadComBoBox();
+            this.ct = ct;
         }
 
         public void loadComBoBox()
@@ -79,25 +81,20 @@ namespace GUI.GUI_CRUD
                 return;
             }
 
-            // Tạo tên file ngẫu nhiên
             string extension = Path.GetExtension(imagePath);
             string randomName = "sp_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Guid.NewGuid().ToString("N").Substring(0, 6) + extension;
 
-            // Đường dẫn gốc project (chứa quanlycafe.csproj)
             string projectDir = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\GUI"));
             string targetFolder = Path.Combine(projectDir, "Resources", "IMG", "SP");
             string targetPath = Path.Combine(targetFolder, randomName);
 
             try
             {
-                // Nếu thư mục chưa có thì tạo
                 if (!Directory.Exists(targetFolder))
                     Directory.CreateDirectory(targetFolder);
 
-                // Copy file ảnh vào thư mục đích (với tên mới)
                 File.Copy(imagePath, targetPath, true);
 
-                // Copy thêm 1 bản xuống bin/Debug/IMG/SP để hiển thị ngay
                 string binFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "IMG", "SP");
                 string binPath = Path.Combine(binFolder, randomName);
 
@@ -112,21 +109,20 @@ namespace GUI.GUI_CRUD
                 return;
             }
 
-            // ✅ Lưu vào database chỉ TÊN FILE (vd: "sp_20251019_xxx.png")
-            sanPhamDTO sp = new sanPhamDTO
-            {
-                MaLoai = Convert.ToInt32(cbLoai.SelectedValue),
-                TenSP = txtTenSP.Text.Trim(),
-                Gia = float.Parse(txtGia.Text),
-                Hinh = randomName
-            };
-
             sanPhamBUS bus = new sanPhamBUS();
-            bus.them(sp);
+            sanPhamDTO sp = new sanPhamDTO();
+            sp.MaSP = bus.layMaSP();
+            sp.MaLoai = Convert.ToInt32(cbLoai.SelectedValue);
+            sp.TenSP = txtTenSP.Text.Trim();
+            sp.Gia = float.Parse(txtGia.Text);
+            sp.Hinh = randomName;
 
-            MessageBox.Show("Thêm sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            this.Close();
+                MessageBox.Show("Thêm sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ct = sp;
+                this.DialogResult = DialogResult.OK;
+                this.Close();
         }
+
 
         private void btnThoat_Click(object sender, EventArgs e)
         {

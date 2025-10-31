@@ -56,29 +56,52 @@ namespace DAO
             return ds;
         }
 
-        public bool Them(sanPhamDTO sp)
+
+        public int layMa()
         {
+            MySqlConnection conn = DBConnect.GetConnection();
+            int maSP = 0;
             try
             {
-                string qry = "INSERT INTO sanpham (MALOAI, TENSANPHAM, GIA, HINH) VALUES (";
-                qry += $"{sp.MaLoai}, ";
-                qry += $"'{sp.TenSP}', ";
-                qry += $"{sp.Gia}, ";
-                qry += $"'{sp.Hinh}'";
-                qry += ")";
-
-                MySqlConnection conn = DBConnect.GetConnection();
+                string qry = "SELECT IFNULL(MAX(MASANPHAM), 0) FROM sanpham";
                 MySqlCommand cmd = new MySqlCommand(qry, conn);
-                cmd.ExecuteNonQuery();
-
-                Console.WriteLine("Thêm sản phẩm thành công!");
-                DBConnect.CloseConnection(conn);
-                return true;
+                maSP = Convert.ToInt32(cmd.ExecuteScalar());
             }
-            catch (Exception e)
+            catch(MySqlException ex)
             {
-                Console.WriteLine("Lỗi thêm sản phẩm: " + e.Message);
+                Console.WriteLine("Lỗi lấy mã SP : " + ex);
+            }finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+            return maSP + 1;
+        }
+
+        public bool Them(sanPhamDTO ct)
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            try
+            {
+                string qry = @"INSERT INTO sanpham (MASANPHAM,MALOAI, TENSANPHAM, GIA, HINH) VALUES (@masp,@maloai,@tensp,@gia,@hinh)";
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                cmd.Parameters.AddWithValue("@masp", ct.MaSP);
+                cmd.Parameters.AddWithValue("@maloai", ct.MaLoai);
+                cmd.Parameters.AddWithValue("@tensp", ct.TenSP);
+                cmd.Parameters.AddWithValue("@gia", ct.Gia);
+                cmd.Parameters.AddWithValue("@hinh", ct.Hinh);
+                int rs = cmd.ExecuteNonQuery();
+                if(rs > 0)
+                {
+                    return true;
+                }
                 return false;
+            }catch(MySqlException ex)
+            {
+                Console.WriteLine("Lỗi thêm sản phẩm : " + ex);
+                return false;
+            }finally
+            {
+                DBConnect.CloseConnection(conn);   
             }
         }
 

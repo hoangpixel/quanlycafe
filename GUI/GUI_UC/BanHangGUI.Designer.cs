@@ -116,9 +116,6 @@
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel6.SuspendLayout();
-            this.groupBox6.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -207,98 +204,6 @@
             this.panel6.Size = new System.Drawing.Size(1682, 839);
             this.panel6.TabIndex = 0;
             // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.tableLayoutPanel1);
-            this.groupBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox6.Location = new System.Drawing.Point(87, 87);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(970, 81);
-            this.groupBox6.TabIndex = 14;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Tìm kiếm cơ bản";
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Controls.Add(this.comboBox1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.textBox7, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 2, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 23);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(953, 45);
-            this.tableLayoutPanel1.TabIndex = 0;
-            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Mã SP",
-            "Tên SP",
-            "Tên loai",
-            "Tên nhóm",
-            "Giá min",
-            "Giá max"});
-            this.comboBox1.Location = new System.Drawing.Point(10, 10);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(287, 28);
-            this.comboBox1.TabIndex = 0;
-            // 
-            // textBox7
-            // 
-            this.textBox7.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox7.Location = new System.Drawing.Point(350, 9);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(250, 27);
-            this.textBox7.TabIndex = 1;
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.button10, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.button9, 0, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(637, 3);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(313, 39);
-            this.tableLayoutPanel2.TabIndex = 2;
-            // 
-            // button10
-            // 
-            this.button10.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button10.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button10.Location = new System.Drawing.Point(180, 3);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(109, 33);
-            this.button10.TabIndex = 4;
-            this.button10.Text = "Refrest";
-            this.button10.UseVisualStyleBackColor = true;
-            // 
-            // button9
-            // 
-            this.button9.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button9.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button9.Location = new System.Drawing.Point(23, 3);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(109, 33);
-            this.button9.TabIndex = 4;
-            this.button9.Text = "Tìm kiếm";
-            this.button9.UseVisualStyleBackColor = true;
-            // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.button8);
@@ -317,28 +222,6 @@
             this.groupBox5.TabIndex = 13;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Thông Tin Đặt Bàn";
-            // 
-            // button8
-            // 
-            this.button8.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button8.Location = new System.Drawing.Point(887, 30);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(75, 38);
-            this.button8.TabIndex = 9;
-            this.button8.Text = "...";
-            this.button8.UseVisualStyleBackColor = true;
-            // 
-            // button7
-            // 
-            this.button7.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button7.Location = new System.Drawing.Point(543, 30);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 38);
-            this.button7.TabIndex = 8;
-            this.button7.Text = "...";
-            this.button7.UseVisualStyleBackColor = true;
             // 
             // textBox3
             // 
@@ -859,7 +742,7 @@
             // 
             this.cboLoaiSP.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cboLoaiSP.FormattingEnabled = true;
-            this.cboLoaiSP.Location = new System.Drawing.Point(11, 13);
+            this.cboLoaiSP.Location = new System.Drawing.Point(11, 15);
             this.cboLoaiSP.Name = "cboLoaiSP";
             this.cboLoaiSP.Size = new System.Drawing.Size(109, 28);
             this.cboLoaiSP.TabIndex = 0;
@@ -868,7 +751,7 @@
             // 
             this.cboTrangThai.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cboTrangThai.FormattingEnabled = true;
-            this.cboTrangThai.Location = new System.Drawing.Point(142, 13);
+            this.cboTrangThai.Location = new System.Drawing.Point(142, 15);
             this.cboTrangThai.Name = "cboTrangThai";
             this.cboTrangThai.Size = new System.Drawing.Size(109, 28);
             this.cboTrangThai.TabIndex = 1;
@@ -934,7 +817,7 @@
             "Tên nhóm",
             "Giá min",
             "Giá max"});
-            this.cboTimKiemSP.Location = new System.Drawing.Point(10, 8);
+            this.cboTimKiemSP.Location = new System.Drawing.Point(10, 10);
             this.cboTimKiemSP.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemSP.Name = "cboTimKiemSP";
             this.cboTimKiemSP.Size = new System.Drawing.Size(176, 28);
@@ -1149,10 +1032,6 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
-            this.groupBox6.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox3.ResumeLayout(false);

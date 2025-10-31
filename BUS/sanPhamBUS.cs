@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +19,12 @@ namespace BUS
             sanPhamDAO data = new sanPhamDAO();
             ds = data.DocDanhSachSanPham();
             return ds;
+        }
+
+        public int layMaSP()
+        {
+            sanPhamDAO data = new sanPhamDAO();
+            return data.layMa();
         }
 
         public bool them(sanPhamDTO ct)
@@ -55,13 +62,7 @@ namespace BUS
                     tontai.TrangThaiCT = sp.TrangThaiCT;
                     tontai.Gia = sp.Gia;
                 }
-                Console.WriteLine("BUS: Sửa sản phẩm thành công!");
             }
-            else
-            {
-                Console.WriteLine("BUS: Lỗi khi sửa sản phẩm!");
-            }
-
             return result;
         }
 

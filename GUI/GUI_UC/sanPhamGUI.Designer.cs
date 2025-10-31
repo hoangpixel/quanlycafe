@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.topPanel = new System.Windows.Forms.Panel();
             this.chucNangPanel = new System.Windows.Forms.Panel();
             this.roundedChucNang = new GUI.COMPONENTS.RoundedPanel();
@@ -40,10 +40,10 @@
             this.layoutTimKiemNangCao = new System.Windows.Forms.TableLayoutPanel();
             this.txtGiaMax = new System.Windows.Forms.TextBox();
             this.txtGiaMin = new System.Windows.Forms.TextBox();
-            this.cboLoaiSP = new System.Windows.Forms.ComboBox();
-            this.cboTrangThai = new System.Windows.Forms.ComboBox();
             this.txtTenSPTK = new System.Windows.Forms.TextBox();
             this.rdoTimNangCao = new System.Windows.Forms.RadioButton();
+            this.cboLoaiSP = new System.Windows.Forms.ComboBox();
+            this.cboTrangThai = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.layoutTimKiemCoban = new System.Windows.Forms.TableLayoutPanel();
             this.cboTimKiemSP = new System.Windows.Forms.ComboBox();
@@ -193,24 +193,6 @@
             this.txtGiaMin.Size = new System.Drawing.Size(109, 27);
             this.txtGiaMin.TabIndex = 2;
             // 
-            // cboLoaiSP
-            // 
-            this.cboLoaiSP.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.cboLoaiSP.FormattingEnabled = true;
-            this.cboLoaiSP.Location = new System.Drawing.Point(5, 14);
-            this.cboLoaiSP.Name = "cboLoaiSP";
-            this.cboLoaiSP.Size = new System.Drawing.Size(109, 28);
-            this.cboLoaiSP.TabIndex = 0;
-            // 
-            // cboTrangThai
-            // 
-            this.cboTrangThai.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.cboTrangThai.FormattingEnabled = true;
-            this.cboTrangThai.Location = new System.Drawing.Point(125, 14);
-            this.cboTrangThai.Name = "cboTrangThai";
-            this.cboTrangThai.Size = new System.Drawing.Size(109, 28);
-            this.cboTrangThai.TabIndex = 1;
-            // 
             // txtTenSPTK
             // 
             this.txtTenSPTK.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -231,6 +213,24 @@
             this.rdoTimNangCao.TabStop = true;
             this.rdoTimNangCao.UseVisualStyleBackColor = true;
             this.rdoTimNangCao.CheckedChanged += new System.EventHandler(this.rdoTimNangCao_CheckedChanged);
+            // 
+            // cboLoaiSP
+            // 
+            this.cboLoaiSP.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cboLoaiSP.FormattingEnabled = true;
+            this.cboLoaiSP.Location = new System.Drawing.Point(5, 14);
+            this.cboLoaiSP.Name = "cboLoaiSP";
+            this.cboLoaiSP.Size = new System.Drawing.Size(109, 28);
+            this.cboLoaiSP.TabIndex = 0;
+            // 
+            // cboTrangThai
+            // 
+            this.cboTrangThai.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cboTrangThai.FormattingEnabled = true;
+            this.cboTrangThai.Location = new System.Drawing.Point(125, 14);
+            this.cboTrangThai.Name = "cboTrangThai";
+            this.cboTrangThai.Size = new System.Drawing.Size(109, 28);
+            this.cboTrangThai.TabIndex = 1;
             // 
             // groupBox4
             // 
@@ -498,23 +498,23 @@
             this.tbSanPham.AllowUserToResizeRows = false;
             this.tbSanPham.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tbSanPham.BackgroundColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tbSanPham.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tbSanPham.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.tbSanPham.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.tbSanPham.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.tbSanPham.DefaultCellStyle = dataGridViewCellStyle2;
             this.tbSanPham.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbSanPham.EnableHeadersVisualStyles = false;
             this.tbSanPham.GridColor = System.Drawing.SystemColors.ControlLight;
@@ -522,14 +522,14 @@
             this.tbSanPham.MultiSelect = false;
             this.tbSanPham.Name = "tbSanPham";
             this.tbSanPham.ReadOnly = true;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tbSanPham.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tbSanPham.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.tbSanPham.RowHeadersVisible = false;
             this.tbSanPham.RowHeadersWidth = 51;
             this.tbSanPham.RowTemplate.Height = 24;
@@ -537,6 +537,7 @@
             this.tbSanPham.Size = new System.Drawing.Size(1530, 365);
             this.tbSanPham.TabIndex = 4;
             this.tbSanPham.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.kiemTraClickTable);
+            this.tbSanPham.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.tbSanPham_CellFormatting);
             this.tbSanPham.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tbSanPham_DataBindingComplete);
             // 
             // sanPhamGUI
