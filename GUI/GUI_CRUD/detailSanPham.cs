@@ -1,6 +1,7 @@
 ﻿using BUS;
 using DTO;
 using FONTS;
+using OfficeOpenXml.Drawing.Vml;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +18,8 @@ namespace GUI.GUI_CRUD
     public partial class detailSanPham : Form
     {
         private sanPhamDTO ct;
-
+        private BindingList<nguyenLieuDTO> dsNguyenLieu;
+        private BindingList<donViDTO> dsDonVi;
         public detailSanPham(sanPhamDTO ct)
         {
             InitializeComponent();
@@ -58,6 +60,10 @@ namespace GUI.GUI_CRUD
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
 
+            dsNguyenLieu = new nguyenLieuBUS().LayDanhSach();
+
+            dsDonVi = new donViBUS().LayDanhSach();
+
             txtTenSP.Text = ct.TenSP;
             txtMaSP.Text = ct.MaSP.ToString();
             txtGia.Text = ct.Gia.ToString("N0");
@@ -94,39 +100,35 @@ namespace GUI.GUI_CRUD
 
         private void loadDanhSachCongThuc(BindingList<congThucDTO> ds)
         {
+            tableCongThuc.AutoGenerateColumns = false;
             tableCongThuc.Columns.Clear();
-            tableCongThuc.DataSource = null;
-
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Mã NL");
-            dt.Columns.Add("Tên NL");
-            dt.Columns.Add("SL");
-            dt.Columns.Add("Đơn vị");
-
-
-            nguyenLieuBUS nlBUS = new nguyenLieuBUS();
-            BindingList<nguyenLieuDTO> dsNL= nlBUS.LayDanhSach();
-
-            donViBUS dvBUS = new donViBUS();
-            BindingList<donViDTO> dsDV = dvBUS.LayDanhSach();
-            foreach (var sp in ds)
-            {
-                string tenLoai = dsNL.FirstOrDefault(l => l.MaNguyenLieu == sp.MaNguyenLieu)?.TenNguyenLieu ?? "Không xác định";
-                string tenDonVI = dsDV.FirstOrDefault(l => l.MaDonVi == sp.MaDonViCoSo)?.TenDonVi ?? "Không xác định";
-
-                dt.Rows.Add(sp.MaNguyenLieu, tenLoai, sp.SoLuongCoSo,tenDonVI);
-            }
-
-            tableCongThuc.DataSource = dt;
-            loadFontChuVaSizeTableNguyenLieu();
+            tableCongThuc.Columns.Add(new DataGridViewTextBoxColumn {DataPropertyName = "MaNguyenLieu", HeaderText = "Mã NL"});
+            tableCongThuc.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaNguyenLieu", HeaderText = "Tên NL" });
+            tableCongThuc.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "SoLuongCoSo", HeaderText = "Số lượng" });
+            tableCongThuc.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaDonViCoSo", HeaderText = "Đơn vị" });
+            tableCongThuc.DataSource = ds;
             tableCongThuc.ReadOnly = true;
-            tableCongThuc.RowHeadersVisible = false;
-            tableCongThuc.Columns["Mã NL"].Width = 80;
-            tableCongThuc.Columns["Tên NL"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            tableCongThuc.Columns["SL"].Width = 60;
-            tableCongThuc.Columns["Đơn vị"].Width = 80;
             tableCongThuc.ClearSelection();
+            loadFontChuVaSizeTableNguyenLieu();
+        }
 
+        private void tableCongThuc_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if(e.RowIndex < 0)
+            {
+                return;
+            }
+            congThucDTO ct = tableCongThuc.Rows[e.RowIndex].DataBoundItem as congThucDTO;
+            if (tableCongThuc.Columns[e.ColumnIndex].HeaderText == "Tên NL")
+            {
+                nguyenLieuDTO nl = dsNguyenLieu.FirstOrDefault(x => x.MaNguyenLieu == ct.MaNguyenLieu);
+                e.Value = nl?.TenNguyenLieu ?? "Không xác định";
+            }
+            if (tableCongThuc.Columns[e.ColumnIndex].HeaderText == "Đơn vị")
+            {
+                donViDTO dv = dsDonVi.FirstOrDefault(x => x.MaDonVi == ct.MaDonViCoSo);
+                e.Value = dv?.TenDonVi ?? "Không xác định";
+            }
         }
 
         private void tableCongThuc_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -138,5 +140,7 @@ namespace GUI.GUI_CRUD
         {
             this.Close();
         }
+
+
     }
 }

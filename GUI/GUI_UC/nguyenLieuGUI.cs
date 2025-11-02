@@ -17,12 +17,23 @@ namespace GUI.GUI_UC
     public partial class nguyenLieuGUI : UserControl
     {
         private int lastSelectedRowNguyenLieu = -1;
+        private BindingList<donViDTO> dsDonVi;
+        private nguyenLieuBUS busNguyenLieu = new nguyenLieuBUS();
         public nguyenLieuGUI()
         {
             InitializeComponent();
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
             hienThiPlaceHolderNguyenLieu();
+        }
+
+        private void nguyenLieuGUI_Load(object sender, EventArgs e)
+        {
+            donViBUS busDV = new donViBUS();
+            dsDonVi = busDV.LayDanhSach();
+            busNguyenLieu.LayDanhSach();
+            loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
+            loadFontChuVaSize();
         }
 
         private void hienThiPlaceHolderNguyenLieu()
@@ -87,48 +98,43 @@ namespace GUI.GUI_UC
 
         public void loadDanhSachNguyenLieu(BindingList<nguyenLieuDTO> ds)
         {
-            if (ds == null || ds.Count == 0)
-            {
-                MessageBox.Show("Không có dữ liệu nguyên liệu để hiển thị!",
-                                "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
+            tableNguyenLieu.AutoGenerateColumns = false;
+            tableNguyenLieu.DataSource = ds;
 
-            //tableNguyenLieu.Columns.Clear();
-            //tableNguyenLieu.DataSource = null;
+            tableNguyenLieu.Columns.Clear();
 
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Mã NL");
-            dt.Columns.Add("Tên NL");
-            dt.Columns.Add("Đơn vị cơ sở");
-            dt.Columns.Add("Trạng thái ĐV");
-            dt.Columns.Add("Tồn kho");
-            dt.Columns.Add("Mã đơn vị");
+            tableNguyenLieu.Columns.Add(new DataGridViewTextBoxColumn{DataPropertyName = "MaNguyenLieu", HeaderText="Mã NL"});
+            tableNguyenLieu.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TenNguyenLieu", HeaderText = "Tên NL" });
+            tableNguyenLieu.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaDonViCoSo", HeaderText = "Đơn vị" });
+            tableNguyenLieu.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TrangThaiDV", HeaderText = "Trạng thái HS" });
+            tableNguyenLieu.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TonKho", HeaderText = "Tồn kho" });
 
-            donViBUS bus = new donViBUS();
-            BindingList<donViDTO> dsDonVi = bus.LayDanhSach() ?? new BindingList<donViDTO>();
-
-            foreach (var nl in ds)
-            {
-                string tenDonVi = dsDonVi.FirstOrDefault(l => l.MaDonVi == nl.MaDonViCoSo)?.TenDonVi ?? "Không xác định";
-                string trangThaiDV = nl.TrangThaiDV == 1 ? "Đã có hệ số" : "Chưa xét hệ số";
-                dt.Rows.Add(nl.MaNguyenLieu, nl.TenNguyenLieu, tenDonVi, trangThaiDV, string.Format("{0:N0}", nl.TonKho), nl.MaDonViCoSo);
-            }
-
-            tableNguyenLieu.DataSource = dt;
-            loadFontChuVaSize();
-
-
-            if (tableNguyenLieu.Columns.Contains("Mã đơn vị"))
-            {
-                tableNguyenLieu.Columns["Mã đơn vị"].Visible = false;
-            }
             btnSuaNL.Enabled = false;
             btnXoaNL.Enabled = false;
             btnChiTietNL.Enabled = false;
-            rdCoBanNL.Checked = true;
             tableNguyenLieu.ReadOnly = true;
             tableNguyenLieu.ClearSelection();
+        }
+        private void tableNguyenLieu_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if(e.RowIndex < 0)
+            {
+                return;
+            }
+            nguyenLieuDTO ct = tableNguyenLieu.Rows[e.RowIndex].DataBoundItem as nguyenLieuDTO;
+            if(ct == null)
+            {
+                return;
+            }
+            if (tableNguyenLieu.Columns[e.ColumnIndex].HeaderText == "Đơn vị")
+            {
+                donViDTO donvi = dsDonVi.FirstOrDefault(x => x.MaDonVi == ct.MaDonViCoSo);
+                e.Value = donvi?.TenDonVi ?? "Không xác định";
+            }
+            if (tableNguyenLieu.Columns[e.ColumnIndex].HeaderText == "Trạng thái HS")
+            {
+                e.Value = ct.TrangThaiDV == 1 ? "Đã có hệ số" : "Chưa có hệ số";
+            }    
         }
         private void loadFontChuVaSize()
         {
@@ -155,22 +161,6 @@ namespace GUI.GUI_UC
             tableNguyenLieu.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
 
             tableNguyenLieu.Refresh();
-        }
-
-
-        private void nguyenLieuGUI_Load(object sender, EventArgs e)
-        {
-            nguyenLieuBUS bus = new nguyenLieuBUS();
-            bus.LayDanhSach();
-
-            if (nguyenLieuBUS.ds == null || nguyenLieuBUS.ds.Count == 0)
-            {
-                MessageBox.Show("Danh sách nguyên liệu đang trống hoặc chưa được tải!",
-                                "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
         }
 
         private void kiemTraClickTable(object sender, DataGridViewCellEventArgs e)
@@ -202,10 +192,11 @@ namespace GUI.GUI_UC
             using (insertNguyenLieu form = new insertNguyenLieu())
             {
                 form.StartPosition = FormStartPosition.CenterParent;
-                form.ShowDialog();
-                nguyenLieuBUS bus = new nguyenLieuBUS();
-                bus.LayDanhSach();
-                loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
+                if(form.ShowDialog() == DialogResult.OK)
+                {
+                    nguyenLieuDTO ct = form.ct;
+                    busNguyenLieu.themNguyenLieu(ct);
+                }
             }
         }
 
@@ -214,24 +205,18 @@ namespace GUI.GUI_UC
             if (tableNguyenLieu.SelectedRows.Count > 0)
             {
                 DataGridViewRow row = tableNguyenLieu.SelectedRows[0];
-                nguyenLieuDTO nl = new nguyenLieuDTO
-                {
-                    MaNguyenLieu = Convert.ToInt32(row.Cells["Mã NL"].Value),
-                    TenNguyenLieu = row.Cells["Tên NL"].Value.ToString(),
-                    MaDonViCoSo = Convert.ToInt32(row.Cells["Mã đơn vị"].Value),
-                    TenDonViCoSo = row.Cells["Đơn vị cơ sở"].Value.ToString(),
-                    TrangThai = 1
-                };
+                nguyenLieuDTO nl = row.DataBoundItem as nguyenLieuDTO;
 
                 using (updateNguyenLieu form = new updateNguyenLieu(nl))
                 {
                     form.StartPosition = FormStartPosition.CenterParent;
-                    form.ShowDialog();
+                    if(form.ShowDialog() == DialogResult.OK)
+                    {
+                        nguyenLieuDTO ct = form.suaCT;
+                        busNguyenLieu.suaNguyenLieu(ct);
+                        tableNguyenLieu.Refresh();
+                    }
                 }
-
-                nguyenLieuBUS bus = new nguyenLieuBUS();
-                bus.LayDanhSach();
-                loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
             }
             else
             {
@@ -243,14 +228,17 @@ namespace GUI.GUI_UC
         {
             if (tableNguyenLieu.SelectedRows.Count > 0)
             {
-                int maNL = Convert.ToInt32(tableNguyenLieu.SelectedRows[0].Cells["Mã NL"].Value);
-                deleteNguyenLieu form = new deleteNguyenLieu(maNL);
-                form.StartPosition = FormStartPosition.CenterParent;
-                form.ShowDialog();
-
-                nguyenLieuBUS bus = new nguyenLieuBUS();
-                bus.LayDanhSach();
-                loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
+                DataGridViewRow row = tableNguyenLieu.SelectedRows[0];
+                nguyenLieuDTO ct = row.DataBoundItem as nguyenLieuDTO;
+                int maXoa = ct.MaNguyenLieu;
+                using(deleteNguyenLieu form = new deleteNguyenLieu())
+                {
+                    form.StartPosition = FormStartPosition.CenterParent;
+                    if(form.ShowDialog() == DialogResult.OK)
+                    {
+                        busNguyenLieu.xoaNguyenLieu(maXoa);
+                    }
+                }
             }
         }
 
@@ -259,12 +247,7 @@ namespace GUI.GUI_UC
             if (tableNguyenLieu.SelectedRows.Count > 0)
             {
                 DataGridViewRow row = tableNguyenLieu.SelectedRows[0];
-
-                nguyenLieuDTO ct = new nguyenLieuDTO();
-                ct.MaNguyenLieu = Convert.ToInt32(row.Cells["Mã NL"].Value);
-                ct.TenNguyenLieu = row.Cells["Tên NL"].Value.ToString();
-                ct.TenDonViCoSo = row.Cells["Đơn vị cơ sở"].Value.ToString();
-                ct.TonKho = Convert.ToInt32(row.Cells["Tồn kho"].Value);
+                nguyenLieuDTO ct = row.DataBoundItem as nguyenLieuDTO;
 
                 using (detailNguyenLieu form = new detailNguyenLieu(ct))
                 {
@@ -272,17 +255,13 @@ namespace GUI.GUI_UC
                     form.ShowDialog();
                 }
             }
-            else
-            {
-                MessageBox.Show("Vui lòng chọn sản phẩm cần sửa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
         }
 
         private void btnRefreshNL_Click(object sender, EventArgs e)
         {
-            nguyenLieuBUS bus = new nguyenLieuBUS();
-            bus.LayDanhSach();
+            busNguyenLieu.LayDanhSach();
             loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
+            loadFontChuVaSize();
             cboTimKiemNL.SelectedIndex = -1;
             cbTrangThaiNL.SelectedIndex = -1;
             txtMinNL.Clear();
@@ -299,9 +278,7 @@ namespace GUI.GUI_UC
                 form.StartPosition = FormStartPosition.CenterParent;
                 form.ShowDialog(this);
             }
-            //nguyenLieuBUS bus = new nguyenLieuBUS();
-            //bus.napDSNguyenLieu();
-            //loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
+            dsDonVi = new donViBUS().LayDanhSach();
         }
 
         private void btnExcelNL_Click(object sender, EventArgs e)
@@ -311,8 +288,7 @@ namespace GUI.GUI_UC
                 form.StartPosition = FormStartPosition.CenterParent;
                 form.ShowDialog(this);
             }
-            nguyenLieuBUS bus = new nguyenLieuBUS();
-            bus.LayDanhSach();
+            busNguyenLieu.LayDanhSach();
             loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
         }
 
@@ -328,8 +304,7 @@ namespace GUI.GUI_UC
                 return;
             }
 
-            nguyenLieuBUS bus = new nguyenLieuBUS();
-            BindingList<nguyenLieuDTO> ds = bus.timKiemCoBanNL(tim, index);
+            BindingList<nguyenLieuDTO> ds = busNguyenLieu.timKiemCoBanNL(tim, index);
             if (ds != null && ds.Count > 0)
             {
                 tableNguyenLieu.Columns.Clear();
@@ -341,7 +316,7 @@ namespace GUI.GUI_UC
                 MessageBox.Show("Không có kết quả tìm kiếm!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                bus.LayDanhSach();
+                busNguyenLieu.LayDanhSach();
                 loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
 
                 txtTimKiemNL.Clear();

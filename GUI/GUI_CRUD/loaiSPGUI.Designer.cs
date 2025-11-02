@@ -388,6 +388,7 @@
             this.tableLoaiSP.Size = new System.Drawing.Size(451, 127);
             this.tableLoaiSP.TabIndex = 0;
             this.tableLoaiSP.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableLoaiSP_CellClick_1);
+            this.tableLoaiSP.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.tableLoaiSP_CellFormatting);
             this.tableLoaiSP.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tableLoaiSP_DataBindingComplete);
             // 
             // panel3

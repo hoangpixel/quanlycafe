@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -70,11 +70,12 @@
             this.btnSanPham = new System.Windows.Forms.Button();
             this.txtHeSo = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
-            this.cboDonVi = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtTenNL = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
+            this.txtMaDV = new System.Windows.Forms.TextBox();
+            this.btnChonDV = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -225,14 +226,14 @@
             // 
             this.tableDonVi.AllowUserToAddRows = false;
             this.tableDonVi.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tableDonVi.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tableDonVi.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.tableDonVi.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableDonVi.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableDonVi.EnableHeadersVisualStyles = false;
@@ -465,14 +466,14 @@
             // 
             this.tableHeSo.AllowUserToAddRows = false;
             this.tableHeSo.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tableHeSo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tableHeSo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.tableHeSo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableHeSo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableHeSo.EnableHeadersVisualStyles = false;
@@ -487,6 +488,7 @@
             this.tableHeSo.Size = new System.Drawing.Size(451, 163);
             this.tableHeSo.TabIndex = 0;
             this.tableHeSo.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableHeSo_CellClick);
+            this.tableHeSo.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.tableHeSo_CellFormatting);
             this.tableHeSo.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tableHeSo_DataBindingComplete);
             // 
             // groupBox5
@@ -558,10 +560,11 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.btnChonDV);
+            this.groupBox6.Controls.Add(this.txtMaDV);
             this.groupBox6.Controls.Add(this.btnSanPham);
             this.groupBox6.Controls.Add(this.txtHeSo);
             this.groupBox6.Controls.Add(this.label4);
-            this.groupBox6.Controls.Add(this.cboDonVi);
             this.groupBox6.Controls.Add(this.label3);
             this.groupBox6.Controls.Add(this.txtTenNL);
             this.groupBox6.Controls.Add(this.label2);
@@ -624,15 +627,6 @@
             this.label4.TabIndex = 4;
             this.label4.Text = "Hệ số đv:";
             // 
-            // cboDonVi
-            // 
-            this.cboDonVi.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cboDonVi.FormattingEnabled = true;
-            this.cboDonVi.Location = new System.Drawing.Point(127, 81);
-            this.cboDonVi.Name = "cboDonVi";
-            this.cboDonVi.Size = new System.Drawing.Size(129, 28);
-            this.cboDonVi.TabIndex = 3;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -673,6 +667,27 @@
             this.button3.Text = "Thoát";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // txtMaDV
+            // 
+            this.txtMaDV.Enabled = false;
+            this.txtMaDV.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMaDV.Location = new System.Drawing.Point(127, 81);
+            this.txtMaDV.Name = "txtMaDV";
+            this.txtMaDV.Size = new System.Drawing.Size(129, 27);
+            this.txtMaDV.TabIndex = 7;
+            // 
+            // btnChonDV
+            // 
+            this.btnChonDV.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnChonDV.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnChonDV.Location = new System.Drawing.Point(262, 81);
+            this.btnChonDV.Name = "btnChonDV";
+            this.btnChonDV.Size = new System.Drawing.Size(44, 38);
+            this.btnChonDV.TabIndex = 8;
+            this.btnChonDV.Text = "...";
+            this.btnChonDV.UseVisualStyleBackColor = true;
+            this.btnChonDV.Click += new System.EventHandler(this.btnChonDV_Click);
             // 
             // donVivaHeSoGUI
             // 
@@ -741,7 +756,6 @@
         private System.Windows.Forms.Button btnSanPham;
         private System.Windows.Forms.NumericUpDown txtHeSo;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox cboDonVi;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtTenNL;
         private System.Windows.Forms.Label label2;
@@ -761,5 +775,7 @@
         private System.Windows.Forms.TextBox txtTimHS;
         private System.Windows.Forms.ComboBox cboTimHS;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnChonDV;
+        private System.Windows.Forms.TextBox txtMaDV;
     }
 }

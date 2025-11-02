@@ -14,26 +14,15 @@ namespace GUI.GUI_CRUD
 {
     public partial class deleteNguyenLieu : Form
     {
-        private int maNL;
-        public deleteNguyenLieu(int maNL)
+        public deleteNguyenLieu()
         {
             InitializeComponent();
-            this.maNL = maNL;
         }
 
         private void btnXacNhan_Click(object sender, EventArgs e)
         {
-            try
-            {
-                nguyenLieuBUS bus = new nguyenLieuBUS();
-                bus.xoaNguyenLieu(maNL);
-                MessageBox.Show("Xóa nguyên liệu thành công");
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Xóa nguyên liệu thất bại: " + ex);
-            }
+            this.DialogResult = DialogResult.OK;
+            MessageBox.Show("Xóa nguyên liệu thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnHuy_Click(object sender, EventArgs e)

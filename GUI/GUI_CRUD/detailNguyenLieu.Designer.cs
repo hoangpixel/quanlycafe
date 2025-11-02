@@ -90,29 +90,32 @@
             // 
             this.tableNguyenLieu.AllowUserToAddRows = false;
             this.tableNguyenLieu.AllowUserToDeleteRows = false;
+            this.tableNguyenLieu.AllowUserToResizeColumns = false;
+            this.tableNguyenLieu.AllowUserToResizeRows = false;
             this.tableNguyenLieu.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.Desktop;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.tableNguyenLieu.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.tableNguyenLieu.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableNguyenLieu.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableNguyenLieu.Enabled = false;
             this.tableNguyenLieu.EnableHeadersVisualStyles = false;
             this.tableNguyenLieu.GridColor = System.Drawing.Color.DarkGray;
             this.tableNguyenLieu.Location = new System.Drawing.Point(10, 0);
             this.tableNguyenLieu.MultiSelect = false;
             this.tableNguyenLieu.Name = "tableNguyenLieu";
             this.tableNguyenLieu.ReadOnly = true;
+            this.tableNguyenLieu.RowHeadersVisible = false;
             this.tableNguyenLieu.RowHeadersWidth = 51;
             this.tableNguyenLieu.RowTemplate.Height = 24;
             this.tableNguyenLieu.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tableNguyenLieu.Size = new System.Drawing.Size(651, 490);
             this.tableNguyenLieu.TabIndex = 0;
+            this.tableNguyenLieu.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.tableNguyenLieu_CellFormatting);
             // 
             // groupBox1
             // 
@@ -230,29 +233,32 @@
             // 
             this.tableHeSo.AllowUserToAddRows = false;
             this.tableHeSo.AllowUserToDeleteRows = false;
+            this.tableHeSo.AllowUserToResizeColumns = false;
+            this.tableHeSo.AllowUserToResizeRows = false;
             this.tableHeSo.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.tableHeSo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.tableHeSo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableHeSo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableHeSo.Enabled = false;
             this.tableHeSo.EnableHeadersVisualStyles = false;
             this.tableHeSo.GridColor = System.Drawing.Color.DarkGray;
             this.tableHeSo.Location = new System.Drawing.Point(10, 0);
             this.tableHeSo.MultiSelect = false;
             this.tableHeSo.Name = "tableHeSo";
             this.tableHeSo.ReadOnly = true;
+            this.tableHeSo.RowHeadersVisible = false;
             this.tableHeSo.RowHeadersWidth = 51;
             this.tableHeSo.RowTemplate.Height = 24;
             this.tableHeSo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tableHeSo.Size = new System.Drawing.Size(435, 219);
             this.tableHeSo.TabIndex = 1;
+            this.tableHeSo.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.tableHeSo_CellFormatting);
             // 
             // panel1
             // 

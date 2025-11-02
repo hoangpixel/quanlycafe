@@ -19,6 +19,7 @@ namespace GUI.GUI_CRUD
     {
         private int maDonVi = -1;
         private string tenDonVi = "";
+        public nguyenLieuDTO ct;
         public insertNguyenLieu()
         {
             InitializeComponent();
@@ -58,22 +59,22 @@ namespace GUI.GUI_CRUD
             try
             {
                 string tenNL = txtTenNL.Text.Trim();
-
-                nguyenLieuDTO nl = new nguyenLieuDTO
-                {
-                    TenNguyenLieu = tenNL,
-                    MaDonViCoSo = maDonVi,
-                    TonKho = 0,
-                    TrangThai = 1
-                };
-
                 nguyenLieuBUS bus = new nguyenLieuBUS();
-                bool kq = bus.themNguyenLieu(nl);
+                int maNL = bus.layMa();
 
-                if (kq)
+                nguyenLieuDTO nl = new nguyenLieuDTO();
+                nl.MaNguyenLieu = maNL;
+                nl.TenNguyenLieu = tenNL;
+                nl.MaDonViCoSo = maDonVi;
+                nl.TonKho = 0;
+                nl.TrangThai = 1;
+
+                ct = nl;
+                if (nl != null)
                 {
-                    MessageBox.Show("Thêm nguyên liệu mới thành công!",
+                    MessageBox.Show("Thêm nguyên liệu mới thành công",
                         "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
                 else
@@ -107,6 +108,8 @@ namespace GUI.GUI_CRUD
                     txtTenDonVi.Text = form.tenDonVi;
                 }
             }
+            donViBUS bus = new donViBUS();
+            bus.LayDanhSach();
         }
     }
 }

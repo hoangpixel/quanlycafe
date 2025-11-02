@@ -10,33 +10,31 @@ namespace BUS
     public class nguyenLieuBUS
     {
         public static BindingList<nguyenLieuDTO> ds = new BindingList<nguyenLieuDTO>();
+        private nguyenLieuDAO data = new nguyenLieuDAO();
 
         public BindingList<nguyenLieuDTO> LayDanhSach()
         {
-            nguyenLieuDAO data = new nguyenLieuDAO();
             ds = data.docDanhSachNguyenLieu();
             return ds;
         }
 
+        public int layMa()
+        {
+            return data.layMa();
+        }
+
         public bool themNguyenLieu(nguyenLieuDTO nl)
         {
-            nguyenLieuDAO data = new nguyenLieuDAO();
             bool kq = data.Them(nl);
             if (kq)
             {
                 ds.Add(nl);
-                Console.WriteLine($"BUS: Đã thêm nguyên liệu '{nl.TenNguyenLieu}' thành công!");
-            }
-            else
-            {
-                Console.WriteLine("BUS: Lỗi khi thêm nguyên liệu!");
             }
             return kq;
         }
 
         public bool suaNguyenLieu(nguyenLieuDTO nl)
         {
-            nguyenLieuDAO data = new nguyenLieuDAO();
             bool result = data.Sua(nl);
 
             if (result)
@@ -49,11 +47,11 @@ namespace BUS
                     tontai.TonKho = nl.TonKho;
                     tontai.TrangThai = nl.TrangThai;
                 }
-                Console.WriteLine("BUS: Sửa nguyên liệu thành công!");
+                Console.WriteLine("Sửa nguyên liệu thành công!");
             }
             else
             {
-                Console.WriteLine("BUS: Lỗi khi sửa nguyên liệu!");
+                Console.WriteLine("Lỗi khi sửa nguyên liệu!");
             }
 
             return result;
@@ -61,7 +59,6 @@ namespace BUS
 
         public bool xoaNguyenLieu(int maNguyenLieu)
         {
-            nguyenLieuDAO data = new nguyenLieuDAO();
             bool result = data.Xoa(maNguyenLieu);
 
             if (result)
@@ -78,15 +75,12 @@ namespace BUS
 
         public nguyenLieuDTO TimTheoMa(int ma)
         {
-            nguyenLieuDAO data = new nguyenLieuDAO();
             return data.TimTheoMa(ma);
         }
 
         // 🧹 Xóa toàn bộ dữ liệu (nếu cần làm mới khi nhập Excel)
         public void XoaTatCa()
         {
-            nguyenLieuDAO data = new nguyenLieuDAO();
-
             var ds = data.docDanhSachNguyenLieu();
             foreach (var nl in ds)
             {
@@ -106,7 +100,6 @@ namespace BUS
         public void NhapExcelThongMinh(BindingList<nguyenLieuDTO> dsExcel)
         {
             int soThem = 0, soCapNhat = 0, soBoQua = 0, soLoi = 0, soTrungTen = 0;
-            nguyenLieuDAO data = new nguyenLieuDAO();
 
             // 🔍 Lấy toàn bộ danh sách hiện tại 1 lần để so sánh
             var dsHienTai = data.docDanhSachNguyenLieu();

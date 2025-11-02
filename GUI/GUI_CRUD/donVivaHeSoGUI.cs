@@ -3,27 +3,50 @@ using DTO;
 using FONTS;
 using GUI.GUI_SELECT;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace GUI.GUI_CRUD
 {
     public partial class donVivaHeSoGUI : Form
     {
         private int maNL = -1;
+        private int maDV = -1;
+        private donViBUS busDonVi = new donViBUS();
+        private heSoBUS busHeSo = new heSoBUS();
+        private BindingList<nguyenLieuDTO> dsNguyenLieu;
+        private BindingList<donViDTO> dsDonVi;
         public donVivaHeSoGUI()
         {
             InitializeComponent();
-        }
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
 
+            txtHeSo.DecimalPlaces = 3;
+            txtHeSo.Increment = 0.001M;
+            txtHeSo.Minimum = 0.000M;
+            txtHeSo.Maximum = 999.999M;
+        }
+        private void donVivaHeSoGUI_Load(object sender, EventArgs e)
+        {
+            nguyenLieuBUS busNL = new nguyenLieuBUS();
+            dsNguyenLieu = busNL.LayDanhSach();
+
+            dsDonVi = busDonVi.LayDanhSach();
+
+            busDonVi.LayDanhSach();
+            loadDanhSachDonVi(donViBUS.ds);
+            loadFontChuVaSizeTableDonVi();
+
+            busHeSo.LayDanhSach();
+            loadDanhSachHeSo(heSoBUS.ds);
+            loadFontChuVaSizeTableHeSo();
+
+            tableHeSo.ClearSelection();
+            tableDonVi.ClearSelection();
+        }
         private void loadFontChuVaSizeTableDonVi()
         {
-            // --- Căn giữa và tắt sort ---
             foreach (DataGridViewColumn col in tableDonVi.Columns)
             {
                 col.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -34,13 +57,10 @@ namespace GUI.GUI_CRUD
             tableDonVi.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             tableDonVi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // font cho dữ liệu trong table
             tableDonVi.DefaultCellStyle.Font = FontManager.GetLightFont(10);
 
-            //font cho header trong table
             tableDonVi.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
 
-            // --- Fix lỗi mất text khi đổi font ---
             tableDonVi.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tableDonVi.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             tableDonVi.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
@@ -50,7 +70,6 @@ namespace GUI.GUI_CRUD
 
         private void loadFontChuVaSizeTableHeSo()
         {
-            // --- Căn giữa và tắt sort ---
             foreach (DataGridViewColumn col in tableHeSo.Columns)
             {
                 col.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -61,98 +80,68 @@ namespace GUI.GUI_CRUD
             tableHeSo.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             tableHeSo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // font cho dữ liệu trong table
             tableHeSo.DefaultCellStyle.Font = FontManager.GetLightFont(10);
 
-            //font cho header trong table
             tableHeSo.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
 
-            // --- Fix lỗi mất text khi đổi font ---
             tableHeSo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tableHeSo.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             tableHeSo.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
 
             tableHeSo.Refresh();
         }
+
         private void loadDanhSachDonVi(BindingList<donViDTO> ds)
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Mã đơn vị");
-            dt.Columns.Add("Tên đơn vị");
+            tableDonVi.AutoGenerateColumns = false;
+            tableDonVi.Columns.Clear();
 
-            foreach (var dv in ds)
-            {
-                dt.Rows.Add(dv.MaDonVi, dv.TenDonVi);
-            }
+            tableDonVi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaDonVi", HeaderText = "Mã đơn vị" });
+            tableDonVi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TenDonVi", HeaderText = "Tên đơn vị" });
 
-            tableDonVi.DataSource = dt;
-            loadFontChuVaSizeTableDonVi();
-            tableDonVi.ReadOnly = true;
-            tableDonVi.Columns["Mã đơn vị"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            tableDonVi.Columns["Tên đơn vị"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
+            tableDonVi.DataSource = ds;
             btnSuaDonVi.Enabled = false;
             btnXoaDonVi.Enabled = false;
-
+            tableDonVi.ReadOnly = true;
             tableDonVi.ClearSelection();
         }
 
         private void loadDanhSachHeSo(BindingList<heSoDTO> ds)
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Tên NL");
-            dt.Columns.Add("Tên đơn vị");
-            dt.Columns.Add("Hệ số");
+            tableHeSo.AutoGenerateColumns = false;
+            tableHeSo.Columns.Clear();
 
-            nguyenLieuBUS busNL = new nguyenLieuBUS();
-            BindingList<nguyenLieuDTO> dsNL = busNL.LayDanhSach();
+            tableHeSo.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaNguyenLieu", HeaderText = "Tên NL"});
+            tableHeSo.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaDonVi", HeaderText = "Tên ĐV" });
+            tableHeSo.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "HeSo", HeaderText = "Hệ số" });
 
-            donViBUS busDV = new donViBUS();
-            BindingList<donViDTO> dsDV = busDV.LayDanhSach();
-
-            foreach (var hs in ds)
-            {
-                string tenNL = dsNL.FirstOrDefault(l => l.MaNguyenLieu == hs.MaNguyenLieu)?.TenNguyenLieu ?? "Không xác định";
-                string donVi = dsDV.FirstOrDefault(l => l.MaDonVi == hs.MaDonVi)?.TenDonVi ?? "Không xác định";
-
-                dt.Rows.Add(tenNL, donVi,hs.HeSo);
-            }
-
-            tableHeSo.DataSource = dt;
-            tableHeSo.ReadOnly = true;
-            loadFontChuVaSizeTableHeSo();
-
+            tableHeSo.DataSource = ds;
             btnSuaHS.Enabled = false;
             btnXoaHeSO.Enabled = false;
-
+            tableHeSo.ReadOnly = true;
             tableHeSo.ClearSelection();
         }
 
-        private void donVivaHeSoGUI_Load(object sender, EventArgs e)
+        private void tableHeSo_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            txtHeSo.DecimalPlaces = 3;
-            txtHeSo.Increment = 0.001M;
-            txtHeSo.Minimum = 0.000M;
-            txtHeSo.Maximum = 999.999M;
+            if(e.RowIndex < 0)
+            {
+                return;
+            }
 
-            FontManager.LoadFont();
-            FontManager.ApplyFontToAllControls(this);
+            heSoDTO hs = tableHeSo.Rows[e.RowIndex].DataBoundItem as heSoDTO;
 
-            donViBUS bus = new donViBUS();
-            bus.LayDanhSach();
-            loadDanhSachDonVi(donViBUS.ds);
+            if (tableHeSo.Columns[e.ColumnIndex].HeaderText == "Tên NL")
+            {
+                nguyenLieuDTO nl = dsNguyenLieu.FirstOrDefault(x => x.MaNguyenLieu == hs.MaNguyenLieu);
+                e.Value = nl?.TenNguyenLieu ?? "Không xác định";
+            }
 
-            heSoBUS busHS = new heSoBUS();
-            busHS.LayDanhSach();
-            loadDanhSachHeSo(heSoBUS.ds);
-
-            cboDonVi.DataSource = bus.LayDanhSach();
-            cboDonVi.DisplayMember = "TenDonVi";
-            cboDonVi.ValueMember = "MaDonVi";
-            cboDonVi.SelectedIndex = -1;
-
-            tableHeSo.ClearSelection();
-            tableDonVi.ClearSelection();
+            if (tableHeSo.Columns[e.ColumnIndex].HeaderText == "Tên ĐV")
+            {
+                donViDTO dv = dsDonVi.FirstOrDefault(x => x.MaDonVi == hs.MaDonVi);
+                e.Value = dv?.TenDonVi ?? "Không xác định";
+            }
         }
 
         private void btnThemDonVI_Click(object sender, EventArgs e)
@@ -163,22 +152,22 @@ namespace GUI.GUI_CRUD
                 return;
             }
 
-            donViBUS bus = new donViBUS();
             donViDTO ct = new donViDTO();
+            ct.MaDonVi = busDonVi.layMa();
             ct.TenDonVi = txtDonVi.Text.Trim();
 
-            if(bus.themDonVi(ct))
+            if (ct != null)
             {
                 MessageBox.Show("Thêm đơn vị thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                busDonVi.themDonVi(ct);
                 txtDonVi.Clear();
                 txtDonVi.Focus();
-                loadDanhSachDonVi(donViBUS.ds);
             }
         }
 
 
 
-        private void ResetForm()
+        private void ResetFormDV()
         {
             txtDonVi.Clear();
             txtDonVi.Focus();
@@ -197,18 +186,19 @@ namespace GUI.GUI_CRUD
         {
             if (e.RowIndex >= 0 && e.RowIndex < tableDonVi.Rows.Count)
             {
-                
+
                 if (selectedRowIndex == e.RowIndex)
                 {
-                    ResetForm();
+                    ResetFormDV();
                     return;
                 }
 
                 selectedRowIndex = e.RowIndex;
 
                 DataGridViewRow row = tableDonVi.Rows[e.RowIndex];
-                string tenLoai = row.Cells["Tên đơn vị"].Value.ToString();
-                txtDonVi.Text = tenLoai;
+                donViDTO dv = row.DataBoundItem as donViDTO;
+
+                txtDonVi.Text = dv.TenDonVi;
 
                 btnThemDonVI.Enabled = false;
                 btnSuaDonVi.Enabled = true;
@@ -219,7 +209,8 @@ namespace GUI.GUI_CRUD
         private void btnSuaDonVi_Click(object sender, EventArgs e)
         {
             DataGridViewRow row = tableDonVi.SelectedRows[0];
-            int maDonVi = Convert.ToInt32(row.Cells["Mã đơn vị"].Value);
+            donViDTO dv = row.DataBoundItem as donViDTO;
+            int maDonVi = dv.MaDonVi;
             string tenMoi = txtDonVi.Text.Trim();
             if (string.IsNullOrWhiteSpace(tenMoi))
             {
@@ -233,35 +224,31 @@ namespace GUI.GUI_CRUD
                 MessageBoxIcon.Question
             );
 
-            if (result == DialogResult.No)
-                return;
-
-            donViDTO ct = new donViDTO
+            if (result == DialogResult.Yes)
             {
-                MaDonVi = maDonVi,
-                TenDonVi = tenMoi
-            };
+                donViDTO ct = new donViDTO();
+                ct.MaDonVi = maDonVi;
+                ct.TenDonVi = tenMoi;
 
-            donViBUS bus = new donViBUS();
-            bool kq = bus.suaDonVi(ct);
-
-            if (kq)
-            {
-                MessageBox.Show("Sửa đơn vị thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                bus.LayDanhSach();
-                loadDanhSachDonVi(donViBUS.ds);
-                ResetForm();
-            }
-            else
-            {
-                MessageBox.Show("Lỗi khi sửa loại sản phẩm!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (ct != null)
+                {
+                    MessageBox.Show("Sửa đơn vị thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    busDonVi.suaDonVi(ct);
+                    ResetFormDV();
+                }
+                else
+                {
+                    MessageBox.Show("Sửa đơn vị thất bại!", "Báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
             }
         }
 
         private void btnXoaDonVi_Click(object sender, EventArgs e)
         {
             DataGridViewRow row = tableDonVi.SelectedRows[0];
-            int maDonVi = Convert.ToInt32(row.Cells["Mã đơn vị"].Value);
+            donViDTO ct = row.DataBoundItem as donViDTO;
+            int maDonVi = ct.MaDonVi;
             DialogResult result = MessageBox.Show(
                 "Bạn có chắc muốn xóa đơn vị này không?",
                 "Xác nhận",
@@ -269,36 +256,33 @@ namespace GUI.GUI_CRUD
                 MessageBoxIcon.Question
             );
 
-            if (result == DialogResult.No)
-                return;
-
-            donViBUS bus = new donViBUS();
-            bool kq = bus.Xoa(maDonVi);
-
-            if (kq)
+            if (result == DialogResult.Yes)
             {
-                MessageBox.Show("Xóa đơn vị thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                bus.LayDanhSach();
-                loadDanhSachDonVi(donViBUS.ds);
-                ResetForm();
-            }
-            else
-            {
-                MessageBox.Show("Lỗi khi xóa đơn vị!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (maDonVi != -1)
+                {
+                    MessageBox.Show("Xóa đơn vị thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    busDonVi.Xoa(maDonVi);
+                    ResetFormDV();
+                }
+                else
+                {
+                    MessageBox.Show("Lỗi kh xóa đc đơn vị!", "Báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
             }
         }
 
         private void ResetHeSoForm()
         {
             txtTenNL.Clear();
-            cboDonVi.SelectedIndex = -1;
+            txtMaDV.Clear();
             txtHeSo.Value = 0;
             tableHeSo.ClearSelection();
             btnThemHs.Enabled = true;
-            cboDonVi.Enabled = true;
             btnSuaHS.Enabled = false;
             btnXoaHeSO.Enabled = false;
             btnSanPham.Enabled = true;
+            btnChonDV.Enabled = true;
             selectedRowIndexHS = null;
         }
 
@@ -307,7 +291,6 @@ namespace GUI.GUI_CRUD
         {
             if (e.RowIndex >= 0 && e.RowIndex < tableHeSo.Rows.Count)
             {
-
                 if (selectedRowIndexHS == e.RowIndex)
                 {
                     ResetHeSoForm();
@@ -316,38 +299,24 @@ namespace GUI.GUI_CRUD
 
                 selectedRowIndexHS = e.RowIndex;
 
-                DataGridViewRow row = tableHeSo.Rows[e.RowIndex];
-                string tenDV = row.Cells["Tên đơn vị"].Value.ToString();
-                string tenNL = row.Cells["Tên NL"].Value.ToString();
-                string heSoStr = row.Cells["Hệ số"].Value.ToString();
+                heSoDTO hs = tableHeSo.Rows[e.RowIndex].DataBoundItem as heSoDTO;
+                if (hs == null) return;
 
-                txtTenNL.Text = tenNL;
-                cboDonVi.SelectedIndex = cboDonVi.FindStringExact(tenDV);
+                nguyenLieuDTO nl = dsNguyenLieu.FirstOrDefault(x => x.MaNguyenLieu == hs.MaNguyenLieu);
+                donViDTO dv = dsDonVi.FirstOrDefault(x => x.MaDonVi == hs.MaDonVi);
 
-                nguyenLieuBUS nlBUS = new nguyenLieuBUS();
-                BindingList<nguyenLieuDTO> dsNL = nlBUS.LayDanhSach();
-                nguyenLieuDTO nl = dsNL.FirstOrDefault(x => x.TenNguyenLieu == tenNL);
-                if (nl != null)
-                {
-                    maNL = nl.MaNguyenLieu;  
-                }
-                else
-                {
-                    maNL = -1; 
-                }
+                txtTenNL.Text = nl?.TenNguyenLieu ?? "Không xác định";
 
-                if (float.TryParse(heSoStr, out float heso))
-                {
-                    txtHeSo.Value = (decimal)heso;
-                }
-                else
-                {
-                    txtHeSo.Value = 0;
-                }
+                txtMaDV.Text = dv?.TenDonVi ?? "Không xác định";
+
+                txtHeSo.Value = (decimal)hs.HeSo;
+
+                maNL = hs.MaNguyenLieu;
+                maDV = hs.MaDonVi;
 
                 btnThemHs.Enabled = false;
-                cboDonVi.Enabled = false;
                 btnSanPham.Enabled = false;
+                btnChonDV.Enabled = false;
                 btnSuaHS.Enabled = true;
                 btnXoaHeSO.Enabled = true;
             }
@@ -355,80 +324,60 @@ namespace GUI.GUI_CRUD
 
         private void btnSanPham_Click(object sender, EventArgs e)
         {
-            using(selectNguyenLieu form = new selectNguyenLieu())
+            using (selectNguyenLieu form = new selectNguyenLieu())
             {
                 form.StartPosition = FormStartPosition.CenterParent;
-                if(form.ShowDialog() == DialogResult.OK)
+                if (form.ShowDialog() == DialogResult.OK)
                 {
                     maNL = form.MaNL;
                     txtTenNL.Text = form.TenNL;
-
-                    nguyenLieuBUS nlBUS = new nguyenLieuBUS();
-                    BindingList<nguyenLieuDTO> dsNL = nlBUS.LayDanhSach();
-                    nguyenLieuDTO nl = dsNL.FirstOrDefault(x => x.MaNguyenLieu == maNL);
-
-                    if (nl != null)
-                    {
-                        cboDonVi.SelectedValue = nl.MaDonViCoSo;
-                    }
-                    else
-                    {
-                        cboDonVi.SelectedIndex = -1;
-                    }
                 }
             }
         }
 
         private void btnThemHs_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtTenNL.Text))
+            if (maNL == -1 || maDV == -1)
             {
                 MessageBox.Show("Vui lòng nhập nguyên liệu!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if(cboDonVi.SelectedIndex == -1)
-            {
-                MessageBox.Show("Vui lòng chọn đơn vị!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            if(txtHeSo.Value == 0)
+            if (txtHeSo.Value == 0)
             {
                 MessageBox.Show("Vui lòng nhập hế số!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            int maDV = Convert.ToInt32(cboDonVi.SelectedValue);
             decimal heso = (decimal)txtHeSo.Value;
             heSoBUS bus = new heSoBUS();
             heSoDTO ct = new heSoDTO();
             ct.MaNguyenLieu = maNL;
             ct.MaDonVi = maDV;
             ct.HeSo = heso;
-            bool kq = bus.Them(ct);
-            if(kq)
+            
+            if(ct != null)
             {
                 MessageBox.Show("Thêm hệ số thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtTenNL.Clear();
-                txtHeSo.Value = 0;
-                cboDonVi.SelectedIndex = -1;
-                loadDanhSachHeSo(heSoBUS.ds);
+                busHeSo.Them(ct);
+
+                dsNguyenLieu = new nguyenLieuBUS().LayDanhSach();
+                dsDonVi = new donViBUS().LayDanhSach();
+                ResetHeSoForm();
+            }else
+            {
+                MessageBox.Show("Lỗi kh thêm đc hs!", "Báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
         }
 
         private void btnSuaHS_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtTenNL.Text))
+            if (maNL == -1 || maDV == -1)
             {
                 MessageBox.Show("Vui lòng chọn nguyên liệu cần sửa!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (cboDonVi.SelectedIndex == -1)
-            {
-                MessageBox.Show("Vui lòng chọn đơn vị!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
 
-            int maDV = (int)cboDonVi.SelectedValue;
             decimal heso = (decimal)txtHeSo.Value;
 
             DialogResult result = MessageBox.Show(
@@ -438,49 +387,34 @@ namespace GUI.GUI_CRUD
                 MessageBoxIcon.Question
             );
 
-            if (result == DialogResult.No)
-                return;
-
-            heSoDTO ct = new heSoDTO
+            if (result == DialogResult.Yes)
             {
-                MaNguyenLieu = maNL,
-                MaDonVi = maDV,
-                HeSo = heso
-            };
+                heSoDTO ct = new heSoDTO();
+                ct.MaNguyenLieu = maNL;
+                ct.MaDonVi = maDV;
+                ct.HeSo = heso;
 
-            heSoBUS bus = new heSoBUS();
-            bool kq = bus.Sua(ct);
-
-            if (kq)
-            {
-                MessageBox.Show("Sửa hệ số thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                bus.LayDanhSach();
-                loadDanhSachHeSo(heSoBUS.ds);
-                ResetHeSoForm();
-            }
-            else
-            {
-                MessageBox.Show("Lỗi khi sửa hệ số!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if(ct != null)
+                {
+                    MessageBox.Show("Sửa hệ số thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    busHeSo.Sua(ct);
+                    ResetHeSoForm();
+                }else
+                {
+                    MessageBox.Show("Lỗi kh sửa đc hệ số", "Báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
             }
         }
 
         private void btnXoaHeSO_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtTenNL.Text))
+            if (maNL == -1 || maDV == -1)
             {
                 MessageBox.Show("Vui lòng chọn nguyên liệu cần xóa!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (cboDonVi.SelectedIndex == -1)
-            {
-                MessageBox.Show("Vui lòng chọn đơn vị cần xóa!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
 
-            int maDV = (int)cboDonVi.SelectedValue;
-            //MessageBox.Show($"Mã nguyên liệu: {maNL}\nMã đơn vị: {maDV}",
-            //    "Kiểm tra dữ liệu trước khi xóa",
-            //    MessageBoxButtons.OK, MessageBoxIcon.Information);
             DialogResult result = MessageBox.Show(
                 "Bạn có chắc muốn xóa hệ số này không?",
                 "Xác nhận",
@@ -488,22 +422,18 @@ namespace GUI.GUI_CRUD
                 MessageBoxIcon.Question
             );
 
-            if (result == DialogResult.No)
-                return;
-
-            heSoBUS bus = new heSoBUS();
-            bool kq = bus.Xoa(maNL, maDV);
-
-            if (kq)
+            if (result == DialogResult.Yes)
             {
-                MessageBox.Show("Xóa hệ số thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                bus.LayDanhSach();
-                loadDanhSachHeSo(heSoBUS.ds);
-                ResetHeSoForm();
-            }
-            else
-            {
-                MessageBox.Show("Lỗi khi xóa hệ số!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if(maNL != -1 && maDV != -1)
+                {
+                    MessageBox.Show("Xóa hệ số thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    busHeSo.Xoa(maNL, maDV);
+                    ResetHeSoForm();
+                }else
+                {
+                    MessageBox.Show("Lỗi kh xóa đc hs", "Báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
             }
         }
 
@@ -519,19 +449,19 @@ namespace GUI.GUI_CRUD
 
         private void btnTim_Click(object sender, EventArgs e)
         {
-            if(cboTimDV.SelectedIndex == -1 || string.IsNullOrWhiteSpace(txtTimDV.Text))
+            if (cboTimDV.SelectedIndex == -1 || string.IsNullOrWhiteSpace(txtTimDV.Text))
             {
-                MessageBox.Show("Vui lòng nhập giá trị cần tìm","Thông báo",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                MessageBox.Show("Vui lòng nhập giá trị cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
             int index = cboTimDV.SelectedIndex;
             string tim = txtTimDV.Text.Trim();
-            donViBUS bus = new donViBUS();
-            BindingList<donViDTO> dskq = bus.timKiemCoBan(tim, index);
-            if(dskq != null && dskq.Count > 0)
+            BindingList<donViDTO> dskq = busDonVi.timKiemCoBan(tim, index);
+            if (dskq != null && dskq.Count > 0)
             {
                 loadDanhSachDonVi(dskq);
-            }else
+            }
+            else
             {
                 MessageBox.Show("Không tìm thấy kết quả", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -540,16 +470,29 @@ namespace GUI.GUI_CRUD
 
         private void btnRs_Click(object sender, EventArgs e)
         {
-            cboDonVi.SelectedIndex = -1;
+            txtMaDV.Clear();
             txtTimDV.Clear();
-            donViBUS bus = new donViBUS();
             BindingList<donViDTO> dskq = donViBUS.ds;
             loadDanhSachDonVi(dskq);
+            loadFontChuVaSizeTableDonVi();
         }
 
         private void btnTKhs_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnChonDV_Click(object sender, EventArgs e)
+        {
+            using(selectDonVi form = new selectDonVi())
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                if(form.ShowDialog() == DialogResult.OK)
+                {
+                    maDV = form.maDonVi;
+                    txtMaDV.Text = form.tenDonVi;
+                }
+            }
         }
     }
 }

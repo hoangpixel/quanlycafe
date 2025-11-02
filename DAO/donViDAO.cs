@@ -51,25 +51,41 @@ namespace DAO
             return ds;
         }
 
+        public int layMa()
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            int maDonVi = 0;
+            try
+            {
+                string qry = "SELECT IFNULL(MAX(MADONVI), 0) FROM donvi";
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                maDonVi = Convert.ToInt32(cmd.ExecuteScalar());
+            }catch(MySqlException ex)
+            {
+                Console.WriteLine("lỗi kh lấy đc mã đơn vị : " + ex);
+            }finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+            return maDonVi + 1;
+        }
         public bool Them(donViDTO ct)
         {
             MySqlConnection conn = null;
             try
             {
-                string qry = @"INSERT INTO donvi (TENDONVI, TRANGTHAI)
-                               VALUES (@Ten, @TrangThai);
-                               SELECT LAST_INSERT_ID();";
+                string qry = @"INSERT INTO donvi (MADONVI ,TENDONVI, TRANGTHAI)
+                               VALUES (@MaDonVi ,@Ten, @TrangThai)";
 
                 conn = DBConnect.GetConnection();
                 MySqlCommand cmd = new MySqlCommand(qry, conn);
+                cmd.Parameters.AddWithValue("@MaDonVi", ct.MaDonVi);
                 cmd.Parameters.AddWithValue("@Ten", ct.TenDonVi);
                 cmd.Parameters.AddWithValue("@TrangThai", ct.TrangThai);
 
-                object result = cmd.ExecuteScalar();
-                if (result != null)
+                int rs = cmd.ExecuteNonQuery();
+                if (rs > 0)
                 {
-                    ct.MaDonVi = Convert.ToInt32(result);
-                    Console.WriteLine($"Thêm nguyên liệu thành công! Mã mới: {ct.MaDonVi}");
                     return true;
                 }
                 return false;

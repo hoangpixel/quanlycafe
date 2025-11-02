@@ -15,14 +15,31 @@ namespace GUI.GUI_CRUD
     public partial class loaiSPGUI : Form
     {
         private int? selectedRowIndex = null;
+        private loaiSanPhamBUS busLoai = new loaiSanPhamBUS();
+        private BindingList<nhomDTO> dsNhom;
         public loaiSPGUI()
         {
             InitializeComponent();
         }
+        private void loaiSPGUI_Load(object sender, EventArgs e)
+        {
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
 
+            nhomBUS busNhom = new nhomBUS();
+            dsNhom = busNhom.layDanhSach();
+                        loadComboNhom();
+
+            busLoai.LayDanhSach();
+            loadDanhSachLoaiSP(loaiSanPhamBUS.ds);
+
+            loadFontChuVaSize();
+
+            btnSuaLoaiSp.Enabled = false;
+            btnXoaLoaiSP.Enabled = false;
+        }
         private void loadFontChuVaSize()
         {
-            // --- Căn giữa và tắt sort ---
             foreach (DataGridViewColumn col in tableLoaiSP.Columns)
             {
                 col.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -33,13 +50,10 @@ namespace GUI.GUI_CRUD
             tableLoaiSP.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             tableLoaiSP.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // font cho dữ liệu trong table
             tableLoaiSP.DefaultCellStyle.Font = FontManager.GetLightFont(10);
 
-            //font cho header trong table
             tableLoaiSP.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
 
-            // --- Fix lỗi mất text khi đổi font ---
             tableLoaiSP.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tableLoaiSP.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             tableLoaiSP.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
@@ -49,29 +63,38 @@ namespace GUI.GUI_CRUD
 
         private void loadDanhSachLoaiSP(BindingList<loaiDTO> ds)
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Mã Loại");
-            dt.Columns.Add("Tên Loại");
-            dt.Columns.Add("Tên nhóm");
+            tableLoaiSP.AutoGenerateColumns = false;
+            tableLoaiSP.Columns.Clear();
 
-            nhomBUS busNhom = new nhomBUS();
-            BindingList<nhomDTO> dsNhom = busNhom.layDanhSach();
+            tableLoaiSP.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaLoai", HeaderText = "Mã loại" });
+            tableLoaiSP.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TenLoai", HeaderText = "Tên loại" });
+            tableLoaiSP.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaNhom", HeaderText = "Tên nhóm" });
 
-            foreach (var ct in ds)
-            {
-                string tenNhom = dsNhom.FirstOrDefault(l => l.MaNhom == ct.MaNhom)?.TenNhom ?? "Không xác định";
-                dt.Rows.Add(ct.MaLoai, ct.TenLoai, tenNhom);
-            }
+            tableLoaiSP.DataSource = ds;
 
-            tableLoaiSP.DataSource = dt;
-
+            btnSuaLoaiSp.Enabled = false;
+            btnXoaLoaiSP.Enabled = false;
             tableLoaiSP.ReadOnly = true;
-
-            tableLoaiSP.Columns["Mã Loại"].Width = 90;
-            tableLoaiSP.Columns["Tên Loại"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            tableLoaiSP.Columns["Tên nhóm"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            tableLoaiSP.ClearSelection();
         }
+        private void tableLoaiSP_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0)
+            {
+                return;
+            }
+            loaiDTO loai = tableLoaiSP.Rows[e.RowIndex].DataBoundItem as loaiDTO;
+            if(loai == null)
+            {
+                return;
+            }
+            if (tableLoaiSP.Columns[e.ColumnIndex].HeaderText == "Tên nhóm")
+            {
+                nhomDTO nhom = dsNhom.FirstOrDefault(x => x.MaNhom == loai.MaNhom);
+                e.Value = nhom?.TenNhom ?? "Không xác định";
+            }    
 
+        }
         public void loadComboNhom()
         {
             nhomBUS bus = new nhomBUS();
@@ -82,20 +105,7 @@ namespace GUI.GUI_CRUD
             cboNhom.SelectedIndex = -1;
         }
 
-        private void loaiSPGUI_Load(object sender, EventArgs e)
-        {
-            FontManager.LoadFont();
-            FontManager.ApplyFontToAllControls(this);
 
-            loaiSanPhamBUS bus = new loaiSanPhamBUS();
-            bus.LayDanhSach();
-            loadDanhSachLoaiSP(loaiSanPhamBUS.ds);
-            loadFontChuVaSize();
-            loadComboNhom();
-                
-            btnSuaLoaiSp.Enabled = false;
-            btnXoaLoaiSP.Enabled = false;
-        }
 
         private void ResetForm()
         {
@@ -124,11 +134,10 @@ namespace GUI.GUI_CRUD
                 selectedRowIndex = e.RowIndex;
 
                 DataGridViewRow row = tableLoaiSP.Rows[e.RowIndex];
-                string tenLoai = row.Cells["Tên Loại"].Value.ToString();
-                txtLoaiSp.Text = tenLoai;
+                loaiDTO ct = row.DataBoundItem as loaiDTO;
 
-                string tenNhom = row.Cells["Tên nhóm"].Value.ToString();
-                cboNhom.Text = tenNhom;
+                txtLoaiSp.Text = ct.TenLoai;
+                cboNhom.SelectedValue = ct.MaNhom;
 
                 btnThemLoaiSP.Enabled = false;
                 btnSuaLoaiSp.Enabled = true;
@@ -144,22 +153,22 @@ namespace GUI.GUI_CRUD
                 return;
             }
 
-            loaiSanPhamBUS bus = new loaiSanPhamBUS();
+            int maLoai = busLoai.layMa();
+
             loaiDTO ct = new loaiDTO();
+            ct.MaLoai = maLoai;
             ct.TenLoai = txtLoaiSp.Text;
             ct.MaNhom = (int)cboNhom.SelectedValue;
 
-            if (bus.themLoai(ct))
+            if (ct != null)
             {
                 MessageBox.Show("Thêm loại sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                busLoai.themLoai(ct);
                 txtLoaiSp.Clear();
                 cboNhom.SelectedIndex = -1;
                 txtLoaiSp.Focus();
                 tableLoaiSP.ClearSelection();
-                bus.LayDanhSach();
-                loadDanhSachLoaiSP(loaiSanPhamBUS.ds);
             }
-
             else
             {
                 MessageBox.Show("Lỗi khi thêm loại sản phẩm!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -169,7 +178,10 @@ namespace GUI.GUI_CRUD
         private void btnSuaLoaiSp_Click_1(object sender, EventArgs e)
         {
             DataGridViewRow row = tableLoaiSP.SelectedRows[0];
-            int maLoai = Convert.ToInt32(row.Cells["Mã Loại"].Value);
+
+            loaiDTO loai = row.DataBoundItem as loaiDTO;
+
+            int maLoai = loai.MaLoai;
             string tenMoi = txtLoaiSp.Text.Trim();
             int maNhom = (int)cboNhom.SelectedValue;
             if (string.IsNullOrWhiteSpace(tenMoi))
@@ -184,36 +196,31 @@ namespace GUI.GUI_CRUD
                 MessageBoxIcon.Question
             );
 
-            if (result == DialogResult.No)
-                return;
-
-            loaiDTO ct = new loaiDTO
+            if (result == DialogResult.Yes)
             {
-                MaLoai = maLoai,
-                TenLoai = tenMoi,
-                MaNhom = maNhom
-            };
+                loaiDTO ct = new loaiDTO();
+                ct.MaLoai = maLoai;
+                ct.TenLoai = tenMoi;
+                ct.MaNhom = maNhom;
 
-            loaiSanPhamBUS bus = new loaiSanPhamBUS();
-            bool kq = bus.suaLoai(ct);
-
-            if (kq)
-            {
-                MessageBox.Show("Sửa loại sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                bus.LayDanhSach();
-                loadDanhSachLoaiSP(loaiSanPhamBUS.ds);
-                ResetForm();
-            }
-            else
-            {
-                MessageBox.Show("Lỗi khi sửa loại sản phẩm!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if(ct != null)
+                {
+                    MessageBox.Show("Sửa loại sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    busLoai.suaLoai(ct);
+                    ResetForm();
+                }else
+                {
+                    MessageBox.Show("Lỗi kh sửa đc loại", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
             }
         }
 
         private void btnXoaLoaiSP_Click_1(object sender, EventArgs e)
         {
             DataGridViewRow row = tableLoaiSP.SelectedRows[0];
-            int maLoai = Convert.ToInt32(row.Cells["Mã Loại"].Value);
+            loaiDTO loai = row.DataBoundItem as loaiDTO;
+            int maXoa = loai.MaLoai;
             DialogResult result = MessageBox.Show(
                 "Bạn có chắc muốn xóa loại sản phẩm này không?",
                 "Xác nhận",
@@ -221,28 +228,19 @@ namespace GUI.GUI_CRUD
                 MessageBoxIcon.Question
             );
 
-            if (result == DialogResult.No)
-                return;
-
-            loaiSanPhamBUS bus = new loaiSanPhamBUS();
-            bool kq = bus.Xoa(maLoai);
-
-            if (kq)
+            if (result == DialogResult.Yes)
             {
-                MessageBox.Show("Xóa loại sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                bus.LayDanhSach();
-                loadDanhSachLoaiSP(loaiSanPhamBUS.ds);
-                ResetForm();
+                if(maXoa != -1)
+                {
+                    MessageBox.Show("Xóa loại sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    busLoai.Xoa(maXoa);
+                    ResetForm();
+                }else
+                {
+                    MessageBox.Show("Xóa loại sản phẩm thất bại!", "Báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
             }
-            else
-            {
-                MessageBox.Show("Lỗi khi xóa loại sản phẩm!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -259,8 +257,7 @@ namespace GUI.GUI_CRUD
             }
             int index = cboLoai.SelectedIndex;
             string tim = txtTim.Text.Trim();
-            loaiSanPhamBUS bus = new loaiSanPhamBUS();
-            BindingList<loaiDTO> dskq = bus.timKiemCoBan(tim, index);
+            BindingList<loaiDTO> dskq = busLoai.timKiemCoBan(tim, index);
             if (dskq != null && dskq.Count > 0)
             {
                 loadDanhSachLoaiSP(dskq);
@@ -276,14 +273,16 @@ namespace GUI.GUI_CRUD
         {
             cboLoai.SelectedIndex = -1;
             txtTim.Clear();
-            loaiSanPhamBUS bus = new loaiSanPhamBUS();
-            bus.LayDanhSach();
+            busLoai.LayDanhSach();
             loadDanhSachLoaiSP(loaiSanPhamBUS.ds);
+            loadFontChuVaSize();
         }
 
         private void tableLoaiSP_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             tableLoaiSP.ClearSelection();
         }
+
+
     }
 }

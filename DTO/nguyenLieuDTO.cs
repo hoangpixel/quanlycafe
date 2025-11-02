@@ -16,8 +16,6 @@ namespace DTO
 
         public float TonKho { get; set; }
 
-        public string TenDonViCoSo { get; set; }
-
         public nguyenLieuDTO() { }
 
         public nguyenLieuDTO(int ma, string ten, int maDonVi, int trangThai, float tonKho)
@@ -27,13 +25,6 @@ namespace DTO
             MaDonViCoSo = maDonVi;
             TrangThai = trangThai;
             TonKho = tonKho;
-        }
-
-        public override string ToString()
-        {
-            return TenDonViCoSo != null
-                ? $"{TenNguyenLieu} ({TenDonViCoSo})"
-                : $"{TenNguyenLieu}";
         }
     }
 }

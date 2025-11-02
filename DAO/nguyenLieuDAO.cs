@@ -51,27 +51,43 @@ namespace DAO
             return ds;
         }
 
+        public int layMa()
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            int maNguyenLieu = 0;
+            try
+            {
+                string qry = "SELECT IFNULL(MAX(MANGUYENLIEU), 0) FROM nguyenlieu";
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                maNguyenLieu = Convert.ToInt32(cmd.ExecuteScalar());
+            }catch(MySqlException ex)
+            {
+                Console.WriteLine("Lỗi kh lấy đc mã nl : " + ex);
+            }finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+            return maNguyenLieu + 1;
+        }
         public bool Them(nguyenLieuDTO nl)
         {
             MySqlConnection conn = null;
             try
             {
-                string qry = @"INSERT INTO nguyenlieu (TENNGUYENLIEU, MADONVICOSO, TRANGTHAI, TONKHO)
-                               VALUES (@Ten, @DonVi, @TrangThai, @TonKho);
-                               SELECT LAST_INSERT_ID();";
+                string qry = @"INSERT INTO nguyenlieu (MANGUYENLIEU ,TENNGUYENLIEU, MADONVICOSO, TRANGTHAI, TONKHO)
+                               VALUES (@MaNguyenlieu,@Ten, @DonVi, @TrangThai, @TonKho)";
 
                 conn = DBConnect.GetConnection();
                 MySqlCommand cmd = new MySqlCommand(qry, conn);
+                cmd.Parameters.AddWithValue("@MaNguyenlieu", nl.MaNguyenLieu);
                 cmd.Parameters.AddWithValue("@Ten", nl.TenNguyenLieu);
                 cmd.Parameters.AddWithValue("@DonVi", nl.MaDonViCoSo);
                 cmd.Parameters.AddWithValue("@TrangThai", nl.TrangThai);
                 cmd.Parameters.AddWithValue("@TonKho", nl.TonKho);
 
-                object result = cmd.ExecuteScalar();
-                if (result != null)
+                int rs = cmd.ExecuteNonQuery();
+                if (rs > 0)
                 {
-                    nl.MaNguyenLieu = Convert.ToInt32(result);
-                    Console.WriteLine($"Thêm nguyên liệu thành công! Mã mới: {nl.MaNguyenLieu}");
                     return true;
                 }
                 return false;

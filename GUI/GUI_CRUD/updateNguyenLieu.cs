@@ -19,6 +19,7 @@ namespace GUI.GUI_CRUD
         private nguyenLieuDTO ct;
         private int maDonVi = -1;
         private string tenDonVi = "";
+        public nguyenLieuDTO suaCT;
         public updateNguyenLieu()
         {
             InitializeComponent();
@@ -34,12 +35,16 @@ namespace GUI.GUI_CRUD
         {
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
-
+            donViBUS busDonvi = new donViBUS();
+            BindingList<donViDTO> dsdv = busDonvi.LayDanhSach();
             if (ct != null)
             {
                 txtTenNL.Text = ct.TenNguyenLieu;
                 maDonVi = ct.MaDonViCoSo;
-                txtTenDonVi.Text = ct.TenDonViCoSo;
+
+                donViDTO dv = dsdv.FirstOrDefault(x => x.MaDonVi == ct.MaDonViCoSo);
+                txtTenDonVi.Text = dv?.TenDonVi ?? "Không xác định";
+
                 txtTenNL.Focus();
             }
         }
@@ -68,12 +73,11 @@ namespace GUI.GUI_CRUD
                 ct.MaDonViCoSo = maDonVi;
                 ct.TrangThai = 1;
 
-                nguyenLieuBUS bus = new nguyenLieuBUS();
-                bool kq = bus.suaNguyenLieu(ct);
-
-                if (kq)
+                if (ct != null)
                 {
                     MessageBox.Show("Cập nhật nguyên liệu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    suaCT = ct;
+                    this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
                 else

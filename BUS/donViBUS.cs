@@ -12,16 +12,20 @@ namespace BUS
     public class donViBUS
     {
         public static BindingList<donViDTO> ds = new BindingList<donViDTO>();
+        private donViDAO data = new donViDAO();
 
         public BindingList<donViDTO> LayDanhSach()
         {
-            donViDAO data = new donViDAO();
             ds = data.docDangSachDonVi();
             return ds;
         }
+
+        public int layMa()
+        {
+            return data.layMa();
+        }
         public bool themDonVi(donViDTO ct)
         {
-            donViDAO data = new donViDAO();
             bool kq = data.Them(ct);
             if (kq)
             {
@@ -32,9 +36,7 @@ namespace BUS
 
         public bool suaDonVi(donViDTO ct)
         {
-            donViDAO data = new donViDAO();
             bool result = data.Sua(ct);
-
             if (result)
             {
                 donViDTO tontai = ds.FirstOrDefault(x => x.MaDonVi == ct.MaDonVi);
@@ -49,9 +51,7 @@ namespace BUS
 
         public bool Xoa(int maDonVi)
         {
-            donViDAO data = new donViDAO();
             bool result = data.Xoa(maDonVi);
-
             if (result)
             {
                 donViDTO dv = ds.FirstOrDefault(x => x.MaDonVi == maDonVi);
@@ -60,18 +60,12 @@ namespace BUS
                     ds.Remove(dv);
                 }
             }
-            else
-            {
-                Console.WriteLine("Lỗi khi xóa đơn vị");
-            }
-
             return result;
         }
 
         public BindingList<donViDTO> layDanhSachDonViTheoNguyenLieu(int maNguyenLieu)
         {
-            donViDAO dao = new donViDAO();
-            return dao.layDanhSachDonViTheoNguyenLieu(maNguyenLieu);
+            return data.layDanhSachDonViTheoNguyenLieu(maNguyenLieu);
         }
 
         public BindingList<donViDTO> timKiemCoBan(string tim,int index)

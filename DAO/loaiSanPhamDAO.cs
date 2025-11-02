@@ -51,20 +51,39 @@ namespace DAO
             return ds;
         }
 
+        public int layMa()
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            int maLoai = 0;
+            try
+            {
+                string qry = "SELECT IFNULL(MAX(MALOAI), 0) FROM loai";
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                maLoai = Convert.ToInt32(cmd.ExecuteScalar());
+            }catch(MySqlException ex)
+            {
+                Console.WriteLine("Lỗi không lấy đc mã của loại : " + ex);
+            }finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+            return maLoai + 1;
+        }
 
         public bool Them(loaiDTO ct)
         {
             MySqlConnection conn = null;
             try
             {
-                string qry = "INSERT INTO loai (TENLOAI,MANHOM) VALUES (@TenLoai, @MaNhom); SELECT LAST_INSERT_ID();";
+                string qry = "INSERT INTO loai (MALOAI,TENLOAI,MANHOM) VALUES (@MaLoai,@TenLoai, @MaNhom)";
 
                 conn = DBConnect.GetConnection();
                 MySqlCommand cmd = new MySqlCommand(qry, conn);
+                cmd.Parameters.AddWithValue("@MaLoai", ct.MaLoai);
                 cmd.Parameters.AddWithValue("@TenLoai", ct.TenLoai);
                 cmd.Parameters.AddWithValue("@MaNhom", ct.MaNhom);
-                object result = cmd.ExecuteScalar();
-                if (result != null)
+                int rs = cmd.ExecuteNonQuery();
+                if (rs > 0)
                 {
                     return true;
                 }

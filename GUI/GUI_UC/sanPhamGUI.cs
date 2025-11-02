@@ -27,13 +27,18 @@ namespace GUI.GUI_UC
 
         private void sanPhamGUI_Load(object sender, EventArgs e)
         {
-
             FontManager.LoadFont();
             hienThiPlaceHolderSanPham();
             FontManager.ApplyFontToAllControls(this);
 
-            sanPhamBUS bus = new sanPhamBUS();
-            bus.LayDanhSach();
+            // đoạn này là để load danh sách của 2 cái nhóm với loại rồi hiện lên cột á
+            loaiSanPhamBUS loaiBus = new loaiSanPhamBUS();
+            dsLoai = loaiBus.LayDanhSach();
+
+            nhomBUS nhomBus = new nhomBUS();
+            dsNhom = nhomBus.layDanhSach();
+
+            busSanPham.LayDanhSach();
             loadDanhSachSanPham(sanPhamBUS.ds);
             loadFontChuVaSize();
             tbSanPham.ClearSelection();
@@ -69,12 +74,6 @@ namespace GUI.GUI_UC
 
         private void loadDanhSachSanPham(BindingList<sanPhamDTO> ds)
         {
-            loaiSanPhamBUS loaiBus = new loaiSanPhamBUS();
-            dsLoai = loaiBus.LayDanhSach();
-
-            nhomBUS nhomBus = new nhomBUS();
-            dsNhom = nhomBus.layDanhSach();
-
             tbSanPham.AutoGenerateColumns = false;
             tbSanPham.DataSource = ds;
             
@@ -151,8 +150,7 @@ namespace GUI.GUI_UC
         }
         private void loadComboBoxLoaiSPTK()
         {
-            loaiSanPhamBUS bus = new loaiSanPhamBUS();
-            BindingList<loaiDTO> dsLoai = bus.LayDanhSach();
+            dsLoai = new loaiSanPhamBUS().LayDanhSach();
 
             cboLoaiSP.DataSource = dsLoai;
             cboLoaiSP.DisplayMember = "TenLoai";
@@ -280,6 +278,8 @@ namespace GUI.GUI_UC
                 form.ShowDialog();
             }
             loadComboBoxLoaiSPTK();
+            dsLoai = new loaiSanPhamBUS().LayDanhSach();
+            dsNhom = new nhomBUS().layDanhSach();
         }
 
         private void btnExcelSP_Click(object sender, EventArgs e)
@@ -289,9 +289,9 @@ namespace GUI.GUI_UC
                 form.StartPosition = FormStartPosition.CenterParent;
                 form.ShowDialog(this);
             }
-            sanPhamBUS bus = new sanPhamBUS();
-            bus.LayDanhSach();
+            busSanPham.LayDanhSach();
             loadDanhSachSanPham(sanPhamBUS.ds);
+            loadFontChuVaSize();
         }
 
 
@@ -307,21 +307,21 @@ namespace GUI.GUI_UC
                 return;
             }
 
-            sanPhamBUS bus = new sanPhamBUS();
-            BindingList<sanPhamDTO> kq = bus.timKiemCoBan(tim, index);
+            BindingList<sanPhamDTO> kq = busSanPham.timKiemCoBan(tim, index);
 
             if (kq != null && kq.Count > 0)
             {
                 tbSanPham.Columns.Clear();
                 tbSanPham.DataSource = null;
                 loadDanhSachSanPham(kq);
+                loadFontChuVaSize();
             }
             else
             {
                 MessageBox.Show("Không có kết quả tìm kiếm!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                bus.LayDanhSach();
+                busSanPham.LayDanhSach();
                 loadDanhSachSanPham(sanPhamBUS.ds);
 
                 txtTimKiemSP.Clear();
@@ -383,30 +383,30 @@ namespace GUI.GUI_UC
                 return;
             }
 
-            //// Debug
-            string debugInfo =
-                $"[DEBUG - TÌM KIẾM NÂNG CAO]\n\n" +
-                $"Mã loại: {maLoai}\n" +
-                $"Trạng thái CT: {trangThaiCT}\n" +
-                $"Tên SP: {(tenSP ?? "(null)")}\n" +
-                $"Giá tối thiểu: {(giaMin == -1 ? "(không lọc)" : giaMin.ToString())}\n" +
-                $"Giá tối đa: {(giaMax == -1 ? "(không lọc)" : giaMax.ToString())}";
+            ////// Debug
+            ////string debugInfo =
+            ////    $"[DEBUG - TÌM KIẾM NÂNG CAO]\n\n" +
+            ////    $"Mã loại: {maLoai}\n" +
+            ////    $"Trạng thái CT: {trangThaiCT}\n" +
+            ////    $"Tên SP: {(tenSP ?? "(null)")}\n" +
+            ////    $"Giá tối thiểu: {(giaMin == -1 ? "(không lọc)" : giaMin.ToString())}\n" +
+            ////    $"Giá tối đa: {(giaMax == -1 ? "(không lọc)" : giaMax.ToString())}";
 
-            MessageBox.Show(debugInfo, "DEBUG", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //MessageBox.Show(debugInfo, "DEBUG", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            sanPhamBUS bus = new sanPhamBUS();
-            var dskq = bus.timKiemNangCaoSP(maLoai, trangThaiCT, giaMin, giaMax, tenSP);
+            BindingList<sanPhamDTO> dskq = busSanPham.timKiemNangCaoSP(maLoai, trangThaiCT, giaMin, giaMax, tenSP);
 
             if (dskq != null && dskq.Count > 0)
             {
                 loadDanhSachSanPham(dskq);
                 hienThiPlaceHolderSanPham();
+                loadFontChuVaSize();
             }
             else
             {
                 MessageBox.Show("Không có kết quả tìm kiếm!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-                bus.LayDanhSach();
+                busSanPham.LayDanhSach();
                 loadDanhSachSanPham(sanPhamBUS.ds);
             }
         }
@@ -474,9 +474,9 @@ namespace GUI.GUI_UC
 
         private void btnRefreshSP_Click(object sender, EventArgs e)
         {
-            sanPhamBUS bus = new sanPhamBUS();
-            bus.LayDanhSach();
+            busSanPham.LayDanhSach();
             loadDanhSachSanPham(sanPhamBUS.ds);
+            loadFontChuVaSize();
 
             txtTimKiemSP.Clear();
             txtGiaMin.Clear();

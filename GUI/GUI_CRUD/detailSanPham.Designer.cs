@@ -203,6 +203,8 @@
             // 
             this.tableCongThuc.AllowUserToAddRows = false;
             this.tableCongThuc.AllowUserToDeleteRows = false;
+            this.tableCongThuc.AllowUserToResizeColumns = false;
+            this.tableCongThuc.AllowUserToResizeRows = false;
             this.tableCongThuc.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
@@ -221,12 +223,14 @@
             this.tableCongThuc.MultiSelect = false;
             this.tableCongThuc.Name = "tableCongThuc";
             this.tableCongThuc.ReadOnly = true;
+            this.tableCongThuc.RowHeadersVisible = false;
             this.tableCongThuc.RowHeadersWidth = 51;
             this.tableCongThuc.RowTemplate.Height = 24;
             this.tableCongThuc.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tableCongThuc.Size = new System.Drawing.Size(455, 448);
             this.tableCongThuc.TabIndex = 0;
             this.tableCongThuc.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableCongThuc_CellContentClick);
+            this.tableCongThuc.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.tableCongThuc_CellFormatting);
             // 
             // panel1
             // 
