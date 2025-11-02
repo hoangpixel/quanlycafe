@@ -31,8 +31,10 @@ namespace GUI.GUI_UC
         {
             donViBUS busDV = new donViBUS();
             dsDonVi = busDV.LayDanhSach();
-            busNguyenLieu.LayDanhSach();
-            loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
+
+
+            BindingList<nguyenLieuDTO> ds = busNguyenLieu.LayDanhSach();
+            loadDanhSachNguyenLieu(ds);
             loadFontChuVaSize();
         }
 
@@ -237,6 +239,9 @@ namespace GUI.GUI_UC
                     if(form.ShowDialog() == DialogResult.OK)
                     {
                         busNguyenLieu.xoaNguyenLieu(maXoa);
+                        btnSuaNL.Enabled = false;
+                        btnXoaNL.Enabled = false;
+                        btnChiTietNL.Enabled = false;
                     }
                 }
             }
@@ -259,8 +264,8 @@ namespace GUI.GUI_UC
 
         private void btnRefreshNL_Click(object sender, EventArgs e)
         {
-            busNguyenLieu.LayDanhSach();
-            loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
+            BindingList<nguyenLieuDTO> ds = busNguyenLieu.LayDanhSach();
+            loadDanhSachNguyenLieu(ds);
             loadFontChuVaSize();
             cboTimKiemNL.SelectedIndex = -1;
             cbTrangThaiNL.SelectedIndex = -1;

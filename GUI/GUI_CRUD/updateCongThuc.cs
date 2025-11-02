@@ -1,6 +1,7 @@
 ﻿using BUS;
 using DTO;
 using FONTS;
+using GUI.GUI_SELECT;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +17,9 @@ namespace GUI.GUI_CRUD
     public partial class updateCongThuc : Form
     {
         private congThucDTO ct;
+        private int maDV = -1;
+        public congThucDTO ctSUA;
+
         public updateCongThuc(congThucDTO ct)
         {
             InitializeComponent();
@@ -31,87 +35,74 @@ namespace GUI.GUI_CRUD
         {
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
-            try
-            {
-                donViBUS dvBUS = new donViBUS();
-                BindingList<donViDTO> dsDonVi = dvBUS.LayDanhSach();
 
-                cboDonVi.DisplayMember = "TenDonVi";
-                cboDonVi.ValueMember = "MaDonVi";
-                cboDonVi.DataSource = dsDonVi;
+            maDV = ct.MaDonViCoSo;
+            txtSoLuong.Value = (decimal)ct.SoLuongCoSo;
 
-                if (ct != null)
-                {
-                    txtTenSanPham.Text = ct.TenSanPham;
-                    txtTenNguyenLieu.Text = ct.TenNguyenLieu;
-                    txtSoLuong.Value = (decimal)ct.SoLuongCoSo;
+            BindingList<sanPhamDTO> dsSP = new sanPhamBUS().LayDanhSach();
+            BindingList<nguyenLieuDTO> dsNL = new nguyenLieuBUS().LayDanhSach();
+            BindingList<donViDTO> dsDV = new donViBUS().LayDanhSach();
 
-                    if (ct.MaDonViCoSo > 0)
-                    {
-                        cboDonVi.SelectedValue = ct.MaDonViCoSo;
-                    }
-                    else
-                    {
-                        cboDonVi.SelectedIndex = -1;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi load đơn vị: " + ex.Message,
-                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            sanPhamDTO sp = dsSP.FirstOrDefault(x => x.MaSP == ct.MaSanPham);
+            txtTenSanPham.Text = sp?.TenSP ?? "Không xác định";
+
+            nguyenLieuDTO nl = dsNL.FirstOrDefault(x => x.MaNguyenLieu == ct.MaNguyenLieu);
+            txtTenNguyenLieu.Text = nl?.TenNguyenLieu ?? "Không xác định";
+
+            donViDTO dv = dsDV.FirstOrDefault(x => x.MaDonVi == ct.MaDonViCoSo);
+            txtTenDV.Text = dv?.TenDonVi ?? "Không xác định";
         }
 
         private void btnXacNhanSua_Click(object sender, EventArgs e)
         {
-            try
+            if(maDV == -1)
             {
-                if (cboDonVi.SelectedIndex < 0)
-                {
-                    MessageBox.Show("Vui lòng chọn đơn vị!", "Cảnh báo",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                DialogResult confirm = MessageBox.Show(
-                    "Bạn có chắc chắn muốn cập nhật công thức này không?",
-                    "Xác nhận cập nhật",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-
-                if (confirm == DialogResult.No) return;
-
-                int maDonViMoi = Convert.ToInt32(cboDonVi.SelectedValue);
-                string tenDonViMoi = cboDonVi.Text;
-                float soLuongMoi = (float)txtSoLuong.Value;
-
-                congThucDTO moi = new congThucDTO
-                {
-                    MaSanPham = ct.MaSanPham,
-                    MaNguyenLieu = ct.MaNguyenLieu,
-                    SoLuongCoSo = soLuongMoi,
-                    MaDonViCoSo = maDonViMoi,
-                    TenDonViCoSo = tenDonViMoi,
-                    TrangThai = 1
-                };
-
-                congThucBUS bus = new congThucBUS();
-                bool kq = bus.suaCongThuc(moi);
-
-                if (kq)
-                    MessageBox.Show("Cập nhật công thức thành công!",
-                        "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else
-                    MessageBox.Show("Cập nhật thất bại!",
-                        "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                this.Close();
+                return;
             }
-            catch (Exception ex)
+            if(txtSoLuong.Value == 0)
             {
-                MessageBox.Show("Lỗi khi cập nhật: " + ex.Message,
-                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            DialogResult confirm = MessageBox.Show(
+            "Bạn có chắc chắn muốn cập nhật công thức này không?",
+            "Xác nhận cập nhật",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question);
+
+            float soLuongMoi = (float)txtSoLuong.Value;
+
+            if (confirm == DialogResult.Yes)
+            {
+                ct.MaSanPham = ct.MaSanPham;
+                ct.MaNguyenLieu = ct.MaNguyenLieu;
+                ct.MaDonViCoSo = maDV;
+                ct.SoLuongCoSo = soLuongMoi;
+
+                if(ct != null)
+                {
+                    MessageBox.Show("Cập nhật nguyên liệu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ctSUA = ct;
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }else
+                {
+                    MessageBox.Show("Lỗi khi cập nhật nguyên liệu!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Close();
+                }
+            }
+        }
+
+        private void btnChonDV_Click(object sender, EventArgs e)
+        {
+            using(selectDonVi form = new selectDonVi())
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                if(form.ShowDialog() == DialogResult.OK)
+                {
+                    maDV = form.maDonVi;
+                    txtTenDV.Text = form.tenDonVi;
+                }
             }
         }
     }

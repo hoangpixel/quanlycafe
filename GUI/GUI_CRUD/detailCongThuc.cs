@@ -1,4 +1,5 @@
-﻿using DTO;
+﻿using BUS;
+using DTO;
 using FONTS;
 using System;
 using System.Collections.Generic;
@@ -29,10 +30,20 @@ namespace GUI.GUI_CRUD
 
             txtMaSP.Text = ct.MaSanPham.ToString();
             txtMaNL.Text = ct.MaNguyenLieu.ToString();
-            txtTenSP.Text = ct.TenSanPham;
-            txtTenNL.Text = ct.TenNguyenLieu;
             txtSoL.Text = ct.SoLuongCoSo.ToString();
-            txtTenDV.Text = ct.TenDonViCoSo;
+
+            BindingList<sanPhamDTO> dsSP = new sanPhamBUS().LayDanhSach();
+            BindingList<nguyenLieuDTO> dsNL = new nguyenLieuBUS().LayDanhSach();
+            BindingList<donViDTO> dsDV = new donViBUS().LayDanhSach();
+
+            sanPhamDTO sp = dsSP.FirstOrDefault(x => x.MaSP == ct.MaSanPham);
+            txtTenSP.Text = sp?.TenSP ?? "Không xác định";
+
+            nguyenLieuDTO nl = dsNL.FirstOrDefault(x => x.MaNguyenLieu == ct.MaNguyenLieu);
+            txtTenNL.Text = nl?.TenNguyenLieu ?? "Không xác định";
+
+            donViDTO dv = dsDV.FirstOrDefault(x => x.MaDonVi == ct.MaDonViCoSo);
+            txtTenDV.Text = dv?.TenDonVi ?? "Không xác định";
         }
 
         private void panel2_Resize(object sender, EventArgs e)

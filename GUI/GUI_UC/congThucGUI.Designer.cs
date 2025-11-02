@@ -196,7 +196,7 @@
             // 
             this.comboBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(245, 14);
+            this.comboBox1.Location = new System.Drawing.Point(245, 12);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(109, 28);
             this.comboBox1.TabIndex = 6;
@@ -277,7 +277,7 @@
             "Tên SP",
             "Giá min",
             "Giá max"});
-            this.cboTimKiemSP.Location = new System.Drawing.Point(10, 8);
+            this.cboTimKiemSP.Location = new System.Drawing.Point(10, 10);
             this.cboTimKiemSP.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemSP.Name = "cboTimKiemSP";
             this.cboTimKiemSP.Size = new System.Drawing.Size(176, 28);
@@ -498,6 +498,7 @@
             this.tableCongThuc.Size = new System.Drawing.Size(1530, 365);
             this.tableCongThuc.TabIndex = 5;
             this.tableCongThuc.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.kiemTraClickTable);
+            this.tableCongThuc.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.tableCongThuc_CellFormatting);
             this.tableCongThuc.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tableCongThuc_DataBindingComplete);
             // 
             // congThucGUI

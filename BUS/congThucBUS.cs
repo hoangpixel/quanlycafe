@@ -19,17 +19,13 @@ namespace BUS
             return ds;
         }
 
-        public BindingList<sanPhamDTO> docDSSanPhamTheoNguyenLieu(int maNL)
-        {
-            congThucDAO data = new congThucDAO();
-            return data.docDanhSachSanPhamTheoNguyenLieu(maNL);
-        }
-
-
         public BindingList<congThucDTO> LayDanhSach()
         {
             congThucDAO data = new congThucDAO();
-            ds = data.docTatCaCongThuc();
+            if (ds == null || ds.Count == 0)
+            {
+                ds = data.layDanhSach();
+            }
             return ds;
         }
 
@@ -94,7 +90,7 @@ namespace BUS
             congThucDAO data = new congThucDAO();
 
             // 🆕 chỉ đọc 1 lần
-            var dsHienTai = data.docTatCaCongThuc();
+            var dsHienTai = data.layDanhSach();
 
             foreach (var ctMoi in dsExcel)
             {

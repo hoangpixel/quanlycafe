@@ -17,7 +17,10 @@ namespace BUS
         public BindingList<sanPhamDTO> LayDanhSach()
         {
             sanPhamDAO data = new sanPhamDAO();
-            ds = data.DocDanhSachSanPham();
+            if (ds == null || ds.Count == 0)
+            {
+                ds = data.DocDanhSachSanPham();
+            }
             return ds;
         }
 

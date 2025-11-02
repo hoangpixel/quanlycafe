@@ -44,50 +44,34 @@ namespace DAO
             return ds;
         }
 
-
-        public BindingList<congThucDTO> docTatCaCongThuc()
+        public BindingList<congThucDTO> layDanhSach()
         {
             BindingList<congThucDTO> ds = new BindingList<congThucDTO>();
-            string qry = @"
-        SELECT c.MASANPHAM, s.TENSANPHAM,
-               c.MANGUYENLIEU, n.TENNGUYENLIEU,
-               c.SOLUONGCOSO, c.MADONVICOSO,
-               d.TENDONVI
-        FROM congthuc c
-        JOIN sanpham s   ON c.MASANPHAM   = s.MASANPHAM
-        JOIN nguyenlieu n ON c.MANGUYENLIEU = n.MANGUYENLIEU
-        JOIN donvi d     ON c.MADONVICOSO = d.MADONVI
-        WHERE c.TRANGTHAI = 1";
-
+            MySqlConnection conn = DBConnect.GetConnection();
             try
             {
-                using (MySqlConnection conn = DBConnect.GetConnection())
-                using (MySqlCommand cmd = new MySqlCommand(qry, conn))
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                string qry = "SELECT * FROM congthuc";
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                MySqlDataReader rs = cmd.ExecuteReader();
+                while(rs.Read())
                 {
-                    while (reader.Read())
-                    {
-                        ds.Add(new congThucDTO
-                        {
-                            MaSanPham = reader.GetInt32("MASANPHAM"),
-                            TenSanPham = reader.GetString("TENSANPHAM"),
-                            MaNguyenLieu = reader.GetInt32("MANGUYENLIEU"),
-                            TenNguyenLieu = reader.GetString("TENNGUYENLIEU"),
-                            SoLuongCoSo = reader.GetFloat("SOLUONGCOSO"),
-                            MaDonViCoSo = reader.GetInt32("MADONVICOSO"),
-                            TenDonViCoSo = reader.GetString("TENDONVI")
-                        });
-                    }
+                    congThucDTO ct = new congThucDTO();
+                    ct.MaSanPham = rs.GetInt32("MASANPHAM");
+                    ct.MaNguyenLieu = rs.GetInt32("MANGUYENLIEU");
+                    ct.SoLuongCoSo = rs.GetFloat("SOLUONGCOSO");
+                    ct.MaDonViCoSo = rs.GetInt32("MADONVICOSO");
+                    ds.Add(ct);
                 }
-            }
-            catch (Exception ex)
+            }catch(MySqlException ex)
             {
-                Console.WriteLine("Lỗi khi đọc danh sách công thức: " + ex.Message);
-
+                Console.WriteLine("Lỗi kh lấy đc danh sách công thức : " + ex);
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
             }
             return ds;
         }
-
 
 
         public bool Them(congThucDTO ct)
@@ -150,44 +134,6 @@ namespace DAO
             }
         }
 
-        //public bool Xoa(int maSP, int maNL)
-        //{
-        //    try
-        //    {
-        //        string qry = "DELETE FROM congthuc WHERE MASANPHAM = @maSP AND MANGUYENLIEU = @maNL";
-        //        using (MySqlConnection conn = DBConnect.GetConnection())
-        //        using (MySqlCommand cmd = new MySqlCommand(qry, conn))
-        //        {
-        //            cmd.Parameters.AddWithValue("@maSP", maSP);
-        //            cmd.Parameters.AddWithValue("@maNL", maNL);
-        //            cmd.ExecuteNonQuery();
-        //        }
-
-        //        string checkQry = "SELECT COUNT(*) FROM congthuc WHERE MASANPHAM = @maSP";
-        //        using (MySqlConnection conn = DBConnect.GetConnection())
-        //        using (MySqlCommand cmd = new MySqlCommand(checkQry, conn))
-        //        {
-        //            cmd.Parameters.AddWithValue("@maSP", maSP);
-        //            int count = Convert.ToInt32(cmd.ExecuteScalar());
-        //            if (count == 0)
-        //            {
-        //                string updateQry = "UPDATE sanpham SET TRANGTHAICT = 0 WHERE MASANPHAM = @maSP";
-        //                using (MySqlCommand updateCmd = new MySqlCommand(updateQry, conn))
-        //                {
-        //                    updateCmd.Parameters.AddWithValue("@maSP", maSP);
-        //                    updateCmd.ExecuteNonQuery();
-        //                }
-        //            }
-        //        }
-        //        return true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine("Lỗi xóa công thức: " + ex.Message);
-        //        return false;
-        //    }
-        //}
-
         public bool Xoa(int maSP, int maNL)
         {
             using (MySqlConnection conn = DBConnect.GetConnection())
@@ -233,27 +179,6 @@ namespace DAO
             }
         }
 
-
-        public bool XoaTheoSanPham(int maSP)
-        {
-            try
-            {
-                string qry = "UPDATE congthuc SET TRANGTHAI = 0 WHERE MASANPHAM = @masp";
-                MySqlConnection conn = DBConnect.GetConnection();
-                MySqlCommand cmd = new MySqlCommand(qry, conn);
-                cmd.Parameters.AddWithValue("@masp", maSP);
-
-                cmd.ExecuteNonQuery();
-                DBConnect.CloseConnection(conn);
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Lỗi xóa toàn bộ công thức theo SP: " + e.Message);
-                return false;
-            }
-        }
-
         public bool ThemHoacCapNhat(congThucDTO ct)
         {
             try
@@ -289,44 +214,5 @@ namespace DAO
                 return false;
             }
         }
-
-        public BindingList<sanPhamDTO> docDanhSachSanPhamTheoNguyenLieu(int maNguyenLieu)
-        {
-            BindingList<sanPhamDTO> ds = new BindingList<sanPhamDTO>();
-            string qry = @"
-        SELECT sp.MASANPHAM, sp.TENSANPHAM, sp.HINH, sp.GIA, c.SOLUONGCOSO, c.MADONVICOSO
-        FROM congthuc c
-        JOIN sanpham sp ON c.MASANPHAM = sp.MASANPHAM
-        WHERE c.MANGUYENLIEU = @maNguyenLieu AND c.TRANGTHAI = 1;
-    ";
-
-            using (MySqlConnection conn = DBConnect.GetConnection())
-            {
-                MySqlCommand cmd = new MySqlCommand(qry, conn);
-                cmd.Parameters.AddWithValue("@maNguyenLieu", maNguyenLieu);
-
-                using (MySqlDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        sanPhamDTO sp = new sanPhamDTO
-                        {
-                            MaSP = reader.GetInt32("MASANPHAM"),
-                            TenSP = reader.GetString("TENSANPHAM"),
-                            Hinh = reader.IsDBNull(reader.GetOrdinal("HINH")) ? "" : reader.GetString("HINH"),
-                            Gia = reader.IsDBNull(reader.GetOrdinal("GIA")) ? 0 : Convert.ToSingle(reader["GIA"]),
-                            SoLuongCoSo = reader.IsDBNull(reader.GetOrdinal("SOLUONGCOSO")) ? 0 : reader.GetFloat("SOLUONGCOSO"),
-                            MaDonViCoSo = reader.GetInt32("MADONVICOSO")
-                        };
-                        ds.Add(sp);
-                    }
-                }
-            }
-
-            return ds;
-        }
-
-
-
     }
 }

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace GUI.GUI_UC
 {
@@ -18,66 +19,14 @@ namespace GUI.GUI_UC
     {
 
         private int lastSelectedRowCongThuc = -1;
+        private congThucBUS busCongThuc = new congThucBUS();
+        private BindingList<nguyenLieuDTO> dsNguyenLieu;
+        private BindingList<donViDTO> dsDonVi;
+        private BindingList<sanPhamDTO> dsSanPham;
 
         public congThucGUI()
         {
             InitializeComponent();
-        }
-
-        private void loadDanhSachCongThuc(BindingList<congThucDTO> ds)
-        {
-            //tableCongThuc.Columns.Clear();
-            //tableCongThuc.DataSource = null;
-
-            if (ds == null || ds.Count == 0)
-            {
-                MessageBox.Show("Chưa có công thức nào!", "Thông báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            var danhSachSapXep = ds
-                .OrderBy(x => x.MaSanPham)
-                .ThenBy(x => x.MaNguyenLieu)
-                .Select(x => new
-                {
-                    Mã_SP = x.MaSanPham,
-                    Tên_SP = x.TenSanPham,
-                    Mã_NL = x.MaNguyenLieu,
-                    Tên_NL = x.TenNguyenLieu,
-                    Số_lượng = x.SoLuongCoSo,
-                    Đơn_vị = x.TenDonViCoSo,
-                    Mã_Đơn_vị = x.MaDonViCoSo
-                })
-                .ToList();
-
-            tableCongThuc.DataSource = danhSachSapXep;
-
-            tableCongThuc.Columns["Mã_SP"].HeaderText = "Mã SP";
-            tableCongThuc.Columns["Tên_SP"].HeaderText = "Tên SP";
-            tableCongThuc.Columns["Mã_NL"].HeaderText = "Mã NL";
-            tableCongThuc.Columns["Tên_NL"].HeaderText = "Tên NL";
-            tableCongThuc.Columns["Số_lượng"].HeaderText = "Số lượng";
-            tableCongThuc.Columns["Đơn_vị"].HeaderText = "Đơn vị";
-
-            tableCongThuc.Columns["Mã_Đơn_vị"].Visible = false;
-
-            foreach (DataGridViewColumn col in tableCongThuc.Columns)
-            {
-                loadFontChuVaSize();
-                col.SortMode = DataGridViewColumnSortMode.NotSortable;
-                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            }
-            tableCongThuc.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            tableCongThuc.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-
-            btnSuaCT.Enabled = false;
-            btnXoaCT.Enabled = false;
-            btnChiTietCT.Enabled = false;
-
-            tableCongThuc.ClearSelection();
         }
 
         private void congThucGUI_Load(object sender, EventArgs e)
@@ -85,9 +34,59 @@ namespace GUI.GUI_UC
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
 
-            congThucBUS bus = new congThucBUS();
-            BindingList<congThucDTO> ds = bus.LayDanhSach();
+            dsNguyenLieu = new nguyenLieuBUS().LayDanhSach();
+            dsDonVi = new donViBUS().LayDanhSach();
+            dsSanPham = new sanPhamBUS().LayDanhSach();
+
+            BindingList<congThucDTO> ds = busCongThuc.LayDanhSach();
             loadDanhSachCongThuc(ds);
+        }
+
+        private void loadDanhSachCongThuc(BindingList<congThucDTO> ds)
+        {
+            tableCongThuc.AutoGenerateColumns = false;
+            tableCongThuc.Columns.Clear();
+
+            tableCongThuc.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaSanPham", HeaderText = "Mã SP" });
+            tableCongThuc.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaSanPham", HeaderText = "Tên SP" });
+            tableCongThuc.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaNguyenLieu", HeaderText = "Mã NL" });
+            tableCongThuc.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaNguyenLieu", HeaderText = "Tên NL" });
+            tableCongThuc.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "SoLuongCoSo", HeaderText = "Số lượng" });
+            tableCongThuc.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaDonViCoSo", HeaderText = "Đơn vị" });
+
+            tableCongThuc.DataSource = ds;
+
+            btnSuaCT.Enabled = false;
+            btnXoaCT.Enabled = false;
+            btnChiTietCT.Enabled = false;
+            tableCongThuc.ReadOnly = true;
+            tableCongThuc.ClearSelection();
+
+            loadFontChuVaSize();
+        }
+
+        private void tableCongThuc_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            congThucDTO ct = tableCongThuc.Rows[e.RowIndex].DataBoundItem as congThucDTO;
+
+            if (tableCongThuc.Columns[e.ColumnIndex].HeaderText == "Tên SP")
+            {
+                sanPhamDTO sp = dsSanPham.FirstOrDefault(x => x.MaSP == ct.MaSanPham);
+                e.Value = sp?.TenSP ?? "Không xác định";
+            }
+
+            if (tableCongThuc.Columns[e.ColumnIndex].HeaderText == "Tên NL")
+            {
+                nguyenLieuDTO nl = dsNguyenLieu.FirstOrDefault(x => x.MaNguyenLieu == ct.MaNguyenLieu);
+                e.Value = nl?.TenNguyenLieu ?? "Không xác định";
+            }
+
+            if (tableCongThuc.Columns[e.ColumnIndex].HeaderText == "Đơn vị")
+            {
+                donViDTO dv = dsDonVi.FirstOrDefault(x => x.MaDonVi == ct.MaDonViCoSo);
+                e.Value = dv?.TenDonVi ?? "Không xác định";
+            }
         }
 
         private void loadFontChuVaSize()
@@ -157,26 +156,18 @@ namespace GUI.GUI_UC
             if (tableCongThuc.SelectedRows.Count > 0)
             {
                 DataGridViewRow row = tableCongThuc.SelectedRows[0];
-                congThucDTO ct = new congThucDTO
-                {
-                    MaSanPham = Convert.ToInt32(row.Cells["Mã_SP"].Value),
-                    MaNguyenLieu = Convert.ToInt32(row.Cells["Mã_NL"].Value),
-                    TenSanPham = row.Cells["Tên_SP"].Value.ToString(),
-                    TenNguyenLieu = row.Cells["Tên_NL"].Value.ToString(),
-                    SoLuongCoSo = float.Parse(row.Cells["Số_lượng"].Value.ToString()),
-                    MaDonViCoSo = Convert.ToInt32(row.Cells["Mã_Đơn_vị"].Value),
-                    TenDonViCoSo = row.Cells["Đơn_vị"].Value.ToString()
-                };
+                congThucDTO ct = row.DataBoundItem as congThucDTO;
 
                 using (updateCongThuc form = new updateCongThuc(ct))
                 {
                     form.StartPosition = FormStartPosition.CenterParent;
-                    form.ShowDialog();
+                    if(form.ShowDialog() == DialogResult.OK)
+                    {
+                        congThucDTO ctSuaNe = form.ctSUA;
+                        busCongThuc.suaCongThuc(ctSuaNe);
+                        tableCongThuc.Refresh();
+                    }
                 }
-
-                congThucBUS bus = new congThucBUS();
-                BindingList<congThucDTO> ds = bus.LayDanhSach();
-                loadDanhSachCongThuc(ds);
             }
         }
 
@@ -185,25 +176,20 @@ namespace GUI.GUI_UC
             if (tableCongThuc.SelectedRows.Count > 0)
             {
                 DataGridViewRow row = tableCongThuc.SelectedRows[0];
+                congThucDTO ct = row.DataBoundItem as congThucDTO;
+                int maSP = ct.MaSanPham;
+                int maNL = ct.MaNguyenLieu;
 
-                int maSP = Convert.ToInt32(row.Cells["Mã_SP"].Value);
-                int maNL = Convert.ToInt32(row.Cells["Mã_NL"].Value);
-
-                using (deleteCongThuc form = new deleteCongThuc(maSP, maNL))
+                using (deleteCongThuc form = new deleteCongThuc())
                 {
                     form.StartPosition = FormStartPosition.CenterParent;
                     if(form.ShowDialog() == DialogResult.OK)
                     {
-                        congThucBUS bus = new congThucBUS();
-                        BindingList<congThucDTO> ds = bus.LayDanhSach();
-                        loadDanhSachCongThuc(ds);
-                    }else
-                    {
-                        tableCongThuc.ClearSelection();
+                        busCongThuc.xoaCongThuc(maSP, maNL);
                         btnSuaCT.Enabled = false;
                         btnXoaCT.Enabled = false;
                         btnChiTietCT.Enabled = false;
-                    }    
+                    }
                 }
             }
         }
@@ -213,27 +199,13 @@ namespace GUI.GUI_UC
             if (tableCongThuc.SelectedRows.Count > 0)
             {
                 DataGridViewRow row = tableCongThuc.SelectedRows[0];
-
-                congThucDTO ct = new congThucDTO
-                {
-                    MaSanPham = Convert.ToInt32(row.Cells["Mã_SP"].Value),
-                    MaNguyenLieu = Convert.ToInt32(row.Cells["Mã_NL"].Value),
-                    TenSanPham = row.Cells["Tên_SP"].Value.ToString(),
-                    TenNguyenLieu = row.Cells["Tên_NL"].Value.ToString(),
-                    SoLuongCoSo = float.Parse(row.Cells["Số_lượng"].Value.ToString()),
-                    TenDonViCoSo = row.Cells["Đơn_vị"].Value.ToString(),
-                };
+                congThucDTO ct = row.DataBoundItem as congThucDTO;
 
                 using (detailCongThuc form = new detailCongThuc(ct))
                 {
                     form.StartPosition = FormStartPosition.CenterParent;
                     form.ShowDialog();
                 }
-            }
-            else
-            {
-                MessageBox.Show("Vui lòng chọn công thức cần xem chi tiết!", "Thông báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -261,5 +233,7 @@ namespace GUI.GUI_UC
         {
             tableCongThuc.ClearSelection();
         }
+
+
     }
 }

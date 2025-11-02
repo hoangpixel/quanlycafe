@@ -38,11 +38,11 @@ namespace GUI.GUI_UC
             nhomBUS nhomBus = new nhomBUS();
             dsNhom = nhomBus.layDanhSach();
 
-            busSanPham.LayDanhSach();
-            loadDanhSachSanPham(sanPhamBUS.ds);
+            BindingList<sanPhamDTO> ds = busSanPham.LayDanhSach();
+            loadDanhSachSanPham(ds);
             loadFontChuVaSize();
-            tbSanPham.ClearSelection();
 
+            tbSanPham.ClearSelection();
             loadComboBoxLoaiSPTK();
             rdoTimCoBan.Checked = true;
         }
@@ -218,6 +218,9 @@ namespace GUI.GUI_UC
                     {
                         int maSP = sp.MaSP;
                         busSanPham.Xoa(maSP);
+                        btnSuaSP.Enabled = false;
+                        btnXoaSP.Enabled = false;
+                        btnChiTiet.Enabled = false;
                     }
                 }
             }

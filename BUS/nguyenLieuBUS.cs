@@ -14,7 +14,10 @@ namespace BUS
 
         public BindingList<nguyenLieuDTO> LayDanhSach()
         {
-            ds = data.docDanhSachNguyenLieu();
+            if(ds == null || ds.Count == 0)
+            {
+                ds = data.docDanhSachNguyenLieu();
+            }
             return ds;
         }
 
