@@ -18,6 +18,7 @@ namespace GUI.GUI_SELECT
 
         public int MaSP { get; private set; }
         public string TenSP { get; private set; }
+        private BindingList<loaiDTO> dsLoai;
         public selectSanPham()
         {
             InitializeComponent();
@@ -26,7 +27,6 @@ namespace GUI.GUI_SELECT
 
         private void loadFontChuVaSizeTableSanPham()
         {
-            // --- Căn giữa và tắt sort ---
             foreach (DataGridViewColumn col in tableSanPham.Columns)
             {
                 col.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -37,13 +37,10 @@ namespace GUI.GUI_SELECT
             tableSanPham.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             tableSanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // font cho dữ liệu trong table
             tableSanPham.DefaultCellStyle.Font = FontManager.GetLightFont(10);
 
-            //font cho header trong table
             tableSanPham.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
 
-            // --- Fix lỗi mất text khi đổi font ---
             tableSanPham.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tableSanPham.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             tableSanPham.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
@@ -56,30 +53,38 @@ namespace GUI.GUI_SELECT
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
 
+            dsLoai = new loaiSanPhamBUS().LayDanhSach();
+
             sanPhamBUS bus = new sanPhamBUS();
-            bus.LayDanhSach();
-
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Mã SP");
-            dt.Columns.Add("Tên SP");
-            dt.Columns.Add("Tên loại");
-            dt.Columns.Add("Giá");
-
-            loaiSanPhamBUS busLoai = new loaiSanPhamBUS();
-            BindingList<loaiDTO> dsLoai = busLoai.LayDanhSach();
-
-            foreach (var sp in sanPhamBUS.ds.Where(x => x.TrangThai == 1))
-            {
-                string tenLoai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai)?.TenLoai ?? "Không xác định";
-                dt.Rows.Add(sp.MaSP, sp.TenSP, tenLoai, string.Format("{0:N0}", sp.Gia));
-            }
-
-            tableSanPham.DataSource = dt;
+            BindingList<sanPhamDTO> dsSP = bus.LayDanhSach();
+            loadDanhSachChonSP(dsSP);
             loadFontChuVaSizeTableSanPham();
-            tableSanPham.ReadOnly = true;
-            tableSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            tableSanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            
+        }
+
+        private void loadDanhSachChonSP(BindingList<sanPhamDTO> ds)
+        {
+            tableSanPham.AutoGenerateColumns = false;
+            tableSanPham.Columns.Clear();
+
+            tableSanPham.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaSP", HeaderText = "Mã SP" });
+            tableSanPham.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TenSP", HeaderText = "Tên SP" });
+            tableSanPham.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaLoai", HeaderText = "Tên loại" });
+            tableSanPham.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Gia", HeaderText = "Giá"});
+
+            tableSanPham.DataSource = ds;
             tableSanPham.ClearSelection();
+        }
+
+        private void tableSanPham_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            sanPhamDTO sp = tableSanPham.Rows[e.RowIndex].DataBoundItem as sanPhamDTO;
+            if (tableSanPham.Columns[e.ColumnIndex].HeaderText == "Tên loại")
+            {
+                loaiDTO loai = dsLoai.FirstOrDefault(x => x.MaLoai == sp.MaLoai);
+                e.Value = loai?.TenLoai ?? "Không xác định";
+            }
         }
 
         private void tableSanPham_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -96,71 +101,36 @@ namespace GUI.GUI_SELECT
         {
             int index = cboTimKiem.SelectedIndex;
             string tim = txtTimKiem.Text.Trim();
+
             if (index == -1 || string.IsNullOrWhiteSpace(tim))
             {
                 MessageBox.Show("Vui lòng nhập dữ liệu tìm kiếm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
+
             sanPhamBUS bus = new sanPhamBUS();
             BindingList<sanPhamDTO> dskq = bus.timKiemCoBan(tim, index);
 
-            loaiSanPhamBUS busLoai = new loaiSanPhamBUS();
-            BindingList<loaiDTO> dsLoai = busLoai.LayDanhSach();
-
-            if (dskq != null && dskq.Count > 0)
-            {
-                DataTable dt = new DataTable();
-                dt.Columns.Add("Mã SP");
-                dt.Columns.Add("Tên SP");
-                dt.Columns.Add("Tên loại");
-                dt.Columns.Add("Giá");
-
-                foreach (var sp in dskq.Where(x => x.TrangThai == 1))
-                {
-                    string tenLoai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai)?.TenLoai ?? "Không xác định";
-                    dt.Rows.Add(sp.MaSP, sp.TenSP, tenLoai, string.Format("{0:N0}", sp.Gia));
-                }
-
-                tableSanPham.DataSource = dt;
-                tableSanPham.ReadOnly = true;
-                tableSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                tableSanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                tableSanPham.ClearSelection();
-
-            }
-            else
+            if (dskq == null || dskq.Count == 0)
             {
                 MessageBox.Show("Không tìm thấy kết quả", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
+
+            loadDanhSachChonSP(dskq);
+
+            loadFontChuVaSizeTableSanPham();
+
+            cboTimKiem.SelectedIndex = -1;
+            txtTimKiem.Clear();
         }
 
         private void btnRefresh_Click_1(object sender, EventArgs e)
         {
             sanPhamBUS bus = new sanPhamBUS();
-            bus.LayDanhSach();
-
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Mã SP");
-            dt.Columns.Add("Tên SP");
-            dt.Columns.Add("Tên loại");
-            dt.Columns.Add("Giá");
-
-            loaiSanPhamBUS busLoai = new loaiSanPhamBUS();
-            BindingList<loaiDTO> dsLoai = busLoai.LayDanhSach();
-
-            foreach (var sp in sanPhamBUS.ds.Where(x => x.TrangThai == 1))
-            {
-                string tenLoai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai)?.TenLoai ?? "Không xác định";
-                dt.Rows.Add(sp.MaSP, sp.TenSP, tenLoai, string.Format("{0:N0}", sp.Gia));
-            }
-
-            tableSanPham.DataSource = dt;
-            tableSanPham.ReadOnly = true;
-            tableSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            tableSanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            tableSanPham.ClearSelection();
-
+            BindingList<sanPhamDTO> dsMoi = bus.LayDanhSach();
+            loadDanhSachChonSP(dsMoi);
+            loadFontChuVaSizeTableSanPham();
 
             cboTimKiem.SelectedIndex = -1;
             txtTimKiem.Clear();
@@ -170,8 +140,10 @@ namespace GUI.GUI_SELECT
         {
             if (e.RowIndex >= 0)
             {
-                MaSP = Convert.ToInt32(tableSanPham.Rows[e.RowIndex].Cells["Mã SP"].Value);
-                TenSP = tableSanPham.Rows[e.RowIndex].Cells["Tên SP"].Value.ToString();
+                DataGridViewRow row = tableSanPham.Rows[e.RowIndex];
+                sanPhamDTO sp = row.DataBoundItem as sanPhamDTO;
+                MaSP = sp.MaSP;
+                TenSP = sp.TenSP;
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
@@ -181,5 +153,7 @@ namespace GUI.GUI_SELECT
         {
             this.Close();
         }
+
+
     }
 }

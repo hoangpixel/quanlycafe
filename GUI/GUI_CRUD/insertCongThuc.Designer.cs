@@ -185,6 +185,7 @@
             this.tableCongThuc.Size = new System.Drawing.Size(532, 267);
             this.tableCongThuc.TabIndex = 0;
             this.tableCongThuc.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableCongThuc_CellClick);
+            this.tableCongThuc.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.tableCongThuc_CellFormatting);
             this.tableCongThuc.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tableCongThuc_DataBindingComplete);
             // 
             // groupBox2

@@ -144,10 +144,14 @@ namespace GUI.GUI_UC
             using (insertCongThuc form = new insertCongThuc())
             {
                 form.StartPosition = FormStartPosition.CenterParent;
-                form.ShowDialog();
-                congThucBUS bus = new congThucBUS();
-                BindingList<congThucDTO> ds = bus.LayDanhSach();
-                loadDanhSachCongThuc(ds);
+                if(form.ShowDialog() == DialogResult.OK)
+                {
+                    BindingList<congThucDTO> dsKQ = form.dsTam;
+                    foreach (congThucDTO ct in dsKQ)
+                    {
+                        busCongThuc.themCongThuc(ct);
+                    }
+                }
             }
         }
 

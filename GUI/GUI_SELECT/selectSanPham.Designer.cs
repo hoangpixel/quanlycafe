@@ -31,25 +31,25 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tableSanPham = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnTimKiem = new System.Windows.Forms.Button();
             this.txtTimKiem = new System.Windows.Forms.TextBox();
             this.cboTimKiem = new System.Windows.Forms.ComboBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tableSanPham = new System.Windows.Forms.DataGridView();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.panel5 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
-            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tableSanPham)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -74,6 +74,67 @@
             this.panel3.Padding = new System.Windows.Forms.Padding(10);
             this.panel3.Size = new System.Drawing.Size(861, 657);
             this.panel3.TabIndex = 1;
+            // 
+            // button1
+            // 
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(393, 600);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 50);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Thoát";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.groupBox1);
+            this.panel5.Controls.Add(this.groupBox2);
+            this.panel5.Location = new System.Drawing.Point(10, 119);
+            this.panel5.Name = "panel5";
+            this.panel5.Padding = new System.Windows.Forms.Padding(10);
+            this.panel5.Size = new System.Drawing.Size(841, 475);
+            this.panel5.TabIndex = 8;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.tableSanPham);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(11, 129);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(815, 322);
+            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Danh sách sản phẩm";
+            // 
+            // tableSanPham
+            // 
+            this.tableSanPham.AllowUserToAddRows = false;
+            this.tableSanPham.AllowUserToDeleteRows = false;
+            this.tableSanPham.AllowUserToResizeColumns = false;
+            this.tableSanPham.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tableSanPham.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.tableSanPham.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tableSanPham.EnableHeadersVisualStyles = false;
+            this.tableSanPham.Location = new System.Drawing.Point(6, 27);
+            this.tableSanPham.Name = "tableSanPham";
+            this.tableSanPham.RowHeadersVisible = false;
+            this.tableSanPham.RowHeadersWidth = 51;
+            this.tableSanPham.RowTemplate.Height = 24;
+            this.tableSanPham.Size = new System.Drawing.Size(803, 289);
+            this.tableSanPham.TabIndex = 0;
+            this.tableSanPham.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableSanPham_CellClick_1);
+            this.tableSanPham.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.tableSanPham_CellFormatting);
             // 
             // groupBox2
             // 
@@ -136,41 +197,13 @@
             this.cboTimKiem.Size = new System.Drawing.Size(159, 28);
             this.cboTimKiem.TabIndex = 0;
             // 
-            // groupBox1
+            // panel4
             // 
-            this.groupBox1.Controls.Add(this.tableSanPham);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(11, 129);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(815, 322);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Danh sách sản phẩm";
-            // 
-            // tableSanPham
-            // 
-            this.tableSanPham.AllowUserToAddRows = false;
-            this.tableSanPham.AllowUserToDeleteRows = false;
-            this.tableSanPham.AllowUserToResizeColumns = false;
-            this.tableSanPham.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tableSanPham.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.tableSanPham.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tableSanPham.EnableHeadersVisualStyles = false;
-            this.tableSanPham.Location = new System.Drawing.Point(6, 27);
-            this.tableSanPham.Name = "tableSanPham";
-            this.tableSanPham.RowHeadersVisible = false;
-            this.tableSanPham.RowHeadersWidth = 51;
-            this.tableSanPham.RowTemplate.Height = 24;
-            this.tableSanPham.Size = new System.Drawing.Size(803, 289);
-            this.tableSanPham.TabIndex = 0;
-            this.tableSanPham.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableSanPham_CellClick_1);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel4.Location = new System.Drawing.Point(10, 110);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(841, 10);
+            this.panel4.TabIndex = 7;
             // 
             // panel2
             // 
@@ -182,26 +215,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(841, 100);
             this.panel2.TabIndex = 6;
-            // 
-            // panel4
-            // 
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(10, 110);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(841, 10);
-            this.panel4.TabIndex = 7;
-            // 
-            // panel5
-            // 
-            this.panel5.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel5.Controls.Add(this.groupBox1);
-            this.panel5.Controls.Add(this.groupBox2);
-            this.panel5.Location = new System.Drawing.Point(10, 119);
-            this.panel5.Name = "panel5";
-            this.panel5.Padding = new System.Windows.Forms.Padding(10);
-            this.panel5.Size = new System.Drawing.Size(841, 475);
-            this.panel5.TabIndex = 8;
             // 
             // bigLabel1
             // 
@@ -215,18 +228,6 @@
             this.bigLabel1.TabIndex = 0;
             this.bigLabel1.Text = "Chọn sản phẩm";
             // 
-            // button1
-            // 
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(393, 600);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 50);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Thoát";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // selectSanPham
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -238,13 +239,13 @@
             this.Load += new System.EventHandler(this.chooseSanPham_Load);
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.panel5.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tableSanPham)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.panel5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
