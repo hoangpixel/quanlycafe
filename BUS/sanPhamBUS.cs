@@ -13,10 +13,9 @@ namespace BUS
     public class sanPhamBUS
     {
         public static BindingList<sanPhamDTO> ds = new BindingList<sanPhamDTO>();
-
+        private sanPhamDAO data = new sanPhamDAO();
         public BindingList<sanPhamDTO> LayDanhSach()
         {
-            sanPhamDAO data = new sanPhamDAO();
             if (ds == null || ds.Count == 0)
             {
                 ds = data.DocDanhSachSanPham();
@@ -26,13 +25,11 @@ namespace BUS
 
         public int layMaSP()
         {
-            sanPhamDAO data = new sanPhamDAO();
             return data.layMa();
         }
 
         public bool them(sanPhamDTO ct)
         {
-            sanPhamDAO data = new sanPhamDAO();
             bool kq = data.Them(ct);
             if(kq)
             {
@@ -40,17 +37,10 @@ namespace BUS
             }
             return kq;
         }
-        public void xoaTatCaSanPham()
-        {
-            sanPhamDAO dao = new sanPhamDAO();
-            dao.xoaTatCa();
-        }
-
 
 
         public bool Sua(sanPhamDTO sp)
         {
-            sanPhamDAO data = new sanPhamDAO();
             bool result = data.Sua(sp);
 
             if (result)
@@ -71,7 +61,6 @@ namespace BUS
 
         public bool Xoa(int maSP)
         {
-            sanPhamDAO data = new sanPhamDAO();
             bool result = data.Xoa(maSP);
 
             if (result)
@@ -92,7 +81,6 @@ namespace BUS
 
         public bool capNhatTrangThaiCT(int maSP, int trangThaiCT)
         {
-            sanPhamDAO data = new sanPhamDAO();
             bool result = data.CapNhatTrangThaiCT(maSP, trangThaiCT);
 
             if (result)
@@ -101,11 +89,11 @@ namespace BUS
                 if (sp != null)
                     sp.TrangThaiCT = trangThaiCT;
 
-                Console.WriteLine($"BUS: Cập nhật trạng thái CT của sản phẩm {maSP} = {trangThaiCT}");
+                Console.WriteLine($"Cập nhật trạng thái CT của sản phẩm {maSP} = {trangThaiCT}");
             }
             else
             {
-                Console.WriteLine($"BUS: Lỗi cập nhật trạng thái CT cho sản phẩm {maSP}");
+                Console.WriteLine($"Lỗi cập nhật trạng thái CT cho sản phẩm {maSP}");
             }
 
             return result;
@@ -120,7 +108,6 @@ namespace BUS
         }
         public void NhapExcelThongMinh(BindingList<sanPhamDTO> dsExcel)
         {
-            sanPhamDAO spDAO = new sanPhamDAO();
             loaiSanPhamDAO loaiDAO = new loaiSanPhamDAO();
 
             // 🔹 Danh sách mã loại đang có trong DB
@@ -164,16 +151,16 @@ namespace BUS
 
             foreach (var spMoi in dsExcel)
             {
-                var spCu = spDAO.TimTheoMa(spMoi.MaSP);
+                var spCu = data.TimTheoMa(spMoi.MaSP);
 
                 if (spCu == null)
                 {
-                    spDAO.Them(spMoi);
+                    data.Them(spMoi);
                     soThem++;
                 }
                 else if (!LaSanPhamGiongNhau(spCu, spMoi))
                 {
-                    spDAO.Sua(spMoi);
+                    data.Sua(spMoi);
                     soCapNhat++;
                 }
                 else

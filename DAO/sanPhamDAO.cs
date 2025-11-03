@@ -107,48 +107,49 @@ namespace DAO
 
         public bool Sua(sanPhamDTO sp)
         {
+            MySqlConnection conn = DBConnect.GetConnection();
             try
             {
-                string qry = "UPDATE sanpham SET ";
-                qry += $"MALOAI = {sp.MaLoai}, ";
-                qry += $"TENSANPHAM = '{sp.TenSP}', ";
-                qry += $"GIA = {sp.Gia}, ";
-                qry += $"HINH = '{sp.Hinh}' ";
-                qry += $"WHERE MASANPHAM = {sp.MaSP}";
-
-                MySqlConnection conn = DBConnect.GetConnection();
+                string qry = @"UPDATE sanpham SET MALOAI = @maLoai, TENSANPHAM = @tenSP, GIA = @gia, HINH = @hinh WHERE MASANPHAM = @maSP";
                 MySqlCommand cmd = new MySqlCommand(qry, conn);
-                cmd.ExecuteNonQuery();
-
-                Console.WriteLine("Sửa sản phẩm thành công!");
-                DBConnect.CloseConnection(conn);
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Lỗi sửa sản phẩm: " + e.Message);
+                cmd.Parameters.AddWithValue("@maLoai", sp.MaLoai);
+                cmd.Parameters.AddWithValue("@tenSP", sp.TenSP);
+                cmd.Parameters.AddWithValue("@gia", sp.Gia);
+                cmd.Parameters.AddWithValue("@hinh", sp.Hinh);
+                cmd.Parameters.AddWithValue("@masp", sp.MaSP);
+                int rs = cmd.ExecuteNonQuery();
+                if(rs > 0)
+                {
+                    return true;
+                }
                 return false;
+            }catch(MySqlException ex)
+            {
+                Console.WriteLine("Lỗi kh cập nhật đc sp : " + ex);
+                return false;
+            }finally
+            {
+                DBConnect.CloseConnection(conn);
             }
         }
-
         public bool Xoa(int maSP)
         {
+            MySqlConnection conn = DBConnect.GetConnection();
             try
             {
                 string qry = $"UPDATE sanpham SET TRANGTHAI = 0 WHERE MASANPHAM = {maSP}";
-
-                MySqlConnection conn = DBConnect.GetConnection();
                 MySqlCommand cmd = new MySqlCommand(qry, conn);
                 cmd.ExecuteNonQuery();
-
                 Console.WriteLine("Xóa (ẩn) sản phẩm thành công!");
-                DBConnect.CloseConnection(conn);
                 return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Lỗi xóa sản phẩm: " + e.Message);
                 return false;
+            }finally
+            {
+                DBConnect.CloseConnection(conn);
             }
         }
 
