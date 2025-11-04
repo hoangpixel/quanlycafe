@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 28, 2025 at 10:08 AM
+-- Generation Time: Nov 04, 2025 at 11:30 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -333,6 +333,32 @@ INSERT INTO `nhom` (`MANHOM`, `TENNHOM`, `TRANGTHAI`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `phanquyen`
+--
+
+CREATE TABLE `phanquyen` (
+  `MAVAITRO` int(11) NOT NULL,
+  `MAQUYEN` int(11) NOT NULL,
+  `CAN_READ` tinyint(1) DEFAULT 0,
+  `CAN_WRITE` tinyint(1) DEFAULT 0,
+  `CAN_UPDATE` tinyint(1) DEFAULT 0,
+  `CAN_DELETE` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `phanquyen`
+--
+
+INSERT INTO `phanquyen` (`MAVAITRO`, `MAQUYEN`, `CAN_READ`, `CAN_WRITE`, `CAN_UPDATE`, `CAN_DELETE`) VALUES
+(1, 1, 1, 1, 1, 1),
+(1, 2, 1, 1, 1, 1),
+(1, 3, 1, 1, 1, 1),
+(2, 1, 1, 0, 0, 0),
+(2, 2, 1, 1, 0, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `phieunhap`
 --
 
@@ -342,6 +368,27 @@ CREATE TABLE `phieunhap` (
   `THOIGIAN` datetime NOT NULL DEFAULT current_timestamp(),
   `TRANGTHAI` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `quyen`
+--
+
+CREATE TABLE `quyen` (
+  `MAQUYEN` int(11) NOT NULL,
+  `TENQUYEN` varchar(100) NOT NULL,
+  `TRANGTHAI` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `quyen`
+--
+
+INSERT INTO `quyen` (`MAQUYEN`, `TENQUYEN`, `TRANGTHAI`) VALUES
+(1, 'Quản lý sản phẩm', 1),
+(2, 'Nhập xuất', 1),
+(3, 'Thanh toán', 1);
 
 -- --------------------------------------------------------
 
@@ -403,19 +450,18 @@ CREATE TABLE `thanhtoan` (
 
 CREATE TABLE `vaitro` (
   `MAVAITRO` int(11) NOT NULL,
-  `TENVAITRO` varchar(60) NOT NULL
+  `TENVAITRO` varchar(60) NOT NULL,
+  `TRANGTHAI` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `vaitronguoidung`
+-- Dumping data for table `vaitro`
 --
 
-CREATE TABLE `vaitronguoidung` (
-  `MANHANVIEN` int(11) NOT NULL,
-  `MAVAITRO` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+INSERT INTO `vaitro` (`MAVAITRO`, `TENVAITRO`, `TRANGTHAI`) VALUES
+(1, 'Admin', 1),
+(2, 'Nhân viên', 1),
+(3, 'Khách hàng', 1);
 
 --
 -- Indexes for dumped tables
@@ -541,11 +587,24 @@ ALTER TABLE `nhom`
   ADD PRIMARY KEY (`MANHOM`);
 
 --
+-- Indexes for table `phanquyen`
+--
+ALTER TABLE `phanquyen`
+  ADD PRIMARY KEY (`MAVAITRO`,`MAQUYEN`),
+  ADD KEY `MAQUYEN` (`MAQUYEN`);
+
+--
 -- Indexes for table `phieunhap`
 --
 ALTER TABLE `phieunhap`
   ADD PRIMARY KEY (`MAPN`),
   ADD KEY `FK_PN_NCC` (`MANCC`);
+
+--
+-- Indexes for table `quyen`
+--
+ALTER TABLE `quyen`
+  ADD PRIMARY KEY (`MAQUYEN`);
 
 --
 -- Indexes for table `sanpham`
@@ -575,13 +634,6 @@ ALTER TABLE `thanhtoan`
 ALTER TABLE `vaitro`
   ADD PRIMARY KEY (`MAVAITRO`),
   ADD UNIQUE KEY `TENVAITRO` (`TENVAITRO`);
-
---
--- Indexes for table `vaitronguoidung`
---
-ALTER TABLE `vaitronguoidung`
-  ADD PRIMARY KEY (`MANHANVIEN`,`MAVAITRO`),
-  ADD KEY `FK_VTND_VT` (`MAVAITRO`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -672,6 +724,12 @@ ALTER TABLE `phieunhap`
   MODIFY `MAPN` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `quyen`
+--
+ALTER TABLE `quyen`
+  MODIFY `MAQUYEN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `sanpham`
 --
 ALTER TABLE `sanpham`
@@ -693,7 +751,7 @@ ALTER TABLE `thanhtoan`
 -- AUTO_INCREMENT for table `vaitro`
 --
 ALTER TABLE `vaitro`
-  MODIFY `MAVAITRO` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MAVAITRO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -764,6 +822,13 @@ ALTER TABLE `nguyenlieu`
   ADD CONSTRAINT `nguyenlieu_ibfk_1` FOREIGN KEY (`MADONVICOSO`) REFERENCES `donvi` (`MADONVI`);
 
 --
+-- Constraints for table `phanquyen`
+--
+ALTER TABLE `phanquyen`
+  ADD CONSTRAINT `phanquyen_ibfk_1` FOREIGN KEY (`MAVAITRO`) REFERENCES `vaitro` (`MAVAITRO`) ON DELETE CASCADE,
+  ADD CONSTRAINT `phanquyen_ibfk_2` FOREIGN KEY (`MAQUYEN`) REFERENCES `quyen` (`MAQUYEN`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `phieunhap`
 --
 ALTER TABLE `phieunhap`
@@ -780,13 +845,6 @@ ALTER TABLE `sanpham`
 --
 ALTER TABLE `taikhoan`
   ADD CONSTRAINT `FK_TAIKHOAN_NHANVIEN` FOREIGN KEY (`MANHANVIEN`) REFERENCES `nhanvien` (`MANHANVIEN`);
-
---
--- Constraints for table `vaitronguoidung`
---
-ALTER TABLE `vaitronguoidung`
-  ADD CONSTRAINT `FK_VTND_NV` FOREIGN KEY (`MANHANVIEN`) REFERENCES `nhanvien` (`MANHANVIEN`),
-  ADD CONSTRAINT `FK_VTND_VT` FOREIGN KEY (`MAVAITRO`) REFERENCES `vaitro` (`MAVAITRO`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
