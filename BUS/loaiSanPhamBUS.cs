@@ -15,7 +15,12 @@ namespace BUS
         private loaiSanPhamDAO data = new loaiSanPhamDAO();
         public BindingList<loaiDTO> LayDanhSach()
         {
-            ds = data.docDanhSachLoai();
+            if (ds == null || ds.Count == 0)
+            {
+                loaiSanPhamDAO dao = new loaiSanPhamDAO();
+                ds = dao.docDanhSachLoai();
+                Console.WriteLine($"BUS Loại: Tải {ds.Count} loại.");
+            }
             return ds;
         }
 
