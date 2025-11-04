@@ -18,8 +18,10 @@ namespace GUI.GUI_UC
     public partial class banHangGUI : UserControl
     {
         private BindingList<sanPhamDTO> danhSachSP;
+        private BindingList<loaiDTO> dsLoai;
+        private BindingList<nhomDTO> dsNhom;
         private List<gioHangItemDTO> gioHang = new List<gioHangItemDTO>();
-        private sanPhamBUS bus = new sanPhamBUS();
+        private sanPhamBUS busSanPham = new sanPhamBUS();
         public banHangGUI()
         {
             InitializeComponent();
@@ -30,12 +32,14 @@ namespace GUI.GUI_UC
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
 
+            busSanPham=new sanPhamBUS();
             LoadDanhSachSanPham();
+            LoadDanhSachLoaiVaNhom();
             CapNhatGioHang();
         }
-        private void LoadDanhSachSanPham()
+        /*private void LoadDanhSachSanPham()
         {
-            danhSachSP = bus.LayDanhSach();  // Gán vào danhSachSP
+            danhSachSP = busSanPham.LayDanhSach();  // Gán vào danhSachSP
             if (danhSachSP == null || danhSachSP.Count == 0)
             {
                 MessageBox.Show("Không tải được danh sách sản phẩm!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -44,6 +48,8 @@ namespace GUI.GUI_UC
 
             dgvSanPham.DataSource = null;
             dgvSanPham.DataSource = danhSachSP;
+            if (dgvSanPham.Rows.Count > 0)
+                dgvSanPham.Rows[0].Selected = true;
         }
         private void dgvSanPham_CellClick(object sender, DataGridViewCellEventArgs e)
 
@@ -75,7 +81,49 @@ namespace GUI.GUI_UC
                     picSanPham.Image = null;
                 }
             }
+        }*/
+        private void LoadDanhSachLoaiVaNhom()
+        {
+            loaiSanPhamBUS loaiBus = new loaiSanPhamBUS();
+            dsLoai = loaiBus.LayDanhSach();
+
+            nhomBUS nhomBus = new nhomBUS();
+            dsNhom = nhomBus.layDanhSach();
         }
+
+        private void LoadDanhSachSanPham()
+        {
+            danhSachSP = busSanPham.LayDanhSach();
+
+            if (danhSachSP == null || danhSachSP.Count == 0)
+            {
+                MessageBox.Show("Không có sản phẩm nào!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            dgvSanPham.AutoGenerateColumns = false;
+            dgvSanPham.DataSource = null;
+            dgvSanPham.DataSource = danhSachSP;
+
+            // XÓA CỘT CŨ
+            dgvSanPham.Columns.Clear();
+
+            // THÊM CỘT
+            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaSP", HeaderText = "Mã SP" });
+            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TenSP", HeaderText = "Tên SP" });
+            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên loại" });   // Không DataPropertyName
+            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên nhóm" });   // Không DataPropertyName
+            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Gia",
+                HeaderText = "Giá",
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" }
+            });
+
+            dgvSanPham.ReadOnly = true;
+            dgvSanPham.ClearSelection();
+        }
+        
 
         private void tabPage1_Click(object sender, EventArgs e)
         {
@@ -88,11 +136,6 @@ namespace GUI.GUI_UC
         }
 
         private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
@@ -138,12 +181,6 @@ namespace GUI.GUI_UC
         {
 
         }
-
-        private void tbSanPham_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void button6_Click(object sender, EventArgs e)
         {
             using (var f = new FormChonBan())
@@ -236,6 +273,7 @@ namespace GUI.GUI_UC
             if (MessageBox.Show("Xóa toàn bộ giỏ hàng?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 gioHang.Clear();
+                LoadDanhSachSanPham();
                 CapNhatGioHang();
             }
         }
@@ -253,6 +291,76 @@ namespace GUI.GUI_UC
 
             gioHang.Clear();
             CapNhatGioHang();
+        }
+
+
+        private void dgvSanPham_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            dgvSanPham.ClearSelection();
+        }
+
+        /*private void dgvSanPham_CellFormating(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.RowIndex < danhSachSP.Count)
+            {
+                var sp = danhSachSP[e.RowIndex];
+                txtMaSP.Text = sp.MaSP.ToString();
+                txtTenSP.Text = sp.TenSP;
+                var loai = dsLoai?.FirstOrDefault(l => l.MaLoai == sp.MaLoai);
+                txtLoaiSP.Text = loai?.TenLoai ?? "Chưa xác định";
+                txtGia.Text = sp.Gia.ToString("N0");
+
+                if (!string.IsNullOrEmpty(sp.Hinh) && File.Exists(sp.Hinh))
+                {
+                    try { picSanPham.Image = Image.FromFile(sp.Hinh); }
+                    catch { picSanPham.Image = null; }
+                }
+                else
+                {
+                    picSanPham.Image = null;
+                }
+            }
+        }*/
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            LoadDanhSachSanPham();
+            LoadDanhSachLoaiVaNhom();
+            CapNhatGioHang();
+        }
+
+        private void dgvSanPham_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.RowIndex < danhSachSP.Count)
+            {
+                var sp = danhSachSP[e.RowIndex];
+
+                HienThiChiTietSanPham(sp);
+            }
+        }
+        private void HienThiChiTietSanPham(sanPhamDTO sp)
+        {
+            txtMaSP.Text = sp.MaSP.ToString();
+            txtTenSP.Text = sp.TenSP;
+
+            var loai = dsLoai?.FirstOrDefault(l => l.MaLoai == sp.MaLoai);
+            txtLoaiSP.Text = loai?.TenLoai ?? "Chưa xác định";
+
+            txtGia.Text = sp.Gia.ToString("N0");
+
+            if (!string.IsNullOrEmpty(sp.Hinh) && File.Exists(sp.Hinh))
+            {
+                try
+                {
+                    picSanPham.Image = Image.FromFile(sp.Hinh);
+                    picSanPham.SizeMode = PictureBoxSizeMode.Zoom;
+                }
+                catch { picSanPham.Image = null; }
+            }
+            else
+            {
+                picSanPham.Image = null;
+            }
         }
     }
 }
