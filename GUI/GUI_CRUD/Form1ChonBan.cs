@@ -12,7 +12,7 @@ namespace GUI.GUI_CRUD
 {
     public partial class FormChonBan : Form
     {
-        public string BanDuocChon { get; private set; }
+        public string maBan { get; private set; }
         private Dictionary<string, bool> TrangThaiBan = new Dictionary<string, bool>();
 
         public FormChonBan()
@@ -45,7 +45,7 @@ namespace GUI.GUI_CRUD
                 string banHienTai = tenBan;
                 btn.Click += (s, e) =>
                 {
-                    BanDuocChon = banHienTai;
+                    maBan = banHienTai;
                     TrangThaiBan[banHienTai] = true; // đánh dấu đã chọn
                     DialogResult = DialogResult.OK;
                     Close();

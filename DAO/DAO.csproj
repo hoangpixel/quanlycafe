@@ -97,6 +97,7 @@
     <Compile Include="congThucDAO.cs" />
     <Compile Include="donViDAO.cs" />
     <Compile Include="heSoDAO.cs" />
+    <Compile Include="hoaDonDAO.cs" />
     <Compile Include="loaiSanPhamDAO.cs" />
     <Compile Include="nguyenLieuDAO.cs" />
     <Compile Include="nhomDAO.cs" />

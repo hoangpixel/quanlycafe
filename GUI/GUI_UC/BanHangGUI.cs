@@ -20,8 +20,10 @@ namespace GUI.GUI_UC
         private BindingList<sanPhamDTO> danhSachSP;
         private BindingList<loaiDTO> dsLoai;
         private BindingList<nhomDTO> dsNhom;
-        private List<gioHangItemDTO> gioHang = new List<gioHangItemDTO>();
+        private BindingList<gioHangItemDTO> gioHang = new BindingList<gioHangItemDTO>();
         private sanPhamBUS busSanPham = new sanPhamBUS();
+        private BindingList<hoaDonDTO> dsHoaDon;
+        private hoaDonBUS busHoaDon = new hoaDonBUS();
         public banHangGUI()
         {
             InitializeComponent();
@@ -36,6 +38,7 @@ namespace GUI.GUI_UC
             dsNhom = new nhomBUS().layDanhSach();
 
             busSanPham = new sanPhamBUS();
+            dgvGioHang.DataSource = gioHang;
             LoadDanhSachSanPham();
             CapNhatGioHang();
             loadFontChuVaSizeGioHang();
@@ -85,51 +88,6 @@ namespace GUI.GUI_UC
 
             dgvGioHang.Refresh();
         }
-        /*private void LoadDanhSachSanPham()
-        {
-            danhSachSP = busSanPham.LayDanhSach();  // Gán vào danhSachSP
-            if (danhSachSP == null || danhSachSP.Count == 0)
-            {
-                MessageBox.Show("Không tải được danh sách sản phẩm!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            dgvSanPham.DataSource = null;
-            dgvSanPham.DataSource = danhSachSP;
-            if (dgvSanPham.Rows.Count > 0)
-                dgvSanPham.Rows[0].Selected = true;
-        }
-        private void dgvSanPham_CellClick(object sender, DataGridViewCellEventArgs e)
-
-        {
-            if (e.RowIndex >= 0 && e.RowIndex < danhSachSP.Count)
-            {
-                var sp = danhSachSP[e.RowIndex];
-                txtMaSP.Text = sp.MaSP.ToString();
-                txtTenSP.Text = sp.TenSP;
-                var loaiBus = new loaiSanPhamBUS();
-                var dsLoai = loaiBus.LayDanhSach();
-                var loai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai);
-                txtLoaiSP.Text = loai?.TenLoai ?? "Chưa xác định";
-                txtGia.Text = sp.Gia.ToString("N0");
-
-                if (!string.IsNullOrEmpty(sp.Hinh) && File.Exists(sp.Hinh))
-                {
-                    try
-                    {
-                        picSanPham.Image = Image.FromFile(sp.Hinh);
-                    }
-                    catch
-                    {
-                        picSanPham.Image = null;
-                    }
-                }
-                else
-                {
-                    picSanPham.Image = null;
-                }
-            }
-        }*/
         private void LoadDanhSachLoaiVaNhom()
         {
             loaiSanPhamBUS loaiBus = new loaiSanPhamBUS();
@@ -251,7 +209,7 @@ namespace GUI.GUI_UC
             {
                 if (f.ShowDialog() == DialogResult.OK)
                 {
-                    txtBan.Text = f.BanDuocChon;
+                    txtBan.Text = f.maBan;
                 }
             }
 
@@ -296,7 +254,6 @@ namespace GUI.GUI_UC
         }
         private void CapNhatGioHang()
         {
-            dgvGioHang.DataSource = null;
             dgvGioHang.Columns.Clear(); // XÓA CỘT CŨ (QUAN TRỌNG!)
 
             var data = gioHang.Select(g => new
@@ -327,7 +284,7 @@ namespace GUI.GUI_UC
                 // Lấy giá trị ô "MaSP" → chuyển thành int
                 if (int.TryParse(dgvGioHang.CurrentRow.Cells["MaSP"].Value?.ToString(), out int maSP))
                 {
-                    gioHang.RemoveAll(g => g.SanPham.MaSP == maSP);
+                    gioHang.RemoveAt(0);
                     CapNhatGioHang();
                 }
             }
@@ -345,16 +302,21 @@ namespace GUI.GUI_UC
 
         private void button4_Click(object sender, EventArgs e)
         {
+            Console.WriteLine($"[DEBUG] txtBan.Text = '{txtBan.Text}'");
             if (gioHang.Count == 0)
             {
                 MessageBox.Show("Chưa có sản phẩm trong giỏ hàng!");
                 return;
             }
-
-            decimal tongTien = gioHang.Sum(g => g.ThanhTien);
-            MessageBox.Show($"Xác nhận đơn hàng!\nTổng tiền: {tongTien:N0} VNĐ");
-
+            string maBan = txtBan.Text.Trim();
+            if (string.IsNullOrWhiteSpace(maBan))
+            {
+                MessageBox.Show("Vui lòng nhập khu vực - bàn!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtBan.Focus();
+                return;
+            }
             gioHang.Clear();
+            txtBan.Clear();
             CapNhatGioHang();
         }
 
@@ -363,29 +325,6 @@ namespace GUI.GUI_UC
         {
             dgvSanPham.ClearSelection();
         }
-
-        /*private void dgvSanPham_CellFormating(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (e.RowIndex >= 0 && e.RowIndex < danhSachSP.Count)
-            {
-                var sp = danhSachSP[e.RowIndex];
-                txtMaSP.Text = sp.MaSP.ToString();
-                txtTenSP.Text = sp.TenSP;
-                var loai = dsLoai?.FirstOrDefault(l => l.MaLoai == sp.MaLoai);
-                txtLoaiSP.Text = loai?.TenLoai ?? "Chưa xác định";
-                txtGia.Text = sp.Gia.ToString("N0");
-
-                if (!string.IsNullOrEmpty(sp.Hinh) && File.Exists(sp.Hinh))
-                {
-                    try { picSanPham.Image = Image.FromFile(sp.Hinh); }
-                    catch { picSanPham.Image = null; }
-                }
-                else
-                {
-                    picSanPham.Image = null;
-                }
-            }
-        }*/
 
         private void button11_Click(object sender, EventArgs e)
         {
