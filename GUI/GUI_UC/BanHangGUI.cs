@@ -32,10 +32,58 @@ namespace GUI.GUI_UC
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
 
-            busSanPham=new sanPhamBUS();
+            dsLoai = new loaiSanPhamBUS().LayDanhSach();
+            dsNhom = new nhomBUS().layDanhSach();
+
+            busSanPham = new sanPhamBUS();
             LoadDanhSachSanPham();
-            LoadDanhSachLoaiVaNhom();
             CapNhatGioHang();
+            loadFontChuVaSizeGioHang();
+        }
+        private void loadFontChuVaSize()
+        {
+            foreach (DataGridViewColumn col in dgvSanPham.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            dgvSanPham.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvSanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            dgvSanPham.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            dgvSanPham.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
+
+            dgvSanPham.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvSanPham.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgvSanPham.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            dgvSanPham.Refresh();
+        }
+
+        private void loadFontChuVaSizeGioHang()
+        {
+            foreach (DataGridViewColumn col in dgvGioHang.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            dgvGioHang.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvGioHang.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            dgvGioHang.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            dgvGioHang.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
+
+            dgvGioHang.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvGioHang.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgvGioHang.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            dgvGioHang.Refresh();
         }
         /*private void LoadDanhSachSanPham()
         {
@@ -122,8 +170,24 @@ namespace GUI.GUI_UC
 
             dgvSanPham.ReadOnly = true;
             dgvSanPham.ClearSelection();
+            loadFontChuVaSize();
         }
-        
+        private void dgvSanPham_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            sanPhamDTO sp = dgvSanPham.Rows[e.RowIndex].DataBoundItem as sanPhamDTO;
+            if (dgvSanPham.Columns[e.ColumnIndex].HeaderText == "Tên loại")
+            {
+                loaiDTO loai = dsLoai.FirstOrDefault(x => x.MaLoai == sp.MaLoai);
+                e.Value = loai?.TenLoai ?? "Không xác định";
+            }
+            if (dgvSanPham.Columns[e.ColumnIndex].HeaderText == "Tên nhóm")
+            {
+                loaiDTO loai = dsLoai.FirstOrDefault(l => l.MaLoai == sp.MaLoai);
+                nhomDTO nhom = dsNhom.FirstOrDefault(n => n.MaNhom == (loai != null ? loai.MaNhom : -1));
+                e.Value = nhom?.TenNhom ?? "Không xác định";
+            }
+        }
 
         private void tabPage1_Click(object sender, EventArgs e)
         {
@@ -228,6 +292,7 @@ namespace GUI.GUI_UC
             }
 
             CapNhatGioHang();
+            loadFontChuVaSizeGioHang();
         }
         private void CapNhatGioHang()
         {
@@ -329,14 +394,29 @@ namespace GUI.GUI_UC
             CapNhatGioHang();
         }
 
+        private int lastSelectedRowIndex = -1;
+
         private void dgvSanPham_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.RowIndex < danhSachSP.Count)
-            {
-                var sp = danhSachSP[e.RowIndex];
+            if (e.RowIndex < 0 || e.RowIndex >= danhSachSP.Count)
+                return;
 
-                HienThiChiTietSanPham(sp);
+            if (e.RowIndex == lastSelectedRowIndex)
+            {
+                dgvSanPham.ClearSelection();
+                lastSelectedRowIndex = -1;
+
+                txtMaSP.Clear();
+                txtTenSP.Clear();
+                txtLoaiSP.Clear();
+                txtGia.Clear();
+                picSanPham.Image = null;
+                return;
             }
+
+            lastSelectedRowIndex = e.RowIndex;
+            var sp = danhSachSP[e.RowIndex];
+            HienThiChiTietSanPham(sp);
         }
         private void HienThiChiTietSanPham(sanPhamDTO sp)
         {
@@ -348,18 +428,18 @@ namespace GUI.GUI_UC
 
             txtGia.Text = sp.Gia.ToString("N0");
 
-            if (!string.IsNullOrEmpty(sp.Hinh) && File.Exists(sp.Hinh))
+            string imgPath = Path.Combine(Application.StartupPath, "IMG", "SP", sp.Hinh);
+
+
+            if (File.Exists(imgPath))
             {
-                try
-                {
-                    picSanPham.Image = Image.FromFile(sp.Hinh);
-                    picSanPham.SizeMode = PictureBoxSizeMode.Zoom;
-                }
-                catch { picSanPham.Image = null; }
+                picSanPham.Image = Image.FromFile(imgPath);
+                picSanPham.SizeMode = PictureBoxSizeMode.Zoom;
             }
             else
             {
                 picSanPham.Image = null;
+                Console.WriteLine("Ảnh không tồn tại: " + imgPath);
             }
         }
     }
