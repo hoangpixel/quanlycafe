@@ -42,6 +42,7 @@ namespace GUI.GUI_UC
             LoadDanhSachSanPham();
             CapNhatGioHang();
             loadFontChuVaSizeGioHang();
+            LoadDanhSachHoaDon();
         }
         private void loadFontChuVaSize()
         {
@@ -130,6 +131,34 @@ namespace GUI.GUI_UC
             dgvSanPham.ClearSelection();
             loadFontChuVaSize();
         }
+
+        private void LoadDanhSachHoaDon()
+        {
+            try 
+            { 
+            dsHoaDon = busHoaDon.LayDanhSach();
+            dgvHoaDon.DataSource = dsHoaDon;
+
+            // Cột
+            if (dgvHoaDon.Columns["MaHD"] != null)
+            {
+                dgvHoaDon.Columns["MaHD"].HeaderText = "Mã HD";
+                dgvHoaDon.Columns["MaBan"].HeaderText = "Bàn";
+                dgvHoaDon.Columns["ThoiGianTao"].HeaderText = "Thời gian";
+                dgvHoaDon.Columns["ThoiGianTao"].DefaultCellStyle.Format = "HH:mm dd/MM";
+                dgvHoaDon.Columns["TrangThai"].HeaderText = "Trạng thái";
+                dgvHoaDon.Columns["TongTien"].HeaderText = "Tổng tiền";
+                dgvHoaDon.Columns["TongTien"].DefaultCellStyle.Format = "N0";
+            }
+
+            AnNutHoaDon();
+            Console.WriteLine($"[LOAD] Đã tải {dsHoaDon.Count} hóa đơn.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi tải danh sách hóa đơn: " + ex.Message);
+            }
+        }
         private void dgvSanPham_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -209,7 +238,8 @@ namespace GUI.GUI_UC
             {
                 if (f.ShowDialog() == DialogResult.OK)
                 {
-                    txtBan.Text = f.maBan;
+                    txtBan.Text = f.maBan.ToString();
+                    txtBan.Tag = f.maBan;
                 }
             }
 
@@ -254,7 +284,7 @@ namespace GUI.GUI_UC
         }
         private void CapNhatGioHang()
         {
-            dgvGioHang.Columns.Clear(); // XÓA CỘT CŨ (QUAN TRỌNG!)
+            //dgvGioHang.Columns.Clear(); // XÓA CỘT CŨ (QUAN TRỌNG!)
 
             var data = gioHang.Select(g => new
             {
@@ -265,9 +295,10 @@ namespace GUI.GUI_UC
                 ThanhTien = g.ThanhTien
             }).ToList();
 
+            dgvGioHang.DataSource = null;
             dgvGioHang.DataSource = data;
 
-            if (dgvGioHang.Columns.Count >= 5)
+            if (dgvGioHang.Columns.Count >= 5 && dgvGioHang.Columns[0].HeaderText != "Mã SP")
             {
                 var c = dgvGioHang.Columns;
                 c[0].Name = c[0].HeaderText = "Mã SP";
@@ -308,16 +339,64 @@ namespace GUI.GUI_UC
                 MessageBox.Show("Chưa có sản phẩm trong giỏ hàng!");
                 return;
             }
-            string maBan = txtBan.Text.Trim();
-            if (string.IsNullOrWhiteSpace(maBan))
+            if (txtBan.Tag == null || !(txtBan.Tag is int maBan))
             {
-                MessageBox.Show("Vui lòng nhập khu vực - bàn!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtBan.Focus();
+                MessageBox.Show("Vui lòng chọn bàn!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            gioHang.Clear();
-            txtBan.Clear();
-            CapNhatGioHang();
+            // TÍNH TỔNG TIỀN
+            decimal tongTien = gioHang.Sum(g => g.ThanhTien);
+
+            // HIỂN THỊ HỘP THOẠI XÁC NHẬN
+            string message = $@"XÁC NHẬN HÓA ĐƠN
+
+Bàn: {maBan}
+Sản phẩm: {gioHang.Count} món
+Tổng tiền: {tongTien:N0} VNĐ
+
+Bạn có muốn tạo hóa đơn không?";
+
+            var result = MessageBox.Show(message, "Xác nhận tạo hóa đơn",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result != DialogResult.Yes)
+            {
+                MessageBox.Show("Đã hủy tạo hóa đơn. Bạn có thể chỉnh sửa giỏ hàng.",
+                    "Hủy", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // TẠO HÓA ĐƠN
+            var hd = new hoaDonDTO
+            {   
+                MaBan = maBan,
+                TongTien = tongTien,
+                //MaNhanVien = 1,     // Mặc định
+                //MaTT = null,
+                //MaKhachHang = null
+            };
+
+            int maHD = busHoaDon.ThemHoaDon(hd, gioHang);
+
+            if (maHD > 0)
+            {
+                MessageBox.Show($"Tạo hóa đơn thành công!\nMã HD: {maHD}\nBàn: {maBan}",
+                    "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // XÓA GIỎ HÀNG + CẬP NHẬT
+                gioHang.Clear();
+                CapNhatGioHang();
+                txtBan.Clear();
+
+                // CHUYỂN TAB + TẢI LẠI DANH SÁCH
+                tabControl1.SelectedTab = tabHoaDon;
+                LoadDanhSachHoaDon(); // ĐẢM BẢO TẢI LẠI
+            }
+            else
+            {
+                MessageBox.Show("Lỗi tạo hóa đơn! Vui lòng thử lại.",
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }            
         }
 
 
@@ -380,6 +459,38 @@ namespace GUI.GUI_UC
                 picSanPham.Image = null;
                 Console.WriteLine("Ảnh không tồn tại: " + imgPath);
             }
+        }
+
+        private void dgvHoaDon_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvHoaDon.CurrentRow != null && dgvHoaDon.CurrentRow.Index < dsHoaDon.Count)
+            {
+                btnChiTietHD.Enabled = btnTinhTien.Enabled = true;
+                var hd = dsHoaDon[dgvHoaDon.CurrentRow.Index];
+                btnTinhTien.Enabled = hd.TrangThai == "Chưa tính tiền";
+                btnXoaHD.Enabled = true;
+            }
+            else
+            {
+                AnNutHoaDon();
+            }
+        }
+        private void AnNutHoaDon()
+        {
+            btnChiTietHD.Enabled = btnTinhTien.Enabled = btnXoaHD.Enabled = false;
+        }
+
+        private void btnChiTietHD_Click(object sender, EventArgs e)
+        {
+            if (dgvHoaDon.CurrentRow == null) return;
+            int maHD = dsHoaDon[dgvHoaDon.CurrentRow.Index].MaHD;
+            var frm = new frmChiTietHD() ;
+            frm.ShowDialog();
+        }
+
+        private void btnRefreshSP_Click(object sender, EventArgs e)
+        {
+            LoadDanhSachHoaDon();
         }
     }
 }

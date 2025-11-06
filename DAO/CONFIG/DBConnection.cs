@@ -21,6 +21,7 @@ namespace DAO.CONFIG
             MySqlConnection conn = new MySqlConnection(connectionString);
             try
             {
+                if (conn.State == System.Data.ConnectionState.Closed)
                 conn.Open();
                 Console.WriteLine("Kết nối MySQL thành công!");
             }

@@ -2,6 +2,7 @@
 using DTO;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace BUS
 {
@@ -11,8 +12,8 @@ namespace BUS
 
         public BindingList<hoaDonDTO> LayDanhSach() => dao.LayDanhSach();
 
-        public int ThemHoaDon(hoaDonDTO hd, List<gioHangItemDTO> gioHang)
-            => dao.Them(hd, gioHang);
+        public int ThemHoaDon(hoaDonDTO hd, BindingList<gioHangItemDTO> gioHang)
+            => dao.Them(hd, gioHang.ToList());
 
         public bool CapNhatTrangThai(int maHD, string trangThai)
             => dao.CapNhatTrangThai(maHD, trangThai);

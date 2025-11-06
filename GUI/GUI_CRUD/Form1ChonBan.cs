@@ -12,8 +12,8 @@ namespace GUI.GUI_CRUD
 {
     public partial class FormChonBan : Form
     {
-        public string maBan { get; private set; }
-        private Dictionary<string, bool> TrangThaiBan = new Dictionary<string, bool>();
+        public int maBan { get; private set; }
+        private Dictionary<int, bool> TrangThaiBan = new Dictionary<int, bool>();
 
         public FormChonBan()
         {
@@ -28,9 +28,10 @@ namespace GUI.GUI_CRUD
         {
             flowLayoutPanel1.Controls.Clear();
             string kv = cbbKhuVuc.SelectedItem.ToString();
-
+            int offset = (kv == "KV1") ? 0 : 20;
             for (int i = 1; i <= 20; i++)
             {
+                int maSoBan = offset + i;
                 string tenBan = $"{kv}-Bàn{i}";
                 Button btn = new Button();
                 btn.Text = tenBan;
@@ -38,11 +39,11 @@ namespace GUI.GUI_CRUD
                 btn.Height = 60;
 
                 // Kiểm tra trạng thái bàn (đã chọn thì disable)
-                if (TrangThaiBan.ContainsKey(tenBan) && TrangThaiBan[tenBan])
+                if (TrangThaiBan.ContainsKey(maSoBan) && TrangThaiBan[maSoBan])
                     btn.Enabled = false;
 
                 // Tạo bản sao cục bộ để tránh capture lỗi
-                string banHienTai = tenBan;
+                int banHienTai = maSoBan;
                 btn.Click += (s, e) =>
                 {
                     maBan = banHienTai;

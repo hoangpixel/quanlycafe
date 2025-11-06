@@ -37,7 +37,7 @@ namespace DAO
                     hoaDonDTO hd = new hoaDonDTO
                     {
                         MaHD = reader.GetInt32("MAHOADON"),
-                        MaBan = reader.GetString("MABAN"), // VARCHAR
+                        MaBan = Convert.ToInt32(reader["MABAN"]), // VARCHAR
                         ThoiGianTao = reader.GetDateTime("THOIGIANTAO"),
                         TrangThai = reader.GetString("TRANGTHAI"),
                         TongTien = reader.GetDecimal("TONGTIEN")
@@ -69,18 +69,19 @@ namespace DAO
 
             try
             {
-                conn.Open();
+                if (conn.State != System.Data.ConnectionState.Open)
+                    conn.Open();
                 tran = conn.BeginTransaction();
 
                 // Bước 1: Thêm hóa đơn
                 string qryHD = @"
-                    INSERT INTO hoadon (MABAN, MANV, TRANGTHAI, TONGTIEN) 
-                    VALUES (@MaBan, @MaNV, 'Chưa tính tiền', @TongTien);
-                    SELECT LAST_INSERT_ID();";
+    INSERT INTO hoadon (MABAN, MANHANVIEN, TRANGTHAI, TONGTIEN) 
+    VALUES (@MaBan, 1, 'Chưa tính tiền', @TongTien);
+    SELECT LAST_INSERT_ID();";
 
                 MySqlCommand cmdHD = new MySqlCommand(qryHD, conn, tran);
                 cmdHD.Parameters.AddWithValue("@MaBan", hd.MaBan);
-                cmdHD.Parameters.AddWithValue("@MaNV", 1); // TODO: Lấy từ đăng nhập
+                //cmdHD.Parameters.AddWithValue("@MaNV", 1); // Nhân viên mặc định
                 cmdHD.Parameters.AddWithValue("@TongTien", hd.TongTien);
 
                 maHD = Convert.ToInt32(cmdHD.ExecuteScalar());
@@ -200,7 +201,7 @@ namespace DAO
                         hd = new hoaDonDTO
                         {
                             MaHD = reader.GetInt32("MAHOADON"),
-                            MaBan = reader.GetString("MABAN"),
+                            MaBan = Convert.ToInt32(reader["MABAN"]),
                             ThoiGianTao = reader.GetDateTime("THOIGIANTAO"),
                             TrangThai = reader.GetString("TRANGTHAI"),
                             TongTien = reader.GetDecimal("TONGTIEN")
