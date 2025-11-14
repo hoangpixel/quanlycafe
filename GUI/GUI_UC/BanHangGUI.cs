@@ -130,35 +130,68 @@ namespace GUI.GUI_UC
             dgvSanPham.ReadOnly = true;
             dgvSanPham.ClearSelection();
             loadFontChuVaSize();
+            numSoLuong.Visible = false;
         }
 
         private void LoadDanhSachHoaDon()
         {
-            try 
-            { 
-            dsHoaDon = busHoaDon.LayDanhSach();
-            dgvHoaDon.DataSource = dsHoaDon;
-
-            // Cột
-            if (dgvHoaDon.Columns["MaHD"] != null)
+            
+            try
             {
-                dgvHoaDon.Columns["MaHD"].HeaderText = "Mã HD";
-                dgvHoaDon.Columns["MaBan"].HeaderText = "Bàn";
-                dgvHoaDon.Columns["ThoiGianTao"].HeaderText = "Thời gian";
-                dgvHoaDon.Columns["ThoiGianTao"].DefaultCellStyle.Format = "HH:mm dd/MM";
-                dgvHoaDon.Columns["TrangThai"].HeaderText = "Trạng thái";
-                dgvHoaDon.Columns["TongTien"].HeaderText = "Tổng tiền";
-                dgvHoaDon.Columns["TongTien"].DefaultCellStyle.Format = "N0";
-            }
+                dsHoaDon = busHoaDon.LayDanhSach();
 
-            AnNutHoaDon();
-            Console.WriteLine($"[LOAD] Đã tải {dsHoaDon.Count} hóa đơn.");
+                dgvHoaDon.Columns.Clear();      // XÓA CỘT CŨ
+                dgvHoaDon.AutoGenerateColumns = false; // TẮT auto để tự định nghĩa
+
+                dgvHoaDon.DataSource = null;
+                dgvHoaDon.DataSource = dsHoaDon;
+
+                // === TẠO CỘT ===
+                dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "MaHD",
+                    HeaderText = "Mã HD"
+                });
+
+                dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "MaBan",
+                    HeaderText = "Bàn"
+                });
+
+                dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "ThoiGianTao",
+                    HeaderText = "Thời gian",
+                    DefaultCellStyle = new DataGridViewCellStyle { Format = "HH:mm dd/MM" }
+                });
+
+                dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "TrangThai",
+                    HeaderText = "Trạng thái"
+                });
+
+                dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "TongTien",
+                    HeaderText = "Tổng tiền",
+                    DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" }
+                });
+
+                dgvHoaDon.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                Console.WriteLine($"[LOAD] Đã tải {dsHoaDon.Count} hóa đơn.");
+
+                AnNutHoaDon();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi tải danh sách hóa đơn: " + ex.Message);
             }
+            
         }
+
         private void dgvSanPham_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -232,7 +265,7 @@ namespace GUI.GUI_UC
         {
 
         }
-        private void button6_Click(object sender, EventArgs e)
+        private void btnChonBan_Click(object sender, EventArgs e)
         {
             using (var f = new FormChonBan())
             {
@@ -250,7 +283,7 @@ namespace GUI.GUI_UC
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btThemSP_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtMaSP.Text) || !int.TryParse(txtMaSP.Text, out int maSP))
                 return;
@@ -290,6 +323,7 @@ namespace GUI.GUI_UC
 
             CapNhatGioHang();
             loadFontChuVaSizeGioHang();
+            dgvGioHang.ClearSelection();
         }
         private void CapNhatGioHang()
         {
@@ -346,7 +380,7 @@ namespace GUI.GUI_UC
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void btnXacNhan_Click(object sender, EventArgs e)
         {
             Console.WriteLine($"[DEBUG] txtBan.Text = '{txtBan.Text}'");
             if (gioHang.Count == 0)
@@ -431,6 +465,19 @@ Bạn có muốn tạo hóa đơn không?";
 
         private void dgvSanPham_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (dgvSanPham.CurrentRow != null)
+            {
+                numSoLuong.Enabled = true;
+                numSoLuong.Visible = true;
+
+                // Chỉ set lại khi người dùng đang chọn SP mới
+                numSoLuong.Value = 0;
+            }
+            else
+            {
+                numSoLuong.Enabled = false;
+                numSoLuong.Visible = false;
+            }
             if (e.RowIndex < 0 || e.RowIndex >= danhSachSP.Count)
                 return;
 
@@ -481,8 +528,12 @@ Bạn có muốn tạo hóa đơn không?";
             if (dgvHoaDon.CurrentRow != null && dgvHoaDon.CurrentRow.Index < dsHoaDon.Count)
             {
                 btnChiTietHD.Enabled = btnTinhTien.Enabled = true;
+
                 var hd = dsHoaDon[dgvHoaDon.CurrentRow.Index];
-                btnTinhTien.Enabled = hd.TrangThai == "Chưa tính tiền";
+
+                // TrangThai là bool
+                btnTinhTien.Enabled = hd.TrangThai;   // true = cho thanh toán, false = không
+                btnSuaHD.Enabled = true;
                 btnXoaHD.Enabled = true;
             }
             else
@@ -506,6 +557,29 @@ Bạn có muốn tạo hóa đơn không?";
         private void btnRefreshSP_Click(object sender, EventArgs e)
         {
             LoadDanhSachHoaDon();
+        }
+
+        private void dgvGioHang_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= danhSachSP.Count)
+                return;
+
+            if (e.RowIndex == lastSelectedRowIndex)
+            {
+                dgvSanPham.ClearSelection();
+                lastSelectedRowIndex = -1;
+
+                txtMaSP.Clear();
+                txtTenSP.Clear();
+                txtLoaiSP.Clear();
+                txtGia.Clear();
+                picSanPham.Image = null;
+                return;
+            }
+
+            lastSelectedRowIndex = e.RowIndex;
+            var sp = danhSachSP[e.RowIndex];
+            HienThiChiTietSanPham(sp);
         }
     }
 }

@@ -40,7 +40,7 @@ namespace DAO
                         MaHD = reader.GetInt32("MAHOADON"),
                         MaBan = Convert.ToInt32(reader["MABAN"]), // VARCHAR
                         ThoiGianTao = reader.GetDateTime("THOIGIANTAO"),
-                        TrangThai = reader.GetString("TRANGTHAI"),
+                        TrangThai = reader.GetBoolean("TRANGTHAI"),
                         TongTien = reader.GetDecimal("TONGTIEN")
                     };
                     ds.Add(hd);
@@ -101,11 +101,8 @@ SELECT LAST_INSERT_ID();
                     : hd.ThoiGianTao;
                 cmdHD.Parameters.AddWithValue("@ThoiGianTao", thoiGian);
 
-                byte trangThaiValue = (byte)(
-                    !string.IsNullOrEmpty(hd.TrangThai) &&
-                    hd.TrangThai.Equals("Đã thanh toán", StringComparison.OrdinalIgnoreCase)
-                    ? 1 : 0
-                );
+                byte trangThaiValue = hd.TrangThai ? (byte)1 : (byte)0;
+
                 cmdHD.Parameters.AddWithValue("@TrangThai", trangThaiValue);
 
                 int maHD = Convert.ToInt32(cmdHD.ExecuteScalar());
@@ -236,7 +233,7 @@ SELECT LAST_INSERT_ID();
                             MaHD = reader.GetInt32("MAHOADON"),
                             MaBan = Convert.ToInt32(reader["MABAN"]),
                             ThoiGianTao = reader.GetDateTime("THOIGIANTAO"),
-                            TrangThai = reader.GetString("TRANGTHAI"),
+                            TrangThai = reader.GetBoolean("TRANGTHAI"),
                             TongTien = reader.GetDecimal("TONGTIEN")
                         };
                     }

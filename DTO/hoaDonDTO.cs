@@ -11,7 +11,7 @@ namespace DTO
         public int MaHD { get; set; }
         public int MaBan { get; set; }  // VARCHAR
         public DateTime ThoiGianTao { get; set; }
-        public string TrangThai { get; set; }
+        public bool TrangThai { get; set; }
         public decimal TongTien { get; set; }
         public int MaTT { get; set; } = 1;
         public int MaKhachHang { get; set; } = 1;
