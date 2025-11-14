@@ -2,18 +2,23 @@
 using DTO;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 
 namespace BUS
 {
     public class hoaDonBUS
     {
         private hoaDonDAO dao = new hoaDonDAO();
+        public static BindingList<hoaDonDTO> ds = new BindingList<hoaDonDTO>();
 
-        public BindingList<hoaDonDTO> LayDanhSach() => dao.LayDanhSach();
+        public BindingList<hoaDonDTO> LayDanhSach()
+        {
+            ds = dao.LayDanhSach();
+            return ds;
+        }
 
-        public int ThemHoaDon(hoaDonDTO hd, BindingList<gioHangItemDTO> gioHang)
-            => dao.Them(hd, gioHang.ToList());
+        // Dùng luôn cthoaDonDTO
+        public int ThemHoaDon(hoaDonDTO hd, BindingList<cthoaDonDTO> dsChiTiet)
+            => dao.Them(hd, dsChiTiet);
 
         public bool CapNhatTrangThai(int maHD, string trangThai)
             => dao.CapNhatTrangThai(maHD, trangThai);

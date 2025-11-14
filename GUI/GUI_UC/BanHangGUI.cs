@@ -20,7 +20,7 @@ namespace GUI.GUI_UC
         private BindingList<sanPhamDTO> danhSachSP;
         private BindingList<loaiDTO> dsLoai;
         private BindingList<nhomDTO> dsNhom;
-        private BindingList<gioHangItemDTO> gioHang = new BindingList<gioHangItemDTO>();
+        private BindingList<cthoaDonDTO> gioHang = new BindingList<cthoaDonDTO>();
         private sanPhamBUS busSanPham = new sanPhamBUS();
         private BindingList<hoaDonDTO> dsHoaDon;
         private hoaDonBUS busHoaDon = new hoaDonBUS();
@@ -269,14 +269,23 @@ namespace GUI.GUI_UC
                 return;
             }
 
-            var item = gioHang.FirstOrDefault(i => i.SanPham.MaSP == sp.MaSP);
+            // Tìm trong giỏ theo MaSP
+            var item = gioHang.FirstOrDefault(i => i.MaSP == sp.MaSP);
             if (item != null)
             {
                 item.SoLuong += soLuong;
+                item.ThanhTien = item.SoLuong * item.DonGia;
             }
             else
             {
-                gioHang.Add(new gioHangItemDTO { SanPham = sp, SoLuong = soLuong });
+                gioHang.Add(new cthoaDonDTO
+                {
+                    MaSP = sp.MaSP,
+                    SoLuong = soLuong,
+                    DonGia = (decimal)sp.Gia,
+                    ThanhTien = soLuong * (decimal)sp.Gia
+                });
+
             }
 
             CapNhatGioHang();
@@ -284,15 +293,17 @@ namespace GUI.GUI_UC
         }
         private void CapNhatGioHang()
         {
-            //dgvGioHang.Columns.Clear(); // XÓA CỘT CŨ (QUAN TRỌNG!)
-
-            var data = gioHang.Select(g => new
+            var data = gioHang.Select(g =>
             {
-                MaSP = g.SanPham.MaSP,
-                TenSP = g.SanPham.TenSP,
-                SoLuong = g.SoLuong,
-                DonGia = g.SanPham.Gia,
-                ThanhTien = g.ThanhTien
+                var sp = danhSachSP.FirstOrDefault(s => s.MaSP == g.MaSP);
+                return new
+                {
+                    MaSP = g.MaSP,
+                    TenSP = sp?.TenSP ?? "",
+                    SoLuong = g.SoLuong,
+                    DonGia = g.DonGia,
+                    ThanhTien = g.ThanhTien
+                };
             }).ToList();
 
             dgvGioHang.DataSource = null;
@@ -308,17 +319,21 @@ namespace GUI.GUI_UC
                 c[4].Name = c[4].HeaderText = "Thành tiền"; c[4].DefaultCellStyle.Format = "N0";
             }
         }
+
         private void button3_Click(object sender, EventArgs e)
         {
-            if (dgvGioHang.CurrentRow != null)
+    if (dgvGioHang.CurrentRow != null)
+    {
+        if (int.TryParse(dgvGioHang.CurrentRow.Cells["Mã SP"].Value?.ToString(), out int maSP))
+        {
+            var item = gioHang.FirstOrDefault(g => g.MaSP == maSP);
+            if (item != null)
             {
-                // Lấy giá trị ô "MaSP" → chuyển thành int
-                if (int.TryParse(dgvGioHang.CurrentRow.Cells["MaSP"].Value?.ToString(), out int maSP))
-                {
-                    gioHang.RemoveAt(0);
-                    CapNhatGioHang();
-                }
+                gioHang.Remove(item);
+                CapNhatGioHang();
             }
+        }
+    }
         }
 
         private void button5_Click_1(object sender, EventArgs e)
@@ -371,9 +386,9 @@ Bạn có muốn tạo hóa đơn không?";
             {   
                 MaBan = maBan,
                 TongTien = tongTien,
-                //MaNhanVien = 1,     // Mặc định
-                //MaTT = null,
-                //MaKhachHang = null
+                MaNhanVien = 1,     // Mặc định
+                MaTT = 1,
+                MaKhachHang = 1
             };
 
             int maHD = busHoaDon.ThemHoaDon(hd, gioHang);

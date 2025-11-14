@@ -13,8 +13,8 @@ namespace DTO
         public DateTime ThoiGianTao { get; set; }
         public string TrangThai { get; set; }
         public decimal TongTien { get; set; }
-        //public int? MaTT { get; set; } = null;
-        //public int? MaKhachHang { get; set; } = null;
-        //public int MaNhanVien { get; set; } = 1;
+        public int MaTT { get; set; } = 1;
+        public int MaKhachHang { get; set; } = 1;
+        public int MaNhanVien { get; set; } = 1;
     }
 }

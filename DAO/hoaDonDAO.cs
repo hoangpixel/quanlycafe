@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Common;
+using System.Data;
 
 namespace DAO
 {
@@ -61,62 +62,94 @@ namespace DAO
         }
 
         // 2. THÊM HÓA ĐƠN + CHI TIẾT (CÓ TRANSACTION)
-        public int Them(hoaDonDTO hd, List<gioHangItemDTO> gioHang)
+        public int Them(hoaDonDTO hd, BindingList<cthoaDonDTO> dsCT)
         {
             MySqlConnection conn = DBConnect.GetConnection();
             MySqlTransaction tran = null;
-            int maHD = 0;
 
             try
             {
                 if (conn.State != System.Data.ConnectionState.Open)
                     conn.Open();
+
                 tran = conn.BeginTransaction();
 
-                // Bước 1: Thêm hóa đơn
-                string qryHD = @"
-    INSERT INTO hoadon (MABAN, MANHANVIEN, TRANGTHAI, TONGTIEN) 
-    VALUES (@MaBan, 1, 'Chưa tính tiền', @TongTien);
-    SELECT LAST_INSERT_ID();";
-
-                MySqlCommand cmdHD = new MySqlCommand(qryHD, conn, tran);
-                cmdHD.Parameters.AddWithValue("@MaBan", hd.MaBan);
-                //cmdHD.Parameters.AddWithValue("@MaNV", 1); // Nhân viên mặc định
-                cmdHD.Parameters.AddWithValue("@TongTien", hd.TongTien);
-
-                maHD = Convert.ToInt32(cmdHD.ExecuteScalar());
-
-                // Bước 2: Thêm chi tiết hóa đơn
-                string qryCT = @"
-                    INSERT INTO cthd (MAHOADON, MASANPHAM, SOLUONG, DONGIA) 
-                    VALUES (@MaHD, @MaSP, @SoLuong, @DonGia)";
-
-                foreach (var item in gioHang)
+                decimal tongTien = 0;
+                foreach (var ct in dsCT)
                 {
-                    MySqlCommand cmdCT = new MySqlCommand(qryCT, conn, tran);
+                    tongTien += ct.SoLuong * ct.DonGia;
+                }
+                hd.TongTien = tongTien;
+
+                string sqlHD = @"
+INSERT INTO hoadon 
+    (MABAN, MATT, THOIGIANTAO, TRANGTHAI, TONGTIEN, MAKHACHHANG, MANHANVIEN)
+VALUES
+    (@MaBan, @MaTT, @ThoiGianTao, @TrangThai, 0, @MaKH, @MaNV);
+SELECT LAST_INSERT_ID();
+";
+
+
+                var cmdHD = new MySqlCommand(sqlHD, conn, tran);
+                cmdHD.Parameters.AddWithValue("@MaBan", hd.MaBan);
+                cmdHD.Parameters.AddWithValue("@MaTT", hd.MaTT);
+                cmdHD.Parameters.AddWithValue("@MaKH", hd.MaKhachHang);
+                cmdHD.Parameters.AddWithValue("@MaNV", hd.MaNhanVien);
+
+                var thoiGian = hd.ThoiGianTao == default(DateTime)
+                    ? DateTime.Now
+                    : hd.ThoiGianTao;
+                cmdHD.Parameters.AddWithValue("@ThoiGianTao", thoiGian);
+
+                byte trangThaiValue = (byte)(
+                    !string.IsNullOrEmpty(hd.TrangThai) &&
+                    hd.TrangThai.Equals("Đã thanh toán", StringComparison.OrdinalIgnoreCase)
+                    ? 1 : 0
+                );
+                cmdHD.Parameters.AddWithValue("@TrangThai", trangThaiValue);
+
+                int maHD = Convert.ToInt32(cmdHD.ExecuteScalar());
+                hd.MaHD = maHD;
+
+                string sqlCT = @"
+            INSERT INTO cthd (MAHOADON, MASANPHAM, SOLUONG, DONGIA, THANHTIEN)
+            VALUES (@MaHD, @MaSP, @SoLuong, @DonGia, @ThanhTien);
+        ";
+
+                foreach (var ct in dsCT)
+                {
+                    decimal thanhTien = ct.SoLuong * ct.DonGia;
+                    ct.maHD = maHD;
+                    ct.ThanhTien = thanhTien;
+
+                    var cmdCT = new MySqlCommand(sqlCT, conn, tran);
                     cmdCT.Parameters.AddWithValue("@MaHD", maHD);
-                    cmdCT.Parameters.AddWithValue("@MaSP", item.SanPham.MaSP);
-                    cmdCT.Parameters.AddWithValue("@SoLuong", item.SoLuong);
-                    cmdCT.Parameters.AddWithValue("@DonGia", item.SanPham.Gia);
+                    cmdCT.Parameters.AddWithValue("@MaSP", ct.MaSP);
+                    cmdCT.Parameters.AddWithValue("@SoLuong", ct.SoLuong);
+                    cmdCT.Parameters.AddWithValue("@DonGia", ct.DonGia);
+                    cmdCT.Parameters.AddWithValue("@ThanhTien", thanhTien);
+
                     cmdCT.ExecuteNonQuery();
                 }
 
                 tran.Commit();
-                Console.WriteLine($"Thêm hóa đơn {maHD} thành công!");
+                return maHD;     // 🔥 trả về mã hóa đơn
             }
             catch (MySqlException ex)
             {
-                if (tran != null) tran.Rollback();
+                if (tran != null)
+                    tran.Rollback();
+
                 Console.WriteLine("Lỗi thêm hóa đơn: " + ex.Message);
-                maHD = 0;
+                return -1;       // báo lỗi
             }
             finally
             {
                 DBConnect.CloseConnection(conn);
             }
-
-            return maHD;
         }
+
+
 
         // 3. CẬP NHẬT TRẠNG THÁI HÓA ĐƠN
         public bool CapNhatTrangThai(int maHD, string trangThai)

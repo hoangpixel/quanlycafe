@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 04, 2025 at 11:30 AM
+-- Generation Time: Nov 14, 2025 at 07:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,6 +34,13 @@ CREATE TABLE `ban` (
   `MADONHIENTAI` int(11) DEFAULT NULL,
   `MAKHUVUC` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `ban`
+--
+
+INSERT INTO `ban` (`MABAN`, `TENBAN`, `DANGSUDUNG`, `MADONHIENTAI`, `MAKHUVUC`) VALUES
+(1, 'ABC', 1, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -84,13 +91,21 @@ INSERT INTO `congthuc` (`MASANPHAM`, `MANGUYENLIEU`, `SOLUONGCOSO`, `MADONVICOSO
 --
 
 CREATE TABLE `cthd` (
-  `MACTHD` int(11) NOT NULL,
   `MAHOADON` int(11) NOT NULL,
   `MASANPHAM` int(11) NOT NULL,
   `SOLUONG` int(11) NOT NULL CHECK (`SOLUONG` > 0),
   `DONGIA` decimal(12,2) NOT NULL,
   `THANHTIEN` decimal(12,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `cthd`
+--
+
+INSERT INTO `cthd` (`MAHOADON`, `MASANPHAM`, `SOLUONG`, `DONGIA`, `THANHTIEN`) VALUES
+(6, 1, 1, 17000.00, 17000.00),
+(6, 2, 1, 25000.00, 25000.00),
+(6, 3, 1, 25000.00, 25000.00);
 
 --
 -- Triggers `cthd`
@@ -193,6 +208,13 @@ CREATE TABLE `hoadon` (
   `MANHANVIEN` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `hoadon`
+--
+
+INSERT INTO `hoadon` (`MAHOADON`, `MABAN`, `MATT`, `THOIGIANTAO`, `TRANGTHAI`, `TONGTIEN`, `MAKHACHHANG`, `MANHANVIEN`) VALUES
+(6, 1, 1, '2025-11-14 13:57:53', 0, 67000.00, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -208,6 +230,13 @@ CREATE TABLE `khachhang` (
   `NGAYTAO` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `khachhang`
+--
+
+INSERT INTO `khachhang` (`MAKHACHHANG`, `TENKHACHHANG`, `SODIENTHOAI`, `EMAIL`, `TRANGTHAI`, `NGAYTAO`) VALUES
+(1, 'abc', '113', 'm@gmail.com', 1, '2025-11-14 13:17:26');
+
 -- --------------------------------------------------------
 
 --
@@ -218,6 +247,13 @@ CREATE TABLE `khuvuc` (
   `MAKHUVUC` int(11) NOT NULL,
   `TENKHUVUC` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `khuvuc`
+--
+
+INSERT INTO `khuvuc` (`MAKHUVUC`, `TENKHUVUC`) VALUES
+(1, 'A');
 
 -- --------------------------------------------------------
 
@@ -308,6 +344,13 @@ CREATE TABLE `nhanvien` (
   `LUONG` decimal(12,2) DEFAULT 0.00,
   `NGAYTAO` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `nhanvien`
+--
+
+INSERT INTO `nhanvien` (`MANHANVIEN`, `HOTEN`, `SODIENTHOAI`, `EMAIL`, `LUONG`, `NGAYTAO`) VALUES
+(1, 'bcd', '12312', '12123@gmail.com', 10000.00, '2025-11-14 13:17:41');
 
 -- --------------------------------------------------------
 
@@ -442,6 +485,13 @@ CREATE TABLE `thanhtoan` (
   `HINHTHUC` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `thanhtoan`
+--
+
+INSERT INTO `thanhtoan` (`MATT`, `HINHTHUC`) VALUES
+(1, 'CK');
+
 -- --------------------------------------------------------
 
 --
@@ -492,8 +542,7 @@ ALTER TABLE `congthuc`
 -- Indexes for table `cthd`
 --
 ALTER TABLE `cthd`
-  ADD PRIMARY KEY (`MACTHD`),
-  ADD UNIQUE KEY `uq_cthd` (`MAHOADON`,`MASANPHAM`),
+  ADD PRIMARY KEY (`MAHOADON`,`MASANPHAM`),
   ADD KEY `FK_CTHD_SP` (`MASANPHAM`);
 
 --
@@ -643,19 +692,13 @@ ALTER TABLE `vaitro`
 -- AUTO_INCREMENT for table `ban`
 --
 ALTER TABLE `ban`
-  MODIFY `MABAN` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MABAN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `calam`
 --
 ALTER TABLE `calam`
   MODIFY `MACA` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `cthd`
---
-ALTER TABLE `cthd`
-  MODIFY `MACTHD` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ctphieunhap`
@@ -673,19 +716,19 @@ ALTER TABLE `donvi`
 -- AUTO_INCREMENT for table `hoadon`
 --
 ALTER TABLE `hoadon`
-  MODIFY `MAHOADON` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MAHOADON` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `khachhang`
 --
 ALTER TABLE `khachhang`
-  MODIFY `MAKHACHHANG` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MAKHACHHANG` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `khuvuc`
 --
 ALTER TABLE `khuvuc`
-  MODIFY `MAKHUVUC` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MAKHUVUC` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `loai`
@@ -709,7 +752,7 @@ ALTER TABLE `nhacungcap`
 -- AUTO_INCREMENT for table `nhanvien`
 --
 ALTER TABLE `nhanvien`
-  MODIFY `MANHANVIEN` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MANHANVIEN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `nhom`
@@ -745,7 +788,7 @@ ALTER TABLE `taikhoan`
 -- AUTO_INCREMENT for table `thanhtoan`
 --
 ALTER TABLE `thanhtoan`
-  MODIFY `MATT` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MATT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `vaitro`
