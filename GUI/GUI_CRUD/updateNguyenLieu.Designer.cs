@@ -138,10 +138,10 @@
             // 
             // txtTenDonVi
             // 
-            this.txtTenDonVi.Enabled = false;
             this.txtTenDonVi.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTenDonVi.Location = new System.Drawing.Point(199, 98);
             this.txtTenDonVi.Name = "txtTenDonVi";
+            this.txtTenDonVi.ReadOnly = true;
             this.txtTenDonVi.Size = new System.Drawing.Size(197, 27);
             this.txtTenDonVi.TabIndex = 9;
             // 

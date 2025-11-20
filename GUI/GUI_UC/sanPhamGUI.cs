@@ -195,7 +195,7 @@ namespace GUI.GUI_UC
                         form.StartPosition = FormStartPosition.CenterParent;
                         if(form.ShowDialog() == DialogResult.OK)
                         {
-                            sanPhamDTO kq = form.spSua;
+                            sanPhamDTO kq = form.sp;
                             busSanPham.Sua(kq);
                             tbSanPham.Refresh();
                         }

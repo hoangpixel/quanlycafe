@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO.Ports;
 using System.Linq;
+using System.Security.Policy;
 
 namespace BUS
 {
@@ -140,5 +141,13 @@ namespace BUS
             //);
         }
 
+        public bool kiemTraChuoiRong(string item)
+        {
+            if(string.IsNullOrWhiteSpace(item))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

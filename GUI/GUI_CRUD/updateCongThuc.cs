@@ -51,6 +51,8 @@ namespace GUI.GUI_CRUD
 
             donViDTO dv = dsDV.FirstOrDefault(x => x.MaDonVi == ct.MaDonViCoSo);
             txtTenDV.Text = dv?.TenDonVi ?? "Không xác định";
+
+            txtSoLuong.Select();
         }
 
         private void btnXacNhanSua_Click(object sender, EventArgs e)

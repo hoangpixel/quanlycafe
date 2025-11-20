@@ -20,10 +20,7 @@ namespace GUI.GUI_CRUD
         private int maDonVi = -1;
         private string tenDonVi = "";
         public nguyenLieuDTO suaCT;
-        public updateNguyenLieu()
-        {
-            InitializeComponent();
-        }
+        private nguyenLieuBUS busNguyenLieu = new nguyenLieuBUS();
         public updateNguyenLieu(nguyenLieuDTO ct)
         {
             InitializeComponent();
@@ -61,9 +58,18 @@ namespace GUI.GUI_CRUD
 
         private void btnSuaNL_Click_1(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtTenNL.Text) || maDonVi == -1)
+            if (busNguyenLieu.kiemTraChuoiRong(txtTenNL.Text))
             {
-                MessageBox.Show("Vui lòng nhập tên và chọn đơn vị nguyên liệu!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Không được để trống tên nguyên liệu",
+                    "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenNL.Focus();
+                return;
+            }
+            if (busNguyenLieu.kiemTraChuoiRong(txtTenDonVi.Text))
+            {
+                MessageBox.Show("Không được để trống tên đơn vị",
+                    "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenDonVi.Focus();
                 return;
             }
 

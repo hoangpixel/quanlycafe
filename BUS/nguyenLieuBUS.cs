@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace BUS
 {
@@ -230,6 +231,15 @@ namespace BUS
                 }
             }
             return kq;
+        }
+
+        public bool kiemTraChuoiRong(string item)
+        {
+            if(string.IsNullOrWhiteSpace(item))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

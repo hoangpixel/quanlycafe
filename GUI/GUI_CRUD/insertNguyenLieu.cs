@@ -18,7 +18,7 @@ namespace GUI.GUI_CRUD
     public partial class insertNguyenLieu : Form
     {
         private int maDonVi = -1;
-        private string tenDonVi = "";
+        private nguyenLieuBUS busNguyenLieu = new nguyenLieuBUS();
         public nguyenLieuDTO ct;
         public insertNguyenLieu()
         {
@@ -49,13 +49,20 @@ namespace GUI.GUI_CRUD
 
         private void btnNhapNL_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtTenNL.Text) || maDonVi == -1)
+            if (busNguyenLieu.kiemTraChuoiRong(txtTenNL.Text))
             {
-                MessageBox.Show("Vui lòng nhập tên và chọn đơn vị nguyên liệu!",
+                MessageBox.Show("Không được để trống tên nguyên liệu",
                     "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenNL.Focus();
                 return;
             }
-
+            if (busNguyenLieu.kiemTraChuoiRong(txtTenDonVi.Text))
+            {
+                MessageBox.Show("Không được để trống tên đơn vị",
+                    "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenDonVi.Focus();
+                return;
+            }
             try
             {
                 string tenNL = txtTenNL.Text.Trim();
@@ -104,7 +111,6 @@ namespace GUI.GUI_CRUD
                 if(form.ShowDialog() == DialogResult.OK)
                 {
                     maDonVi = form.maDonVi;
-                    tenDonVi = form.tenDonVi;
                     txtTenDonVi.Text = form.tenDonVi;
                 }
             }

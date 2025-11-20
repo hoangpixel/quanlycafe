@@ -16,8 +16,8 @@ namespace GUI.GUI_CRUD
     public partial class updateProduct : Form
     {
         private string imagePath = "";
-        private sanPhamDTO sp;
-        public sanPhamDTO spSua;
+        public sanPhamDTO sp;
+        private sanPhamBUS busSanPham = new sanPhamBUS();
 
         public updateProduct(sanPhamDTO sp)
         {
@@ -81,12 +81,41 @@ namespace GUI.GUI_CRUD
 
         private void btnNhapSP_Click_1(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtTenSP.Text) || string.IsNullOrWhiteSpace(txtGia.Text))
+            if (busSanPham.kiemTraChuoiRong(txtTenSP.Text))
             {
-                MessageBox.Show("Vui lòng nhập đầy đủ thông tin sản phẩm!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Không được để trống tên sản phẩm", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenSP.Focus();
                 return;
             }
-
+            if (cbLoai.SelectedIndex == -1)
+            {
+                MessageBox.Show("Không được để trống loại sản phẩm", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbLoai.Focus();
+                return;
+            }
+            if (busSanPham.kiemTraChuoiRong(txtGia.Text))
+            {
+                MessageBox.Show("Không được để trống giá sản phẩm", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtGia.Focus();
+                return;
+            }
+            if (!busSanPham.kiemTraSo(txtGia.Text))
+            {
+                MessageBox.Show("Giá sản phẩm phải là số", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtGia.Focus();
+                return;
+            }
+            if (!busSanPham.kiemTraSoDuong(float.Parse(txtGia.Text)))
+            {
+                MessageBox.Show("Giá sản phẩm phải là số dương", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtGia.Focus();
+                return;
+            }
+            if (busSanPham.kiemTraChuoiRong(imagePath) && picHinh.Image == null)
+            {
+                MessageBox.Show("Vui lòng chọn ảnh sản phẩm!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             DialogResult confirm = MessageBox.Show(
                 "Bạn có chắc chắn muốn cập nhật sản phẩm này không?",
                 "Xác nhận cập nhật",
@@ -144,7 +173,6 @@ namespace GUI.GUI_CRUD
                 sp.MaLoai = Convert.ToInt32(cbLoai.SelectedValue);
 
                 MessageBox.Show("Cập nhật sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                spSua = sp;
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }

@@ -24,6 +24,7 @@ namespace GUI.GUI_CRUD
         public BindingList<congThucDTO> dsTam = new BindingList<congThucDTO>();
         private BindingList<donViDTO> dsDonVi;
         private BindingList<nguyenLieuDTO> dsNguyenLieu;
+        private congThucBUS busCT = new congThucBUS();
 
         private congThucBUS busCongThuc = new congThucBUS();
         public insertCongThuc()
@@ -146,9 +147,28 @@ namespace GUI.GUI_CRUD
 
         private void btnNhapCT_Click_1(object sender, EventArgs e)
         {
-            if (maSP == -1 || maNL == -1 || txtSoLuong.Value <= 0 || maDonVi == -1)
+            if(busCT.kiemTraChuoiRong(txtTenSanPham.Text))
             {
-                MessageBox.Show("Vui lòng nhập đủ thông tin hợp lệ!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Không được để trống tên sản phẩm", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenSanPham.Focus();
+                return;
+            }
+            if (busCT.kiemTraChuoiRong(txtTenNguyenLieu.Text))
+            {
+                MessageBox.Show("Không được để trống tên nguyên liệu", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenNguyenLieu.Focus();
+                return;
+            }
+            if (busCT.kiemTraChuoiRong(txtDonVi.Text))
+            {
+                MessageBox.Show("Không được để trống tên đơn vị", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDonVi.Focus();
+                return;
+            }
+            if(txtSoLuong.Value == 0)
+            {
+                MessageBox.Show("Số lượng phải lớn hơn 0", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSoLuong.Focus();
                 return;
             }
             congThucDTO tonTai = dsTam.FirstOrDefault(x => x.MaNguyenLieu == maNL && x.MaDonViCoSo == maDonVi);
@@ -202,16 +222,8 @@ namespace GUI.GUI_CRUD
                 MessageBox.Show("Chưa có công thức nào để lưu!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            //congThucBUS bus = new congThucBUS();
-            //foreach (congThucDTO ct in dsTam)
-            //    bus.themCongThuc(ct);
-
             MessageBox.Show("Đã lưu công thức thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.DialogResult = DialogResult.OK;
-            ////dsTam.Clear();
-            //tableCongThuc.DataSource = null;
-            //btnChonSP.Enabled = true;
-            //resetInput();
         }
 
         private void button3_Click_1(object sender, EventArgs e)
@@ -347,7 +359,6 @@ namespace GUI.GUI_CRUD
                         maDonVi = form.maDonVi;
                         tenDonVi = form.tenDonVi;
                         txtDonVi.Text = form.tenDonVi;
-                        txtDonVi.Focus();
                     }
                 }
             }
