@@ -11,15 +11,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FONTS;
+using System.Web.UI.Design;
 
 
 namespace GUI.GUI_CRUD
 {
-    public partial class insertProduct : Form
+    public partial class insertSanPham : Form
     {
         private string imagePath = "";
         public sanPhamDTO ct;
-        public insertProduct(sanPhamDTO ct)
+        private sanPhamBUS busSanPham = new sanPhamBUS();
+        public insertSanPham(sanPhamDTO ct)
         {
             InitializeComponent();
             loadComBoBox();
@@ -69,13 +71,37 @@ namespace GUI.GUI_CRUD
 
         private void btnNhapSP_Click_2(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtTenSP.Text) || string.IsNullOrWhiteSpace(txtGia.Text))
+            if(busSanPham.kiemTraChuoiRong(txtTenSP.Text))
             {
-                MessageBox.Show("Vui lòng nhập đầy đủ thông tin sản phẩm!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Không được để trống tên sản phẩm", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenSP.Focus();
                 return;
             }
-
-            if (string.IsNullOrEmpty(imagePath))
+            if(cbLoai.SelectedIndex == -1)
+            {
+                MessageBox.Show("Không được để trống loại sản phẩm", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbLoai.Focus();
+                return;
+            }
+            if(busSanPham.kiemTraChuoiRong(txtGia.Text))
+            {
+                MessageBox.Show("Không được để trống giá sản phẩm", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtGia.Focus();
+                return;
+            }
+            if(!busSanPham.kiemTraSo(txtGia.Text))
+            {
+                MessageBox.Show("Giá sản phẩm phải là số", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtGia.Focus();
+                return;
+            }
+            if(!busSanPham.kiemTraSoDuong(float.Parse(txtGia.Text)))
+            {
+                MessageBox.Show("Giá sản phẩm phải là số dương", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtGia.Focus();
+                return;
+            }
+            if(busSanPham.kiemTraChuoiRong(imagePath))
             {
                 MessageBox.Show("Vui lòng chọn ảnh sản phẩm!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;

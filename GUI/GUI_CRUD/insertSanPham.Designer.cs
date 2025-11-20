@@ -1,6 +1,6 @@
 ﻿namespace GUI.GUI_CRUD
 {
-    partial class insertProduct
+    partial class insertSanPham
     {
         /// <summary>
         /// Required designer variable.

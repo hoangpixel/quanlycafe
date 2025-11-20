@@ -194,11 +194,11 @@
     <Compile Include="GUI_CRUD\insertNguyenLieu.Designer.cs">
       <DependentUpon>insertNguyenLieu.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI_CRUD\insertProduct.cs">
+    <Compile Include="GUI_CRUD\insertSanPham.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI_CRUD\insertProduct.Designer.cs">
-      <DependentUpon>insertProduct.cs</DependentUpon>
+    <Compile Include="GUI_CRUD\insertSanPham.Designer.cs">
+      <DependentUpon>insertSanPham.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_CRUD\loaiSPGUI.cs">
       <SubType>Form</SubType>
@@ -313,8 +313,8 @@
     <EmbeddedResource Include="GUI_CRUD\insertNguyenLieu.resx">
       <DependentUpon>insertNguyenLieu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI_CRUD\insertProduct.resx">
-      <DependentUpon>insertProduct.cs</DependentUpon>
+    <EmbeddedResource Include="GUI_CRUD\insertSanPham.resx">
+      <DependentUpon>insertSanPham.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\loaiSPGUI.resx">
       <DependentUpon>loaiSPGUI.cs</DependentUpon>

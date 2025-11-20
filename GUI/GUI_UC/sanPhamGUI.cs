@@ -168,7 +168,7 @@ namespace GUI.GUI_UC
 
         private void btnThemSP_Click(object sender, EventArgs e)
         {
-            using (insertProduct form = new insertProduct(null))
+            using (insertSanPham form = new insertSanPham(null))
             {
                 form.StartPosition = FormStartPosition.CenterParent;
                 if (form.ShowDialog() == DialogResult.OK)

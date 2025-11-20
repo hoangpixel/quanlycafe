@@ -9,6 +9,8 @@ namespace GUI.GUI_UC
     {
         private Panel panelMain;
         private navbarGUI nav;
+
+        // Dictionary chỉ lưu những trang ĐÃ ĐƯỢC TẠO
         private Dictionary<string, UserControl> pages = new Dictionary<string, UserControl>();
 
         public mainContentGUI()
@@ -22,36 +24,29 @@ namespace GUI.GUI_UC
             this.Dock = DockStyle.Fill;
             this.BackColor = Color.White;
 
-            // 🧱 1. Panel hiển thị nội dung
+            // 1. Navbar bên trái
+            nav = new navbarGUI()
+            {
+                Dock = DockStyle.Left,
+                Width = 230 // Khớp với width trong navbarGUI
+            };
+            nav.OnNavClick += HandleNavClick;
+            this.Controls.Add(nav);
+
+            // 2. Panel hiển thị nội dung
             panelMain = new Panel()
             {
                 Dock = DockStyle.Fill,
                 BackColor = Color.WhiteSmoke
             };
             this.Controls.Add(panelMain);
+            panelMain.BringToFront(); // Đảm bảo panel nội dung không bị che
 
-            // 🧭 2. Navbar bên trái
-            nav = new navbarGUI()
-            {
-                Dock = DockStyle.Left,
-                Width = 220
-            };
-            this.Controls.Add(nav);
-
-            // 🧩 3. Gán sự kiện chuyển trang
-            nav.OnNavClick += HandleNavClick;
-
-            // ⚡ 4. Khởi tạo các trang
-            pages["home"] = new banHangGUI() { Dock = DockStyle.Fill };
-            pages["sanpham"] = new sanPhamGUI() { Dock = DockStyle.Fill };
-            pages["nguyenlieu"] = new nguyenLieuGUI() { Dock = DockStyle.Fill };
-            pages["congthuc"] = new congThucGUI() { Dock = DockStyle.Fill };
-
-            foreach (var p in pages.Values)
-                panelMain.Controls.Add(p);
-
-            // Hiển thị mặc định trang home
-            pages["home"].BringToFront();
+            // 3. MẶC ĐỊNH VÀO TRANG HOME (BÁN HÀNG)
+            // Kích hoạt giao diện nút Home trên Navbar
+            nav.SelectButtonByTag("home");
+            // Load nội dung trang Home
+            HandleNavClick("home");
         }
 
         private void HandleNavClick(string page)
@@ -62,13 +57,56 @@ namespace GUI.GUI_UC
                 return;
             }
 
-            if (pages.ContainsKey(page))
+            // Tối ưu hiển thị để giảm nháy hình (Flicker)
+            panelMain.SuspendLayout();
+
+            try
             {
-                pages[page].BringToFront();
+                // Kiểm tra xem trang này đã từng load chưa?
+                if (!pages.ContainsKey(page))
+                {
+                    UserControl uc = null;
+
+                    // LAZY LOADING: Chỉ new khi cần thiết
+                    switch (page)
+                    {
+                        case "home": uc = new banHangGUI(); break;
+                        case "sanpham": uc = new sanPhamGUI(); break;
+                        case "nguyenlieu": uc = new nguyenLieuGUI(); break;
+                        case "congthuc": uc = new congThucGUI(); break;
+                        // case "nhanvien": uc = new nhanVienGUI(); break; // Nhớ thêm class này nếu có
+                        // case "baocao": uc = new baoCaoGUI(); break;     // Nhớ thêm class này nếu có
+                        default:
+                            MessageBox.Show($"Đang phát triển trang: {page}", "Thông báo");
+                            return;
+                    }
+
+                    if (uc != null)
+                    {
+                        uc.Dock = DockStyle.Fill;
+                        pages.Add(page, uc); // Lưu vào bộ nhớ đệm
+                        panelMain.Controls.Add(uc);
+                    }
+                }
+
+                // Ẩn tất cả các trang khác (hoặc dùng BringToFront)
+                // BringToFront đôi khi bị lag nếu quá nhiều control chồng lên nhau
+                // Cách tốt nhất là BringToFront trang cần hiện
+                if (pages.ContainsKey(page))
+                {
+                    pages[page].BringToFront();
+
+                    // Mẹo nhỏ: Focus vào trang mới để trỏ chuột hoạt động đúng
+                    pages[page].Focus();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show($"Chưa có trang cho '{page}'!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Lỗi khi tải trang: " + ex.Message);
+            }
+            finally
+            {
+                panelMain.ResumeLayout(); // Vẽ lại giao diện sau khi xử lý xong
             }
         }
     }

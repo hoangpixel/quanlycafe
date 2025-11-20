@@ -36,7 +36,7 @@ namespace GUI.GUI_UC
             // 🔹 Logo / Header
             Label lblHeader = new Label
             {
-                Text = "☕  XANHCAFE",
+                Text = "☕  XANGCAFE",
                 Dock = DockStyle.Top,
                 Height = 70,
                 TextAlign = ContentAlignment.MiddleCenter,
@@ -50,7 +50,6 @@ namespace GUI.GUI_UC
             AddNavButton("📦  Sản phẩm", "sanpham");
             AddNavButton("🥣  Nguyên liệu", "nguyenlieu");
             AddNavButton("👨‍🍳  Công thức", "congthuc");
-            AddNavButton("test bán hàng", "banhang");
             AddNavButton("👨‍💼  Nhân viên", "nhanvien");
             AddNavButton("📊  Báo cáo", "baocao");
             AddNavButton("🚪  Thoát", "exit");
@@ -126,6 +125,19 @@ namespace GUI.GUI_UC
         {
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
+        }
+
+        public void SelectButtonByTag(string tag)
+        {
+            foreach (Control ctrl in this.Controls)
+            {
+                // Tìm nút có Tag tương ứng và là Button
+                if (ctrl is Button btn && btn.Tag != null && btn.Tag.ToString() == tag)
+                {
+                    ActivateButton(btn); // Kích hoạt giao diện nút đó
+                    break;
+                }
+            }
         }
     }
 }

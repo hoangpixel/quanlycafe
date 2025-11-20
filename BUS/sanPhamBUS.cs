@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BUS
@@ -284,6 +285,34 @@ namespace BUS
             }
 
             return dskq;
+        }
+
+        public bool kiemTraChuoiRong(string item)
+        {
+            if(string.IsNullOrWhiteSpace(item))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool kiemTraSo(string item)
+        {
+            string ktra = @"^[0-9]+$";
+            if(Regex.IsMatch(item,ktra))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool kiemTraSoDuong(float so)
+        {
+            if(so <= 0)
+            {
+                return false;
+            }
+            return true;
         }
 
     }
