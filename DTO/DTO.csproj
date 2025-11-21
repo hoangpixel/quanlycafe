@@ -48,8 +48,10 @@
     <Compile Include="gioHangItemDTO.cs" />
     <Compile Include="heSoDTO.cs" />
     <Compile Include="hoaDonDTO.cs" />
+    <Compile Include="khachHangDTO.cs" />
     <Compile Include="loaiDTO.cs" />
     <Compile Include="nguyenLieuDTO.cs" />
+    <Compile Include="nhanVienDTO.cs" />
     <Compile Include="nhomDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sanPhamDTO.cs" />

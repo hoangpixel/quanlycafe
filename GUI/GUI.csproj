@@ -98,6 +98,18 @@
     <Compile Include="GUI_CRUD\Form1ChonBan.Designer.cs">
       <DependentUpon>Form1ChonBan.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_SELECT\FormchonKH.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_SELECT\FormchonKH.Designer.cs">
+      <DependentUpon>FormchonKH.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_SELECT\FormchonNV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_SELECT\FormchonNV.Designer.cs">
+      <DependentUpon>FormchonNV.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_CRUD\frmChiTietHD.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -271,6 +283,12 @@
     <EmbeddedResource Include="GUI_CRUD\Form1ChonBan.resx">
       <DependentUpon>Form1ChonBan.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI_SELECT\FormchonKH.resx">
+      <DependentUpon>FormchonKH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_SELECT\FormchonNV.resx">
+      <DependentUpon>FormchonNV.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\frmChiTietHD.resx">
       <DependentUpon>frmChiTietHD.cs</DependentUpon>
     </EmbeddedResource>
@@ -380,6 +398,10 @@
     <ProjectReference Include="..\BUS\BUS.csproj">
       <Project>{8ae1a39f-a889-4057-8243-0f5395964be5}</Project>
       <Name>BUS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAO\DAO.csproj">
+      <Project>{6b3af4cd-1628-4d99-a80f-867f4e60bef8}</Project>
+      <Name>DAO</Name>
     </ProjectReference>
     <ProjectReference Include="..\DTO\DTO.csproj">
       <Project>{af8e7519-b81a-48be-9e09-8be2d43016d7}</Project>

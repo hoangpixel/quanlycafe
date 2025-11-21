@@ -20,7 +20,7 @@ namespace DAO
                     hd.MAHOADON, 
                     hd.MABAN, 
                     hd.THOIGIANTAO, 
-                    hd.TRANGTHAI, 
+                    
                     hd.TONGTIEN
                 FROM hoadon hd
                 ORDER BY hd.MAHOADON DESC";
@@ -40,7 +40,7 @@ namespace DAO
                         MaHD = reader.GetInt32("MAHOADON"),
                         MaBan = Convert.ToInt32(reader["MABAN"]), // VARCHAR
                         ThoiGianTao = reader.GetDateTime("THOIGIANTAO"),
-                        TrangThai = reader.GetBoolean("TRANGTHAI"),
+                        //TrangThai = reader.GetBoolean("TRANGTHAI"),
                         TongTien = reader.GetDecimal("TONGTIEN")
                     };
                     ds.Add(hd);
@@ -82,12 +82,12 @@ namespace DAO
                 hd.TongTien = tongTien;
 
                 string sqlHD = @"
-INSERT INTO hoadon 
-    (MABAN, MATT, THOIGIANTAO, TRANGTHAI, TONGTIEN, MAKHACHHANG, MANHANVIEN)
-VALUES
-    (@MaBan, @MaTT, @ThoiGianTao, @TrangThai, 0, @MaKH, @MaNV);
-SELECT LAST_INSERT_ID();
-";
+                INSERT INTO hoadon 
+                    (MABAN, MATT, THOIGIANTAO, TRANGTHAI, TONGTIEN, MAKHACHHANG, MANHANVIEN)
+                VALUES
+                    (@MaBan, @MaTT, @ThoiGianTao, @TrangThai, 0, @MaKH, @MaNV);
+                SELECT LAST_INSERT_ID();
+                ";
 
 
                 var cmdHD = new MySqlCommand(sqlHD, conn, tran);
@@ -241,6 +241,104 @@ SELECT LAST_INSERT_ID();
             }
 
             return hd;
+        }
+        // Kiểm tra bàn đang có hóa đơn chưa thanh toán không
+        public bool BanDangCoHoaDonChuaThanhToan(int maBan)
+        {
+            string qry = @"
+        SELECT COUNT(*) 
+        FROM hoadon 
+        WHERE MABAN = @MaBan 
+          AND TRANGTHAI = 0";  // 0 = chưa thanh toán
+
+            using (MySqlConnection conn = DBConnect.GetConnection())
+            using (MySqlCommand cmd = new MySqlCommand(qry, conn))
+            {
+                cmd.Parameters.AddWithValue("@MaBan", maBan);
+                //conn.Open();
+                long count = (long)cmd.ExecuteScalar();
+                return count > 0;
+            }
+        }
+        // LẤY CHI TIẾT HÓA ĐƠN THEO MÃ HÓA ĐƠN
+        public BindingList<cthoaDonDTO> LayChiTietHoaDon(int maHD)
+        {
+            BindingList<cthoaDonDTO> dsCT = new BindingList<cthoaDonDTO>();
+            string qry = @"
+        SELECT 
+            cthd.MASANPHAM,
+            sp.TENSANPHAM AS TENSP,
+            cthd.SOLUONG,
+            cthd.DONGIA,
+            cthd.THANHTIEN
+        FROM cthd 
+        INNER JOIN sanpham sp ON cthd.MASANPHAM = sp.MASANPHAM
+        WHERE cthd.MAHOADON = @MaHD";
+
+            using (MySqlConnection conn = DBConnect.GetConnection())
+            using (MySqlCommand cmd = new MySqlCommand(qry, conn))
+            {
+                cmd.Parameters.AddWithValue("@MaHD", maHD);
+                //conn.Open();
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        dsCT.Add(new cthoaDonDTO
+                        {
+                            MaSP = reader.GetInt32("MASANPHAM"),
+                            TenSP = reader.GetString("TENSP"),
+                            SoLuong = reader.GetInt32("SOLUONG"),
+                            DonGia = reader.GetDecimal("DONGIA"),
+                            ThanhTien = reader.GetDecimal("THANHTIEN")
+                        });
+                    }
+                }
+            }
+            return dsCT;
+        }
+
+        // LẤY THÔNG TIN CHUNG CỦA HÓA ĐƠN (Bàn, Khách, Nhân viên, Thời gian, Tổng tiền)
+        public hoaDonDTO LayThongTinHoaDon(int maHD)
+        {
+            string qry = @"
+        SELECT 
+        hd.MAHOADON,
+        hd.MABAN,
+        hd.THOIGIANTAO,
+        hd.TONGTIEN,
+        COALESCE(kh.TENKHACHHANG, 'Khách lẻ') AS TenKhach,
+        COALESCE(nv.HOTEN, 'Nhân Viên') AS TenNV
+
+        FROM hoadon hd
+        LEFT JOIN khachhang kh ON hd.MAKHACHHANG = kh.MAKHACHHANG
+        LEFT JOIN nhanvien nv ON hd.MANHANVIEN = nv.MANHANVIEN
+        WHERE hd.MAHOADON = @MaHD";
+
+            using (MySqlConnection conn = DBConnect.GetConnection())
+            using (MySqlCommand cmd = new MySqlCommand(qry, conn))
+            {
+                cmd.Parameters.AddWithValue("@MaHD", maHD);
+                //conn.Open();
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new hoaDonDTO
+                        {
+                            MaHD = reader.GetInt32("MAHOADON"),
+                            MaBan = Convert.ToInt32(reader["MABAN"]),
+                            ThoiGianTao = reader.GetDateTime("THOIGIANTAO"),
+                            TongTien = reader.GetDecimal("TONGTIEN"),
+                            // Các thông tin bổ sung
+                            //TenKhuVuc = reader.IsDBNull(reader.GetOrdinal("TENKV")) ? "" : reader.GetString("TENKV"),
+                            TenKhachHang = reader.GetString("TenKhach"),
+                            HoTen = reader.GetString("TenNV")
+                        };
+                    }
+                }
+            }
+            return null;
         }
     }
 }
