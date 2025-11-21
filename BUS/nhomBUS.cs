@@ -55,5 +55,19 @@ namespace BUS
             }
             return kq;
         }
+
+        public int layMa()
+        {
+            return data.LayMa();
+        }
+
+        public bool kiemTraRong(string item)
+        {
+            if(string.IsNullOrWhiteSpace(item))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

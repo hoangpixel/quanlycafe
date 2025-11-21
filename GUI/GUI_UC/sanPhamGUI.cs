@@ -283,6 +283,7 @@ namespace GUI.GUI_UC
             loadComboBoxLoaiSPTK();
             dsLoai = new loaiSanPhamBUS().LayDanhSach();
             dsNhom = new nhomBUS().layDanhSach();
+            tbSanPham.Refresh();
         }
 
         private void btnExcelSP_Click(object sender, EventArgs e)
