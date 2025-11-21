@@ -1,121 +1,72 @@
-﻿using DAO.CONFIG;
-using DTO;
-using MySql.Data.MySqlClient;
-using MySqlX.XDevAPI.Common;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DTO;
 
 namespace DAO
 {
     public class nhomDAO
     {
-        public BindingList<nhomDTO> layDanhSachNhom()
+        public List<nhomDTO> LayDanhSach()
         {
-            BindingList<nhomDTO> ds = new BindingList<nhomDTO>();
-            string qry = "SELECT * FROM nhom WHERE TRANGTHAI = 1";
-            MySqlConnection conn = null;
-            try
+            using (var db = new AppDbContext())
             {
-                conn = DBConnect.GetConnection();
-                MySqlCommand cmd = new MySqlCommand(qry, conn);
-                MySqlDataReader rs = cmd.ExecuteReader();
-                while(rs.Read())
-                {
-                    nhomDTO ct = new nhomDTO();
-                    ct.MaNhom = rs.GetInt32("MANHOM");
-                    ct.TenNhom = rs.GetString("TENNHOM");
-                    ct.TrangThai = rs.GetInt32("TRANGTHAI");
-                    ds.Add(ct);
-                }
-                rs.Close();
-                cmd.Dispose();
-            }catch(MySqlException ex)
-            {
-                Console.WriteLine("Lỗi không lấy được danh sách nhóm : " + ex);
+                return db.Nhoms.Where(x => x.TrangThai == 1).ToList();
             }
-            return ds;
         }
-
-        public bool them(nhomDTO ct)
+        public bool ThemNhom(nhomDTO ct)
         {
-            MySqlConnection conn = null;
-            try
+            using (var db = new AppDbContext())
             {
-                string qry = @"INSERT INTO nhom (TENNHOM, TRANGTHAI) VALUES (@tenNhom,@trangThai)";
-                conn = DBConnect.GetConnection();
-                MySqlCommand cmd = new MySqlCommand(qry, conn);
-                cmd.Parameters.AddWithValue("@tenNhom", ct.TenNhom);
-                cmd.Parameters.AddWithValue("@trangThai", ct.TrangThai);
+                nhomDTO moi = new nhomDTO();
+                moi.TenNhom = ct.TenNhom;
+                moi.TrangThai = 1;
 
-                object rs = cmd.ExecuteNonQuery();
-                if(rs != null)
-                {
-                    return true;
-                }
-                return false;
-            }catch(MySqlException ex)
-            {
-                Console.WriteLine("Lỗi không thêm được nhóm : " + ex);
-                return false;
-            }
-            finally { DBConnect.CloseConnection(conn); }
-        }
-
-        public bool sua(nhomDTO ct)
-        {
-            MySqlConnection conn = null;
-            try
-            {
-                string qry = @"UPDATE nhom SET TENNHOM = @tenNhom WHERE MANHOM = @maNhom";
-                conn = DBConnect.GetConnection();
-                MySqlCommand cmd = new MySqlCommand(qry, conn);
-                cmd.Parameters.AddWithValue("@tenNhom", ct.TenNhom);
-                cmd.Parameters.AddWithValue("@maNhom", ct.MaNhom);
-
-                int row = cmd.ExecuteNonQuery();
-                if(row > 0)
-                {
-                    return true;
-                }
-                return false;
-            }catch(MySqlException ex)
-            {
-                Console.WriteLine("Lỗi không update đc nhóm : " + ex);
-                return false;
-            }
-            finally
-            {
-                DBConnect.CloseConnection(conn);
+                db.Nhoms.Add(moi);
+                db.SaveChanges();
+                return true;
             }
         }
 
-        public bool xoa(int maNhom)
+        public int LayMa()
         {
-            MySqlConnection conn = null;
-            try
+            using (var db = new AppDbContext())
             {
-                string qry = @"UPDATE nhom SET TRANGTHAI = 0 WHERE MANHOM = @maNhom";
-                conn = DBConnect.GetConnection();
-                MySqlCommand cmd = new MySqlCommand(qry, conn);
-                cmd.Parameters.AddWithValue("@maNhom", maNhom);
+                int maxMa = db.Nhoms.Select(x => x.MaNhom).DefaultIfEmpty(0).Max();
+                return maxMa + 1;
+            }
+        }
 
-                int row = cmd.ExecuteNonQuery();
-                if(row > 0)
+        public bool SuaNhom(nhomDTO ct)
+        {
+            using (var db = new AppDbContext())
+            {
+                var item = db.Nhoms.FirstOrDefault(x => x.MaNhom == ct.MaNhom);
+
+                if (item != null)
                 {
+                    item.TenNhom = ct.TenNhom;
+                    db.SaveChanges();
                     return true;
                 }
                 return false;
-            }catch(MySqlException ex)
+            }
+        }
+
+        public bool XoaNhom(int maNhom)
+        {
+            using (var db = new AppDbContext())
             {
-                Console.WriteLine("Lỗi không xóa đc nhóm : " + ex);
+                var item = db.Nhoms.FirstOrDefault(x => x.MaNhom == maNhom);
+                if (item != null)
+                {
+                    item.TrangThai = 0;
+
+                    db.SaveChanges();
+                    return true;
+                }
                 return false;
             }
-            finally { DBConnect.CloseConnection(conn); }
         }
     }
 }

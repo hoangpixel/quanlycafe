@@ -1,62 +1,56 @@
 ﻿using DAO;
 using DTO;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.SymbolStore;
+using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BUS
 {
     public class nhomBUS
     {
+        private nhomDAO data = new nhomDAO();
         public static BindingList<nhomDTO> ds = new BindingList<nhomDTO>();
-        public void docDanhSach()
-        {
-            nhomDAO data = new nhomDAO();
-            ds = data.layDanhSachNhom();
-        }
         public BindingList<nhomDTO> layDanhSach()
         {
-            nhomDAO data = new nhomDAO();
-            return data.layDanhSachNhom();
+            if (ds == null || ds.Count == 0)
+            {
+                ds = new BindingList<nhomDTO>(data.LayDanhSach());
+            }
+            return ds;
         }
         public bool them(nhomDTO ct)
         {
-            nhomDAO data = new nhomDAO();
-            bool kq = data.them(ct);
-            if(kq)
+            bool kq = data.ThemNhom(ct);
+            if (kq)
             {
                 ds.Add(ct);
             }
             return kq;
         }
+
         public bool sua(nhomDTO ct)
         {
-            nhomDAO data = new nhomDAO();
-            bool kq = data.sua(ct);
-            if(kq)
+            bool kq = data.SuaNhom(ct);
+            if (kq)
             {
-                nhomDTO tonTai = ds.FirstOrDefault(x => x.MaNhom == ct.MaNhom);
-                if(tonTai != null)
+                nhomDTO tontai = ds.FirstOrDefault(x => x.MaNhom == ct.MaNhom);
+                if (tontai != null)
                 {
-                    tonTai.TenNhom = ct.TenNhom;
+                    tontai.TenNhom = ct.TenNhom;
                 }
             }
             return kq;
         }
+
         public bool xoa(int maXoa)
         {
-            nhomDAO data = new nhomDAO();
-            bool kq = data.xoa(maXoa);
-            if(kq)
+            bool kq = data.XoaNhom(maXoa);
+            if (kq)
             {
-                nhomDTO nhom = ds.FirstOrDefault(x => x.MaNhom == maXoa);
-                if(nhom != null)
+                nhomDTO n = ds.FirstOrDefault(x => x.MaNhom == maXoa);
+                if (n != null)
                 {
-                    ds.Remove(nhom);
+                    ds.Remove(n);
                 }
             }
             return kq;

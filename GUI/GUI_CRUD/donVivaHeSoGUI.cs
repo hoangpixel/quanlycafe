@@ -3,6 +3,7 @@ using DTO;
 using FONTS;
 using GUI.GUI_SELECT;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
@@ -146,9 +147,10 @@ namespace GUI.GUI_CRUD
 
         private void btnThemDonVI_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtDonVi.Text))
+            if (busDonVi.kiemTraChuoiRong(txtDonVi.Text))
             {
                 MessageBox.Show("Vui lòng nhập tên đơn vị!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDonVi.Focus();
                 return;
             }
 
@@ -212,9 +214,10 @@ namespace GUI.GUI_CRUD
             donViDTO dv = row.DataBoundItem as donViDTO;
             int maDonVi = dv.MaDonVi;
             string tenMoi = txtDonVi.Text.Trim();
-            if (string.IsNullOrWhiteSpace(tenMoi))
+            if (busDonVi.kiemTraChuoiRong(tenMoi))
             {
-                MessageBox.Show("Vui lòng nhập tên đơn vị mới!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng nhập tên đơn vị mới", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDonVi.Focus();
                 return;
             }
             DialogResult result = MessageBox.Show(
@@ -276,7 +279,7 @@ namespace GUI.GUI_CRUD
         {
             txtTenNL.Clear();
             txtMaDV.Clear();
-            txtHeSo.Value = 0;
+            txtHeSo.Value = 0.001M;
             tableHeSo.ClearSelection();
             btnThemHs.Enabled = true;
             btnSuaHS.Enabled = false;
@@ -337,14 +340,22 @@ namespace GUI.GUI_CRUD
 
         private void btnThemHs_Click(object sender, EventArgs e)
         {
-            if (maNL == -1 || maDV == -1)
+            if (busDonVi.kiemTraChuoiRong(txtTenNL.Text))
             {
-                MessageBox.Show("Vui lòng nhập nguyên liệu!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng nhập nguyên liệu", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenNL.Focus();
+                return;
+            }
+            if (busDonVi.kiemTraChuoiRong(txtMaDV.Text))
+            {
+                MessageBox.Show("Vui lòng nhập đơn vị", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMaDV.Focus();
                 return;
             }
             if (txtHeSo.Value == 0)
             {
-                MessageBox.Show("Vui lòng nhập hế số!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng nhập hế số", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtHeSo.Focus();
                 return;
             }
 
@@ -372,9 +383,19 @@ namespace GUI.GUI_CRUD
 
         private void btnSuaHS_Click(object sender, EventArgs e)
         {
-            if (maNL == -1 || maDV == -1)
+            if (busDonVi.kiemTraChuoiRong(txtTenNL.Text))
             {
-                MessageBox.Show("Vui lòng chọn nguyên liệu cần sửa!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng nhập nguyên liệu", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (busDonVi.kiemTraChuoiRong(txtMaDV.Text))
+            {
+                MessageBox.Show("Vui lòng nhập đơn vị", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (txtHeSo.Value == 0)
+            {
+                MessageBox.Show("Vui lòng nhập hế số", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -449,17 +470,41 @@ namespace GUI.GUI_CRUD
 
         private void btnTim_Click(object sender, EventArgs e)
         {
-            if (cboTimDV.SelectedIndex == -1 || string.IsNullOrWhiteSpace(txtTimDV.Text))
+            BindingList<donViDTO> dsDV = new donViBUS().LayDanhSach();
+            if (cboTimDV.SelectedIndex == -1)
             {
-                MessageBox.Show("Vui lòng nhập giá trị cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Vui lòng chọn giá trị cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cboTimDV.Focus();
                 return;
             }
-            int index = cboTimDV.SelectedIndex;
-            string tim = txtTimDV.Text.Trim();
-            BindingList<donViDTO> dskq = busDonVi.timKiemCoBan(tim, index);
-            if (dskq != null && dskq.Count > 0)
+            if (busDonVi.kiemTraChuoiRong(txtTimDV.Text))
             {
-                loadDanhSachDonVi(dskq);
+                MessageBox.Show("Vui lòng nhập giá trị cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtTimDV.Focus();
+                return;
+            }
+            string tim = txtTimDV.Text.Trim().ToLower();
+            string giaTriChon = cboTimDV.SelectedItem.ToString();
+            List<donViDTO> dsTimKiem = new List<donViDTO>();
+            if (giaTriChon == "Mã ĐV")
+            {
+                dsTimKiem = (from item in dsDV
+                             where item.MaDonVi.ToString().Contains(tim)
+                             orderby item.MaDonVi
+                             select item).ToList();
+            }
+            if (giaTriChon == "Tên ĐV")
+            {
+                dsTimKiem = (from item in dsDV
+                             where item.TenDonVi.ToLower().Contains(tim)
+                             orderby item.MaDonVi
+                             select item).ToList();
+            }
+            if (dsTimKiem != null && dsTimKiem.Count > 0)
+            {
+                BindingList<donViDTO> kqSauBinding = new BindingList<donViDTO>(dsTimKiem);
+                loadDanhSachDonVi(kqSauBinding);
+                loadFontChuVaSizeTableDonVi();
             }
             else
             {
@@ -472,6 +517,7 @@ namespace GUI.GUI_CRUD
         {
             txtMaDV.Clear();
             txtTimDV.Clear();
+            cboTimDV.SelectedIndex = -1;
             BindingList<donViDTO> dskq = donViBUS.ds;
             loadDanhSachDonVi(dskq);
             loadFontChuVaSizeTableDonVi();
@@ -479,7 +525,39 @@ namespace GUI.GUI_CRUD
 
         private void btnTKhs_Click(object sender, EventArgs e)
         {
+            if (cboTimHS.SelectedIndex == -1)
+            {
+                MessageBox.Show("Vui lòng chọn giá trị cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cboTimHS.Focus();
+                return;
+            }
+            if (busDonVi.kiemTraChuoiRong(txtTimHS.Text))
+            {
+                MessageBox.Show("Vui lòng chọn giá trị cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtTimHS.Focus();
+                return;
+            }
+            string tim = txtTimHS.Text.ToLower().Trim();
+            string giaChiChon = cboTimHS.SelectedValue.ToString();
+            List<heSoDTO> dsTim = new List<heSoDTO>();
+            BindingList<heSoDTO> dsHS = new heSoBUS().LayDanhSach();
+            BindingList<nguyenLieuDTO> dsNL = new nguyenLieuBUS().LayDanhSach();
+            if (giaChiChon == "Mã NL")
+            {
+                dsTim = (from item in dsHS
+                         where item.MaNguyenLieu.ToString().Contains(tim)
+                         orderby item.MaNguyenLieu
+                         select item).ToList();
+            }
 
+            if (giaChiChon == "Tên NL")
+            {
+                dsTim = (from heso in dsHS
+                         join nl in dsNL on heso.MaNguyenLieu equals nl.MaNguyenLieu
+                         where nl.TenNguyenLieu.ToLower().Contains(tim)
+                         orderby nl.MaNguyenLieu
+                         select heso).ToList();
+            }
         }
 
         private void btnChonDV_Click(object sender, EventArgs e)

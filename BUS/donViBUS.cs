@@ -99,6 +99,13 @@ namespace BUS
             }
             return dskq;
         }
-
+        public bool kiemTraChuoiRong(string item)
+        {
+            if (string.IsNullOrWhiteSpace(item))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
