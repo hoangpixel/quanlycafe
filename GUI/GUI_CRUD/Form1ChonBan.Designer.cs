@@ -48,10 +48,11 @@
             // 
             // cbbKhuVuc
             // 
+            this.cbbKhuVuc.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbbKhuVuc.FormattingEnabled = true;
             this.cbbKhuVuc.Location = new System.Drawing.Point(184, 80);
             this.cbbKhuVuc.Name = "cbbKhuVuc";
-            this.cbbKhuVuc.Size = new System.Drawing.Size(197, 24);
+            this.cbbKhuVuc.Size = new System.Drawing.Size(181, 33);
             this.cbbKhuVuc.TabIndex = 1;
             // 
             // flowLayoutPanel1

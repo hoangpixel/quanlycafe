@@ -7,18 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DAO;
 
 namespace GUI.GUI_CRUD
 {
     public partial class FormChonBan : Form
     {
         public int maBan { get; private set; }
+        private hoaDonDAO hdDAO = new hoaDonDAO();
         private Dictionary<int, bool> TrangThaiBan = new Dictionary<int, bool>();
 
         public FormChonBan()
         {
             InitializeComponent();
-            cbbKhuVuc.Items.AddRange(new[] { "KV1", "KV2" });
+            cbbKhuVuc.Items.AddRange(new[] { "KhuVuc1", "KhuVuc2" });
             cbbKhuVuc.SelectedIndex = 0;
             cbbKhuVuc.SelectedIndexChanged += cbbKhuVuc_SelectedIndexChanged;
             LoadBan();
@@ -28,29 +30,49 @@ namespace GUI.GUI_CRUD
         {
             flowLayoutPanel1.Controls.Clear();
             string kv = cbbKhuVuc.SelectedItem.ToString();
-            int offset = (kv == "KV1") ? 0 : 20;
+            int offset = (kv == "KhuVuc1") ? 0 : 20;
+
             for (int i = 1; i <= 20; i++)
             {
                 int maSoBan = offset + i;
-                string tenBan = $"{kv}-Bàn{i}";
-                Button btn = new Button();
-                btn.Text = tenBan;
-                btn.Width = 85;
-                btn.Height = 60;
+                string tenBan = $"Bàn {i}";
 
-                // Kiểm tra trạng thái bàn (đã chọn thì disable)
-                if (TrangThaiBan.ContainsKey(maSoBan) && TrangThaiBan[maSoBan])
-                    btn.Enabled = false;
-
-                // Tạo bản sao cục bộ để tránh capture lỗi
-                int banHienTai = maSoBan;
-                btn.Click += (s, e) =>
+                Button btn = new Button
                 {
-                    maBan = banHienTai;
-                    TrangThaiBan[banHienTai] = true; // đánh dấu đã chọn
-                    DialogResult = DialogResult.OK;
-                    Close();
+                    Text = tenBan,
+                    Width = 80,
+                    Height = 50,
+                    Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                    Margin = new Padding(5),
+                    Tag = maSoBan // lưu mã bàn vào Tag để dùng sau
                 };
+
+                // Kiểm tra xem bàn này có đang có hóa đơn chưa thanh toán không
+                bool dangCoKhach = hdDAO.BanDangCoHoaDonChuaThanhToan(maSoBan);
+
+                if (dangCoKhach)
+                {
+                    // Bàn đang có khách → đổi màu đỏ + disable + thêm chữ "Bận"
+                    btn.BackColor = Color.IndianRed;
+                    btn.ForeColor = Color.White;
+                    btn.Text = tenBan + "\n(Bận)";
+                    btn.Enabled = false;
+                }
+                else
+                {
+                    // Bàn trống → màu xanh + cho phép chọn
+                    btn.BackColor = Color.LightGreen;
+                    btn.ForeColor = Color.Black;
+                    btn.Text = tenBan + "\n(Trống)";
+
+                    // Gắn sự kiện click
+                    btn.Click += (s, e) =>
+                    {
+                        maBan = maSoBan;
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
+                    };
+                }
 
                 flowLayoutPanel1.Controls.Add(btn);
             }
@@ -60,7 +82,9 @@ namespace GUI.GUI_CRUD
         {
             LoadBan();
         }
+        public void RefreshBan()
+        {
+            LoadBan();
+        }
     }
-
-
 }
