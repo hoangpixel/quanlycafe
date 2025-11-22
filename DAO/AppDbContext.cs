@@ -15,5 +15,18 @@ namespace DAO
         }
 
         public DbSet<nhomDTO> Nhoms { get; set; }
+        public DbSet<loaiDTO> Loais { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<loaiDTO>()
+                .HasRequired(l => l.Nhom)      
+                .WithMany(n => n.Loais)        
+                .HasForeignKey(l => l.MaNhom)  
+                .WillCascadeOnDelete(false);  
+                                               
+        }
     }
 }

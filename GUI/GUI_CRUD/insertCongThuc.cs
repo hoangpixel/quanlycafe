@@ -40,18 +40,13 @@ namespace GUI.GUI_CRUD
                 col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
-
             tableCongThuc.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             tableCongThuc.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
             tableCongThuc.DefaultCellStyle.Font = FontManager.GetLightFont(10);
-
             tableCongThuc.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
-
             tableCongThuc.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tableCongThuc.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             tableCongThuc.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
-
             tableCongThuc.Refresh();
         }
 
@@ -62,6 +57,9 @@ namespace GUI.GUI_CRUD
 
             dsDonVi = new donViBUS().LayDanhSach();
             dsNguyenLieu = new nguyenLieuBUS().LayDanhSach();
+
+            btnSuaCT.Enabled = false;
+            btnXoaCT.Enabled = false;
         }
 
         private void resetInput()
@@ -212,6 +210,9 @@ namespace GUI.GUI_CRUD
             {
                 btnChonSP.Enabled = true;
                 txtTenSanPham.Clear();
+                btnSuaCT.Enabled = false;
+                btnXoaCT.Enabled = false;
+                btnNhapCT.Enabled = true;
             }
         }
 

@@ -241,5 +241,15 @@ namespace BUS
             }
             return false;
         }
+
+        public bool kiemTraTrungTen(string item)
+        {
+            nguyenLieuDTO tim = ds.FirstOrDefault(x => x.TenNguyenLieu.ToLower().Equals(item.ToLower()));
+            if (tim != null)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

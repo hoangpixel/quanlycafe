@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
-using System.Data.Entity.Infrastructure; // Thư viện cấu trúc EF
-using MySql.Data.EntityFramework; // Thư viện MySQL
+using System.Data.Entity.Infrastructure;
+using MySql.Data.EntityFramework;
 
 namespace DAO
 {

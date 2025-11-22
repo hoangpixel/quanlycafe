@@ -15,23 +15,21 @@ namespace BUS
         private loaiSanPhamDAO data = new loaiSanPhamDAO();
         public BindingList<loaiDTO> LayDanhSach()
         {
-            if (ds == null || ds.Count == 0)
+            if(ds == null || ds.Count == 0)
             {
-                loaiSanPhamDAO dao = new loaiSanPhamDAO();
-                ds = dao.docDanhSachLoai();
-                Console.WriteLine($"BUS Loại: Tải {ds.Count} loại.");
+                ds = new BindingList<loaiDTO>(data.LayDanhSach());
             }
             return ds;
         }
 
         public int layMa()
         {
-            return data.layMa();
+            return data.LayMa();
         }
 
         public bool themLoai(loaiDTO ct)
         {
-            bool kq = data.Them(ct);
+            bool kq = data.them(ct);
             if(kq)
             {
                 ds.Add(ct);
@@ -41,13 +39,14 @@ namespace BUS
 
         public bool suaLoai(loaiDTO ct)
         {
-            bool result = data.Sua(ct);
+            bool result = data.sua(ct);
             if (result)
             {
                 loaiDTO tontai = ds.FirstOrDefault(x => x.MaLoai == ct.MaLoai);
                 if (tontai != null)
                 {
                     tontai.TenLoai = ct.TenLoai;
+                    tontai.MaNhom = ct.MaNhom;
                 }
             }
             return result;
@@ -55,7 +54,7 @@ namespace BUS
 
         public bool Xoa(int maLoai)
         {
-            bool result = data.Xoa(maLoai);
+            bool result = data.xoa(maLoai);
             if (result)
             {
                 loaiDTO loai = ds.FirstOrDefault(x => x.MaLoai == maLoai);

@@ -25,6 +25,7 @@ namespace GUI.GUI_UC
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
             hienThiPlaceHolderNguyenLieu();
+            rdCoBanNL.Checked = true;
         }
 
         private void nguyenLieuGUI_Load(object sender, EventArgs e)
@@ -315,6 +316,7 @@ namespace GUI.GUI_UC
                 tableNguyenLieu.Columns.Clear();
                 tableNguyenLieu.DataSource = null;
                 loadDanhSachNguyenLieu(ds);
+                loadFontChuVaSize();
             }
             else
             {

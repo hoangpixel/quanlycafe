@@ -112,7 +112,7 @@ namespace BUS
             loaiSanPhamDAO loaiDAO = new loaiSanPhamDAO();
 
             // 🔹 Danh sách mã loại đang có trong DB
-            var dsLoaiTonTai = loaiDAO.docDanhSachLoai().Select(l => l.MaLoai).ToList();
+            var dsLoaiTonTai = loaiDAO.LayDanhSach().Select(l => l.MaLoai).ToList();
 
             // 🔹 Dùng để kiểm tra trùng mã SP trong file Excel
             HashSet<int> maSPDaGap = new HashSet<int>();

@@ -304,6 +304,7 @@ namespace GUI.GUI_CRUD
             if (dskq != null && dskq.Count > 0)
             {
                 loadDanhSachLoaiSP(dskq);
+                loadFontChuVaSize();
                 tableLoaiSP.ClearSelection();
             }else
             {

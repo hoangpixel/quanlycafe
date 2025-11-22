@@ -20,6 +20,8 @@ namespace GUI.GUI_SELECT
 
         public bool chiLayHeSo { get; set; } = false;
         public int maNguyenLieu { get; set; } = -1;
+        donViBUS bus = new donViBUS();
+
         public selectDonVi()
         {
             InitializeComponent();
@@ -27,7 +29,6 @@ namespace GUI.GUI_SELECT
 
         private void loadFontChuVaSizeTableDonVi()
         {
-            // --- Căn giữa và tắt sort ---
             foreach (DataGridViewColumn col in tableDonVi.Columns)
             {
                 col.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -38,13 +39,10 @@ namespace GUI.GUI_SELECT
             tableDonVi.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             tableDonVi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // font cho dữ liệu trong table
             tableDonVi.DefaultCellStyle.Font = FontManager.GetLightFont(10);
 
-            //font cho header trong table
             tableDonVi.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
 
-            // --- Fix lỗi mất text khi đổi font ---
             tableDonVi.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tableDonVi.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             tableDonVi.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
@@ -57,8 +55,6 @@ namespace GUI.GUI_SELECT
             FontManager.ApplyFontToAllControls(this);
 
             BindingList<donViDTO> dsDonVi = new BindingList<donViDTO>();
-            donViBUS bus = new donViBUS();
-
             if(chiLayHeSo && maNguyenLieu > 0)
             {
                 dsDonVi = bus.layDanhSachDonViTheoNguyenLieu(maNguyenLieu);
@@ -75,29 +71,30 @@ namespace GUI.GUI_SELECT
                 dsDonVi = donViBUS.ds;
             }
 
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Mã đơn vị");
-            dt.Columns.Add("Tên đơn vị");
-
-            foreach (donViDTO ct in dsDonVi)
-            {
-                dt.Rows.Add(ct.MaDonVi, ct.TenDonVi);
-            }
-
-            tableDonVi.DataSource = dt;
+            loadDanhSachDonVi(dsDonVi);
             loadFontChuVaSizeTableDonVi();
-            tableDonVi.ReadOnly = true;
-            tableDonVi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            tableDonVi.ClearSelection();
+        }
+        private void loadDanhSachDonVi(BindingList<donViDTO> ds)
+        {
+            tableDonVi.AutoGenerateColumns = false;
+            tableDonVi.Columns.Clear();
 
+            tableDonVi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaDonVi", HeaderText = "Mã đơn vị" });
+            tableDonVi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TenDonVi", HeaderText = "Tên đơn vị" });
+
+            tableDonVi.DataSource = ds;
+            tableDonVi.ReadOnly = true;
+            tableDonVi.ClearSelection();
         }
 
         private void tableDonVi_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if(e.RowIndex >= 0)
             {
-                maDonVi = Convert.ToInt32(tableDonVi.Rows[e.RowIndex].Cells["Mã đơn vị"].Value);
-                tenDonVi = tableDonVi.Rows[e.RowIndex].Cells["Tên đơn vị"].Value.ToString();
+                DataGridViewRow row = tableDonVi.SelectedRows[0];
+                donViDTO donvi = row.DataBoundItem as donViDTO;
+                maDonVi = donvi.MaDonVi;
+                tenDonVi = donvi.TenDonVi;
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
@@ -111,6 +108,34 @@ namespace GUI.GUI_SELECT
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            if(bus.kiemTraChuoiRong(txtTimKiem.Text))
+            {
+                MessageBox.Show("Vui lòng nhập giá trị cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtTimKiem.Focus();
+                return;
+            }
+            string tim = txtTimKiem.Text.Trim();
+            BindingList<donViDTO> dsDV = new donViBUS().LayDanhSach();
+            List<donViDTO> dsTim = new List<donViDTO>();
+            dsTim = (from item in dsDV
+                     where item.TenDonVi.ToLower().Contains(tim)
+                     orderby item.MaDonVi
+                     select item).ToList();
+
+            if(dsTim != null && dsTim.Count > 0)
+            {
+                BindingList<donViDTO> dsSauBinding = new BindingList<donViDTO>(dsTim);
+                loadDanhSachDonVi(dsSauBinding);
+                loadFontChuVaSizeTableDonVi();
+            }else
+            {
+                MessageBox.Show("Không tìm thấy kết quả", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
         }
     }
 }

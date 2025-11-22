@@ -63,6 +63,14 @@ namespace GUI.GUI_CRUD
                 txtTenDonVi.Focus();
                 return;
             }
+
+            if(!busNguyenLieu.kiemTraTrungTen(txtTenNL.Text))
+            {
+                MessageBox.Show("Tên nguyên liệu bị trùng",
+                "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenNL.Focus();
+                return;
+            }
             try
             {
                 string tenNL = txtTenNL.Text.Trim();

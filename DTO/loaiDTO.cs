@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace DTO
 {
+    [Table("loai")]
     public class loaiDTO
     {
+        [Key]
         public int MaLoai { get; set; }
         public string TenLoai { get; set; }
 
         public int MaNhom { get; set; }
+        public int TrangThai { get; set; }
         public loaiDTO() { }
 
-        public loaiDTO(int maLoai, string tenLoai, int maNhom)
-        {
-            MaLoai = maLoai;
-            TenLoai = tenLoai;
-            MaNhom = maNhom;
-        }
+        [ForeignKey("MaNhom")]
+        public virtual nhomDTO Nhom { get; set; }
     }
 }

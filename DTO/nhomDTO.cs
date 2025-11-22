@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DTO
@@ -10,5 +11,7 @@ namespace DTO
         public int MaNhom { get; set; }
         public string TenNhom { get; set; }
         public int? TrangThai { get; set; }
+
+        public virtual ICollection<loaiDTO> Loais { get; set; }
     }
 }
