@@ -327,6 +327,7 @@ namespace GUI.GUI_UC
 
                 busSanPham.LayDanhSach();
                 loadDanhSachSanPham(sanPhamBUS.ds);
+                loadFontChuVaSize();
 
                 txtTimKiemSP.Clear();
                 cboTimKiemSP.SelectedIndex = -1;

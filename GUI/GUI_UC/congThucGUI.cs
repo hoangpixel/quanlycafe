@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -40,6 +41,8 @@ namespace GUI.GUI_UC
 
             BindingList<congThucDTO> ds = busCongThuc.LayDanhSach();
             loadDanhSachCongThuc(ds);
+            rdoTimCoBan.Checked = true;
+            hienThiPlaceHolderCongThuc();
         }
 
         private void loadDanhSachCongThuc(BindingList<congThucDTO> ds)
@@ -218,6 +221,8 @@ namespace GUI.GUI_UC
             congThucBUS bus = new congThucBUS();
             BindingList<congThucDTO> ds = bus.LayDanhSach();
             loadDanhSachCongThuc(ds);
+
+            ResetInputTimKiem();
         }
 
         private void btnExcelCT_Click(object sender, EventArgs e)
@@ -238,6 +243,170 @@ namespace GUI.GUI_UC
             tableCongThuc.ClearSelection();
         }
 
+        private void rdoTimCoBan_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rdoTimCoBan.Checked == true)
+            {
+                rdoTimNangCao.Checked = false;
+                txtTenSP.Enabled = false;
+                txtTenNL.Enabled = false;
+                txtTenDV.Enabled = false;
+                txtSoLuongMin.Enabled = false;
+                txtSoLuongMax.Enabled = false;
 
+                txtTenDV.Clear();
+                txtTenNL.Clear();
+                txtTenSP.Clear();
+                txtSoLuongMin.Clear();
+                txtSoLuongMax.Clear();
+                hienThiPlaceHolderCongThuc();
+            }
+            else
+            {
+                txtTimKiemCT.Enabled = false;
+                cboTimKiemCT.Enabled = false;
+                txtTenSP.Enabled = true;
+                txtTenNL.Enabled = true;
+                txtTenDV.Enabled = true;
+                txtSoLuongMin.Enabled = true;
+                txtSoLuongMax.Enabled = true;
+            }
+        }
+
+        private void rdoTimNangCao_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rdoTimNangCao.Checked == true)
+            {
+                rdoTimCoBan.Checked = false;
+                cboTimKiemCT.Enabled = false;
+                txtTimKiemCT.Enabled = false;
+
+                cboTimKiemCT.SelectedItem = -1;
+                txtTimKiemCT.Clear();
+                hienThiPlaceHolderCongThuc();
+            }else
+            {
+                cboTimKiemCT.Enabled = true;
+                txtTimKiemCT.Enabled = true;
+            }
+        }
+
+        private void hienThiPlaceHolderCongThuc()
+        {
+            SetPlaceholder(txtTimKiemCT, "Nhập giá trị cần tìm");
+            SetPlaceholder(txtTenNL, "Tên NL");
+            SetPlaceholder(txtSoLuongMin, "SL min");
+            SetPlaceholder(txtSoLuongMax, "SL max");
+            SetPlaceholder(txtTenSP, "Tên SP");
+            SetPlaceholder(txtTenDV, "Tên ĐV");
+            SetComboBoxPlaceholder(cboTimKiemCT, "Chọn giá trị TK");
+        }
+        // set placehover cho tìm kiếm nâng cao sản phẩm
+        private void SetPlaceholder(TextBox txt, string placeholder)
+        {
+            txt.ForeColor = Color.Gray;
+            txt.Text = placeholder;
+            txt.GotFocus += (s, e) =>
+            {
+                if (txt.Text == placeholder)
+                {
+                    txt.Text = "";
+                    txt.ForeColor = Color.Black;
+                }
+            };
+            txt.LostFocus += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(txt.Text))
+                {
+                    txt.ForeColor = Color.Gray;
+                    txt.Text = placeholder;
+                }
+            };
+        }
+
+
+        // set placehover cho tìm kiếm nâng cao sản phẩm
+        private void SetComboBoxPlaceholder(ComboBox cbo, string placeholder)
+        {
+
+            cbo.ForeColor = Color.Gray;
+            cbo.Text = placeholder;
+
+            cbo.GotFocus += (s, e) =>
+            {
+                if (cbo.Text == placeholder)
+                {
+                    cbo.Text = "";
+                    cbo.ForeColor = Color.Black;
+                }
+            };
+            cbo.LostFocus += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(cbo.Text))
+                {
+                    cbo.Text = placeholder;
+                    cbo.ForeColor = Color.Gray;
+                }
+            };
+        }
+
+        private void btnThucHienTimKiem_Click(object sender, EventArgs e)
+        {
+            if (rdoTimCoBan.Checked == true)
+            {
+                timKiemCoBan();
+            }else
+            {
+                timKiemNangCao();
+            }
+        }
+
+        public void loadLaiDanhSachTimKiem()
+        {
+            BindingList<congThucDTO> ds = new congThucBUS().LayDanhSach();
+            loadDanhSachCongThuc(ds);
+            loadFontChuVaSize();
+            ResetInputTimKiem();
+        }
+
+        public void ResetInputTimKiem()
+        {
+            cboTimKiemCT.SelectedIndex = -1;
+            txtTimKiemCT.Clear();
+            txtTenDV.Clear();
+            txtTenNL.Clear();
+            txtTenSP.Clear();
+            txtSoLuongMin.Clear();
+            txtSoLuongMax.Clear();
+
+            hienThiPlaceHolderCongThuc();
+        }
+        public void timKiemCoBan()
+        {
+            string tim = txtTimKiemCT.Text.Trim();
+            int index = cboTimKiemCT.SelectedIndex;
+
+            if(index == -1 || string.IsNullOrWhiteSpace(tim))
+            {
+                MessageBox.Show("Vui lòng nhập giá trị tìm kiếm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            BindingList<congThucDTO> dskq = busCongThuc.timKiemCoBan(tim, index);
+            if (dskq != null && dskq.Count > 0)
+            {
+                loadDanhSachCongThuc(dskq);
+                loadFontChuVaSize();
+            }else
+            {
+                MessageBox.Show("Không tìm thấy kết quả tìm kiếm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                loadLaiDanhSachTimKiem();
+                return;
+            }
+        }
+        public void timKiemNangCao()
+        {
+
+        }
     }
 }

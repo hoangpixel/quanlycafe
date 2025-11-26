@@ -111,43 +111,28 @@ namespace BUS
         {
             loaiSanPhamDAO loaiDAO = new loaiSanPhamDAO();
 
-            // 🔹 Danh sách mã loại đang có trong DB
             var dsLoaiTonTai = loaiDAO.LayDanhSach().Select(l => l.MaLoai).ToList();
 
-            // 🔹 Dùng để kiểm tra trùng mã SP trong file Excel
             HashSet<int> maSPDaGap = new HashSet<int>();
             BindingList<string> danhSachLoi = new BindingList<string>();
 
-            // 🔍 Bước 1: Kiểm tra dữ liệu trước khi thêm
             foreach (var sp in dsExcel)
             {
-                // ⚠️ Kiểm tra trùng mã trong Excel
                 if (!maSPDaGap.Add(sp.MaSP))
                 {
                     danhSachLoi.Add($"Mã SP {sp.MaSP} bị trùng trong file Excel (SP: {sp.TenSP}).");
                 }
 
-                // ⚠️ Kiểm tra mã loại hợp lệ
                 if (!dsLoaiTonTai.Contains(sp.MaLoai))
                 {
                     danhSachLoi.Add($"Mã loại {sp.MaLoai} của sản phẩm '{sp.TenSP}' không tồn tại trong DB.");
                 }
             }
-
-            // ❌ Nếu có lỗi → hiển thị cảnh báo và dừng
             if (danhSachLoi.Count > 0)
             {
                 string loiHienThi = string.Join("\n• ", danhSachLoi);
-                //MessageBox.Show(
-                //    $"Dữ liệu Excel không hợp lệ, không thể nhập!\n\nLỗi phát hiện:\n• {loiHienThi}",
-                //    "Lỗi dữ liệu Excel",
-                //    MessageBoxButtons.OK,
-                //    MessageBoxIcon.Error
-                //);
-                return; // ⛔ Dừng, không thêm gì hết
+                return;
             }
-
-            // ✅ Bước 2: Nếu dữ liệu hợp lệ → tiến hành thêm/cập nhật
             int soThem = 0, soCapNhat = 0, soBoQua = 0;
 
             foreach (var spMoi in dsExcel)
@@ -169,16 +154,6 @@ namespace BUS
                     soBoQua++;
                 }
             }
-
-            //MessageBox.Show(
-            //    $"Nhập Excel thành công!\n" +
-            //    $"- {soThem} sản phẩm mới được thêm.\n" +
-            //    $"- {soCapNhat} sản phẩm được cập nhật.\n" +
-            //    $"- {soBoQua} sản phẩm giữ nguyên.",
-            //    "Kết quả nhập Excel",
-            //    MessageBoxButtons.OK,
-            //    MessageBoxIcon.Information
-            //);
         }
 
 

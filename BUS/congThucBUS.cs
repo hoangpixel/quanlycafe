@@ -39,9 +39,6 @@ namespace BUS
             if (kq)
             {
                 ds.Add(ct);
-                Console.WriteLine($"BUS: Đã thêm công thức cho SP {ct.MaSanPham}, NL {ct.MaNguyenLieu}");
-
-                // Cập nhật trạng thái CT cho sản phẩm
                 sanPhamDAO spDAO = new sanPhamDAO();
                 spDAO.CapNhatTrangThaiCT(ct.MaSanPham, 1);
             }
@@ -82,15 +79,11 @@ namespace BUS
             return result;
         }
 
-
-
-        // 🟢 Nhập Excel thông minh
         public void NhapExcelThongMinh(BindingList<congThucDTO> dsExcel)
         {
             int soThem = 0, soCapNhat = 0, soBoQua = 0, soLoi = 0;
             congThucDAO data = new congThucDAO();
 
-            // 🆕 chỉ đọc 1 lần
             var dsHienTai = data.layDanhSach();
 
             foreach (var ctMoi in dsExcel)
@@ -124,21 +117,10 @@ namespace BUS
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("❌ Lỗi khi xử lý công thức Excel: " + ex.Message);
+                    Console.WriteLine("Lỗi khi xử lý công thức Excel: " + ex.Message);
                     soLoi++;
                 }
             }
-
-            //MessageBox.Show(
-            //    $"✅ Nhập Excel hoàn tất!\n" +
-            //    $"- {soThem} công thức mới được thêm.\n" +
-            //    $"- {soCapNhat} công thức được cập nhật.\n" +
-            //    $"- {soBoQua} công thức giữ nguyên.\n" +
-            //    $"- {soLoi} dòng bị lỗi.",
-            //    "Kết quả nhập Excel",
-            //    MessageBoxButtons.OK,
-            //    MessageBoxIcon.Information
-            //);
         }
 
         public bool kiemTraChuoiRong(string item)
@@ -148,6 +130,89 @@ namespace BUS
                 return true;
             }
             return false;
+        }
+
+        public BindingList<congThucDTO> timKiemCoBan(string tim, int index)
+        {
+            BindingList<congThucDTO> dskq = new BindingList<congThucDTO>();
+            if(ds == null)
+            {
+                LayDanhSach();
+            }
+            BindingList<sanPhamDTO> dsSp = new sanPhamBUS().LayDanhSach();
+            BindingList<nguyenLieuDTO> dsNl = new nguyenLieuBUS().LayDanhSach();
+            BindingList<donViDTO> dsDV = new donViBUS().LayDanhSach();
+            foreach(congThucDTO ct in ds)
+            {
+                switch(index)
+                {
+                    case 0:
+                        {
+                            if(ct.MaSanPham.ToString().Contains(tim))
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 1:
+                        {
+                            sanPhamDTO sp = dsSp.FirstOrDefault(x => x.MaSP == ct.MaSanPham);
+                            string tenSp = sp != null ? sp.TenSP : "";
+                            if(tenSp.IndexOf(tim, StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 2:
+                        {
+                            if(ct.MaNguyenLieu.ToString().Contains(tim))
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 3:
+                        {
+                            nguyenLieuDTO nl = dsNl.FirstOrDefault(x => x.MaNguyenLieu == ct.MaNguyenLieu);
+                            string tenNL = nl != null ? nl.TenNguyenLieu : "";
+                            if (tenNL.IndexOf(tim, StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 4:
+                        {
+                            donViDTO dv = dsDV.FirstOrDefault(x => x.MaDonVi == ct.MaDonViCoSo);
+                            string tendv = dv != null ? dv.TenDonVi : "";
+                            if(tendv.IndexOf(tim, StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 5:
+                        {
+                            float soLuong = float.Parse(tim);
+                            if(ct.SoLuongCoSo <= soLuong)
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 6:
+                        {
+                            float soLuong = float.Parse(tim);
+                            if(ct.SoLuongCoSo >= soLuong)
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                }
+            }
+            return dskq;
         }
     }
 }
