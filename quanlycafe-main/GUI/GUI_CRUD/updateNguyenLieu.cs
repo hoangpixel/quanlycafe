@@ -1,0 +1,119 @@
+﻿using BUS;
+using DTO;
+using FONTS;
+using GUI.GUI_SELECT;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace GUI.GUI_CRUD
+{
+    public partial class updateNguyenLieu : Form
+    {
+        private nguyenLieuDTO ct;
+        private int maDonVi = -1;
+        private string tenDonVi = "";
+        public nguyenLieuDTO suaCT;
+        private nguyenLieuBUS busNguyenLieu = new nguyenLieuBUS();
+        public updateNguyenLieu(nguyenLieuDTO ct)
+        {
+            InitializeComponent();
+            this.ct = ct;
+            this.Shown += updateNguyenLieu_Shown;
+        }
+
+        private void updateNguyenLieu_Load(object sender, EventArgs e)
+        {
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
+            donViBUS busDonvi = new donViBUS();
+            BindingList<donViDTO> dsdv = busDonvi.LayDanhSach();
+            if (ct != null)
+            {
+                txtTenNL.Text = ct.TenNguyenLieu;
+                maDonVi = ct.MaDonViCoSo;
+
+                donViDTO dv = dsdv.FirstOrDefault(x => x.MaDonVi == ct.MaDonViCoSo);
+                txtTenDonVi.Text = dv?.TenDonVi ?? "Không xác định";
+
+                txtTenNL.Focus();
+            }
+        }
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void updateNguyenLieu_Shown(object sender, EventArgs e)
+        {
+            this.ActiveControl = null;
+        }
+
+        private void btnSuaNL_Click_1(object sender, EventArgs e)
+        {
+            if (busNguyenLieu.kiemTraChuoiRong(txtTenNL.Text))
+            {
+                MessageBox.Show("Không được để trống tên nguyên liệu",
+                    "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenNL.Focus();
+                return;
+            }
+            if (busNguyenLieu.kiemTraChuoiRong(txtTenDonVi.Text))
+            {
+                MessageBox.Show("Không được để trống tên đơn vị",
+                    "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenDonVi.Focus();
+                return;
+            }
+
+            try
+            {
+                ct.TenNguyenLieu = txtTenNL.Text.Trim();
+                ct.MaDonViCoSo = maDonVi;
+                ct.TrangThai = 1;
+
+                if (ct != null)
+                {
+                    MessageBox.Show("Cập nhật nguyên liệu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    suaCT = ct;
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Lỗi khi cập nhật nguyên liệu!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi sửa nguyên liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnThoat_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnDonVi_Click(object sender, EventArgs e)
+        {
+            using (selectDonVi form = new selectDonVi())
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    maDonVi = form.maDonVi;
+                    tenDonVi = form.tenDonVi;
+                    txtTenDonVi.Text = form.tenDonVi;
+                }
+            }
+        }
+    }
+}
