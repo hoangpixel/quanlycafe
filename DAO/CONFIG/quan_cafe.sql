@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2025 at 02:34 AM
+-- Generation Time: Nov 28, 2025 at 07:21 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -251,19 +251,20 @@ CREATE TABLE `hoadon` (
   `TRANGTHAI` tinyint(1) NOT NULL DEFAULT 0,
   `TONGTIEN` decimal(12,2) NOT NULL DEFAULT 0.00,
   `MAKHACHHANG` int(11) DEFAULT NULL,
-  `MANHANVIEN` int(11) NOT NULL
+  `MANHANVIEN` int(11) NOT NULL,
+  `TRANGTHAIXOA` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `hoadon`
 --
 
-INSERT INTO `hoadon` (`MAHOADON`, `MABAN`, `MATT`, `THOIGIANTAO`, `TRANGTHAI`, `TONGTIEN`, `MAKHACHHANG`, `MANHANVIEN`) VALUES
-(6, 1, 1, '2025-11-14 13:57:53', 0, 67000.00, 1, 1),
-(15, 1, 1, '2025-11-14 14:44:44', 0, 17000.00, 1, 1),
-(17, 40, 1, '2025-11-14 15:07:45', 0, 17000.00, 1, 1),
-(18, 8, 1, '2025-11-14 15:24:58', 0, 100000.00, 1, 1),
-(19, 8, 1, '2025-11-14 15:38:52', 0, 2176000.00, 1, 1);
+INSERT INTO `hoadon` (`MAHOADON`, `MABAN`, `MATT`, `THOIGIANTAO`, `TRANGTHAI`, `TONGTIEN`, `MAKHACHHANG`, `MANHANVIEN`, `TRANGTHAIXOA`) VALUES
+(6, 1, 1, '2025-11-14 13:57:53', 0, 67000.00, 1, 1, 1),
+(15, 1, 1, '2025-11-14 14:44:44', 0, 17000.00, 1, 1, 1),
+(17, 40, 1, '2025-11-14 15:07:45', 0, 17000.00, 1, 1, 1),
+(18, 8, 1, '2025-11-14 15:24:58', 0, 100000.00, 1, 1, 1),
+(19, 8, 1, '2025-11-14 15:38:52', 0, 2176000.00, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -462,7 +463,8 @@ CREATE TABLE `phieunhap` (
   `MANHANVIEN` int(11) NOT NULL,
   `THOIGIAN` datetime NOT NULL DEFAULT current_timestamp(),
   `TRANGTHAI` tinyint(1) NOT NULL DEFAULT 0,
-  `TONGTIEN` decimal(12,2) NOT NULL DEFAULT 0.00
+  `TONGTIEN` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `TRANGTHAIXOA` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
