@@ -76,6 +76,7 @@ namespace GUI.GUI_UC
                         case "nguyenlieu": uc = new nguyenLieuGUI(); break;
                         case "congthuc": uc = new congThucGUI(); break;
                         case "khachhang": uc = new khachHangGUI(); break;
+                        case "thongke": uc = new thongKeGUI(); break;
                         //case "nhanvien": uc = new nhanVienGUI(); break; // Nhớ thêm class này nếu có
                         default:
                             MessageBox.Show($"Đang phát triển trang: {page}", "Thông báo");

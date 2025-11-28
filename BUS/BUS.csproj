@@ -54,6 +54,7 @@
     <Compile Include="phieuNhapBUS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sanPhamBUS.cs" />
+    <Compile Include="thongKeBUS.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAO\DAO.csproj">

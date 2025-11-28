@@ -269,7 +269,7 @@
             "Tên ĐV",
             "SL min",
             "SL max"});
-            this.cboTimKiemKH.Location = new System.Drawing.Point(10, 8);
+            this.cboTimKiemKH.Location = new System.Drawing.Point(10, 10);
             this.cboTimKiemKH.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemKH.Name = "cboTimKiemKH";
             this.cboTimKiemKH.Size = new System.Drawing.Size(176, 28);

@@ -53,7 +53,7 @@ namespace GUI.GUI_UC
             AddNavButton("👨‍🍳  Công thức", "congthuc");
             AddNavButton("👨‍💼  Nhân viên", "nhanvien");
             AddNavButton("👨‍💼  Khách hàng", "khachhang");
-            AddNavButton("📊  Báo cáo", "baocao");
+            AddNavButton("📊  Báo cáo", "thongke");
             AddNavButton("🚪  Thoát", "exit");
         }
 
