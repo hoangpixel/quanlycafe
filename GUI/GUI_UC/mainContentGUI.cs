@@ -71,11 +71,12 @@ namespace GUI.GUI_UC
                     switch (page)
                     {
                         case "home": uc = new banHangGUI(); break;
+                        case "nhaphang": uc = new nhapHangGUI(); break;
                         case "sanpham": uc = new sanPhamGUI(); break;
                         case "nguyenlieu": uc = new nguyenLieuGUI(); break;
                         case "congthuc": uc = new congThucGUI(); break;
-                        // case "nhanvien": uc = new nhanVienGUI(); break; // Nhớ thêm class này nếu có
-                        // case "baocao": uc = new baoCaoGUI(); break;     // Nhớ thêm class này nếu có
+                        case "khachhang": uc = new khachHangGUI(); break;
+                        //case "nhanvien": uc = new nhanVienGUI(); break; // Nhớ thêm class này nếu có
                         default:
                             MessageBox.Show($"Đang phát triển trang: {page}", "Thông báo");
                             return;

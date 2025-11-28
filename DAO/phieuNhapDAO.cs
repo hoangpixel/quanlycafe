@@ -4,8 +4,9 @@ using DAO.CONFIG;
 using DTO;
 using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-
+using System.Linq;
 
 namespace DAO
 {
@@ -213,6 +214,109 @@ namespace DAO
                 cmd.Parameters.AddWithValue("@tongTien", tongTien);
                 cmd.Parameters.AddWithValue("@maPN", maPN);
                 return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+        public int ThemPhieuNhap(phieuNhapDTO header, List<ctPhieuNhapDTO> details)
+        {
+            if (details == null || details.Count == 0) return 0;
+
+            MySqlConnection conn = DBConnect.GetConnection();
+            MySqlTransaction tran = null;
+
+            // Khởi tạo DAO chi tiết (hoặc đưa lên biến toàn cục của class)
+            ctPhieuNhapDAO ctDAO = new ctPhieuNhapDAO();
+
+            try
+            {
+                tran = conn.BeginTransaction();
+
+                decimal tongTien = details.Sum(ct => ct.SoLuong * ct.DonGia);
+
+                // SỬA: Gọi trực tiếp hàm Insert, không dùng pnDAO.Insert
+                int ketQua = Insert(header, conn, tran);
+
+                if (ketQua == 0) throw new Exception("Lỗi insert header.");
+
+                foreach (var ct in details)
+                {
+                    ct.MaPN = ketQua;
+
+                    // SỬA: Phải đảm bảo ctDAO có hàm Insert nhận Transaction
+                    bool ok = ctDAO.Insert(ct, conn, tran);
+                    if (!ok) throw new Exception("Lỗi insert chi tiết.");
+
+                    // Cập nhật tồn kho (Logic này OK)
+                    var cmdUpd = new MySqlCommand("UPDATE nguyenlieu SET TONKHO = TONKHO + @soluong WHERE MANGUYENLIEU = @mangl", conn, tran);
+                    cmdUpd.Parameters.AddWithValue("@soluong", ct.SoLuongCoSo);
+                    cmdUpd.Parameters.AddWithValue("@mangl", ct.MaNguyenLieu);
+                    cmdUpd.ExecuteNonQuery();
+                }
+
+                // SỬA: Gọi trực tiếp UpdateTongTien
+                if (!UpdateTongTien(ketQua, tongTien, conn, tran))
+                    throw new Exception("Lỗi update tổng tiền.");
+
+                tran.Commit();
+                return ketQua;
+            }
+            catch (Exception ex)
+            {
+                try { tran?.Rollback(); } catch { }
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+        }
+
+        public bool XoaPhieuPN(int mapn)
+        {
+            return DeletePN(mapn);
+        }
+
+        public bool ThemChiTietVaoPhieuCu(int maPN, List<ctPhieuNhapDTO> details)
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            MySqlTransaction tran = null;
+            ctPhieuNhapDAO ctDAO = new ctPhieuNhapDAO();
+
+            try
+            {
+                tran = conn.BeginTransaction();
+
+                foreach (var ct in details)
+                {
+                    ct.MaPN = maPN;
+                    bool ok = ctDAO.Insert(ct, conn, tran);
+                    if (!ok) throw new Exception("Lỗi thêm chi tiết: " + ct.TenNguyenLieu);
+
+                    var cmdUpd = new MySqlCommand("UPDATE nguyenlieu SET TONKHO = TONKHO + @soluong WHERE MANGUYENLIEU = @mangl", conn, tran);
+                    cmdUpd.Parameters.AddWithValue("@soluong", ct.SoLuongCoSo);
+                    cmdUpd.Parameters.AddWithValue("@mangl", ct.MaNguyenLieu);
+                    cmdUpd.ExecuteNonQuery();
+                }
+
+                string sqlSum = "SELECT SUM(THANHTIEN) FROM ctphieunhap WHERE MAPN = @mapn";
+                var cmdSum = new MySqlCommand(sqlSum, conn, tran);
+                cmdSum.Parameters.AddWithValue("@mapn", maPN);
+                object result = cmdSum.ExecuteScalar();
+                decimal tongTienMoi = (result != DBNull.Value) ? Convert.ToDecimal(result) : 0;
+
+                if (!UpdateTongTien(maPN, tongTienMoi, conn, tran))
+                    throw new Exception("Lỗi cập nhật tổng tiền phiếu.");
+
+                tran.Commit();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                try { tran?.Rollback(); } catch { }
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
             }
         }
     }

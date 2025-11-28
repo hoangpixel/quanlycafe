@@ -113,6 +113,7 @@
     <Compile Include="AppDbContext.cs" />
     <Compile Include="CONFIG\DBConnection.cs" />
     <Compile Include="congThucDAO.cs" />
+    <Compile Include="ctPhieuNhapDAO.cs" />
     <Compile Include="donViDAO.cs" />
     <Compile Include="heSoDAO.cs" />
     <Compile Include="hoaDonDAO.cs" />
@@ -120,8 +121,10 @@
     <Compile Include="loaiSanPhamDAO.cs" />
     <Compile Include="MySqlConfiguration.cs" />
     <Compile Include="nguyenLieuDAO.cs" />
+    <Compile Include="nhaCungCapDAO.CS" />
     <Compile Include="nhanVienDAO.cs" />
     <Compile Include="nhomDAO.cs" />
+    <Compile Include="phieuNhapDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sanPhamDAO.cs" />
   </ItemGroup>

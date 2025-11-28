@@ -47,10 +47,12 @@ namespace GUI.GUI_UC
 
             // 🔹 Các nút menu
             AddNavButton("🏠  Trang chủ", "home");
+            AddNavButton("🏠  Nhập hàng", "nhaphang");
             AddNavButton("📦  Sản phẩm", "sanpham");
             AddNavButton("🥣  Nguyên liệu", "nguyenlieu");
             AddNavButton("👨‍🍳  Công thức", "congthuc");
             AddNavButton("👨‍💼  Nhân viên", "nhanvien");
+            AddNavButton("👨‍💼  Khách hàng", "khachhang");
             AddNavButton("📊  Báo cáo", "baocao");
             AddNavButton("🚪  Thoát", "exit");
         }

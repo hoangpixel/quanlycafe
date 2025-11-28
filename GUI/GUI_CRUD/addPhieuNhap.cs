@@ -8,7 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using DAO; // Cần gọi trực tiếp DAO để lấy giá nhanh
+using DAO;
 
 namespace GUI.GUI_CRUD
 {

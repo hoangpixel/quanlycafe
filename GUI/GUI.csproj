@@ -45,6 +45,10 @@
     <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.3.0.0\lib\netstandard2.0\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.16.0.18925.20022\lib\net40\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationCore" />
     <Reference Include="ReaLTaiizor, Version=3.8.1.3, Culture=neutral, processorArchitecture=MSIL">
@@ -92,11 +96,53 @@
     <Compile Include="EXCEL\excelCongThuc.cs" />
     <Compile Include="EXCEL\excelNguyenLieu.cs" />
     <Compile Include="EXCEL\excelSanPham.cs" />
+    <Compile Include="GUI_CRUD\addPhieuNhap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\addPhieuNhap.Designer.cs">
+      <DependentUpon>addPhieuNhap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\detailPhieuNhap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\detailPhieuNhap.Designer.cs">
+      <DependentUpon>detailPhieuNhap.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_CRUD\Form1ChonBan.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI_CRUD\Form1ChonBan.Designer.cs">
       <DependentUpon>Form1ChonBan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\insertKhachHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\insertKhachHang.Designer.cs">
+      <DependentUpon>insertKhachHang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\insertNhaCungCap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\insertNhaCungCap.Designer.cs">
+      <DependentUpon>insertNhaCungCap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\updateKhachHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\updateKhachHang.Designer.cs">
+      <DependentUpon>updateKhachHang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\updateNhaCungCap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\updateNhaCungCap.Designer.cs">
+      <DependentUpon>updateNhaCungCap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\updatePhieuNhap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\updatePhieuNhap.Designer.cs">
+      <DependentUpon>updatePhieuNhap.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_SELECT\FormchonKH.cs">
       <SubType>Form</SubType>
@@ -122,6 +168,18 @@
     <Compile Include="GUI_SELECT\selectDonVi.Designer.cs">
       <DependentUpon>selectDonVi.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_SELECT\selectNhaCungCap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_SELECT\selectNhaCungCap.Designer.cs">
+      <DependentUpon>selectNhaCungCap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_SELECT\selectNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_SELECT\selectNhanVien.Designer.cs">
+      <DependentUpon>selectNhanVien.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_UC\banHangGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -133,6 +191,12 @@
     </Compile>
     <Compile Include="GUI_UC\congThucGUI.Designer.cs">
       <DependentUpon>congThucGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_UC\khachHangGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI_UC\khachHangGUI.Designer.cs">
+      <DependentUpon>khachHangGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_UC\mainContentGUI.cs">
       <SubType>UserControl</SubType>
@@ -272,6 +336,12 @@
     <Compile Include="GUI_UC\nguyenLieuGUI.Designer.cs">
       <DependentUpon>nguyenLieuGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_UC\nhapHangGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI_UC\nhapHangGUI.Designer.cs">
+      <DependentUpon>nhapHangGUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_UC\sanPhamGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -280,8 +350,29 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI_CRUD\addPhieuNhap.resx">
+      <DependentUpon>addPhieuNhap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\detailPhieuNhap.resx">
+      <DependentUpon>detailPhieuNhap.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\Form1ChonBan.resx">
       <DependentUpon>Form1ChonBan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\insertKhachHang.resx">
+      <DependentUpon>insertKhachHang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\insertNhaCungCap.resx">
+      <DependentUpon>insertNhaCungCap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\updateKhachHang.resx">
+      <DependentUpon>updateKhachHang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\updateNhaCungCap.resx">
+      <DependentUpon>updateNhaCungCap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\updatePhieuNhap.resx">
+      <DependentUpon>updatePhieuNhap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_SELECT\FormchonKH.resx">
       <DependentUpon>FormchonKH.cs</DependentUpon>
@@ -295,11 +386,20 @@
     <EmbeddedResource Include="GUI_SELECT\selectDonVi.resx">
       <DependentUpon>selectDonVi.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI_SELECT\selectNhaCungCap.resx">
+      <DependentUpon>selectNhaCungCap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_SELECT\selectNhanVien.resx">
+      <DependentUpon>selectNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\banHangGUI.resx">
       <DependentUpon>banHangGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\congThucGUI.resx">
       <DependentUpon>congThucGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_UC\khachHangGUI.resx">
+      <DependentUpon>khachHangGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\mainGUI.resx">
       <DependentUpon>mainGUI.cs</DependentUpon>
@@ -366,6 +466,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\nguyenLieuGUI.resx">
       <DependentUpon>nguyenLieuGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_UC\nhapHangGUI.resx">
+      <DependentUpon>nhapHangGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\sanPhamGUI.resx">
       <DependentUpon>sanPhamGUI.cs</DependentUpon>
