@@ -336,6 +336,12 @@
     <Compile Include="GUI_UC\nguyenLieuGUI.Designer.cs">
       <DependentUpon>nguyenLieuGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_UC\nhanVienGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI_UC\nhanVienGUI.Designer.cs">
+      <DependentUpon>nhanVienGUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_UC\nhapHangGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -466,6 +472,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\nguyenLieuGUI.resx">
       <DependentUpon>nguyenLieuGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_UC\nhanVienGUI.resx">
+      <DependentUpon>nhanVienGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\nhapHangGUI.resx">
       <DependentUpon>nhapHangGUI.cs</DependentUpon>
