@@ -15,12 +15,11 @@ namespace GUI.GUI_CRUD
     {
         private int maHD;
         private hoaDonDAO hdDAO = new hoaDonDAO();
-        BindingList<cthoaDonDTO> dsCT;
-        public frmChiTietHD()
+        public frmChiTietHD(int maHoaDon)
         {
             InitializeComponent();
-            this.maHD = maHD;
-            this.Text = $"Chi Tiết Hóa Đơn - HD{maHD}";
+            this.maHD = maHoaDon;
+            this.Text = $"Chi Tiết Hóa Đơn - HD{maHoaDon}";
             LoadDuLieu();
         }
         private void LoadDuLieu()

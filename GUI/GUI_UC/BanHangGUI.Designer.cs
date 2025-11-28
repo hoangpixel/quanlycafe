@@ -1096,6 +1096,7 @@
             this.btnXoaHD.Text = "Xóa";
             this.btnXoaHD.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnXoaHD.UseVisualStyleBackColor = true;
+            this.btnXoaHD.Click += new System.EventHandler(this.btnXoaHD_Click);
             // 
             // btnSuaHD
             // 

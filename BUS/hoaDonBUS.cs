@@ -23,7 +23,7 @@ namespace BUS
         public bool CapNhatTrangThai(int maHD, string trangThai)
             => dao.CapNhatTrangThai(maHD, trangThai);
 
-        public bool Xoa(int maHD) => dao.Xoa(maHD);
+        public bool XoaHoaDon(int maHD) => dao.XoaHoaDon(maHD);
 
         public hoaDonDTO TimTheoMa(int maHD) => dao.TimTheoMa(maHD);
     }

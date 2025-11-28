@@ -340,5 +340,54 @@ namespace DAO
             }
             return null;
         }
+        // XÓA HÓA ĐƠN + CHI TIẾT (AN TOÀN VỚI TRANSACTION)
+        public bool XoaHoaDon(int maHD)
+        {
+            MySqlConnection conn = null;
+            MySqlTransaction tran = null;
+            try
+            {
+                conn = DBConnect.GetConnection();
+                conn.Open();
+                tran = conn.BeginTransaction();
+
+                // 1. XÓA CHI TIẾT TRƯỚC (không quan tâm có bao nhiêu dòng)
+                string sqlCT = "DELETE FROM cthd WHERE MAHOADON = @MaHD";
+                using (MySqlCommand cmdCT = new MySqlCommand(sqlCT, conn, tran))
+                {
+                    cmdCT.Parameters.AddWithValue("@MaHD", maHD);
+                    cmdCT.ExecuteNonQuery(); // không cần kiểm tra rows
+                }
+
+                // 2. XÓA HÓA ĐƠN – CHỈ KIỂM TRA DÒNG NÀY THÔI!
+                string sqlHD = "DELETE FROM hoadon WHERE MAHOADON = @MaHD";
+                using (MySqlCommand cmdHD = new MySqlCommand(sqlHD, conn, tran))
+                {
+                    cmdHD.Parameters.AddWithValue("@MaHD", maHD);
+                    int rows = cmdHD.ExecuteNonQuery();
+
+                    if (rows == 0)
+                    {
+                        tran.Rollback();
+                        return false; // không tìm thấy hóa đơn → thất bại
+                    }
+                }
+
+                tran.Commit();
+                return true; // xóa thành công
+            }
+            catch (Exception ex)
+            {
+                tran?.Rollback();
+                // Không hiện MessageBox ở DAO → để GUI hiện
+                Console.WriteLine("Lỗi xóa hóa đơn: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                conn?.Close();
+            }
+        }
+
     }
 }

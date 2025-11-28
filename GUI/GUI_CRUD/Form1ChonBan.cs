@@ -77,6 +77,21 @@ namespace GUI.GUI_CRUD
                 flowLayoutPanel1.Controls.Add(btn);
             }
         }
+        // Gọi từ frmHoaDon sau khi xóa thành công
+        public void CapNhatBanTrong(int maBan)
+        {
+            // Tìm nút bàn tương ứng và đổi màu về "trống" (xanh lá hoặc trắng)
+            foreach (Control ctrl in flowLayoutPanel1.Controls)
+            {
+                if (ctrl is Button btn && btn.Tag != null && (int)btn.Tag == maBan)
+                {
+                    btn.BackColor = Color.FromArgb(144, 238, 144); // xanh lá nhạt = trống
+                    btn.Text = $"Bàn {maBan}\nTrống";
+                    btn.Enabled = true;
+                    break;
+                }
+            }
+        }
 
         private void cbbKhuVuc_SelectedIndexChanged(object sender, EventArgs e)
         {

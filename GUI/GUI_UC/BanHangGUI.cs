@@ -1,7 +1,7 @@
 ﻿using BUS;
+using DAO;
 using DTO;
 using FONTS;
-using System.IO;
 using GUI.GUI_CRUD;
 using GUI.GUI_SELECT;
 using System;
@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace GUI.GUI_UC
         private sanPhamBUS busSanPham = new sanPhamBUS();
         private BindingList<hoaDonDTO> dsHoaDon;
         private hoaDonBUS busHoaDon = new hoaDonBUS();
+        private hoaDonDAO hoaDonDAO = new hoaDonDAO();
         public banHangGUI()
         {
             InitializeComponent();
@@ -416,68 +418,103 @@ namespace GUI.GUI_UC
         private void btnXacNhan_Click(object sender, EventArgs e)
         {
             Console.WriteLine($"[DEBUG] txtBan.Text = '{txtBan.Text}'");
+
+            // 1. Kiểm tra giỏ hàng
             if (gioHang.Count == 0)
             {
-                MessageBox.Show("Chưa có sản phẩm trong giỏ hàng!");
+                MessageBox.Show("Giỏ hàng trống! Vui lòng thêm món ăn.", "Chưa có món",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (txtBan.Tag == null || !(txtBan.Tag is int maBan))
+
+            // 2. Kiểm tra bàn
+            if (txtBan.Tag == null || !int.TryParse(txtBan.Tag.ToString(), out int maBan))
             {
-                MessageBox.Show("Vui lòng chọn bàn!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn bàn hợp lệ!", "Lỗi bàn",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            // TÍNH TỔNG TIỀN
+
+            // 3. Kiểm tra khách hàng (có thể là khách lẻ → cho phép null)
+            int? maKH = null;
+            if (txtKhachHang.Tag != null && int.TryParse(txtKhachHang.Tag.ToString(), out int kh))
+                maKH = kh;
+
+            // 4. Kiểm tra nhân viên (bắt buộc)
+            if (txtNhanVien.Tag == null || !int.TryParse(txtNhanVien.Tag.ToString(), out int maNV))
+            {
+                MessageBox.Show("Vui lòng chọn nhân viên phục vụ!", "Lỗi nhân viên",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 5. Tính tổng tiền
             decimal tongTien = gioHang.Sum(g => g.ThanhTien);
 
-            // HIỂN THỊ HỘP THOẠI XÁC NHẬN
-            string message = $@"XÁC NHẬN HÓA ĐƠN
-
-            Bàn: {maBan}
-            Sản phẩm: {gioHang.Count} món
-            Tổng tiền: {tongTien:N0} VNĐ
-
-            Bạn có muốn tạo hóa đơn không?";
+            // 6. Xác nhận tạo hóa đơn (hộp thoại đẹp)
+            string message = $@"XÁC NHẬN TẠO HÓA ĐƠN
+────────────────────────────
+Bàn số: {maBan}
+Khách hàng: {(maKH.HasValue ? txtKhachHang.Text : "Khách lẻ")}
+Nhân viên: {txtNhanVien.Text}
+Số món: {gioHang.Count}
+Tổng tiền: {tongTien:N0} VNĐ
+────────────────────────────
+Bạn có chắc chắn muốn tạo hóa đơn không?";
 
             var result = MessageBox.Show(message, "Xác nhận tạo hóa đơn",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                        MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+                                        MessageBoxDefaultButton.Button2);
 
             if (result != DialogResult.Yes)
             {
-                MessageBox.Show("Đã hủy tạo hóa đơn. Bạn có thể chỉnh sửa giỏ hàng.",
-                    "Hủy", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Đã hủy tạo hóa đơn. Bạn có thể tiếp tục chỉnh sửa.", "Hủy bỏ",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            // TẠO HÓA ĐƠN
+            // 7. Tạo hóa đơn DTO
             var hd = new hoaDonDTO
-            {   
+            {
                 MaBan = maBan,
-                TongTien = tongTien,
-                MaNhanVien = 1,     // Mặc định
-                MaTT = 1,
-                MaKhachHang = 1
+                MaKhachHang = maKH ??0,           // có thể null → khách lẻ
+                MaNhanVien = maNV,
+                MaTT = 1,                     // mặc định hình thức thanh toán tiền mặt
+                ThoiGianTao = DateTime.Now,
+                TrangThai = false             // chưa thanh toán
             };
 
+            // 8. Gọi BUS thêm hóa đơn
             int maHD = busHoaDon.ThemHoaDon(hd, gioHang);
 
             if (maHD > 0)
             {
-                MessageBox.Show($"Tạo hóa đơn thành công!\nMã HD: {maHD}\nBàn: {maBan}",
-                    "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($@"TẠO HÓA ĐƠN THÀNH CÔNG!
+                Mã hóa đơn: HD{maHD}
+                Bàn: {maBan}
+                Tổng tiền: {tongTien:N0} VNĐ
+                Nhân viên: {txtNhanVien.Text}",
+                                "Thành công!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // XÓA GIỎ HÀNG + CẬP NHẬT
+                // 9. Dọn dẹp giao diện
                 gioHang.Clear();
                 CapNhatGioHang();
                 txtBan.Clear();
+                txtBan.Tag = null;
+                txtKhachHang.Clear(); txtKhachHang.Tag = null;
+                txtNhanVien.Clear(); txtNhanVien.Tag = null;
 
-                // CHUYỂN TAB + TẢI LẠI DANH SÁCH
+                // 10. Chuyển sang tab hóa đơn + reload
                 tabControl1.SelectedTab = tabHoaDon;
-                LoadDanhSachHoaDon(); // ĐẢM BẢO TẢI LẠI
+                LoadDanhSachHoaDon();
+
+                // 11. Cập nhật trạng thái bàn (đổi màu thành đang sử dụng)
+                //CapNhatTrangThaiBan(maBan, dangSuDung: true);
             }
             else
             {
-                MessageBox.Show("Lỗi tạo hóa đơn! Vui lòng thử lại.",
-                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Tạo hóa đơn thất bại! Vui lòng thử lại.", "Lỗi hệ thống",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             foreach (Form frm in Application.OpenForms)
             {
@@ -581,9 +618,10 @@ namespace GUI.GUI_UC
                 var hd = dsHoaDon[dgvHoaDon.CurrentRow.Index];
 
                 // TrangThai là bool
-                btnTinhTien.Enabled = hd.TrangThai;   // true = cho thanh toán, false = không
+                btnTinhTien.Enabled = !hd.TrangThai;   // true = cho thanh toán, false = không
                 btnSuaHD.Enabled = true;
                 btnXoaHD.Enabled = true;
+                
             }
             else
             {
@@ -599,7 +637,9 @@ namespace GUI.GUI_UC
         {
             if (dgvHoaDon.CurrentRow == null) return;
             int maHD = dsHoaDon[dgvHoaDon.CurrentRow.Index].MaHD;
-            var frm = new frmChiTietHD() ;
+            if (dgvHoaDon.CurrentRow == null) return;
+
+            var frm = new frmChiTietHD(maHD);  // TRUYỀN MÃ HÓA ĐƠN VÀO ĐÂY!!!
             frm.ShowDialog();
         }
 
@@ -671,6 +711,71 @@ namespace GUI.GUI_UC
         private void dgvHoaDon_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             dgvHoaDon.ClearSelection();
+        }
+
+        private void btnXoaHD_Click(object sender, EventArgs e)
+        {
+            if (dgvHoaDon.CurrentRow == null || dgvHoaDon.CurrentRow.Index < 0)
+            {
+                MessageBox.Show("Vui lòng chọn hóa đơn cần xóa!", "Chưa chọn",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 2. LẤY DỮ LIỆU AN TOÀN BẰNG INDEX (không sợ sai tên cột nữa!)
+            int maHD = Convert.ToInt32(dgvHoaDon.CurrentRow.Cells[0].Value); // cột đầu = Mã HD
+            int maBan = Convert.ToInt32(dgvHoaDon.CurrentRow.Cells[1].Value); // cột thứ 2 = Bàn
+            string thoiGian = dgvHoaDon.CurrentRow.Cells[2].FormattedValue.ToString();
+            decimal tongTien = Convert.ToDecimal(dgvHoaDon.CurrentRow.Cells[3].Value);
+
+            // 3. Xác nhận xóa – đẹp y như khi tạo hóa đơn
+            string message = $@"BẠN MUỐN XÓA HÓA ĐƠN NÀY?
+────────────────────────────
+Mã hóa đơn: HD{maHD}
+Bàn số: {maBan}
+Thời gian: {thoiGian}
+Tổng tiền: {tongTien:N0} VNĐ
+────────────────────────────
+Dữ liệu sẽ bị xóa vĩnh viễn và không thể khôi phục!";
+
+            var confirm = MessageBox.Show(message, "XÁC NHẬN XÓA HÓA ĐƠN",
+                                         MessageBoxButtons.YesNo,
+                                         MessageBoxIcon.Exclamation,
+                                         MessageBoxDefaultButton.Button2);
+
+            if (confirm != DialogResult.Yes)
+            {
+                MessageBox.Show("Đã hủy xóa. Hóa đơn vẫn được giữ lại.", "Đã hủy",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // 4. Gọi xóa từ BUS (hoặc DAO đều được)
+            bool ketQua = busHoaDon.XoaHoaDon(maHD); // hoặc hoaDonDAO.XoaHoaDon(maHD)
+
+            if (ketQua)
+            {
+                MessageBox.Show($@"ĐÃ XÓA THÀNH CÔNG HÓA ĐƠN HD{maHD}!
+Bàn {maBan} đã được giải phóng.",
+                                "Xóa thành công!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // 5. Cập nhật lại danh sách
+                LoadDanhSachHoaDon();
+
+                // 6. CẬP NHẬT BÀN VỀ TRẠNG THÁI TRỐNG (đồng bộ với lúc tạo HD)
+                foreach (Form frm in Application.OpenForms)
+                {
+                    if (frm is FormChonBan chonBanForm)
+                    {
+                        chonBanForm.CapNhatBanTrong(maBan);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Xóa hóa đơn thất bại!\nCó thể hóa đơn đã bị xóa trước đó.",
+                                "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
