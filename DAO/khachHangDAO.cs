@@ -16,7 +16,7 @@ namespace DAO
 
             try
             {
-                string query = "SELECT * FROM khachhang";
+                string query = "SELECT * FROM khachhang WHERE TRANGTHAI = 1";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -27,9 +27,7 @@ namespace DAO
                     kh.TenKhachHang = reader["TENKHACHHANG"].ToString();
                     kh.SoDienThoai = reader["SODIENTHOAI"].ToString();
                     kh.Email = reader["EMAIL"].ToString();
-
-                    // --- QUAN TRỌNG: Đổi thành ToByte ---
-                    kh.TrangThai = Convert.ToByte(reader["TRANGTHAI"]);
+                    kh.TrangThai = Convert.ToInt32(reader["TRANGTHAI"]);
 
                     kh.NgayTao = Convert.ToDateTime(reader["NGAYTAO"]);
                     list.Add(kh);
@@ -40,8 +38,6 @@ namespace DAO
             return list;
         }
 
-        // Các hàm Thêm, Sửa, Xóa giữ nguyên logic, 
-        // MySQL Connector tự động hiểu byte khi truyền vào parameter
         public bool Them(khachHangDTO kh)
         {
             MySqlConnection conn = DBConnect.GetConnection();
@@ -79,48 +75,36 @@ namespace DAO
             finally { DBConnect.CloseConnection(conn); }
         }
 
-        // (Giữ nguyên các hàm Xóa, KiemTraTrung... như cũ)
+        public int layMa()
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            int maKH = 0;
+            try
+            {
+                string qry = "SELECT IFNULL(MAX(MASANPHAM), 0) FROM khachhang";
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                maKH = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine("Lỗi lấy mã KH : " + ex);
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+            return maKH + 1;
+        }
+
         public bool Xoa(int ma)
         {
             MySqlConnection conn = DBConnect.GetConnection();
             try
             {
-                string query = "DELETE FROM khachhang WHERE MAKHACHHANG = @Ma";
+                string query = "UPDATE khachhang SET TRANGTHAI = 0 WHERE MAKHACHHANG = @Ma";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@Ma", ma);
                 return cmd.ExecuteNonQuery() > 0;
-            }
-            catch { return false; }
-            finally { DBConnect.CloseConnection(conn); }
-        }
-
-        public bool KiemTraTrungSDT(string sdt, int maLoaiTru = -1)
-        {
-            MySqlConnection conn = DBConnect.GetConnection();
-            try
-            {
-                string query = "SELECT COUNT(*) FROM khachhang WHERE SODIENTHOAI = @Sdt AND MAKHACHHANG != @Ma";
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@Sdt", sdt);
-                cmd.Parameters.AddWithValue("@Ma", maLoaiTru);
-                long count = (long)cmd.ExecuteScalar();
-                return count > 0;
-            }
-            catch { return false; }
-            finally { DBConnect.CloseConnection(conn); }
-        }
-
-        public bool KiemTraTrungEmail(string email, int maLoaiTru = -1)
-        {
-            MySqlConnection conn = DBConnect.GetConnection();
-            try
-            {
-                string query = "SELECT COUNT(*) FROM khachhang WHERE EMAIL = @Email AND MAKHACHHANG != @Ma";
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@Email", email);
-                cmd.Parameters.AddWithValue("@Ma", maLoaiTru);
-                long count = (long)cmd.ExecuteScalar();
-                return count > 0;
             }
             catch { return false; }
             finally { DBConnect.CloseConnection(conn); }

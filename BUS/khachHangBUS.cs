@@ -2,47 +2,83 @@
 using DTO;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Policy;
 
 namespace BUS
 {
     public class khachHangBUS
     {
-        private khachHangDAO dao = new khachHangDAO();
+        private khachHangDAO data = new khachHangDAO();
+        public static BindingList<khachHangDTO> ds = new BindingList<khachHangDTO>();
 
-        public BindingList<khachHangDTO> LayDanhSach() => dao.LayDanhSach();
-        public bool Them(khachHangDTO kh) => dao.Them(kh);
-        public bool Sua(khachHangDTO kh) => dao.Sua(kh);
-        public bool Xoa(int ma) => dao.Xoa(ma);
-
-        public bool KiemTraTrungSDT(string sdt, int maLoaiTru = -1) => dao.KiemTraTrungSDT(sdt, maLoaiTru);
-        public bool KiemTraTrungEmail(string email, int maLoaiTru = -1) => dao.KiemTraTrungEmail(email, maLoaiTru);
-
-        public BindingList<khachHangDTO> TimKiemNangCao(string kw, string type, int status)
+        public BindingList<khachHangDTO> LayDanhSach()
         {
-            var list = dao.LayDanhSach();
-            var query = list.AsEnumerable();
-
-            if (!string.IsNullOrEmpty(kw))
+            if(ds == null || ds.Count <= 0)
             {
-                kw = kw.ToLower();
-                if (type == "Mã KH") query = query.Where(x => x.MaKhachHang.ToString().Contains(kw));
-                else if (type == "Tên KH") query = query.Where(x => x.TenKhachHang.ToLower().Contains(kw));
-                else if (type == "SĐT") query = query.Where(x => x.SoDienThoai.Contains(kw));
-                else if (type == "Email") query = query.Where(x => x.Email.ToLower().Contains(kw));
-                else
+                ds = data.LayDanhSach();
+            }
+            return ds;
+        }
+
+        public int layMa()
+        {
+            return data.layMa();
+        }
+
+        public bool them(khachHangDTO kh)
+        {
+            bool kq = data.Them(kh);
+            if(kq)
+            {
+                ds.Add(kh);
+            }
+            return kq;
+        }
+        public bool sua(khachHangDTO kh)
+        {
+            bool kq = data.Sua(kh);
+            if(kq)
+            {
+                khachHangDTO tontai = ds.FirstOrDefault(x => x.MaKhachHang == kh.MaKhachHang);
+                if(tontai != null)
                 {
-                    query = query.Where(x => x.TenKhachHang.ToLower().Contains(kw)
-                                          || x.MaKhachHang.ToString().Contains(kw)
-                                          || x.SoDienThoai.Contains(kw)
-                                          || x.Email.ToLower().Contains(kw));
+                    tontai.TenKhachHang = kh.TenKhachHang;
+                    tontai.SoDienThoai = kh.SoDienThoai;
+                    tontai.Email = kh.Email;
                 }
             }
-
-            // status = -1 là lấy tất cả
-            if (status != -1)
-                query = query.Where(x => x.TrangThai == status);
-
-            return new BindingList<khachHangDTO>(query.ToList());
+            return kq;
+        }
+        public bool xoa(int maXoa)
+        {
+            bool kq = data.Xoa(maXoa);
+            if(kq)
+            {
+                khachHangDTO tontai = ds.FirstOrDefault(x => x.MaKhachHang == maXoa);
+                if(tontai != null)
+                {
+                    ds.Remove(tontai);
+                }
+            }
+            return kq;
+        }
+        public bool kiemTraTrungEmail(string email)
+        {
+            khachHangDTO kh = ds.FirstOrDefault(x => x.Email.Equals(email));
+            if(kh != null)
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool kiemTraTrungSDT(string sdt)
+        {
+            khachHangDTO kh = ds.FirstOrDefault(x => x.SoDienThoai.Equals(sdt));
+            if(kh != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

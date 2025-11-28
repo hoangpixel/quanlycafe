@@ -26,8 +26,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtTen = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtMa = new System.Windows.Forms.TextBox();
-            this.label0 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
@@ -109,8 +107,6 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtTen);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.txtMa);
-            this.groupBox1.Controls.Add(this.label0);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.groupBox1.Location = new System.Drawing.Point(10, 10);
@@ -122,7 +118,7 @@
             // 
             // txtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(199, 147);
+            this.txtEmail.Location = new System.Drawing.Point(199, 142);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(269, 28);
             this.txtEmail.TabIndex = 5;
@@ -131,7 +127,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label3.Location = new System.Drawing.Point(33, 150);
+            this.label3.Location = new System.Drawing.Point(33, 147);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 20);
             this.label3.TabIndex = 4;
@@ -139,7 +135,7 @@
             // 
             // txtSDT
             // 
-            this.txtSDT.Location = new System.Drawing.Point(199, 107);
+            this.txtSDT.Location = new System.Drawing.Point(199, 93);
             this.txtSDT.Name = "txtSDT";
             this.txtSDT.Size = new System.Drawing.Size(269, 28);
             this.txtSDT.TabIndex = 3;
@@ -148,7 +144,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label2.Location = new System.Drawing.Point(33, 110);
+            this.label2.Location = new System.Drawing.Point(33, 98);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(125, 20);
             this.label2.TabIndex = 2;
@@ -156,7 +152,7 @@
             // 
             // txtTen
             // 
-            this.txtTen.Location = new System.Drawing.Point(199, 67);
+            this.txtTen.Location = new System.Drawing.Point(199, 45);
             this.txtTen.Name = "txtTen";
             this.txtTen.Size = new System.Drawing.Size(269, 28);
             this.txtTen.TabIndex = 1;
@@ -165,30 +161,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label1.Location = new System.Drawing.Point(33, 70);
+            this.label1.Location = new System.Drawing.Point(33, 50);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(147, 20);
+            this.label1.Size = new System.Drawing.Size(150, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Tên Khách hàng:";
-            // 
-            // txtMa
-            // 
-            this.txtMa.Enabled = false;
-            this.txtMa.Location = new System.Drawing.Point(199, 27);
-            this.txtMa.Name = "txtMa";
-            this.txtMa.Size = new System.Drawing.Size(269, 28);
-            this.txtMa.TabIndex = 0;
-            this.txtMa.Text = "Tự động";
-            // 
-            // label0
-            // 
-            this.label0.AutoSize = true;
-            this.label0.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label0.Location = new System.Drawing.Point(33, 30);
-            this.label0.Name = "label0";
-            this.label0.Size = new System.Drawing.Size(72, 20);
-            this.label0.TabIndex = 0;
-            this.label0.Text = "Mã KH:";
             // 
             // panel3
             // 
@@ -217,7 +194,7 @@
             this.bigLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.bigLabel1.Location = new System.Drawing.Point(100, 25);
             this.bigLabel1.Name = "bigLabel1";
-            this.bigLabel1.Size = new System.Drawing.Size(306, 45);
+            this.bigLabel1.Size = new System.Drawing.Size(303, 45);
             this.bigLabel1.TabIndex = 0;
             this.bigLabel1.Text = "Thêm Khách Hàng";
             // 
@@ -239,6 +216,7 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
+
         }
 
         #endregion
@@ -255,8 +233,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtTen;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtMa;
-        private System.Windows.Forms.Label label0;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel2;
         private ReaLTaiizor.Controls.BigLabel bigLabel1;

@@ -3,15 +3,21 @@ using DTO;
 using FONTS;
 using GUI.GUI_CRUD;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GUI.GUI_UC
 {
     public partial class khachHangGUI : UserControl
     {
-        private khachHangBUS bus = new khachHangBUS();
-        private int lastSelectedRow = -1;
+        private int lastSelectedRowKhachHang = -1;
+        private khachHangBUS busKhachHang = new khachHangBUS();
 
         public khachHangGUI()
         {
@@ -23,153 +29,198 @@ namespace GUI.GUI_UC
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
 
-            // Setup ComboBox Tìm kiếm
-            cboLoaiTimKiem.Items.Clear();
-            cboLoaiTimKiem.Items.AddRange(new object[] { "Tất cả", "Mã KH", "Tên KH", "SĐT", "Email" });
-            cboLoaiTimKiem.SelectedIndex = 0;
-
-            // Setup ComboBox Trạng thái
-            cboTrangThai.Items.Clear();
-            cboTrangThai.Items.AddRange(new object[] { "Tất cả", "Hoạt động", "Ngừng hoạt động" });
-            cboTrangThai.SelectedIndex = 0;
-
-            dgvKH.CellFormatting += dgvKH_CellFormatting;
-            SetupDataGridView();
-            LoadData();
+            BindingList<khachHangDTO> dsKH = new khachHangBUS().LayDanhSach();
+            loadDanhSachKhachHang(dsKH);
+            loadFontChuVaSize();
         }
 
-        private void LoadData()
+        private void loadDanhSachKhachHang(BindingList<khachHangDTO> ds)
         {
-            dgvKH.DataSource = bus.LayDanhSach();
-            ResetButtons();
-        }
+            tableKhachHang.AutoGenerateColumns = false;
+            tableKhachHang.DataSource = ds;
 
-        // --- CẬP NHẬT HÀM NÀY ĐỂ HIỂN THỊ NGÀY TẠO ---
-        private void SetupDataGridView()
-        {
-            dgvKH.AutoGenerateColumns = false;
-            dgvKH.Columns.Clear();
+            tableKhachHang.Columns.Clear();
 
-            dgvKH.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaKhachHang", HeaderText = "Mã KH", Width = 80 });
-            dgvKH.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TenKhachHang", HeaderText = "Tên Khách Hàng", Width = 200 });
-            dgvKH.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "SoDienThoai", HeaderText = "SĐT", Width = 120 });
-            dgvKH.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Email", HeaderText = "Email", Width = 200 });
-
-            // --- THÊM CỘT NGÀY TẠO ---
-            dgvKH.Columns.Add(new DataGridViewTextBoxColumn
+            tableKhachHang.Columns.Add(new DataGridViewTextBoxColumn
             {
-                DataPropertyName = "NgayTao",
-                HeaderText = "Ngày tạo",
-                Width = 150,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "dd/MM/yyyy HH:mm" } // Định dạng ngày giờ đẹp
+                DataPropertyName = "MaKhachHang",
+                HeaderText = "Mã KH"
             });
-            // --------------------------
-
-            // Cột trạng thái
-            var colTrangThai = new DataGridViewTextBoxColumn
+            tableKhachHang.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "TenKhachHang",
+                HeaderText = "Tên KH"
+            });
+            tableKhachHang.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "SoDienThoai",
+                HeaderText = "Số điện thoại"
+            });
+            tableKhachHang.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Email",
+                HeaderText = "Email"
+            });
+            tableKhachHang.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "TrangThai",
-                HeaderText = "Trạng thái",
-                Name = "colTrangThai",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill // Đẩy cột cuối ra lấp đầy
-            };
-            dgvKH.Columns.Add(colTrangThai);
-
-            // Style chung
-            dgvKH.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
-            dgvKH.DefaultCellStyle.Font = FontManager.GetLightFont(10);
-            dgvKH.ColumnHeadersHeight = 40;
-            dgvKH.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvKH.ReadOnly = true;
-        }
-
-        private void dgvKH_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            // Kiểm tra nếu là cột Trạng thái
-            if (e.RowIndex >= 0 && dgvKH.Columns[e.ColumnIndex].Name == "colTrangThai" && e.Value != null)
+                HeaderText = "Trạng thái"
+            });
+            tableKhachHang.Columns.Add(new DataGridViewTextBoxColumn
             {
-                // Vì DTO đã sửa thành byte, ta parse sang int để so sánh cho dễ
-                int status = Convert.ToInt32(e.Value);
-                if (status == 1)
-                {
-                    e.Value = "Hoạt động";
-                    e.CellStyle.ForeColor = Color.Green;
-                    e.CellStyle.SelectionForeColor = Color.LightGreen;
-                }
-                else
-                {
-                    e.Value = "Ngừng hoạt động";
-                    e.CellStyle.ForeColor = Color.Red;
-                    e.CellStyle.SelectionForeColor = Color.MistyRose;
-                }
-                e.FormattingApplied = true;
-            }
+                DataPropertyName = "NgayTao",
+                HeaderText = "Ngày tạo"
+            });
+
+            btnSuaKH.Enabled = false;
+            btnXoaKH.Enabled = false;
+            btnChiTietKH.Enabled = false;
+            tableKhachHang.ReadOnly = true;
+            tableKhachHang.ClearSelection();
         }
 
-        private void btnThem_Click(object sender, EventArgs e)
-        {
-            using (insertKhachHang frm = new insertKhachHang())
-            {
-                if (frm.ShowDialog() == DialogResult.OK) LoadData();
-            }
-        }
-
-        private void btnSua_Click(object sender, EventArgs e)
-        {
-            if (dgvKH.CurrentRow == null) return;
-            var kh = dgvKH.CurrentRow.DataBoundItem as khachHangDTO;
-            using (updateKhachHang frm = new updateKhachHang(kh))
-            {
-                if (frm.ShowDialog() == DialogResult.OK) LoadData();
-            }
-        }
-
-        private void btnXoa_Click(object sender, EventArgs e)
-        {
-            if (dgvKH.CurrentRow == null) return;
-            var kh = dgvKH.CurrentRow.DataBoundItem as khachHangDTO;
-
-            if (MessageBox.Show($"Bạn có chắc muốn xóa khách hàng: {kh.TenKhachHang}?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
-                if (bus.Xoa(kh.MaKhachHang))
-                {
-                    MessageBox.Show("Xóa thành công!");
-                    LoadData();
-                }
-                else
-                {
-                    MessageBox.Show("Xóa thất bại (Khách hàng này có thể đang có hóa đơn)!");
-                }
-            }
-        }
-
-        private void btnTim_Click(object sender, EventArgs e) => ThucHienTimKiem();
-        private void btnLamMoi_Click(object sender, EventArgs e) { txtTimKiem.Clear(); cboLoaiTimKiem.SelectedIndex = 0; cboTrangThai.SelectedIndex = 0; LoadData(); }
-
-        private void ThucHienTimKiem()
-        {
-            string kw = txtTimKiem.Text.Trim();
-            string type = cboLoaiTimKiem.SelectedItem?.ToString() ?? "Tất cả";
-            int status = -1;
-            if (cboTrangThai.SelectedIndex == 1) status = 1;
-            else if (cboTrangThai.SelectedIndex == 2) status = 0;
-
-            dgvKH.DataSource = bus.TimKiemNangCao(kw, type, status);
-        }
-
-        private void dgvKH_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void tableKhachHang_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0) return;
-            lastSelectedRow = e.RowIndex;
-            btnSua.Enabled = true;
-            btnXoa.Enabled = true;
+            khachHangDTO kh = tableKhachHang.Rows[e.RowIndex].DataBoundItem as khachHangDTO;
+            if (tableKhachHang.Columns[e.ColumnIndex].HeaderText == "Trạng thái")
+            {
+                e.Value = kh.TrangThai == 1 ? "Đang hoạt động" : "Không còn hoạt động";
+            }
+        }
+        private void loadFontChuVaSize()
+        {
+            foreach (DataGridViewColumn col in tableKhachHang.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            tableKhachHang.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            tableKhachHang.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            tableKhachHang.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            tableKhachHang.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(12);
+
+            tableKhachHang.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tableKhachHang.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            tableKhachHang.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            tableKhachHang.Refresh();
         }
 
-        private void ResetButtons()
+        private void btnThemKH_Click(object sender, EventArgs e)
         {
-            btnSua.Enabled = false;
-            btnXoa.Enabled = false;
-            dgvKH.ClearSelection();
+            using (insertKhachHang form = new insertKhachHang(null))
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    khachHangDTO ct = form.kh;
+                    busKhachHang.them(ct);
+                    tableKhachHang.Refresh();
+                    tableKhachHang.ClearSelection();
+                }
+            }
+        }
+
+        private void btnSuaKH_Click(object sender, EventArgs e)
+        {
+            if (tableKhachHang.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = tableKhachHang.SelectedRows[0];
+                khachHangDTO kh = row.DataBoundItem as khachHangDTO;
+
+                if (kh != null)
+                {
+                    using (updateKhachHang form = new updateKhachHang(kh))
+                    {
+                        form.StartPosition = FormStartPosition.CenterParent;
+                        if (form.ShowDialog() == DialogResult.OK)
+                        {
+                            khachHangDTO kq = form.kh;
+                            busKhachHang.sua(kq);
+                            tableKhachHang.Refresh();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void tableKhachHang_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            if (e.RowIndex == lastSelectedRowKhachHang)
+            {
+                tableKhachHang.ClearSelection();
+                lastSelectedRowKhachHang = -1;
+
+                btnThemKH.Enabled = true;
+                btnSuaKH.Enabled = false;
+                btnXoaKH.Enabled = false;
+                btnChiTietKH.Enabled = false;
+                return;
+            }
+
+            tableKhachHang.ClearSelection();
+            tableKhachHang.Rows[e.RowIndex].Selected = true;
+            lastSelectedRowKhachHang = e.RowIndex;
+
+            btnThemKH.Enabled = true;
+            btnSuaKH.Enabled = true;
+            btnXoaKH.Enabled = true;
+            btnChiTietKH.Enabled = true;
+        }
+
+        private void tableKhachHang_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            tableKhachHang.ClearSelection();
+        }
+
+        private void btnXoaKH_Click(object sender, EventArgs e)
+        {
+            if (tableKhachHang.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = tableKhachHang.SelectedRows[0];
+                khachHangDTO kh = row.DataBoundItem as khachHangDTO;
+
+                using (deleteKhachHang form = new deleteKhachHang())
+                {
+                    form.StartPosition = FormStartPosition.CenterParent;
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        int maKH = kh.MaKhachHang;
+                        busKhachHang.xoa(maKH);
+                        btnSuaKH.Enabled = false;
+                        btnXoaKH.Enabled = false;
+                        btnChiTietKH.Enabled = false;
+                    }
+                }
+            }
+        }
+
+        private void btnChiTietKH_Click(object sender, EventArgs e)
+        {
+            if(tableKhachHang.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = tableKhachHang.SelectedRows[0];
+                khachHangDTO kh = row.DataBoundItem as khachHangDTO;
+
+                using(detailKhachHang form = new detailKhachHang(kh))
+                {
+                    form.StartPosition = FormStartPosition.CenterParent;
+                    form.ShowDialog();
+                }
+            }
+        }
+
+        private void btnReFreshKH_Click(object sender, EventArgs e)
+        {
+            BindingList<khachHangDTO> dskh = new khachHangBUS().LayDanhSach();
+            loadDanhSachKhachHang(dskh);
+            loadFontChuVaSize();
         }
     }
 }
