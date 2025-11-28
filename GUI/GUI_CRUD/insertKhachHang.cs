@@ -10,10 +10,12 @@ namespace GUI.GUI_CRUD
     public partial class insertKhachHang : Form
     {
         private khachHangBUS bus = new khachHangBUS();
+        public khachHangDTO kh;
 
-        public insertKhachHang()
+        public insertKhachHang(khachHangDTO kh)
         {
             InitializeComponent();
+            this.kh = kh;
         }
 
         private void insertKhachHang_Load(object sender, EventArgs e)
@@ -38,7 +40,7 @@ namespace GUI.GUI_CRUD
                 MessageBox.Show("Số điện thoại phải là 10 chữ số!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtSDT.Focus(); return;
             }
-            if (bus.KiemTraTrungSDT(sdt))
+            if (bus.kiemTraTrungSDT(sdt))
             {
                 MessageBox.Show("Số điện thoại này đã tồn tại trong hệ thống!", "Lỗi trùng", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtSDT.Focus(); return;
@@ -53,33 +55,25 @@ namespace GUI.GUI_CRUD
                     MessageBox.Show("Email không đúng định dạng!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtEmail.Focus(); return;
                 }
-                if (bus.KiemTraTrungEmail(email))
+                if (bus.kiemTraTrungEmail(email))
                 {
                     MessageBox.Show("Email này đã được sử dụng!", "Lỗi trùng", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtEmail.Focus(); return;
                 }
             }
 
-            try
-            {
-                khachHangDTO kh = new khachHangDTO();
-                kh.TenKhachHang = txtTen.Text.Trim();
-                kh.SoDienThoai = sdt;
-                kh.Email = email;
-                kh.TrangThai = (byte)1;
+            khachHangDTO khnew = new khachHangDTO();
 
-                if (bus.Them(kh))
-                {
-                    MessageBox.Show("Thêm khách hàng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
-                }
-                else MessageBox.Show("Thêm thất bại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi hệ thống: " + ex.Message);
-            }
+            khnew.MaKhachHang = bus.layMa();
+            khnew.TenKhachHang = txtTen.Text.Trim();
+            khnew.SoDienThoai = sdt;
+            khnew.Email = email;
+
+            kh = khnew;
+
+                MessageBox.Show("Thêm khách hàng thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DialogResult = DialogResult.OK;
+                this.Close();
         }
 
         private void btnHuy_Click    (object sender, EventArgs e) => this.Close();
