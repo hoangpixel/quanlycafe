@@ -1,6 +1,7 @@
 ﻿using BUS;
-using GUI.EXCEL;
+using DTO;
 using FONTS;
+using GUI.EXCEL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,27 +14,13 @@ using System.Windows.Forms;
 
 namespace GUI.GUI_CRUD
 {
-    public partial class selectExcelCongThuc : Form
+    public partial class selectExcelKhachHangGUI : Form
     {
-        public selectExcelCongThuc()
+        public selectExcelKhachHangGUI()
         {
             InitializeComponent();
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
-        }
-
-        private void btnXuatExcel_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog save = new SaveFileDialog();
-            save.Filter = "Excel file (*.xlsx)|*.xlsx";
-            save.FileName = "DanhSachCongThuc.xlsx";
-
-            if (save.ShowDialog() == DialogResult.OK)
-            {
-                congThucBUS bus = new congThucBUS();
-                excelCongThuc.Export(bus.LayDanhSach(), save.FileName);
-                MessageBox.Show("Xuất Excel thành công!");
-            }
         }
 
         private void btnNhapExcel_Click(object sender, EventArgs e)
@@ -45,23 +32,32 @@ namespace GUI.GUI_CRUD
             {
                 try
                 {
-                    var ds = excelCongThuc.Import(open.FileName);
-                    congThucBUS bus = new congThucBUS();
+                    BindingList<khachHangDTO> ds = excelKhachHang.Import(open.FileName);
+                    khachHangBUS bus = new khachHangBUS();
                     bus.NhapExcelThongMinh(ds);
                     MessageBox.Show("Nhập Excel thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Lỗi khi nhập Excel: " + ex.Message);
+                    MessageBox.Show("Lỗi khi nhập Excel: " + ex.Message,
+                        "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
-        private void selectExcelCongThuc_Load(object sender, EventArgs e)
+        private void btnXuatExcel_Click(object sender, EventArgs e)
         {
-            FontManager.LoadFont();
-            FontManager.ApplyFontToAllControls(this);
+            SaveFileDialog save = new SaveFileDialog();
+            save.Filter = "Excel file (*.xlsx)|*.xlsx";
+            save.FileName = "DanhSachKhachHang.xlsx";
+
+            if (save.ShowDialog() == DialogResult.OK)
+            {
+                khachHangBUS bus = new khachHangBUS();
+                excelKhachHang.Export(bus.LayDanhSach(), save.FileName);
+                //MessageBox.Show("Xuất Excel thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

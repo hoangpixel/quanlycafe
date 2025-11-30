@@ -55,10 +55,13 @@
     <Compile Include="nhaCungCapDTO.cs" />
     <Compile Include="nhanVienDTO.cs" />
     <Compile Include="nhomDTO.cs" />
+    <Compile Include="phanquyenDTO.cs" />
     <Compile Include="phieuNhapDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="quyenDTO.cs" />
     <Compile Include="sanPhamDTO.cs" />
     <Compile Include="thongKeDTO.cs" />
+    <Compile Include="vaitroDTO.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

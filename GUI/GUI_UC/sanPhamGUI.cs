@@ -383,7 +383,7 @@ namespace GUI.GUI_UC
 
             if (maLoai == -1 && trangThaiCT == -1 && tenSP == null && giaMin == -1 && giaMax == -1)
             {
-                MessageBox.Show("Vui lòng nhập ít nhất một điều kiện để tìm kiếm!",
+                MessageBox.Show("Vui lòng nhập ít nhất một điều kiện để tìm kiếm",
                     "Thông báo rỗng", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }

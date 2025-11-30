@@ -108,6 +108,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="EXCEL\excelCongThuc.cs" />
+    <Compile Include="EXCEL\excelKhachHang.cs" />
     <Compile Include="EXCEL\excelNguyenLieu.cs" />
     <Compile Include="EXCEL\excelSanPham.cs" />
     <Compile Include="GUI_CRUD\addPhieuNhap.cs">
@@ -151,6 +152,18 @@
     </Compile>
     <Compile Include="GUI_CRUD\insertNhaCungCap.Designer.cs">
       <DependentUpon>insertNhaCungCap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\insertPhanQuyen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\insertPhanQuyen.Designer.cs">
+      <DependentUpon>insertPhanQuyen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\selectExcelKhachHangGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\selectExcelKhachHangGUI.Designer.cs">
+      <DependentUpon>selectExcelKhachHangGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_CRUD\updateKhachHang.cs">
       <SubType>Form</SubType>
@@ -374,6 +387,12 @@
     <Compile Include="GUI_UC\nhapHangGUI.Designer.cs">
       <DependentUpon>nhapHangGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_UC\phanQuyenGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI_UC\phanQuyenGUI.Designer.cs">
+      <DependentUpon>phanQuyenGUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_UC\sanPhamGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -408,6 +427,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\insertNhaCungCap.resx">
       <DependentUpon>insertNhaCungCap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\insertPhanQuyen.resx">
+      <DependentUpon>insertPhanQuyen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\selectExcelKhachHangGUI.resx">
+      <DependentUpon>selectExcelKhachHangGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\updateKhachHang.resx">
       <DependentUpon>updateKhachHang.cs</DependentUpon>
@@ -517,6 +542,9 @@
     <EmbeddedResource Include="GUI_UC\nhapHangGUI.resx">
       <DependentUpon>nhapHangGUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI_UC\phanQuyenGUI.resx">
+      <DependentUpon>phanQuyenGUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\sanPhamGUI.resx">
       <DependentUpon>sanPhamGUI.cs</DependentUpon>
     </EmbeddedResource>
@@ -575,12 +603,17 @@
     <None Include="Resources\4288571_balance_judge_justice_law_scale_icon1.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\project-management %283%29.png" />
+    <None Include="Resources\project-management %282%29.png" />
+    <None Include="Resources\project-management %281%29.png" />
     <None Include="Resources\add_icon.png" />
     <None Include="Resources\299068_add_sign_icon.png" />
     <None Include="Resources\299100_screwdriver_wrench_icon.png" />
     <None Include="Resources\299086_info_sign_icon %281%29.png" />
     <None Include="Resources\9004852_trash_delete_bin_remove_icon.png" />
     <None Include="Resources\6372969_loading_refresh_refresh button_reload_repeat_icon.png" />
+    <None Include="Resources\id-card.png" />
+    <None Include="Resources\id-card %281%29.png" />
     <Content Include="Resources\IMG\SP\cafe-den-da-8801.png" />
     <Content Include="Resources\IMG\SP\pngtree-cute-iced-coffee-takeaway-png-image_11477425.png" />
     <Content Include="Resources\IMG\SP\pngtree-ice-milk-coffee-png-image_9162395.png" />

@@ -32,6 +32,8 @@ namespace GUI.GUI_UC
             BindingList<khachHangDTO> dsKH = new khachHangBUS().LayDanhSach();
             loadDanhSachKhachHang(dsKH);
             loadFontChuVaSize();
+            loadChuVoTxtVaCb();
+            rdoTimCoBan.Checked = true;
         }
 
         private void loadDanhSachKhachHang(BindingList<khachHangDTO> ds)
@@ -221,6 +223,212 @@ namespace GUI.GUI_UC
             BindingList<khachHangDTO> dskh = new khachHangBUS().LayDanhSach();
             loadDanhSachKhachHang(dskh);
             loadFontChuVaSize();
+            resetGiaTri();
+        }
+
+        private void btnExcelKH_Click(object sender, EventArgs e)
+        {
+            using(selectExcelKhachHangGUI form = new selectExcelKhachHangGUI())
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.ShowDialog();
+            }
+        }
+
+        private void rdoTimCoBan_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rdoTimCoBan.Checked == true)
+            {
+                cboTimKiemKH.Enabled = true;
+                txtTimKiemKH.Enabled = true;
+
+                txtTenKH.Enabled = false;
+                txtSdtKH.Enabled = false;
+                txtEmailKH.Enabled = false;
+                rdoTimNangCao.Checked = false;
+                resetGiaTri();
+            }else
+            {
+                cboTimKiemKH.Enabled = false;
+                txtTimKiemKH.Enabled = false;
+
+                txtTenKH.Enabled = true;
+                txtSdtKH.Enabled = true;
+                txtEmailKH.Enabled = true;
+                rdoTimCoBan.Checked = false;
+                resetGiaTri();
+            }
+        }
+
+        private void rdoTimNangCao_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rdoTimNangCao.Checked == true)
+            {
+                txtTenKH.Enabled = true;
+                txtSdtKH.Enabled = true;
+                txtEmailKH.Enabled = true;
+
+                cboTimKiemKH.Enabled = false;
+                txtTimKiemKH.Enabled = false;
+
+                rdoTimCoBan.Checked = false;
+                resetGiaTri();
+            }
+            else
+            {
+                txtTenKH.Enabled = false;
+                txtSdtKH.Enabled = false;
+                txtEmailKH.Enabled = false;
+
+                cboTimKiemKH.Enabled = true;
+                txtTimKiemKH.Enabled = true;
+
+                rdoTimNangCao.Checked = false;
+                resetGiaTri();
+            }
+        }
+
+        private void SetPlaceholder(TextBox txt, string placeholder)
+        {
+            txt.ForeColor = Color.Gray;
+            txt.Text = placeholder;
+            txt.GotFocus += (s, e) =>
+            {
+                if (txt.Text == placeholder)
+                {
+                    txt.Text = "";
+                    txt.ForeColor = Color.Black;
+                }
+            };
+            txt.LostFocus += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(txt.Text))
+                {
+                    txt.ForeColor = Color.Gray;
+                    txt.Text = placeholder;
+                }
+            };
+        }
+
+        private void SetComboBoxPlaceholder(ComboBox cbo, string placeholder)
+        {
+
+            cbo.ForeColor = Color.Gray;
+            cbo.Text = placeholder;
+
+            cbo.GotFocus += (s, e) =>
+            {
+                if (cbo.Text == placeholder)
+                {
+                    cbo.Text = "";
+                    cbo.ForeColor = Color.Black;
+                }
+            };
+            cbo.LostFocus += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(cbo.Text))
+                {
+                    cbo.Text = placeholder;
+                    cbo.ForeColor = Color.Gray;
+                }
+            };
+        }
+
+        private void loadChuVoTxtVaCb()
+        {
+            SetComboBoxPlaceholder(cboTimKiemKH, "Chọn giá trị TK");
+            SetPlaceholder(txtTimKiemKH, "Nhập giá trị tìm cần tìm");
+            SetPlaceholder(txtTenKH, "Nhập tên khách hàng");
+            SetPlaceholder(txtSdtKH, "Nhập sđt khách hàng");
+            SetPlaceholder(txtEmailKH, "Nhập email khách hàng");
+        }
+
+        private void resetGiaTri()
+        {
+            cboTimKiemKH.SelectedIndex = -1;
+            txtTimKiemKH.Clear();
+            txtTenKH.Clear();
+            txtSdtKH.Clear();
+            txtEmailKH.Clear();
+            loadChuVoTxtVaCb();
+        }
+
+        private void btnThucHienTimKiem_Click(object sender, EventArgs e)
+        {
+            if(rdoTimCoBan.Checked == true)
+            {
+                timKiemCoBan();
+            }else
+            {
+                timKiemNangCao();
+            }
+        }
+
+        private void timKiemCoBan()
+        {
+            if(cboTimKiemKH.SelectedIndex == -1)
+            {
+                MessageBox.Show("Vui lòng chọn giá trị tìm kiếm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cboTimKiemKH.Focus();
+                return;
+            }
+            if(string.IsNullOrWhiteSpace(txtTimKiemKH.Text))
+            {
+                MessageBox.Show("Vui lòng Nhập giá trị tìm kiếm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtTimKiemKH.Focus();
+                return;
+            }
+
+            string tim = txtTimKiemKH.Text.Trim();
+            int index = cboTimKiemKH.SelectedIndex;
+
+            BindingList<khachHangDTO> dskq = busKhachHang.timKiemCoban(tim, index);
+            if(dskq != null && dskq.Count > 0)
+            {
+                loadDanhSachKhachHang(dskq);
+                loadFontChuVaSize();
+            }else
+            {
+                MessageBox.Show("Không tìm thấy giá trị cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+        }
+
+        private void timKiemNangCao()
+        {
+            string tenKH = string.IsNullOrWhiteSpace(txtTenKH.Text) ? null : txtTenKH.Text.Trim();
+            string sdtKH = string.IsNullOrWhiteSpace(txtSdtKH.Text) ? null : txtSdtKH.Text.Trim();
+            string emailKH = string.IsNullOrWhiteSpace(txtEmailKH.Text) ? null : txtEmailKH.Text.Trim();
+            if(tenKH == "Nhập tên khách hàng")
+            {
+                tenKH = null;
+            }
+            if(sdtKH == "Nhập sđt khách hàng")
+            {
+                sdtKH = null;
+            }
+            if(emailKH == "Nhập email khách hàng")
+            {
+                emailKH = null;
+            }
+
+            if(tenKH == null && sdtKH == null && emailKH == null)
+            {
+                MessageBox.Show("Vui lòng nhập ít nhất một điều kiện để tìm kiếm","Thông báo",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            BindingList<khachHangDTO> dskq = busKhachHang.timKiemNangCao(tenKH, sdtKH, emailKH);
+            if (dskq != null && dskq.Count > 0)
+            {
+                loadDanhSachKhachHang(dskq);
+                loadFontChuVaSize();
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy giá trị cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
         }
     }
 }

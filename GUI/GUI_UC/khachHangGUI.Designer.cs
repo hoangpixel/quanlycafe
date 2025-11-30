@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.topPanel = new System.Windows.Forms.Panel();
             this.chucNangPanel = new System.Windows.Forms.Panel();
             this.roundedChucNang = new GUI.COMPONENTS.RoundedPanel();
@@ -37,11 +37,9 @@
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.layoutTimKiemNangCao = new System.Windows.Forms.TableLayoutPanel();
-            this.txtTenDV = new System.Windows.Forms.TextBox();
-            this.txtTenSP = new System.Windows.Forms.TextBox();
-            this.txtTenNL = new System.Windows.Forms.TextBox();
-            this.txtSoLuongMax = new System.Windows.Forms.TextBox();
-            this.txtSoLuongMin = new System.Windows.Forms.TextBox();
+            this.txtEmailKH = new System.Windows.Forms.TextBox();
+            this.txtTenKH = new System.Windows.Forms.TextBox();
+            this.txtSdtKH = new System.Windows.Forms.TextBox();
             this.rdoTimNangCao = new System.Windows.Forms.RadioButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.layoutTimKiemCoban = new System.Windows.Forms.TableLayoutPanel();
@@ -154,19 +152,17 @@
             // 
             // layoutTimKiemNangCao
             // 
-            this.layoutTimKiemNangCao.ColumnCount = 6;
-            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.09496F));
-            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.09496F));
-            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.09496F));
-            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.09496F));
-            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.09496F));
-            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 4.525194F));
-            this.layoutTimKiemNangCao.Controls.Add(this.txtTenDV, 2, 0);
-            this.layoutTimKiemNangCao.Controls.Add(this.txtTenSP, 0, 0);
-            this.layoutTimKiemNangCao.Controls.Add(this.txtTenNL, 1, 0);
-            this.layoutTimKiemNangCao.Controls.Add(this.txtSoLuongMax, 4, 0);
-            this.layoutTimKiemNangCao.Controls.Add(this.txtSoLuongMin, 3, 0);
-            this.layoutTimKiemNangCao.Controls.Add(this.rdoTimNangCao, 5, 0);
+            this.layoutTimKiemNangCao.ColumnCount = 4;
+            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.89296F));
+            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.89296F));
+            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.89296F));
+            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.321127F));
+            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.layoutTimKiemNangCao.Controls.Add(this.txtEmailKH, 2, 0);
+            this.layoutTimKiemNangCao.Controls.Add(this.txtTenKH, 0, 0);
+            this.layoutTimKiemNangCao.Controls.Add(this.txtSdtKH, 1, 0);
+            this.layoutTimKiemNangCao.Controls.Add(this.rdoTimNangCao, 3, 0);
             this.layoutTimKiemNangCao.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutTimKiemNangCao.Location = new System.Drawing.Point(3, 23);
             this.layoutTimKiemNangCao.Name = "layoutTimKiemNangCao";
@@ -175,57 +171,42 @@
             this.layoutTimKiemNangCao.Size = new System.Drawing.Size(633, 53);
             this.layoutTimKiemNangCao.TabIndex = 1;
             // 
-            // txtTenDV
+            // txtEmailKH
             // 
-            this.txtTenDV.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtTenDV.Location = new System.Drawing.Point(245, 13);
-            this.txtTenDV.Name = "txtTenDV";
-            this.txtTenDV.Size = new System.Drawing.Size(109, 27);
-            this.txtTenDV.TabIndex = 8;
+            this.txtEmailKH.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtEmailKH.Location = new System.Drawing.Point(393, 13);
+            this.txtEmailKH.Name = "txtEmailKH";
+            this.txtEmailKH.Size = new System.Drawing.Size(189, 27);
+            this.txtEmailKH.TabIndex = 8;
             // 
-            // txtTenSP
+            // txtTenKH
             // 
-            this.txtTenSP.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtTenSP.Location = new System.Drawing.Point(5, 13);
-            this.txtTenSP.Name = "txtTenSP";
-            this.txtTenSP.Size = new System.Drawing.Size(109, 27);
-            this.txtTenSP.TabIndex = 7;
+            this.txtTenKH.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtTenKH.Location = new System.Drawing.Point(3, 13);
+            this.txtTenKH.Name = "txtTenKH";
+            this.txtTenKH.Size = new System.Drawing.Size(189, 27);
+            this.txtTenKH.TabIndex = 7;
             // 
-            // txtTenNL
+            // txtSdtKH
             // 
-            this.txtTenNL.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtTenNL.Location = new System.Drawing.Point(125, 13);
-            this.txtTenNL.Name = "txtTenNL";
-            this.txtTenNL.Size = new System.Drawing.Size(109, 27);
-            this.txtTenNL.TabIndex = 5;
-            // 
-            // txtSoLuongMax
-            // 
-            this.txtSoLuongMax.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtSoLuongMax.Location = new System.Drawing.Point(485, 13);
-            this.txtSoLuongMax.Name = "txtSoLuongMax";
-            this.txtSoLuongMax.Size = new System.Drawing.Size(109, 27);
-            this.txtSoLuongMax.TabIndex = 3;
-            // 
-            // txtSoLuongMin
-            // 
-            this.txtSoLuongMin.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtSoLuongMin.Location = new System.Drawing.Point(365, 13);
-            this.txtSoLuongMin.Name = "txtSoLuongMin";
-            this.txtSoLuongMin.Size = new System.Drawing.Size(109, 27);
-            this.txtSoLuongMin.TabIndex = 2;
+            this.txtSdtKH.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtSdtKH.Location = new System.Drawing.Point(198, 13);
+            this.txtSdtKH.Name = "txtSdtKH";
+            this.txtSdtKH.Size = new System.Drawing.Size(189, 27);
+            this.txtSdtKH.TabIndex = 5;
             // 
             // rdoTimNangCao
             // 
             this.rdoTimNangCao.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rdoTimNangCao.AutoSize = true;
-            this.rdoTimNangCao.Location = new System.Drawing.Point(605, 18);
+            this.rdoTimNangCao.Location = new System.Drawing.Point(597, 18);
             this.rdoTimNangCao.Margin = new System.Windows.Forms.Padding(3, 3, 9, 3);
             this.rdoTimNangCao.Name = "rdoTimNangCao";
             this.rdoTimNangCao.Size = new System.Drawing.Size(17, 16);
             this.rdoTimNangCao.TabIndex = 4;
             this.rdoTimNangCao.TabStop = true;
             this.rdoTimNangCao.UseVisualStyleBackColor = true;
+            this.rdoTimNangCao.CheckedChanged += new System.EventHandler(this.rdoTimNangCao_CheckedChanged);
             // 
             // groupBox4
             // 
@@ -262,13 +243,10 @@
             this.cboTimKiemKH.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.cboTimKiemKH.FormattingEnabled = true;
             this.cboTimKiemKH.Items.AddRange(new object[] {
-            "Mã SP",
-            "Tên SP",
-            "Mã NL",
-            "Tên NL",
-            "Tên ĐV",
-            "SL min",
-            "SL max"});
+            "Mã KH",
+            "Tên KH",
+            "SĐT KH",
+            "Email KH"});
             this.cboTimKiemKH.Location = new System.Drawing.Point(10, 10);
             this.cboTimKiemKH.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemKH.Name = "cboTimKiemKH";
@@ -294,6 +272,7 @@
             this.rdoTimCoBan.TabIndex = 2;
             this.rdoTimCoBan.TabStop = true;
             this.rdoTimCoBan.UseVisualStyleBackColor = true;
+            this.rdoTimCoBan.CheckedChanged += new System.EventHandler(this.rdoTimCoBan_CheckedChanged);
             // 
             // btnThucHienTimKiem
             // 
@@ -305,6 +284,7 @@
             this.btnThucHienTimKiem.TabIndex = 3;
             this.btnThucHienTimKiem.Text = "Tìm kiếm";
             this.btnThucHienTimKiem.UseVisualStyleBackColor = true;
+            this.btnThucHienTimKiem.Click += new System.EventHandler(this.btnThucHienTimKiem_Click);
             // 
             // xulykh
             // 
@@ -356,6 +336,7 @@
             this.btnExcelKH.Text = "Excel";
             this.btnExcelKH.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnExcelKH.UseVisualStyleBackColor = true;
+            this.btnExcelKH.Click += new System.EventHandler(this.btnExcelKH_Click);
             // 
             // btnReFreshKH
             // 
@@ -469,23 +450,23 @@
             this.tableKhachHang.AllowUserToResizeColumns = false;
             this.tableKhachHang.AllowUserToResizeRows = false;
             this.tableKhachHang.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tableKhachHang.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tableKhachHang.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.tableKhachHang.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.tableKhachHang.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.tableKhachHang.DefaultCellStyle = dataGridViewCellStyle4;
             this.tableKhachHang.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableKhachHang.EnableHeadersVisualStyles = false;
             this.tableKhachHang.Location = new System.Drawing.Point(10, 10);
@@ -539,11 +520,9 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.TableLayoutPanel layoutTimKiemNangCao;
-        private System.Windows.Forms.TextBox txtTenDV;
-        private System.Windows.Forms.TextBox txtTenSP;
-        private System.Windows.Forms.TextBox txtTenNL;
-        private System.Windows.Forms.TextBox txtSoLuongMax;
-        private System.Windows.Forms.TextBox txtSoLuongMin;
+        private System.Windows.Forms.TextBox txtEmailKH;
+        private System.Windows.Forms.TextBox txtTenKH;
+        private System.Windows.Forms.TextBox txtSdtKH;
         private System.Windows.Forms.RadioButton rdoTimNangCao;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TableLayoutPanel layoutTimKiemCoban;

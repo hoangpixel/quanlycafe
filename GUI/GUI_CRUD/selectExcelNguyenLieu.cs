@@ -19,6 +19,8 @@ namespace GUI.GUI_CRUD
         public selectExcelNguyenLieu()
         {
             InitializeComponent();
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
         }
 
         private void btnNhapExcel_Click(object sender, EventArgs e)

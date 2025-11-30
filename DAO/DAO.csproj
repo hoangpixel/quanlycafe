@@ -124,10 +124,13 @@
     <Compile Include="nhaCungCapDAO.CS" />
     <Compile Include="nhanVienDAO.cs" />
     <Compile Include="nhomDAO.cs" />
+    <Compile Include="phanquyenDAO.cs" />
     <Compile Include="phieuNhapDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="quyenDAO.cs" />
     <Compile Include="sanPhamDAO.cs" />
     <Compile Include="thongKeDAO.cs" />
+    <Compile Include="vaitroDAO.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DTO\DTO.csproj">
