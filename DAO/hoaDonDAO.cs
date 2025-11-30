@@ -20,10 +20,11 @@ namespace DAO
                     hd.MAHOADON, 
                     hd.MABAN, 
                     hd.THOIGIANTAO, 
-                    
+                    hd.TRANGTHAI,
                     hd.TONGTIEN
                 FROM hoadon hd
-                ORDER BY hd.MAHOADON DESC";
+                ORDER BY hd.MAHOADON DESC
+                ";
 
             MySqlConnection conn = null;
 
@@ -40,7 +41,7 @@ namespace DAO
                         MaHD = reader.GetInt32("MAHOADON"),
                         MaBan = Convert.ToInt32(reader["MABAN"]), // VARCHAR
                         ThoiGianTao = reader.GetDateTime("THOIGIANTAO"),
-                        //TrangThai = reader.GetBoolean("TRANGTHAI"),
+                        TrangThai = reader.GetBoolean("TRANGTHAI"),
                         TongTien = reader.GetDecimal("TONGTIEN")
                     };
                     ds.Add(hd);
@@ -341,53 +342,38 @@ namespace DAO
             return null;
         }
         // XÓA HÓA ĐƠN + CHI TIẾT (AN TOÀN VỚI TRANSACTION)
-        public bool XoaHoaDon(int maHD)
+        public bool KhoaHoaDon(int maHD)
         {
-            MySqlConnection conn = null;
-            MySqlTransaction tran = null;
-            try
+            using (var conn = DBConnect.GetConnection())
             {
-                conn = DBConnect.GetConnection();
                 conn.Open();
-                tran = conn.BeginTransaction();
 
-                // 1. XÓA CHI TIẾT TRƯỚC (không quan tâm có bao nhiêu dòng)
-                string sqlCT = "DELETE FROM cthd WHERE MAHOADON = @MaHD";
-                using (MySqlCommand cmdCT = new MySqlCommand(sqlCT, conn, tran))
+                string qry = "UPDATE hoadon SET TrangThai = 1 WHERE MaHD = @maHD";
+
+                using (var cmd = new MySqlCommand(qry, conn))
                 {
-                    cmdCT.Parameters.AddWithValue("@MaHD", maHD);
-                    cmdCT.ExecuteNonQuery(); // không cần kiểm tra rows
+                    cmd.Parameters.AddWithValue("@maHD", maHD);
+
+                    // rows > 0 nghĩa là update thành công
+                    return cmd.ExecuteNonQuery() > 0;
                 }
-
-                // 2. XÓA HÓA ĐƠN – CHỈ KIỂM TRA DÒNG NÀY THÔI!
-                string sqlHD = "DELETE FROM hoadon WHERE MAHOADON = @MaHD";
-                using (MySqlCommand cmdHD = new MySqlCommand(sqlHD, conn, tran))
-                {
-                    cmdHD.Parameters.AddWithValue("@MaHD", maHD);
-                    int rows = cmdHD.ExecuteNonQuery();
-
-                    if (rows == 0)
-                    {
-                        tran.Rollback();
-                        return false; // không tìm thấy hóa đơn → thất bại
-                    }
-                }
-
-                tran.Commit();
-                return true; // xóa thành công
-            }
-            catch (Exception ex)
-            {
-                tran?.Rollback();
-                // Không hiện MessageBox ở DAO → để GUI hiện
-                Console.WriteLine("Lỗi xóa hóa đơn: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                conn?.Close();
             }
         }
+        public bool UpdateTrangThai(int maHD, bool trangThai)
+        {
+            string sql = "UPDATE hoadon SET TRANGTHAI = @tt WHERE MAHOADON = @id";
+
+            using (var conn = DBConnect.GetConnection())
+            using (var cmd = new MySqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@tt", trangThai ? 1 : 0);
+                cmd.Parameters.AddWithValue("@id", maHD);
+
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
+
 
     }
 }

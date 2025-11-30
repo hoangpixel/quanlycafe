@@ -27,6 +27,7 @@ namespace GUI.GUI_UC
         private BindingList<hoaDonDTO> dsHoaDon;
         private hoaDonBUS busHoaDon = new hoaDonBUS();
         private hoaDonDAO hoaDonDAO = new hoaDonDAO();
+
         public banHangGUI()
         {
             InitializeComponent();
@@ -41,12 +42,13 @@ namespace GUI.GUI_UC
             dsNhom = new nhomBUS().layDanhSach();
 
             busSanPham = new sanPhamBUS();
-            dgvGioHang.DataSource = gioHang;
             LoadDanhSachSanPham();
             CapNhatGioHang();
             loadFontChuVaSizeGioHang();
             LoadDanhSachHoaDon();
             loadFontChuVaSizeHoaDon();
+            CapNhatTrangThaiNutHoaDon();
+            AnNutHoaDon();
         }
         private void loadFontChuVaSize()
         {
@@ -165,62 +167,71 @@ namespace GUI.GUI_UC
 
         private void LoadDanhSachHoaDon()
         {
-            
             try
             {
-                dsHoaDon = busHoaDon.LayDanhSach();
+                dsHoaDon = busHoaDon.LayDanhSach(); // Lấy hết từ DB
 
-                dgvHoaDon.Columns.Clear();      // XÓA CỘT CŨ
-                dgvHoaDon.AutoGenerateColumns = false; // TẮT auto để tự định nghĩa
+                // CHỈ HIỂN THỊ HÓA ĐƠN CHƯA THANH TOÁN
+                var dsHienThi = dsHoaDon
+                    .Where(hd => hd.TrangThai == false)
+                    .OrderByDescending(hd => hd.ThoiGianTao) // mới nhất lên trên
+                    .ToList();
 
-                dgvHoaDon.DataSource = null;
-                dgvHoaDon.DataSource = dsHoaDon;
+                // Gán DataSource
+                dgvHoaDon.AutoGenerateColumns = false;
+                dgvHoaDon.DataSource = null; // reset
+                dgvHoaDon.DataSource = dsHienThi;
 
-                // === TẠO CỘT ===
-                dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
+                // Tạo lại cột (nếu chưa có)
+                if (dgvHoaDon.Columns.Count == 0)
                 {
-                    DataPropertyName = "MaHD",
-                    HeaderText = "Mã HD"
+                    dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
+                    {
+                        DataPropertyName = "MaHD",
+                        HeaderText = "Mã HD",
+                        Width = 80
+                    });
+                    dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
+                    {
+                        DataPropertyName = "MaBan",
+                        HeaderText = "Bàn",
+                        Width = 60
+                    });
+                    dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
+                    {
+                        DataPropertyName = "ThoiGianTao",
+                        HeaderText = "Thời gian",
+                        DefaultCellStyle = new DataGridViewCellStyle { Format = "HH:mm dd/MM" },
+                        Width = 120
+                    });
+                    dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
+                    {
+                        DataPropertyName = "TongTien",
+                        HeaderText = "Tổng tiền",
+                        DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" },
+                        Width = 100
+                    });
+                }
+
+                dgvHoaDon.ClearSelection();
+                dgvHoaDon.CurrentCell = null; // cực kỳ quan trọng!
+
+                this.BeginInvoke((MethodInvoker)delegate
+                {
+                    dgvHoaDon.ClearSelection();
+                    dgvHoaDon.CurrentCell = null;
+                    CapNhatTrangThaiNutHoaDon(); // tắt hết nút
                 });
 
-                dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    DataPropertyName = "MaBan",
-                    HeaderText = "Bàn"
-                });
-
-                dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    DataPropertyName = "ThoiGianTao",
-                    HeaderText = "Thời gian",
-                    DefaultCellStyle = new DataGridViewCellStyle { Format = "HH:mm dd/MM" }
-                });
-
-                /*dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    DataPropertyName = "TrangThai",
-                    HeaderText = "Trạng thái"
-                });*/
-
-                dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    DataPropertyName = "TongTien",
-                    HeaderText = "Tổng tiền",
-                    DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" }
-                });
-
-                dgvHoaDon.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-                Console.WriteLine($"[LOAD] Đã tải {dsHoaDon.Count} hóa đơn.");
-
-                AnNutHoaDon();
+                Console.WriteLine($"[LOAD HD] Đang hiển thị {dsHienThi.Count} hóa đơn chưa thanh toán.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi tải danh sách hóa đơn: " + ex.Message);
+                MessageBox.Show("Lỗi tải hóa đơn: " + ex.Message);
             }
-            
+            AnNutHoaDon();
         }
+
 
         private void dgvSanPham_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
@@ -353,7 +364,7 @@ namespace GUI.GUI_UC
                     DonGia = (decimal)sp.Gia,
                     ThanhTien = soLuong * (decimal)sp.Gia
                 });
-
+                dgvSanPham.ClearSelection();
             }
 
             CapNhatGioHang();
@@ -391,18 +402,20 @@ namespace GUI.GUI_UC
 
         private void btnXoaSP_Click(object sender, EventArgs e)
         {
-    if (dgvGioHang.CurrentRow != null)
-    {
-        if (int.TryParse(dgvGioHang.CurrentRow.Cells["Mã SP"].Value?.ToString(), out int maSP))
-        {
-            var item = gioHang.FirstOrDefault(g => g.MaSP == maSP);
-            if (item != null)
+            if (dgvGioHang.CurrentRow == null || dgvGioHang.CurrentRow.Index < 0) return;
+
+            int index = dgvGioHang.CurrentRow.Index;
+            if (index >= gioHang.Count) return;
+
+            if (MessageBox.Show("Xóa món này khỏi giỏ hàng?", "Xác nhận",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                gioHang.Remove(item);
+                gioHang.RemoveAt(index);
                 CapNhatGioHang();
+                numSoLuong.Value = 0;
+                numSoLuong.Visible = false;
+                dgvGioHang.ClearSelection();
             }
-        }
-    }
         }
 
         private void button5_Click_1(object sender, EventArgs e)
@@ -453,14 +466,14 @@ namespace GUI.GUI_UC
 
             // 6. Xác nhận tạo hóa đơn (hộp thoại đẹp)
             string message = $@"XÁC NHẬN TẠO HÓA ĐƠN
-────────────────────────────
-Bàn số: {maBan}
-Khách hàng: {(maKH.HasValue ? txtKhachHang.Text : "Khách lẻ")}
-Nhân viên: {txtNhanVien.Text}
-Số món: {gioHang.Count}
-Tổng tiền: {tongTien:N0} VNĐ
-────────────────────────────
-Bạn có chắc chắn muốn tạo hóa đơn không?";
+            ────────────────────────────
+            Bàn số: {maBan}
+            Khách hàng: {(maKH.HasValue ? txtKhachHang.Text : "Khách lẻ")}
+            Nhân viên: {txtNhanVien.Text}
+            Số món: {gioHang.Count}
+            Tổng tiền: {tongTien:N0} VNĐ
+            ────────────────────────────
+            Bạn có chắc chắn muốn tạo hóa đơn không?";
 
             var result = MessageBox.Show(message, "Xác nhận tạo hóa đơn",
                                         MessageBoxButtons.YesNo, MessageBoxIcon.Question,
@@ -545,8 +558,6 @@ Bạn có chắc chắn muốn tạo hóa đơn không?";
             if (dgvSanPham.CurrentRow != null)
             {
                 btThemSP.Enabled = true;
-                btnXoaSP.Enabled = true;
-                button2.Enabled = true;
 
                 numSoLuong.Enabled = true;
                 numSoLuong.Visible = true;
@@ -611,26 +622,11 @@ Bạn có chắc chắn muốn tạo hóa đơn không?";
 
         private void dgvHoaDon_SelectionChanged(object sender, EventArgs e)
         {
-            if (dgvHoaDon.CurrentRow != null && dgvHoaDon.CurrentRow.Index < dsHoaDon.Count)
-            {
-                btnChiTietHD.Enabled = btnTinhTien.Enabled = true;
-
-                var hd = dsHoaDon[dgvHoaDon.CurrentRow.Index];
-
-                // TrangThai là bool
-                btnTinhTien.Enabled = !hd.TrangThai;   // true = cho thanh toán, false = không
-                btnSuaHD.Enabled = true;
-                btnXoaHD.Enabled = true;
-                
-            }
-            else
-            {
-                AnNutHoaDon();
-            }
+            CapNhatTrangThaiNutHoaDon();
         }
         private void AnNutHoaDon()
         {
-            btnChiTietHD.Enabled = btnTinhTien.Enabled = btnXoaHD.Enabled = false;
+            btnChiTietHD.Enabled = btnTinhTien.Enabled = btnXoaHD.Enabled = btnSuaHD.Enabled = false;
         }
 
         private void btnChiTietHD_Click(object sender, EventArgs e)
@@ -650,25 +646,37 @@ Bạn có chắc chắn muốn tạo hóa đơn không?";
 
         private void dgvGioHang_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.RowIndex >= danhSachSP.Count)
-                return;
-
-            if (e.RowIndex == lastSelectedRowIndex)
+            if (e.RowIndex < 0 || e.RowIndex >= gioHang.Count)
             {
-                dgvSanPham.ClearSelection();
-                lastSelectedRowIndex = -1;
-
-                txtMaSP.Clear();
-                txtTenSP.Clear();
-                txtLoaiSP.Clear();
-                txtGia.Clear();
-                picSanPham.Image = null;
+                // Không có dòng hợp lệ
+                btThemSP.Enabled = false;
+                btnXoaSP.Enabled = false;
+                button2.Enabled = false;
+                numSoLuong.Visible = false;
                 return;
             }
 
-            lastSelectedRowIndex = e.RowIndex;
-            var sp = danhSachSP[e.RowIndex];
-            HienThiChiTietSanPham(sp);
+            // Bật các nút liên quan đến giỏ hàng
+            btnXoaSP.Enabled = true;
+            button2.Enabled = true; // nút cập nhật số lượng
+            numSoLuong.Enabled = true;
+            numSoLuong.Visible = true;
+
+            // LẤY ĐÚNG SẢN PHẨM TỪ GIỎ HÀNG
+            var itemGioHang = gioHang[e.RowIndex];
+            var spTrongGio = danhSachSP.FirstOrDefault(s => s.MaSP == itemGioHang.MaSP);
+
+            if (spTrongGio != null)
+            {
+                // Hiển thị chi tiết sản phẩm từ danh sách đầy đủ (có ảnh, loại, v.v.)
+                HienThiChiTietSanPham(spTrongGio);
+
+                // Tự động điền số lượng hiện tại trong giỏ để người dùng chỉnh sửa
+                numSoLuong.Value = itemGioHang.SoLuong;
+            }
+
+            // Cập nhật lại nút thêm (không cho thêm khi đang chọn trong giỏ)
+            btThemSP.Enabled = false;
         }
 
         private void dgvHoaDon_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -680,8 +688,13 @@ Bạn có chắc chắn muốn tạo hóa đơn không?";
             {
                 dgvHoaDon.ClearSelection();
                 lastSelectedRowIndex = -1;
+
+                btnChiTietHD.Enabled = btnTinhTien.Enabled = btnXoaHD.Enabled = btnSuaHD.Enabled = false;
                 return;
             }
+
+            lastSelectedRowIndex = e.RowIndex;
+            
         }
 
         private void btnChonKH_Click(object sender, EventArgs e)
@@ -711,71 +724,146 @@ Bạn có chắc chắn muốn tạo hóa đơn không?";
         private void dgvHoaDon_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             dgvHoaDon.ClearSelection();
+            CapNhatTrangThaiNutHoaDon();
         }
 
         private void btnXoaHD_Click(object sender, EventArgs e)
         {
-            if (dgvHoaDon.CurrentRow == null || dgvHoaDon.CurrentRow.Index < 0)
+            if (dgvHoaDon.CurrentRow == null)
             {
-                MessageBox.Show("Vui lòng chọn hóa đơn cần xóa!", "Chưa chọn",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn hóa đơn cần Xóa!",
+                                "Chưa chọn",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
                 return;
             }
 
-            // 2. LẤY DỮ LIỆU AN TOÀN BẰNG INDEX (không sợ sai tên cột nữa!)
-            int maHD = Convert.ToInt32(dgvHoaDon.CurrentRow.Cells[0].Value); // cột đầu = Mã HD
-            int maBan = Convert.ToInt32(dgvHoaDon.CurrentRow.Cells[1].Value); // cột thứ 2 = Bàn
-            string thoiGian = dgvHoaDon.CurrentRow.Cells[2].FormattedValue.ToString();
-            decimal tongTien = Convert.ToDecimal(dgvHoaDon.CurrentRow.Cells[3].Value);
+            var hd = dsHoaDon[dgvHoaDon.CurrentRow.Index];
 
-            // 3. Xác nhận xóa – đẹp y như khi tạo hóa đơn
-            string message = $@"BẠN MUỐN XÓA HÓA ĐƠN NÀY?
-────────────────────────────
-Mã hóa đơn: HD{maHD}
-Bàn số: {maBan}
-Thời gian: {thoiGian}
-Tổng tiền: {tongTien:N0} VNĐ
-────────────────────────────
-Dữ liệu sẽ bị xóa vĩnh viễn và không thể khôi phục!";
+            string msg =
+        $@"XÁC NHẬN XÓA HÓA ĐƠN
+        ────────────────────────────
 
-            var confirm = MessageBox.Show(message, "XÁC NHẬN XÓA HÓA ĐƠN",
-                                         MessageBoxButtons.YesNo,
-                                         MessageBoxIcon.Exclamation,
-                                         MessageBoxDefaultButton.Button2);
+        Bạn có chắc muốn xóa hóa đơn này không?";
 
-            if (confirm != DialogResult.Yes)
+            if (MessageBox.Show(msg, "Xóa hóa đơn",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                MessageBox.Show("Đã hủy xóa. Hóa đơn vẫn được giữ lại.", "Đã hủy",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
+                // 🔥 Chỉ chuyển trạng thái của hóa đơn, không xoá!
+                bool ok = busHoaDon.ChuyenTrangThai(hd.MaHD, true);
 
-            // 4. Gọi xóa từ BUS (hoặc DAO đều được)
-            bool ketQua = busHoaDon.XoaHoaDon(maHD); // hoặc hoaDonDAO.XoaHoaDon(maHD)
-
-            if (ketQua)
-            {
-                MessageBox.Show($@"ĐÃ XÓA THÀNH CÔNG HÓA ĐƠN HD{maHD}!
-Bàn {maBan} đã được giải phóng.",
-                                "Xóa thành công!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // 5. Cập nhật lại danh sách
-                LoadDanhSachHoaDon();
-
-                // 6. CẬP NHẬT BÀN VỀ TRẠNG THÁI TRỐNG (đồng bộ với lúc tạo HD)
-                foreach (Form frm in Application.OpenForms)
+                if (ok)
                 {
-                    if (frm is FormChonBan chonBanForm)
-                    {
-                        chonBanForm.CapNhatBanTrong(maBan);
-                    }
+                    MessageBox.Show(
+                        $@"XÓA HÓA ĐƠN THÀNH CÔNG!
+                        Hóa đơn HD{hd.MaHD} đã xóa hoàn tất.
+                        Bàn {hd.MaBan} đã được giải phóng.",
+                        "Thành công",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    // 🎯 Cập nhật bàn trong FormChonBan
+                    foreach (Form f in Application.OpenForms)
+                        if (f is FormChonBan chonBan)
+                            chonBan.CapNhatBanTrong(hd.MaBan);
+
+                    // 🎯 Reload danh sách (HD đã thanh toán sẽ ẩn đi)
+                    LoadDanhSachHoaDon();
+                }
+                else
+                {
+                    MessageBox.Show("Xóa Hóa Đơn thất bại!", "Lỗi",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            else
+        }
+
+        private void dgvHoaDon_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            if (dgvHoaDon.Rows[e.RowIndex].DataBoundItem is hoaDonDTO hd)
             {
-                MessageBox.Show("Xóa hóa đơn thất bại!\nCó thể hóa đơn đã bị xóa trước đó.",
-                                "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (hd.TrangThai == true) // hoặc 1 / "1" tùy kiểu bạn lưu
+                {
+                    dgvHoaDon.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightGray;
+                    dgvHoaDon.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.DarkGray;
+                    dgvHoaDon.Rows[e.RowIndex].DefaultCellStyle.Font = new Font("Segoe UI", 9, FontStyle.Italic);
+                }
+                else
+                {
+                    // Reset khi không bị xoá
+                    dgvHoaDon.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
+                    dgvHoaDon.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
+                    dgvHoaDon.Rows[e.RowIndex].DefaultCellStyle.Font = new Font("Segoe UI", 9, FontStyle.Regular);
+                }
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (dgvGioHang.CurrentRow == null || dgvGioHang.CurrentRow.Index < 0) return;
+
+            int rowIndex = dgvGioHang.CurrentRow.Index;
+            if (rowIndex >= gioHang.Count) return;
+
+            int soLuongMoi = (int)numSoLuong.Value;
+            if (soLuongMoi <= 0)
+            {
+                MessageBox.Show("Số lượng phải lớn hơn 0!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var item = gioHang[rowIndex];
+            item.SoLuong = soLuongMoi;
+            item.ThanhTien = item.SoLuong * item.DonGia;
+
+            CapNhatGioHang();
+            dgvGioHang.ClearSelection();
+        }
+
+        private void dgvGioHang_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            dgvGioHang.ClearSelection();
+        }
+        private void CapNhatTrangThaiNutHoaDon()
+        {
+            bool coChonDong = dgvHoaDon.CurrentRow != null && dgvHoaDon.CurrentRow.Index >= 0
+                && dgvHoaDon.CurrentRow.Index < dgvHoaDon.Rows.Count
+                  && dgvHoaDon.CurrentCell != null;
+
+            if (!coChonDong)
+            {
+                // CHƯA CHỌN GÌ → TẮT HẾT
+                btnSuaHD.Enabled = false;
+                btnXoaHD.Enabled = false;
+                btnChiTietHD.Enabled = false;
+                btnTinhTien.Enabled = false;
+                return;
+            }
+
+
+            var hd = dsHoaDon[dgvHoaDon.CurrentRow.Index];
+
+            if (hd.TrangThai == true) // đã thanh toán / đã xóa
+            {
+                btnChiTietHD.Enabled = true;
+                btnSuaHD.Enabled = false;
+                btnXoaHD.Enabled = false;
+                btnTinhTien.Enabled = false;
+            }
+            else // chưa thanh toán → cho phép thao tác
+            {
+                btnChiTietHD.Enabled = true;
+                btnSuaHD.Enabled = true;
+                btnXoaHD.Enabled = true;
+                btnTinhTien.Enabled = true;
+            }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            AnNutHoaDon();
+        }
     }
-}
+ }
+
