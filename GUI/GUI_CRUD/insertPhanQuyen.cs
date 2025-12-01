@@ -97,7 +97,7 @@ namespace GUI.GUI_CRUD
             tableLayoutPanel1.Controls.Add(lblHeaderQuyen, 0, 0);
 
             // Cột 1-4: Tiêu đề CRUD
-            string[] crudHeaders = { "Xem", "Thêm", "Sửa", "Xóa" };
+            string[] crudHeaders = { "CREATE", "READ", "UPDATE", "DELETE" };
             for (int i = 0; i < crudHeaders.Length; i++)
             {
                 Label lblHeader = new Label()
@@ -153,8 +153,8 @@ namespace GUI.GUI_CRUD
                     tableLayoutPanel1.Controls.Add(lblQuyen, 0, row);
 
                     // --- Cột 1-4: Checkbox ---
-                    AddPermissionCheckBox(item.CAN_READ, "CAN_READ", tableLayoutPanel1, 1, row, maQuyen);
-                    AddPermissionCheckBox(item.CAN_WRITE, "CAN_WRITE", tableLayoutPanel1, 2, row, maQuyen);
+                    AddPermissionCheckBox(item.CAN_CREATE, "CAN_CREATE", tableLayoutPanel1, 1, row, maQuyen);
+                    AddPermissionCheckBox(item.CAN_READ, "CAN_READ", tableLayoutPanel1, 2, row, maQuyen);
                     AddPermissionCheckBox(item.CAN_UPDATE, "CAN_UPDATE", tableLayoutPanel1, 3, row, maQuyen);
                     AddPermissionCheckBox(item.CAN_DELETE, "CAN_DELETE", tableLayoutPanel1, 4, row, maQuyen);
 
@@ -216,8 +216,8 @@ namespace GUI.GUI_CRUD
                     int val = chk.Checked ? 1 : 0;
                     switch (action)
                     {
+                        case "CAN_CREATE": dictQuyenMoi[maQuyen].CAN_CREATE = val; break;
                         case "CAN_READ": dictQuyenMoi[maQuyen].CAN_READ = val; break;
-                        case "CAN_WRITE": dictQuyenMoi[maQuyen].CAN_WRITE = val; break;
                         case "CAN_UPDATE": dictQuyenMoi[maQuyen].CAN_UPDATE = val; break;
                         case "CAN_DELETE": dictQuyenMoi[maQuyen].CAN_DELETE = val; break;
                     }

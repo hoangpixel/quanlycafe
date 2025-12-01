@@ -17,6 +17,7 @@ namespace GUI.GUI_UC
 {
     public partial class phanQuyenGUI : UserControl
     {
+        private int lastSelectedRowPhanQuyen = -1;
         private phanquyenBUS bus = new phanquyenBUS();
         private BindingList<vaitroDTO> dsVaitro;
         private BindingList<quyenDTO> dsQuyen;
@@ -36,6 +37,8 @@ namespace GUI.GUI_UC
             BindingList<phanquyenDTO> dsHienThi = new phanquyenBUS().LayDanhSach();
             loadDanhSachPhanQuyen(dsHienThi);
             loadFontChuVaSize();
+            loadChuVoTxtVaCb();
+            rdoTimCoBan.Checked = true;
         }
 
         private void loadDanhSachPhanQuyen(BindingList<phanquyenDTO> ds)
@@ -55,13 +58,13 @@ namespace GUI.GUI_UC
             });
             tbPhanQuyen.Columns.Add(new DataGridViewTextBoxColumn
             {
-                DataPropertyName = "CAN_READ",
-                HeaderText = "READ"
+                DataPropertyName = "CAN_CREATE",
+                HeaderText = "CREATE"
             });
             tbPhanQuyen.Columns.Add(new DataGridViewTextBoxColumn
             {
-                DataPropertyName = "CAN_WRITE",
-                HeaderText = "WRITE"
+                DataPropertyName = "CAN_READ",
+                HeaderText = "READ"
             });
             tbPhanQuyen.Columns.Add(new DataGridViewTextBoxColumn
             {
@@ -77,6 +80,7 @@ namespace GUI.GUI_UC
             tbPhanQuyen.DataSource = ds;
             tbPhanQuyen.ReadOnly = true;
             btnChiTietPQ.Enabled = false;
+            tbPhanQuyen.ClearSelection();
         }
 
         private void tbPhanQuyen_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -104,9 +108,9 @@ namespace GUI.GUI_UC
                 e.Value = pq.CAN_READ == 1 ? "Có" : "Không";
             }
 
-            if (tbPhanQuyen.Columns[e.ColumnIndex].HeaderText == "WRITE")
+            if (tbPhanQuyen.Columns[e.ColumnIndex].HeaderText == "CREATE")
             {
-                e.Value = pq.CAN_WRITE == 1 ? "Có" : "Không";
+                e.Value = pq.CAN_CREATE == 1 ? "Có" : "Không";
             }
 
             if (tbPhanQuyen.Columns[e.ColumnIndex].HeaderText == "UPDATE")
@@ -144,6 +148,86 @@ namespace GUI.GUI_UC
             tbPhanQuyen.Refresh();
         }
 
+        private void SetPlaceholder(TextBox txt, string placeholder)
+        {
+            txt.ForeColor = Color.Gray;
+            txt.Text = placeholder;
+            txt.GotFocus += (s, e) =>
+            {
+                if (txt.Text == placeholder)
+                {
+                    txt.Text = "";
+                    txt.ForeColor = Color.Black;
+                }
+            };
+            txt.LostFocus += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(txt.Text))
+                {
+                    txt.ForeColor = Color.Gray;
+                    txt.Text = placeholder;
+                }
+            };
+        }
+
+        private void SetComboBoxPlaceholder(ComboBox cbo, string placeholder)
+        {
+
+            cbo.ForeColor = Color.Gray;
+            cbo.Text = placeholder;
+
+            cbo.GotFocus += (s, e) =>
+            {
+                if (cbo.Text == placeholder)
+                {
+                    cbo.Text = "";
+                    cbo.ForeColor = Color.Black;
+                }
+            };
+            cbo.LostFocus += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(cbo.Text))
+                {
+                    cbo.Text = placeholder;
+                    cbo.ForeColor = Color.Gray;
+                }
+            };
+        }
+        private void SetupComboBoxData(ComboBox cbo)
+        {
+            // Tạo danh sách dữ liệu có Giá trị đi kèm
+            var items = new List<dynamic>
+    {
+        new { Text = "Có", Value = 1 },
+        new { Text = "Không", Value = 0 }
+    };
+
+            cbo.DisplayMember = "Text";
+            cbo.ValueMember = "Value"; 
+            cbo.DataSource = items;
+
+            cbo.SelectedIndex = -1;
+        }
+        private void loadChuVoTxtVaCb()
+        {
+            SetupComboBoxData(can_create);
+            SetupComboBoxData(can_read);
+            SetupComboBoxData(can_update);
+            SetupComboBoxData(can_delete);
+
+            SetComboBoxPlaceholder(cboTimKiemPQ, "Chọn giá trị TK");
+            SetPlaceholder(txtTimKiemPQ, "Nhập giá trị tìm cần tìm");
+
+            SetPlaceholder(txtTenVaiTro, "Tên VT");
+            SetPlaceholder(txtTenQuyen, "Tên quyền");
+
+            SetComboBoxPlaceholder(can_create,"create");
+            SetComboBoxPlaceholder(can_read, "read");
+            SetComboBoxPlaceholder(can_update, "update");
+            SetComboBoxPlaceholder(can_delete, "delete");
+
+        }
+
         private void tbPhanQuyen_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             tbPhanQuyen.ClearSelection();
@@ -167,6 +251,212 @@ namespace GUI.GUI_UC
             }
             dsQuyen = new quyenBUS().LayDanhSach();
             dsVaitro = new vaitroBUS().LayDanhSach();
+        }
+
+        private void tbPhanQuyen_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            if (e.RowIndex == lastSelectedRowPhanQuyen)
+            {
+                tbPhanQuyen.ClearSelection();
+                lastSelectedRowPhanQuyen = -1;
+
+                btnChiTietPQ.Enabled = false;
+                return;
+            }
+
+            tbPhanQuyen.ClearSelection();
+            tbPhanQuyen.Rows[e.RowIndex].Selected = true;
+            lastSelectedRowPhanQuyen = e.RowIndex;
+
+            btnChiTietPQ.Enabled = true;
+        }
+
+        private void btnChiTietPQ_Click(object sender, EventArgs e)
+        {
+            if(tbPhanQuyen.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = tbPhanQuyen.SelectedRows[0];
+                phanquyenDTO pq = row.DataBoundItem as phanquyenDTO;
+
+                using(detailPhanQuyen form = new detailPhanQuyen(pq))
+                {
+                    form.StartPosition = FormStartPosition.CenterParent;
+                    form.ShowDialog();
+                }
+            }
+        }
+
+        private void btnReFreshPQ_Click(object sender, EventArgs e)
+        {
+            BindingList<phanquyenDTO> ds = new phanquyenBUS().LayDanhSach();
+            loadDanhSachPhanQuyen(ds);
+            loadFontChuVaSize();
+            resetFormTK();
+        }
+
+        public void resetFormTK()
+        {
+            cboTimKiemPQ.SelectedIndex = -1;
+            txtTimKiemPQ.Clear();
+            txtTenVaiTro.Clear();
+            txtTenQuyen.Clear();
+            can_create.SelectedIndex = -1;
+            can_read.SelectedIndex = -1;
+            can_update.SelectedIndex = -1;
+            can_delete.SelectedIndex = -1;
+            loadChuVoTxtVaCb();
+        }
+        private void rdoTimCoBan_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdoTimCoBan.Checked == true)
+            {
+                cboTimKiemPQ.Enabled = true;
+                txtTimKiemPQ.Enabled = true;
+
+                txtTenVaiTro.Enabled = false;
+                txtTenQuyen.Enabled = false;
+                can_create.Enabled = false;
+                can_read.Enabled = false;
+                can_update.Enabled = false;
+                can_delete.Enabled = false;
+                rdoTimNangCao.Checked = false;
+                resetFormTK();
+            }else
+            {
+                cboTimKiemPQ.Enabled = false;
+                txtTimKiemPQ.Enabled = false;
+
+                txtTenVaiTro.Enabled = true;
+                txtTenQuyen.Enabled = true;
+                can_create.Enabled = true;
+                can_read.Enabled = true;
+                can_update.Enabled = true;
+                can_delete.Enabled = true;
+                rdoTimCoBan.Checked = false;
+                resetFormTK();
+            }
+        }
+
+        private void rdoTimNangCao_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rdoTimNangCao.Checked == true)
+            {
+                cboTimKiemPQ.Enabled = false;
+                txtTimKiemPQ.Enabled = false;
+
+                txtTenVaiTro.Enabled = true;
+                txtTenQuyen.Enabled = true;
+                can_create.Enabled = true;
+                can_read.Enabled = true;
+                can_update.Enabled = true;
+                can_delete.Enabled = true;
+
+                rdoTimCoBan.Checked = false;
+                resetFormTK();
+            }else
+            {
+                cboTimKiemPQ.Enabled = true;
+                txtTimKiemPQ.Enabled = true;
+
+                txtTenVaiTro.Enabled = false;
+                txtTenQuyen.Enabled = false;
+                can_create.Enabled = false;
+                can_read.Enabled = false;
+                can_update.Enabled = false;
+                can_delete.Enabled = false;
+
+                rdoTimNangCao.Checked = false;
+                resetFormTK();
+            }
+        }
+
+        private void btnThucHienTimKiem_Click(object sender, EventArgs e)
+        {
+            if(rdoTimCoBan.Checked == true)
+            {
+                timKiemCoBan();
+            }else
+            {
+                timKiemNangCao();
+            }
+        }
+
+        private void timKiemCoBan()
+        {
+            if (cboTimKiemPQ.SelectedIndex == -1)
+            {
+                MessageBox.Show("Vui lòng chọn giá trị tìm kiếm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cboTimKiemPQ.Focus();
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(txtTimKiemPQ.Text))
+            {
+                MessageBox.Show("Vui lòng Nhập giá trị tìm kiếm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtTimKiemPQ.Focus();
+                return;
+            }
+
+            string tim = txtTimKiemPQ.Text.Trim();
+            int index = cboTimKiemPQ.SelectedIndex;
+
+            BindingList<phanquyenDTO> dskq = bus.timKiemCoBan(tim, index);
+            if (dskq != null && dskq.Count > 0)
+            {
+                loadDanhSachPhanQuyen(dskq);
+                loadFontChuVaSize();
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy giá trị cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+        }
+
+        private void timKiemNangCao()
+        {
+            string tenVaiTro = string.IsNullOrWhiteSpace(txtTenVaiTro.Text) ? null : txtTenVaiTro.Text.Trim();
+            string tenQuyen = string.IsNullOrWhiteSpace(txtTenQuyen.Text) ? null : txtTenQuyen.Text.Trim();
+            int create = (can_create.SelectedIndex == -1) ? -1 : Convert.ToInt32(can_create.SelectedValue);
+            int read = (can_read.SelectedIndex == -1) ? -1 : Convert.ToInt32(can_read.SelectedValue);
+            int update = (can_update.SelectedIndex == -1) ? -1 : Convert.ToInt32(can_update.SelectedValue);
+            int delete = (can_delete.SelectedIndex == -1) ? -1 : Convert.ToInt32(can_delete.SelectedValue);
+
+            if (tenVaiTro == "Tên VT")
+            {
+                tenVaiTro = null;
+            }    
+            if(tenQuyen == "Tên quyền")
+            {
+                tenQuyen = null;
+            }    
+            if(tenVaiTro == null && tenQuyen == null && create == -1 && read == -1 && update == -1 && delete == -1)
+            {
+                MessageBox.Show("Vui lòng nhập ít nhất một điều kiện để tìm kiếm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            BindingList<phanquyenDTO> ds = bus.timKiemNangCao(tenVaiTro, tenQuyen, create, read, update, delete);
+            if(ds != null && ds.Count > 0)
+            {
+                loadDanhSachPhanQuyen(ds);
+                loadFontChuVaSize();
+            }else
+            {
+                MessageBox.Show("Không tìm thấy kết quả tìm kiếm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+        }
+
+        private void btnExcelPQ_Click(object sender, EventArgs e)
+        {
+            using (excelPhanQuyen form = new excelPhanQuyen())
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.ShowDialog();
+
+                tbPhanQuyen.Refresh();
+            }
+            
         }
     }
 }

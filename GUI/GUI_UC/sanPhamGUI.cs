@@ -388,16 +388,6 @@ namespace GUI.GUI_UC
                 return;
             }
 
-            ////// Debug
-            ////string debugInfo =
-            ////    $"[DEBUG - TÌM KIẾM NÂNG CAO]\n\n" +
-            ////    $"Mã loại: {maLoai}\n" +
-            ////    $"Trạng thái CT: {trangThaiCT}\n" +
-            ////    $"Tên SP: {(tenSP ?? "(null)")}\n" +
-            ////    $"Giá tối thiểu: {(giaMin == -1 ? "(không lọc)" : giaMin.ToString())}\n" +
-            ////    $"Giá tối đa: {(giaMax == -1 ? "(không lọc)" : giaMax.ToString())}";
-
-            //MessageBox.Show(debugInfo, "DEBUG", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             BindingList<sanPhamDTO> dskq = busSanPham.timKiemNangCaoSP(maLoai, trangThaiCT, giaMin, giaMax, tenSP);
 

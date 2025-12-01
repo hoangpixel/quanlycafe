@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2025 at 08:02 AM
+-- Generation Time: Dec 01, 2025 at 03:28 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -446,7 +446,7 @@ CREATE TABLE `phanquyen` (
   `MAVAITRO` int(11) NOT NULL,
   `MAQUYEN` int(11) NOT NULL,
   `CAN_READ` tinyint(1) DEFAULT 0,
-  `CAN_WRITE` tinyint(1) DEFAULT 0,
+  `CAN_CREATE` tinyint(1) DEFAULT 0,
   `CAN_UPDATE` tinyint(1) DEFAULT 0,
   `CAN_DELETE` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -455,7 +455,7 @@ CREATE TABLE `phanquyen` (
 -- Dumping data for table `phanquyen`
 --
 
-INSERT INTO `phanquyen` (`MAVAITRO`, `MAQUYEN`, `CAN_READ`, `CAN_WRITE`, `CAN_UPDATE`, `CAN_DELETE`) VALUES
+INSERT INTO `phanquyen` (`MAVAITRO`, `MAQUYEN`, `CAN_READ`, `CAN_CREATE`, `CAN_UPDATE`, `CAN_DELETE`) VALUES
 (1, 1, 1, 1, 1, 1),
 (1, 2, 1, 1, 1, 1),
 (1, 3, 1, 1, 1, 1),

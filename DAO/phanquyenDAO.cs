@@ -30,7 +30,7 @@ namespace DAO
                         MaVaiTro = reader.GetInt32("MAVAITRO"),
                         MaQuyen = reader.GetInt32("MAQUYEN"),
                         CAN_READ = reader.GetInt32("CAN_READ"),
-                        CAN_WRITE = reader.GetInt32("CAN_WRITE"),
+                        CAN_CREATE = reader.GetInt32("CAN_CREATE"),
                         CAN_UPDATE = reader.GetInt32("CAN_UPDATE"),
                         CAN_DELETE = reader.GetInt32("CAN_DELETE")
                     };
@@ -59,7 +59,7 @@ namespace DAO
                     Q.MAQUYEN,
                     Q.TENQUYEN,
                     IFNULL(PQ.CAN_READ, 0) AS CAN_READ,
-                    IFNULL(PQ.CAN_WRITE, 0) AS CAN_WRITE,
+                    IFNULL(PQ.CAN_CREATE, 0) AS CAN_CREATE,
                     IFNULL(PQ.CAN_UPDATE, 0) AS CAN_UPDATE,
                     IFNULL(PQ.CAN_DELETE, 0) AS CAN_DELETE
                 FROM
@@ -87,7 +87,7 @@ namespace DAO
                     pq.TenQuyen = reader.GetString("TENQUYEN");
 
                     pq.CAN_READ = Convert.ToInt32(reader["CAN_READ"]);
-                    pq.CAN_WRITE = Convert.ToInt32(reader["CAN_WRITE"]);
+                    pq.CAN_CREATE = Convert.ToInt32(reader["CAN_CREATE"]);
                     pq.CAN_UPDATE = Convert.ToInt32(reader["CAN_UPDATE"]);
                     pq.CAN_DELETE = Convert.ToInt32(reader["CAN_DELETE"]);
 
@@ -127,7 +127,7 @@ namespace DAO
 
         public bool ThemPhanQuyen(phanquyenDTO pq)
         {
-            string qry = @"INSERT INTO phanquyen (MAVAITRO, MAQUYEN, CAN_READ, CAN_WRITE, CAN_UPDATE, CAN_DELETE) 
+            string qry = @"INSERT INTO phanquyen (MAVAITRO, MAQUYEN, CAN_READ, CAN_CREATE, CAN_UPDATE, CAN_DELETE) 
                            VALUES (@mvt, @mq, @cr, @cw, @cu, @cd)";
             MySqlConnection conn = DBConnect.GetConnection();
             try
@@ -136,7 +136,7 @@ namespace DAO
                 cmd.Parameters.AddWithValue("@mvt", pq.MaVaiTro);
                 cmd.Parameters.AddWithValue("@mq", pq.MaQuyen);
                 cmd.Parameters.AddWithValue("@cr", pq.CAN_READ);
-                cmd.Parameters.AddWithValue("@cw", pq.CAN_WRITE);
+                cmd.Parameters.AddWithValue("@cw", pq.CAN_CREATE);
                 cmd.Parameters.AddWithValue("@cu", pq.CAN_UPDATE);
                 cmd.Parameters.AddWithValue("@cd", pq.CAN_DELETE);
                 return cmd.ExecuteNonQuery() > 0;
@@ -147,6 +147,43 @@ namespace DAO
                 return false;
             }
             finally { DBConnect.CloseConnection(conn); }
+        }
+
+        // Hàm cập nhật quyền dựa trên khóa chính (Mã Vai Trò + Mã Quyền)
+        public bool CapNhatQuyen(int maVaiTro, int maQuyen, int read, int create, int update, int delete)
+        {
+            // Update lại 4 quyền cơ bản
+            string qry = @"UPDATE phanquyen 
+                           SET CAN_READ = @cr, 
+                               CAN_CREATE = @cc, 
+                               CAN_UPDATE = @cu, 
+                               CAN_DELETE = @cd
+                           WHERE MAVAITRO = @mvt AND MAQUYEN = @mq";
+
+            MySqlConnection conn = DBConnect.GetConnection();
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+
+                // Gán tham số
+                cmd.Parameters.AddWithValue("@mvt", maVaiTro);
+                cmd.Parameters.AddWithValue("@mq", maQuyen);
+                cmd.Parameters.AddWithValue("@cr", read);
+                cmd.Parameters.AddWithValue("@cc", create);
+                cmd.Parameters.AddWithValue("@cu", update);
+                cmd.Parameters.AddWithValue("@cd", delete);
+
+                return cmd.ExecuteNonQuery() > 0;
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine("Lỗi cập nhật quyền: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
         }
     }
 }

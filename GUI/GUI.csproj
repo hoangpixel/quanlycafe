@@ -111,6 +111,7 @@
     <Compile Include="EXCEL\excelKhachHang.cs" />
     <Compile Include="EXCEL\excelNguyenLieu.cs" />
     <Compile Include="EXCEL\excelNhaCungCap.cs" />
+    <Compile Include="EXCEL\excelPhanQuyen.cs" />
     <Compile Include="EXCEL\excelSanPham.cs" />
     <Compile Include="GUI_CRUD\addPhieuNhap.cs">
       <SubType>Form</SubType>
@@ -142,11 +143,23 @@
     <Compile Include="GUI_CRUD\detailNhaCungCap.Designer.cs">
       <DependentUpon>detailNhaCungCap.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_CRUD\detailPhanQuyen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\detailPhanQuyen.Designer.cs">
+      <DependentUpon>detailPhanQuyen.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_CRUD\detailPhieuNhap.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI_CRUD\detailPhieuNhap.Designer.cs">
       <DependentUpon>detailPhieuNhap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\excelPhanQuyen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\excelPhanQuyen.Designer.cs">
+      <DependentUpon>excelPhanQuyen.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_CRUD\Form1ChonBan.cs">
       <SubType>Form</SubType>
@@ -459,8 +472,14 @@
     <EmbeddedResource Include="GUI_CRUD\detailNhaCungCap.resx">
       <DependentUpon>detailNhaCungCap.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\detailPhanQuyen.resx">
+      <DependentUpon>detailPhanQuyen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\detailPhieuNhap.resx">
       <DependentUpon>detailPhieuNhap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\excelPhanQuyen.resx">
+      <DependentUpon>excelPhanQuyen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\Form1ChonBan.resx">
       <DependentUpon>Form1ChonBan.cs</DependentUpon>

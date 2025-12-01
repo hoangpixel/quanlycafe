@@ -38,12 +38,13 @@
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.layoutTimKiemNangCao = new System.Windows.Forms.TableLayoutPanel();
-            this.txtTenDV = new System.Windows.Forms.TextBox();
-            this.txtTenSP = new System.Windows.Forms.TextBox();
-            this.txtTenNL = new System.Windows.Forms.TextBox();
-            this.txtSoLuongMax = new System.Windows.Forms.TextBox();
-            this.txtSoLuongMin = new System.Windows.Forms.TextBox();
+            this.can_create = new System.Windows.Forms.ComboBox();
+            this.can_delete = new System.Windows.Forms.ComboBox();
+            this.can_update = new System.Windows.Forms.ComboBox();
+            this.txtTenVaiTro = new System.Windows.Forms.TextBox();
+            this.txtTenQuyen = new System.Windows.Forms.TextBox();
             this.rdoTimNangCao = new System.Windows.Forms.RadioButton();
+            this.can_read = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.layoutTimKiemCoban = new System.Windows.Forms.TableLayoutPanel();
             this.cboTimKiemPQ = new System.Windows.Forms.ComboBox();
@@ -163,19 +164,21 @@
             // 
             // layoutTimKiemNangCao
             // 
-            this.layoutTimKiemNangCao.ColumnCount = 6;
-            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.09496F));
-            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.09496F));
-            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.09496F));
-            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.09496F));
-            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.09496F));
-            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 4.525194F));
-            this.layoutTimKiemNangCao.Controls.Add(this.txtTenDV, 2, 0);
-            this.layoutTimKiemNangCao.Controls.Add(this.txtTenSP, 0, 0);
-            this.layoutTimKiemNangCao.Controls.Add(this.txtTenNL, 1, 0);
-            this.layoutTimKiemNangCao.Controls.Add(this.txtSoLuongMax, 4, 0);
-            this.layoutTimKiemNangCao.Controls.Add(this.txtSoLuongMin, 3, 0);
-            this.layoutTimKiemNangCao.Controls.Add(this.rdoTimNangCao, 5, 0);
+            this.layoutTimKiemNangCao.ColumnCount = 7;
+            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.39449F));
+            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.39449F));
+            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.39449F));
+            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.39449F));
+            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.39449F));
+            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.93763F));
+            this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 4.089916F));
+            this.layoutTimKiemNangCao.Controls.Add(this.can_create, 2, 0);
+            this.layoutTimKiemNangCao.Controls.Add(this.can_delete, 5, 0);
+            this.layoutTimKiemNangCao.Controls.Add(this.can_update, 4, 0);
+            this.layoutTimKiemNangCao.Controls.Add(this.txtTenVaiTro, 0, 0);
+            this.layoutTimKiemNangCao.Controls.Add(this.txtTenQuyen, 1, 0);
+            this.layoutTimKiemNangCao.Controls.Add(this.rdoTimNangCao, 6, 0);
+            this.layoutTimKiemNangCao.Controls.Add(this.can_read, 3, 0);
             this.layoutTimKiemNangCao.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutTimKiemNangCao.Location = new System.Drawing.Point(3, 23);
             this.layoutTimKiemNangCao.Name = "layoutTimKiemNangCao";
@@ -184,57 +187,82 @@
             this.layoutTimKiemNangCao.Size = new System.Drawing.Size(633, 53);
             this.layoutTimKiemNangCao.TabIndex = 1;
             // 
-            // txtTenDV
+            // can_create
             // 
-            this.txtTenDV.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtTenDV.Location = new System.Drawing.Point(245, 13);
-            this.txtTenDV.Name = "txtTenDV";
-            this.txtTenDV.Size = new System.Drawing.Size(109, 27);
-            this.txtTenDV.TabIndex = 8;
+            this.can_create.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.can_create.FormattingEnabled = true;
+            this.can_create.Items.AddRange(new object[] {
+            "Không",
+            "Có"});
+            this.can_create.Location = new System.Drawing.Point(209, 14);
+            this.can_create.Name = "can_create";
+            this.can_create.Size = new System.Drawing.Size(97, 28);
+            this.can_create.TabIndex = 12;
             // 
-            // txtTenSP
+            // can_delete
             // 
-            this.txtTenSP.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtTenSP.Location = new System.Drawing.Point(5, 13);
-            this.txtTenSP.Name = "txtTenSP";
-            this.txtTenSP.Size = new System.Drawing.Size(109, 27);
-            this.txtTenSP.TabIndex = 7;
+            this.can_delete.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.can_delete.FormattingEnabled = true;
+            this.can_delete.Items.AddRange(new object[] {
+            "Không",
+            "Có"});
+            this.can_delete.Location = new System.Drawing.Point(518, 14);
+            this.can_delete.Name = "can_delete";
+            this.can_delete.Size = new System.Drawing.Size(82, 28);
+            this.can_delete.TabIndex = 11;
             // 
-            // txtTenNL
+            // can_update
             // 
-            this.txtTenNL.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtTenNL.Location = new System.Drawing.Point(125, 13);
-            this.txtTenNL.Name = "txtTenNL";
-            this.txtTenNL.Size = new System.Drawing.Size(109, 27);
-            this.txtTenNL.TabIndex = 5;
+            this.can_update.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.can_update.FormattingEnabled = true;
+            this.can_update.Items.AddRange(new object[] {
+            "Không",
+            "Có"});
+            this.can_update.Location = new System.Drawing.Point(415, 14);
+            this.can_update.Name = "can_update";
+            this.can_update.Size = new System.Drawing.Size(97, 28);
+            this.can_update.TabIndex = 10;
             // 
-            // txtSoLuongMax
+            // txtTenVaiTro
             // 
-            this.txtSoLuongMax.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtSoLuongMax.Location = new System.Drawing.Point(485, 13);
-            this.txtSoLuongMax.Name = "txtSoLuongMax";
-            this.txtSoLuongMax.Size = new System.Drawing.Size(109, 27);
-            this.txtSoLuongMax.TabIndex = 3;
+            this.txtTenVaiTro.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtTenVaiTro.Location = new System.Drawing.Point(3, 13);
+            this.txtTenVaiTro.Name = "txtTenVaiTro";
+            this.txtTenVaiTro.Size = new System.Drawing.Size(97, 27);
+            this.txtTenVaiTro.TabIndex = 7;
             // 
-            // txtSoLuongMin
+            // txtTenQuyen
             // 
-            this.txtSoLuongMin.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtSoLuongMin.Location = new System.Drawing.Point(365, 13);
-            this.txtSoLuongMin.Name = "txtSoLuongMin";
-            this.txtSoLuongMin.Size = new System.Drawing.Size(109, 27);
-            this.txtSoLuongMin.TabIndex = 2;
+            this.txtTenQuyen.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtTenQuyen.Location = new System.Drawing.Point(106, 13);
+            this.txtTenQuyen.Name = "txtTenQuyen";
+            this.txtTenQuyen.Size = new System.Drawing.Size(97, 27);
+            this.txtTenQuyen.TabIndex = 5;
             // 
             // rdoTimNangCao
             // 
             this.rdoTimNangCao.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rdoTimNangCao.AutoSize = true;
-            this.rdoTimNangCao.Location = new System.Drawing.Point(605, 18);
+            this.rdoTimNangCao.Location = new System.Drawing.Point(606, 18);
             this.rdoTimNangCao.Margin = new System.Windows.Forms.Padding(3, 3, 9, 3);
             this.rdoTimNangCao.Name = "rdoTimNangCao";
             this.rdoTimNangCao.Size = new System.Drawing.Size(17, 16);
             this.rdoTimNangCao.TabIndex = 4;
             this.rdoTimNangCao.TabStop = true;
             this.rdoTimNangCao.UseVisualStyleBackColor = true;
+            this.rdoTimNangCao.CheckedChanged += new System.EventHandler(this.rdoTimNangCao_CheckedChanged);
+            // 
+            // can_read
+            // 
+            this.can_read.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.can_read.FormattingEnabled = true;
+            this.can_read.Items.AddRange(new object[] {
+            "Không",
+            "Có"});
+            this.can_read.Location = new System.Drawing.Point(312, 14);
+            this.can_read.Name = "can_read";
+            this.can_read.Size = new System.Drawing.Size(97, 28);
+            this.can_read.TabIndex = 9;
             // 
             // groupBox4
             // 
@@ -271,14 +299,15 @@
             this.cboTimKiemPQ.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.cboTimKiemPQ.FormattingEnabled = true;
             this.cboTimKiemPQ.Items.AddRange(new object[] {
-            "Mã SP",
-            "Tên SP",
-            "Mã NL",
-            "Tên NL",
-            "Tên ĐV",
-            "SL min",
-            "SL max"});
-            this.cboTimKiemPQ.Location = new System.Drawing.Point(10, 8);
+            "Mã vai trò",
+            "Tên vai trò",
+            "Mã quyền",
+            "Tên quyền",
+            "CREATE(Có/Không)",
+            "READ (Có/Không)",
+            "UPDATE (Có/Không)",
+            "DELETE (Có/Không)"});
+            this.cboTimKiemPQ.Location = new System.Drawing.Point(10, 10);
             this.cboTimKiemPQ.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemPQ.Name = "cboTimKiemPQ";
             this.cboTimKiemPQ.Size = new System.Drawing.Size(176, 28);
@@ -303,6 +332,7 @@
             this.rdoTimCoBan.TabIndex = 2;
             this.rdoTimCoBan.TabStop = true;
             this.rdoTimCoBan.UseVisualStyleBackColor = true;
+            this.rdoTimCoBan.CheckedChanged += new System.EventHandler(this.rdoTimCoBan_CheckedChanged);
             // 
             // btnThucHienTimKiem
             // 
@@ -314,6 +344,7 @@
             this.btnThucHienTimKiem.TabIndex = 3;
             this.btnThucHienTimKiem.Text = "Tìm kiếm";
             this.btnThucHienTimKiem.UseVisualStyleBackColor = true;
+            this.btnThucHienTimKiem.Click += new System.EventHandler(this.btnThucHienTimKiem_Click);
             // 
             // xulycongthuc
             // 
@@ -365,6 +396,7 @@
             this.btnExcelPQ.Text = "Excel";
             this.btnExcelPQ.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnExcelPQ.UseVisualStyleBackColor = true;
+            this.btnExcelPQ.Click += new System.EventHandler(this.btnExcelPQ_Click);
             // 
             // btnReFreshPQ
             // 
@@ -381,6 +413,7 @@
             this.btnReFreshPQ.Text = "Làm mới";
             this.btnReFreshPQ.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnReFreshPQ.UseVisualStyleBackColor = true;
+            this.btnReFreshPQ.Click += new System.EventHandler(this.btnReFreshPQ_Click);
             // 
             // btnChiTietPQ
             // 
@@ -397,6 +430,7 @@
             this.btnChiTietPQ.Text = "Chi tiết";
             this.btnChiTietPQ.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnChiTietPQ.UseVisualStyleBackColor = true;
+            this.btnChiTietPQ.Click += new System.EventHandler(this.btnChiTietPQ_Click);
             // 
             // btnVaiTro
             // 
@@ -492,6 +526,7 @@
             this.tbPhanQuyen.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tbPhanQuyen.Size = new System.Drawing.Size(1530, 365);
             this.tbPhanQuyen.TabIndex = 5;
+            this.tbPhanQuyen.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tbPhanQuyen_CellClick);
             this.tbPhanQuyen.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.tbPhanQuyen_CellFormatting);
             this.tbPhanQuyen.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tbPhanQuyen_DataBindingComplete);
             // 
@@ -534,11 +569,8 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.TableLayoutPanel layoutTimKiemNangCao;
-        private System.Windows.Forms.TextBox txtTenDV;
-        private System.Windows.Forms.TextBox txtTenSP;
-        private System.Windows.Forms.TextBox txtTenNL;
-        private System.Windows.Forms.TextBox txtSoLuongMax;
-        private System.Windows.Forms.TextBox txtSoLuongMin;
+        private System.Windows.Forms.TextBox txtTenVaiTro;
+        private System.Windows.Forms.TextBox txtTenQuyen;
         private System.Windows.Forms.RadioButton rdoTimNangCao;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TableLayoutPanel layoutTimKiemCoban;
@@ -556,5 +588,9 @@
         private System.Windows.Forms.Button btnCRUDPQ;
         private System.Windows.Forms.Panel panelTable;
         private System.Windows.Forms.DataGridView tbPhanQuyen;
+        private System.Windows.Forms.ComboBox can_create;
+        private System.Windows.Forms.ComboBox can_delete;
+        private System.Windows.Forms.ComboBox can_update;
+        private System.Windows.Forms.ComboBox can_read;
     }
 }
