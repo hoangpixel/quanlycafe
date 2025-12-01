@@ -63,16 +63,6 @@ namespace GUI.GUI_UC
                 DataPropertyName = "Email",
                 HeaderText = "Email"
             });
-            tableKhachHang.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "TrangThai",
-                HeaderText = "Trạng thái"
-            });
-            tableKhachHang.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "NgayTao",
-                HeaderText = "Ngày tạo"
-            });
 
             btnSuaKH.Enabled = false;
             btnXoaKH.Enabled = false;
@@ -83,12 +73,6 @@ namespace GUI.GUI_UC
 
         private void tableKhachHang_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.RowIndex < 0) return;
-            khachHangDTO kh = tableKhachHang.Rows[e.RowIndex].DataBoundItem as khachHangDTO;
-            if (tableKhachHang.Columns[e.ColumnIndex].HeaderText == "Trạng thái")
-            {
-                e.Value = kh.TrangThai == 1 ? "Đang hoạt động" : "Không còn hoạt động";
-            }
         }
         private void loadFontChuVaSize()
         {

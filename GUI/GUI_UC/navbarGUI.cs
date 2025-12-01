@@ -55,6 +55,7 @@ namespace GUI.GUI_UC
             AddNavButton("👥  Khách hàng", "khachhang");
             AddNavButton("📈  Báo cáo", "thongke");
             AddNavButton("🛡️  Phân quyền", "phanquyen");
+            AddNavButton("🏭  Nhà cung cấp", "nhacungcap");
             AddNavButton("👋  Thoát", "exit");
         }
 

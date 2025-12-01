@@ -110,6 +110,7 @@
     <Compile Include="EXCEL\excelCongThuc.cs" />
     <Compile Include="EXCEL\excelKhachHang.cs" />
     <Compile Include="EXCEL\excelNguyenLieu.cs" />
+    <Compile Include="EXCEL\excelNhaCungCap.cs" />
     <Compile Include="EXCEL\excelSanPham.cs" />
     <Compile Include="GUI_CRUD\addPhieuNhap.cs">
       <SubType>Form</SubType>
@@ -123,11 +124,23 @@
     <Compile Include="GUI_CRUD\deleteKhachHang.Designer.cs">
       <DependentUpon>deleteKhachHang.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_CRUD\deleteNhaCungCap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\deleteNhaCungCap.Designer.cs">
+      <DependentUpon>deleteNhaCungCap.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_CRUD\detailKhachHang.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI_CRUD\detailKhachHang.Designer.cs">
       <DependentUpon>detailKhachHang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\detailNhaCungCap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\detailNhaCungCap.Designer.cs">
+      <DependentUpon>detailNhaCungCap.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_CRUD\detailPhieuNhap.cs">
       <SubType>Form</SubType>
@@ -164,6 +177,12 @@
     </Compile>
     <Compile Include="GUI_CRUD\selectExcelKhachHangGUI.Designer.cs">
       <DependentUpon>selectExcelKhachHangGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\selectExcelNhaCungCap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\selectExcelNhaCungCap.Designer.cs">
+      <DependentUpon>selectExcelNhaCungCap.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_CRUD\updateHoaDon.cs">
       <SubType>Form</SubType>
@@ -387,6 +406,12 @@
     <Compile Include="GUI_UC\nguyenLieuGUI.Designer.cs">
       <DependentUpon>nguyenLieuGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_UC\nhaCungCapGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI_UC\nhaCungCapGUI.Designer.cs">
+      <DependentUpon>nhaCungCapGUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_UC\nhanVienGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -425,8 +450,14 @@
     <EmbeddedResource Include="GUI_CRUD\deleteKhachHang.resx">
       <DependentUpon>deleteKhachHang.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\deleteNhaCungCap.resx">
+      <DependentUpon>deleteNhaCungCap.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\detailKhachHang.resx">
       <DependentUpon>detailKhachHang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\detailNhaCungCap.resx">
+      <DependentUpon>detailNhaCungCap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\detailPhieuNhap.resx">
       <DependentUpon>detailPhieuNhap.cs</DependentUpon>
@@ -445,6 +476,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\selectExcelKhachHangGUI.resx">
       <DependentUpon>selectExcelKhachHangGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\selectExcelNhaCungCap.resx">
+      <DependentUpon>selectExcelNhaCungCap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\updateHoaDon.resx">
       <DependentUpon>updateHoaDon.cs</DependentUpon>
@@ -553,6 +587,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\nguyenLieuGUI.resx">
       <DependentUpon>nguyenLieuGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_UC\nhaCungCapGUI.resx">
+      <DependentUpon>nhaCungCapGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\nhanVienGUI.resx">
       <DependentUpon>nhanVienGUI.cs</DependentUpon>

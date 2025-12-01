@@ -2,7 +2,7 @@
 using DTO;
 using FONTS;
 using System;
-using System.Text.RegularExpressions; // Thêm thư viện này để dùng Regex
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace GUI.GUI_CRUD
@@ -10,10 +10,12 @@ namespace GUI.GUI_CRUD
     public partial class insertNhaCungCap : Form
     {
         private nhaCungCapBUS busNCC = new nhaCungCapBUS();
+        public nhaCungCapDTO kq;
 
-        public insertNhaCungCap()
+        public insertNhaCungCap(nhaCungCapDTO kq)
         {
             InitializeComponent();
+            this.kq = kq;
         }
 
         private void insertNhaCungCap_Load(object sender, EventArgs e)
@@ -24,31 +26,6 @@ namespace GUI.GUI_CRUD
 
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            // 1. Kiểm tra Mã (Nhập tay)
-            if (string.IsNullOrWhiteSpace(txtMa.Text))
-            {
-                MessageBox.Show("Vui lòng nhập Mã nhà cung cấp!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtMa.Focus();
-                return;
-            }
-
-            if (!int.TryParse(txtMa.Text.Trim(), out int maNCC))
-            {
-                MessageBox.Show("Mã nhà cung cấp phải là số nguyên!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtMa.Focus();
-                return;
-            }
-
-            // --- CHECK TRÙNG MÃ ---
-            if (busNCC.KiemTraTrungMa(maNCC))
-            {
-                MessageBox.Show($"Mã nhà cung cấp '{maNCC}' đã tồn tại trong hệ thống!", "Lỗi trùng lặp", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtMa.SelectAll();
-                txtMa.Focus();
-                return;
-            }
-
-            // 2. Kiểm tra Tên
             if (string.IsNullOrWhiteSpace(txtTen.Text))
             {
                 MessageBox.Show("Vui lòng nhập Tên nhà cung cấp!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -56,7 +33,6 @@ namespace GUI.GUI_CRUD
                 return;
             }
 
-            // 3. Kiểm tra Số điện thoại (Bắt buộc 10 số)
             string sdt = txtSDT.Text.Trim();
             if (string.IsNullOrWhiteSpace(sdt))
             {
@@ -64,14 +40,12 @@ namespace GUI.GUI_CRUD
                 txtSDT.Focus();
                 return;
             }
-            if (!Regex.IsMatch(sdt, @"^\d{10}$")) // Kiểm tra đúng 10 chữ số
+            if (!Regex.IsMatch(sdt, @"^\d{10}$"))
             {
                 MessageBox.Show("Số điện thoại phải bao gồm đúng 10 chữ số!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtSDT.Focus();
                 return;
             }
-
-            // 4. Kiểm tra Email (Đúng định dạng)
             string email = txtEmail.Text.Trim();
             if (string.IsNullOrWhiteSpace(email))
             {
@@ -79,7 +53,6 @@ namespace GUI.GUI_CRUD
                 txtEmail.Focus();
                 return;
             }
-            // Regex đơn giản để check email: chuỗi + @ + chuỗi + . + chuỗi
             if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
                 MessageBox.Show("Email không đúng định dạng (ví dụ: abc@gmail.com)!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -91,23 +64,17 @@ namespace GUI.GUI_CRUD
             {
                 nhaCungCapDTO ncc = new nhaCungCapDTO();
 
-                ncc.MaNCC = maNCC;
+                ncc.MaNCC = busNCC.LayMa();
                 ncc.TenNCC = txtTen.Text.Trim();
                 ncc.SoDienThoai = sdt;
                 ncc.Email = email;
                 ncc.DiaChi = txtDiaChi.Text.Trim();
                 ncc.ConHoatDong = 1;
 
-                if (busNCC.Them(ncc))
-                {
                     MessageBox.Show("Thêm nhà cung cấp thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.DialogResult = DialogResult.OK;
                     this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Thêm thất bại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                kq = ncc;
             }
             catch (Exception ex)
             {

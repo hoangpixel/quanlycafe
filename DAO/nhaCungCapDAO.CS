@@ -8,14 +8,13 @@ namespace DAO
 {
     public class nhaCungCapDAO
     {
-        // 1. Lấy danh sách
         public BindingList<nhaCungCapDTO> LayDanhSach()
         {
             BindingList<nhaCungCapDTO> list = new BindingList<nhaCungCapDTO>();
             MySqlConnection conn = DBConnect.GetConnection();
             try
             {
-                string query = "SELECT * FROM nhacungcap";
+                string query = "SELECT * FROM nhacungcap WHERE CONHOATDONG = 1";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -36,20 +35,40 @@ namespace DAO
             return list;
         }
 
+        public int layMa()
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            int maNCC = 0;
+            try
+            {
+                string qry = "SELECT IFNULL(MAX(MANCC), 0) FROM nhacungcap";
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                maNCC = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine("Lỗi lấy mã NCC : " + ex);
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+            return maNCC + 1;
+        }
+
         // 2. Thêm
         public bool Them(nhaCungCapDTO ncc)
         {
             MySqlConnection conn = DBConnect.GetConnection();
             try
             {
-                string query = "INSERT INTO nhacungcap (MANCC, TENNCC, SODIENTHOAI, EMAIL, DIACHI, CONHOATDONG) VALUES (@Ma, @Ten, @Sdt, @Email, @DiaChi, @TrangThai)";
+                string query = "INSERT INTO nhacungcap (MANCC, TENNCC, SODIENTHOAI, EMAIL, DIACHI) VALUES (@Ma, @Ten, @Sdt, @Email, @DiaChi)";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@Ma", ncc.MaNCC);
                 cmd.Parameters.AddWithValue("@Ten", ncc.TenNCC);
                 cmd.Parameters.AddWithValue("@Sdt", ncc.SoDienThoai);
                 cmd.Parameters.AddWithValue("@Email", ncc.Email);
                 cmd.Parameters.AddWithValue("@DiaChi", ncc.DiaChi);
-                cmd.Parameters.AddWithValue("@TrangThai", ncc.ConHoatDong);
                 return cmd.ExecuteNonQuery() > 0;
             }
             catch { return false; }
@@ -62,13 +81,12 @@ namespace DAO
             MySqlConnection conn = DBConnect.GetConnection();
             try
             {
-                string query = "UPDATE nhacungcap SET TENNCC=@Ten, SODIENTHOAI=@Sdt, EMAIL=@Email, DIACHI=@DiaChi, CONHOATDONG=@TrangThai WHERE MANCC=@Ma";
+                string query = "UPDATE nhacungcap SET TENNCC=@Ten, SODIENTHOAI=@Sdt, EMAIL=@Email, DIACHI=@DiaChi WHERE MANCC=@Ma";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@Ten", ncc.TenNCC);
                 cmd.Parameters.AddWithValue("@Sdt", ncc.SoDienThoai);
                 cmd.Parameters.AddWithValue("@Email", ncc.Email);
                 cmd.Parameters.AddWithValue("@DiaChi", ncc.DiaChi);
-                cmd.Parameters.AddWithValue("@TrangThai", ncc.ConHoatDong);
                 cmd.Parameters.AddWithValue("@Ma", ncc.MaNCC);
                 return cmd.ExecuteNonQuery() > 0;
             }
@@ -82,26 +100,10 @@ namespace DAO
             MySqlConnection conn = DBConnect.GetConnection();
             try
             {
-                string query = "DELETE FROM nhacungcap WHERE MANCC=@Ma";
+                string query = "UPDATE nhacungcap SET CONHOATDONG = 0 WHERE MANCC=@Ma";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@Ma", ma);
                 return cmd.ExecuteNonQuery() > 0;
-            }
-            catch { return false; }
-            finally { DBConnect.CloseConnection(conn); }
-        }
-
-        // 5. Kiểm tra trùng mã
-        public bool KiemTraTrungMa(int ma)
-        {
-            MySqlConnection conn = DBConnect.GetConnection();
-            try
-            {
-                string query = "SELECT COUNT(*) FROM nhacungcap WHERE MANCC=@Ma";
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@Ma", ma);
-                long count = (long)cmd.ExecuteScalar();
-                return count > 0;
             }
             catch { return false; }
             finally { DBConnect.CloseConnection(conn); }

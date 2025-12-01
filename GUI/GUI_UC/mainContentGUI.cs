@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -78,6 +79,7 @@ namespace GUI.GUI_UC
                         case "khachhang": uc = new khachHangGUI(); break;
                         case "thongke": uc = new thongKeGUI(); break;
                         case "phanquyen": uc = new phanQuyenGUI(); break;
+                        case "nhacungcap": uc = new nhaCungCapGUI(); break;
                         //case "nhanvien": uc = new nhanVienGUI(); break; // Nhớ thêm class này nếu có
                         default:
                             MessageBox.Show($"Đang phát triển trang: {page}", "Thông báo");

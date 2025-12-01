@@ -498,5 +498,15 @@ namespace GUI.GUI_CRUD
             loadDanhSachNhom(ds);
             loadFontChuVaSizeNhom();
         }
+
+        private void btnRSNHOM_Click_1(object sender, EventArgs e)
+        {
+            txtTenNhom.Clear();
+            cboTimNhom.SelectedIndex = -1;
+            txtTimNhom.Clear();
+            BindingList<nhomDTO> ds = new nhomBUS().layDanhSach();
+            loadDanhSachNhom(ds);
+            loadFontChuVaSizeNhom();
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace GUI.GUI_CRUD
 {
     public partial class updateNhaCungCap : Form
     {
-        private nhaCungCapDTO nccHienTai;
+        public nhaCungCapDTO nccHienTai;
         private nhaCungCapBUS busNCC = new nhaCungCapBUS();
 
         public updateNhaCungCap(nhaCungCapDTO ncc)
@@ -23,22 +23,10 @@ namespace GUI.GUI_CRUD
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
 
-            // Load dữ liệu lên form
-            txtMa.Text = nccHienTai.MaNCC.ToString();
             txtTen.Text = nccHienTai.TenNCC;
             txtSDT.Text = nccHienTai.SoDienThoai;
             txtEmail.Text = nccHienTai.Email;
             txtDiaChi.Text = nccHienTai.DiaChi;
-
-            // Mã không được sửa
-            txtMa.Enabled = false;
-
-            // Setup ComboBox Trạng thái
-            cboTrangThai.Items.Clear();
-            cboTrangThai.Items.Add("Còn hoạt động");
-            cboTrangThai.Items.Add("Ngừng hoạt động");
-
-            cboTrangThai.SelectedIndex = (nccHienTai.ConHoatDong == 1) ? 0 : 1;
         }
 
         private void btnLuu_Click(object sender, EventArgs e)
@@ -83,16 +71,12 @@ namespace GUI.GUI_CRUD
 
             try
             {
-                // Cập nhật thông tin vào đối tượng
                 nccHienTai.TenNCC = txtTen.Text.Trim();
                 nccHienTai.SoDienThoai = sdt;
                 nccHienTai.Email = email;
                 nccHienTai.DiaChi = txtDiaChi.Text.Trim();
 
-                // Lấy trạng thái từ ComboBox (Index 0 = 1, Index 1 = 0)
-                nccHienTai.ConHoatDong = (cboTrangThai.SelectedIndex == 0) ? 1 : 0;
-
-                if (busNCC.Sua(nccHienTai))
+                if (nccHienTai != null)
                 {
                     MessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.DialogResult = DialogResult.OK;

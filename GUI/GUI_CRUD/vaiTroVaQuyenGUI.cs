@@ -26,6 +26,9 @@ namespace GUI.GUI_CRUD
 
             BindingList<vaitroDTO> dsVaiTro = new vaitroBUS().LayDanhSach();
             loadDanhSachVaiTro(dsVaiTro);
+
+            BindingList<quyenDTO> dsQuyen = new quyenBUS().LayDanhSach();
+            loadDanhSachQuyen(dsQuyen);
         }
 
         public void loadDanhSachVaiTro(BindingList<vaitroDTO> ds)
@@ -43,6 +46,23 @@ namespace GUI.GUI_CRUD
             btnXoaVaiTro.Enabled = false;
             tbVaiTro.ClearSelection();
             loadFontVaChu(tbVaiTro);
+        }
+
+        public void loadDanhSachQuyen(BindingList<quyenDTO> ds)
+        {
+            tbQuyen.AutoGenerateColumns = false;
+            tbQuyen.Columns.Clear();
+
+            tbQuyen.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaQuyen", HeaderText = "Mã quyền" });
+            tbQuyen.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TenQuyen", HeaderText = "Tên quyền" });
+
+            tbQuyen.DataSource = ds;
+            tbQuyen.ReadOnly = true;
+
+            btnSuaQuyen.Enabled = false;
+            btnXoaQuyen.Enabled = false;
+            tbQuyen.ClearSelection();
+            loadFontVaChu(tbQuyen);
         }
 
         private void loadFontVaChu(DataGridView table)
@@ -169,6 +189,7 @@ namespace GUI.GUI_CRUD
                     busVaiTro.suaVaiTro(ct);
                     txtTenVaiTro.Clear();
                     tbVaiTro.Refresh();
+                    tbVaiTro.ClearSelection();
                 }
                 else
                 {
@@ -266,6 +287,206 @@ namespace GUI.GUI_CRUD
         }
 
         private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void tbQuyen_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            tbQuyen.ClearSelection();
+        }
+
+        private void btnThemQuyen_Click(object sender, EventArgs e)
+        {
+            string tenQuyen = txtTenQuyen.Text.Trim();
+            if(busQuyen.KiemTraRong(tenQuyen))
+            {
+                MessageBox.Show("Không được để trống tên quyền", "Cảnh cáo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenQuyen.Focus();
+                return;
+            }
+            if(busQuyen.kiemTraTrungTen(tenQuyen))
+            {
+                MessageBox.Show("Tên quyền đã tồn tại trong hệ thống", "Cảnh cáo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenQuyen.Focus();
+                return;
+            }
+            quyenDTO ct = new quyenDTO();
+            ct.MaQuyen = busQuyen.LayMa();
+            ct.TenQuyen = tenQuyen;
+
+            bool kq = busQuyen.themQuyen(ct);
+            if(kq)
+            {
+                MessageBox.Show("Thêm quyền mới thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtTenQuyen.Clear();
+            }else
+            {
+                MessageBox.Show("Thêm quyền mới thất bại", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtTenQuyen.Clear();
+                return;
+            }
+        }
+
+        private int? selectedRowIndexQuyen = null;
+
+        private void tbQuyen_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.RowIndex < tbQuyen.Rows.Count)
+            {
+
+                if (selectedRowIndexQuyen == e.RowIndex)
+                {
+                    txtTenQuyen.Clear();
+                    btnThemQuyen.Enabled = true;
+                    btnSuaQuyen.Enabled = false;
+                    btnXoaQuyen.Enabled = false;
+                    selectedRowIndexQuyen = null;
+                    tbQuyen.ClearSelection();
+                    return;
+                }
+
+                selectedRowIndexQuyen = e.RowIndex;
+
+                DataGridViewRow row = tbQuyen.Rows[e.RowIndex];
+                quyenDTO dv = row.DataBoundItem as quyenDTO;
+
+                txtTenQuyen.Text = dv.TenQuyen;
+
+                btnThemQuyen.Enabled = false;
+                btnSuaQuyen.Enabled = true;
+                btnXoaQuyen.Enabled = true;
+            }
+        }
+
+        private void btnSuaQuyen_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow row = tbQuyen.SelectedRows[0];
+            quyenDTO dv = row.DataBoundItem as quyenDTO;
+            int maQuyen = dv.MaQuyen;
+            string tenMoi = txtTenQuyen.Text.Trim();
+            if (busQuyen.KiemTraRong(tenMoi))
+            {
+                MessageBox.Show("Vui lòng nhập tên quyền mới", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenQuyen.Focus();
+                return;
+            }
+            DialogResult result = MessageBox.Show(
+                "Bạn có chắc muốn sửa quyền này không?",
+                "Xác nhận",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                quyenDTO ct = new quyenDTO();
+                ct.MaQuyen = maQuyen;
+                ct.TenQuyen = tenMoi;
+
+                if (ct != null)
+                {
+                    MessageBox.Show("Sửa quyền thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    busQuyen.suaQuyen(ct);
+                    txtTenQuyen.Clear();
+                    tbQuyen.Refresh();
+                    tbQuyen.ClearSelection();
+                }
+                else
+                {
+                    MessageBox.Show("Sửa quyền thất bại", "Báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+        }
+
+        private void btnXoaQuyen_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow row = tbQuyen.SelectedRows[0];
+            quyenDTO ct = row.DataBoundItem as quyenDTO;
+
+            int maQuyen = ct.MaQuyen;
+
+            DialogResult result = MessageBox.Show(
+    "Bạn có chắc muốn xóa quyền này không?",
+    "Xác nhận",
+    MessageBoxButtons.YesNo,
+    MessageBoxIcon.Question
+);
+
+            if (result == DialogResult.Yes)
+            {
+                if (ct != null)
+                {
+                    MessageBox.Show("Xóa quyền thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    busQuyen.xoaQuyen(maQuyen);
+                    txtTenQuyen.Clear();
+                    tbQuyen.Refresh();
+                    tbQuyen.ClearSelection();
+                }
+                else
+                {
+                    MessageBox.Show("Xóa quyền thất bại", "Báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+        }
+
+        private void timQuyen_Click(object sender, EventArgs e)
+        {
+            if(cboTimKiemQuyen.SelectedIndex == -1)
+            {
+                MessageBox.Show("Vui lòng chọn giá trị cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cboTimKiemQuyen.Focus();
+                return;
+            }
+            if(string.IsNullOrWhiteSpace(txtTimKiemQuyen.Text))
+            {
+                MessageBox.Show("Vui lòng nhập giá trị cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtTimKiemQuyen.Focus();
+                return;
+            }
+            string tim = txtTimKiemQuyen.Text.ToLower().Trim();
+            string giaTriTim = cboTimKiemQuyen.SelectedItem.ToString();
+            BindingList<quyenDTO> dsQuyen = new quyenBUS().LayDanhSach();
+            List<quyenDTO> dsTim = new List<quyenDTO>();
+            if(giaTriTim == "Mã quyền")
+            {
+                dsTim = (from item in dsQuyen
+                         where item.MaQuyen.ToString().Contains(tim)
+                         orderby item.MaQuyen
+                         select item).ToList();
+            }
+            if(giaTriTim == "Tên quyền")
+            {
+                dsTim = (from item in dsQuyen
+                         where item.TenQuyen.ToLower().Contains(tim)
+                         orderby item.MaQuyen
+                         select item).ToList();
+            }
+            if(dsTim != null && dsTim.Count > 0)
+            {
+                BindingList<quyenDTO> dsBinding = new BindingList<quyenDTO>(dsTim);
+                loadDanhSachQuyen(dsBinding);
+                loadFontVaChu(tbQuyen);
+            }else
+            {
+                MessageBox.Show("Không tìm thấy giá trị cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+        }
+
+        private void btnRSquyen_Click(object sender, EventArgs e)
+        {
+            txtTenQuyen.Clear();
+            cboTimKiemQuyen.SelectedIndex = -1;
+            txtTimKiemQuyen.Clear();
+            BindingList<quyenDTO> ds = new quyenBUS().LayDanhSach();
+            loadDanhSachQuyen(ds);
+            loadFontVaChu(tbQuyen);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
         {
             this.Close();
         }
