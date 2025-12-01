@@ -127,10 +127,12 @@
             this.tableSanPham.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableSanPham.EnableHeadersVisualStyles = false;
             this.tableSanPham.Location = new System.Drawing.Point(6, 27);
+            this.tableSanPham.MultiSelect = false;
             this.tableSanPham.Name = "tableSanPham";
             this.tableSanPham.RowHeadersVisible = false;
             this.tableSanPham.RowHeadersWidth = 51;
             this.tableSanPham.RowTemplate.Height = 24;
+            this.tableSanPham.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tableSanPham.Size = new System.Drawing.Size(803, 289);
             this.tableSanPham.TabIndex = 0;
             this.tableSanPham.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableSanPham_CellClick_1);

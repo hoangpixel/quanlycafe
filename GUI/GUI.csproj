@@ -189,6 +189,12 @@
     <Compile Include="GUI_CRUD\updatePhieuNhap.Designer.cs">
       <DependentUpon>updatePhieuNhap.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_CRUD\vaiTroVaQuyenGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\vaiTroVaQuyenGUI.Designer.cs">
+      <DependentUpon>vaiTroVaQuyenGUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_SELECT\FormchonKH.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -451,6 +457,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\updatePhieuNhap.resx">
       <DependentUpon>updatePhieuNhap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\vaiTroVaQuyenGUI.resx">
+      <DependentUpon>vaiTroVaQuyenGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_SELECT\FormchonKH.resx">
       <DependentUpon>FormchonKH.cs</DependentUpon>

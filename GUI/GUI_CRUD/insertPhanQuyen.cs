@@ -231,7 +231,7 @@ namespace GUI.GUI_CRUD
             if (pqBUS.LuuPhanQuyen(maVaiTro, dsLuu))
             {
                 MessageBox.Show($"Cập nhật thành công cho vai trò '{tenVaiTro}'!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
+                //this.Close();
             }
             else
             {

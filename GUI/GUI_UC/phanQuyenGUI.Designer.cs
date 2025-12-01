@@ -33,8 +33,6 @@
             this.topPanel = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.chucNangPanel = new System.Windows.Forms.Panel();
-            this.panelTable = new System.Windows.Forms.Panel();
-            this.tbPhanQuyen = new System.Windows.Forms.DataGridView();
             this.roundedChucNang = new GUI.COMPONENTS.RoundedPanel();
             this.layoutChucNang = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
@@ -60,9 +58,9 @@
             this.btnVaiTro = new System.Windows.Forms.Button();
             this.btnGanQuyen = new System.Windows.Forms.Button();
             this.btnCRUDPQ = new System.Windows.Forms.Button();
+            this.panelTable = new System.Windows.Forms.Panel();
+            this.tbPhanQuyen = new System.Windows.Forms.DataGridView();
             this.chucNangPanel.SuspendLayout();
-            this.panelTable.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tbPhanQuyen)).BeginInit();
             this.roundedChucNang.SuspendLayout();
             this.layoutChucNang.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
@@ -72,6 +70,8 @@
             this.layoutTimKiemCoban.SuspendLayout();
             this.xulycongthuc.SuspendLayout();
             this.tableLayoutChoChucNang.SuspendLayout();
+            this.panelTable.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbPhanQuyen)).BeginInit();
             this.SuspendLayout();
             // 
             // topPanel
@@ -103,55 +103,6 @@
             this.chucNangPanel.Padding = new System.Windows.Forms.Padding(10);
             this.chucNangPanel.Size = new System.Drawing.Size(1550, 215);
             this.chucNangPanel.TabIndex = 8;
-            // 
-            // panelTable
-            // 
-            this.panelTable.BackColor = System.Drawing.Color.White;
-            this.panelTable.Controls.Add(this.tbPhanQuyen);
-            this.panelTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelTable.Location = new System.Drawing.Point(0, 275);
-            this.panelTable.Name = "panelTable";
-            this.panelTable.Padding = new System.Windows.Forms.Padding(10);
-            this.panelTable.Size = new System.Drawing.Size(1550, 385);
-            this.panelTable.TabIndex = 9;
-            // 
-            // tbPhanQuyen
-            // 
-            this.tbPhanQuyen.AllowUserToAddRows = false;
-            this.tbPhanQuyen.AllowUserToDeleteRows = false;
-            this.tbPhanQuyen.AllowUserToResizeColumns = false;
-            this.tbPhanQuyen.AllowUserToResizeRows = false;
-            this.tbPhanQuyen.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tbPhanQuyen.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.tbPhanQuyen.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.tbPhanQuyen.DefaultCellStyle = dataGridViewCellStyle2;
-            this.tbPhanQuyen.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbPhanQuyen.EnableHeadersVisualStyles = false;
-            this.tbPhanQuyen.Location = new System.Drawing.Point(10, 10);
-            this.tbPhanQuyen.MultiSelect = false;
-            this.tbPhanQuyen.Name = "tbPhanQuyen";
-            this.tbPhanQuyen.RowHeadersVisible = false;
-            this.tbPhanQuyen.RowHeadersWidth = 51;
-            this.tbPhanQuyen.RowTemplate.Height = 24;
-            this.tbPhanQuyen.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tbPhanQuyen.Size = new System.Drawing.Size(1530, 365);
-            this.tbPhanQuyen.TabIndex = 5;
-            this.tbPhanQuyen.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.tbPhanQuyen_CellFormatting);
-            this.tbPhanQuyen.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tbPhanQuyen_DataBindingComplete);
             // 
             // roundedChucNang
             // 
@@ -327,7 +278,7 @@
             "Tên ĐV",
             "SL min",
             "SL max"});
-            this.cboTimKiemPQ.Location = new System.Drawing.Point(10, 10);
+            this.cboTimKiemPQ.Location = new System.Drawing.Point(10, 8);
             this.cboTimKiemPQ.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemPQ.Name = "cboTimKiemPQ";
             this.cboTimKiemPQ.Size = new System.Drawing.Size(176, 28);
@@ -461,6 +412,7 @@
             this.btnVaiTro.Text = "Vai trò";
             this.btnVaiTro.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnVaiTro.UseVisualStyleBackColor = true;
+            this.btnVaiTro.Click += new System.EventHandler(this.btnVaiTro_Click);
             // 
             // btnGanQuyen
             // 
@@ -494,6 +446,55 @@
             this.btnCRUDPQ.UseVisualStyleBackColor = true;
             this.btnCRUDPQ.Click += new System.EventHandler(this.btnCRUDPQ_Click);
             // 
+            // panelTable
+            // 
+            this.panelTable.BackColor = System.Drawing.Color.White;
+            this.panelTable.Controls.Add(this.tbPhanQuyen);
+            this.panelTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelTable.Location = new System.Drawing.Point(0, 275);
+            this.panelTable.Name = "panelTable";
+            this.panelTable.Padding = new System.Windows.Forms.Padding(10);
+            this.panelTable.Size = new System.Drawing.Size(1550, 385);
+            this.panelTable.TabIndex = 9;
+            // 
+            // tbPhanQuyen
+            // 
+            this.tbPhanQuyen.AllowUserToAddRows = false;
+            this.tbPhanQuyen.AllowUserToDeleteRows = false;
+            this.tbPhanQuyen.AllowUserToResizeColumns = false;
+            this.tbPhanQuyen.AllowUserToResizeRows = false;
+            this.tbPhanQuyen.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tbPhanQuyen.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.tbPhanQuyen.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.tbPhanQuyen.DefaultCellStyle = dataGridViewCellStyle2;
+            this.tbPhanQuyen.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbPhanQuyen.EnableHeadersVisualStyles = false;
+            this.tbPhanQuyen.Location = new System.Drawing.Point(10, 10);
+            this.tbPhanQuyen.MultiSelect = false;
+            this.tbPhanQuyen.Name = "tbPhanQuyen";
+            this.tbPhanQuyen.RowHeadersVisible = false;
+            this.tbPhanQuyen.RowHeadersWidth = 51;
+            this.tbPhanQuyen.RowTemplate.Height = 24;
+            this.tbPhanQuyen.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.tbPhanQuyen.Size = new System.Drawing.Size(1530, 365);
+            this.tbPhanQuyen.TabIndex = 5;
+            this.tbPhanQuyen.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.tbPhanQuyen_CellFormatting);
+            this.tbPhanQuyen.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tbPhanQuyen_DataBindingComplete);
+            // 
             // phanQuyenGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -506,8 +507,6 @@
             this.Size = new System.Drawing.Size(1550, 720);
             this.Load += new System.EventHandler(this.phanQuyenGUI_Load);
             this.chucNangPanel.ResumeLayout(false);
-            this.panelTable.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tbPhanQuyen)).EndInit();
             this.roundedChucNang.ResumeLayout(false);
             this.layoutChucNang.ResumeLayout(false);
             this.tableLayoutPanel6.ResumeLayout(false);
@@ -519,6 +518,8 @@
             this.layoutTimKiemCoban.PerformLayout();
             this.xulycongthuc.ResumeLayout(false);
             this.tableLayoutChoChucNang.ResumeLayout(false);
+            this.panelTable.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tbPhanQuyen)).EndInit();
             this.ResumeLayout(false);
 
         }

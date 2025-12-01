@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using ZstdSharp.Unsafe;
 
 namespace DAO
 {
@@ -46,38 +47,26 @@ namespace DAO
 
             return ds;
         }
-        public vaitroDTO LayTheoMa(int maVaiTro)
-        {
-            vaitroDTO vt = null;
-            string qry = "SELECT MAVAITRO, TENVAITRO FROM vaitro WHERE MAVAITRO = @mvt AND TRANGTHAI = 1";
-            MySqlConnection conn = DBConnect.GetConnection();
 
+        public int layMa()
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            int maVT = 0;
             try
             {
+                string qry = "SELECT IFNULL(MAX(MAVAITRO), 0) FROM vaitro";
                 MySqlCommand cmd = new MySqlCommand(qry, conn);
-                cmd.Parameters.AddWithValue("@mvt", maVaiTro);
-                MySqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.Read())
-                {
-                    vt = new vaitroDTO
-                    {
-                        MaVaiTro = reader.GetInt32("MAVAITRO"),
-                        TenVaiTro = reader.GetString("TENVAITRO"),
-                        TrangThai = 1
-                    };
-                }
-                reader.Close();
+                maVT = Convert.ToInt32(cmd.ExecuteScalar());
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine("Lỗi lấy vai trò theo mã: " + ex.Message);
+                Console.WriteLine("Lỗi lấy mã VT : " + ex);
             }
             finally
             {
                 DBConnect.CloseConnection(conn);
             }
-            return vt;
+            return maVT + 1;
         }
 
         public bool ThemVaiTro(vaitroDTO vt)
@@ -97,6 +86,55 @@ namespace DAO
                 return false;
             }
             finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+        }
+
+        public bool SuaVaiTro(vaitroDTO vt)
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            try
+            {
+                string qry = @"UPDATE vaitro SET TENVAITRO = @tenVT WHERE MAVAITRO = @maVT";
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                cmd.Parameters.AddWithValue("@maVT", vt.MaVaiTro);
+                cmd.Parameters.AddWithValue("@tenVT",vt.TenVaiTro);
+                int rs = cmd.ExecuteNonQuery();
+                if(rs > 0)
+                {
+                    return true;
+                }
+                return false;
+            }catch(MySqlException ex)
+            {
+                Console.WriteLine("Kh sua dc vai tro : " + ex);
+                return false;
+            }finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+        }
+
+        public bool XoaVaiTro(int maVT)
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            try
+            {
+                string qry = @"UPDATE vaitro SET TRANGTHAI = 0 WHERE MAVAITRO = @maVT";
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                cmd.Parameters.AddWithValue("@maVT", maVT);
+                int rs = cmd.ExecuteNonQuery();
+                if(rs > 0)
+                {
+                    return true;
+                }
+                return false;
+            }catch(MySqlException ex)
+            {
+                Console.WriteLine("Kh xoa dc vai tro : " + ex);
+                return false;
+            }finally
             {
                 DBConnect.CloseConnection(conn);
             }

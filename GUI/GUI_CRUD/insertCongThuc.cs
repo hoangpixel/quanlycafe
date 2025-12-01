@@ -305,41 +305,38 @@ namespace GUI.GUI_CRUD
             if (e.RowIndex < 0)
                 return;
 
-            if (e.RowIndex != lastSelectNguyenLieu)
-            {
-                DataGridViewRow row = tableCongThuc.Rows[e.RowIndex];
-
-                congThucDTO ct = row.DataBoundItem as congThucDTO;
-
-                nguyenLieuDTO nl = dsNguyenLieu.FirstOrDefault(x => x.MaNguyenLieu == ct.MaNguyenLieu);
-                donViDTO dv = dsDonVi.FirstOrDefault(x => x.MaDonVi == ct.MaDonViCoSo);
-
-                indexMaNL = e.RowIndex;
-
-                txtTenNguyenLieu.Text = nl?.TenNguyenLieu ?? "Không xác định";
-                txtSoLuong.Value = (decimal) ct.SoLuongCoSo;
-                txtDonVi.Text = dv?.TenDonVi ?? "Không xác định";
-                this.tenDonVi = dv?.TenDonVi ?? "Không xác định";
-
-                lastSelectNguyenLieu = e.RowIndex;
-
-                //btnChonNL.Enabled = false;
-                btnNhapCT.Enabled = false;
-                btnSuaCT.Enabled = true;
-                btnXoaCT.Enabled = true;
-                btnChonDonVi.Enabled = true;
-            }
-            else
+            if (e.RowIndex == lastSelectNguyenLieu)
             {
                 btnNhapCT.Enabled = true;
                 btnSuaCT.Enabled = false;
                 btnXoaCT.Enabled = false;
                 btnChonNL.Enabled = true;
-                btnChonDonVi.Enabled = false;
-                btnChonDonVi.Enabled = true;
-
                 resetInput();
+                return;
             }
+
+            DataGridViewRow row = tableCongThuc.Rows[e.RowIndex];
+            congThucDTO ct = row.DataBoundItem as congThucDTO;
+            this.maNL = ct.MaNguyenLieu;
+            this.maDonVi = ct.MaDonViCoSo;
+
+            nguyenLieuDTO nl = dsNguyenLieu.FirstOrDefault(x => x.MaNguyenLieu == ct.MaNguyenLieu);
+            donViDTO dv = dsDonVi.FirstOrDefault(x => x.MaDonVi == ct.MaDonViCoSo);
+
+            indexMaNL = e.RowIndex;
+
+            txtTenNguyenLieu.Text = nl?.TenNguyenLieu ?? "Không xác định";
+            txtSoLuong.Value = (decimal)ct.SoLuongCoSo;
+            txtDonVi.Text = dv?.TenDonVi ?? "Không xác định";
+            this.tenDonVi = dv?.TenDonVi ?? "Không xác định";
+
+            lastSelectNguyenLieu = e.RowIndex;
+
+            btnNhapCT.Enabled = false;
+            btnSuaCT.Enabled = true;
+            btnXoaCT.Enabled = true;
+            btnChonDonVi.Enabled = true;
+            btnChonNL.Enabled = false;
         }
 
         private void btnChonDonVi_Click(object sender, EventArgs e)

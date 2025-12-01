@@ -157,5 +157,16 @@ namespace GUI.GUI_UC
                 form.ShowDialog();
             }
         }
+
+        private void btnVaiTro_Click(object sender, EventArgs e)
+        {
+            using(vaiTroVaQuyenGUI form = new vaiTroVaQuyenGUI())
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.ShowDialog();
+            }
+            dsQuyen = new quyenBUS().LayDanhSach();
+            dsVaitro = new vaitroBUS().LayDanhSach();
+        }
     }
 }

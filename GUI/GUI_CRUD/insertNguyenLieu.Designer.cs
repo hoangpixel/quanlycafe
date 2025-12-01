@@ -208,9 +208,9 @@
             this.bigLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.bigLabel1.Location = new System.Drawing.Point(87, 26);
             this.bigLabel1.Name = "bigLabel1";
-            this.bigLabel1.Size = new System.Drawing.Size(341, 45);
+            this.bigLabel1.Size = new System.Drawing.Size(366, 45);
             this.bigLabel1.TabIndex = 0;
-            this.bigLabel1.Text = "Thêm công thức mới";
+            this.bigLabel1.Text = "Thêm nguyên liệu mới";
             // 
             // insertNguyenLieu
             // 

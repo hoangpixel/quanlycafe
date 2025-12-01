@@ -70,7 +70,7 @@ namespace GUI.GUI_SELECT
             tableSanPham.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaSP", HeaderText = "Mã SP" });
             tableSanPham.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TenSP", HeaderText = "Tên SP" });
             tableSanPham.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaLoai", HeaderText = "Tên loại" });
-            tableSanPham.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Gia", HeaderText = "Giá"});
+            tableSanPham.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Gia", HeaderText = "Giá", DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" } });
 
             tableSanPham.DataSource = ds;
             tableSanPham.ClearSelection();
