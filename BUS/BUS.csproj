@@ -54,6 +54,7 @@
     <Compile Include="nhomBUS.cs" />
     <Compile Include="phanquyenBUS.cs" />
     <Compile Include="phieuNhapBUS.cs" />
+    <Compile Include="ppThanhToanBUS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="quyenBUS.cs" />
     <Compile Include="sanPhamBUS.cs" />

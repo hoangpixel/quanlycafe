@@ -157,7 +157,7 @@ namespace GUI.GUI_UC
             chartTitle.ForeColor = Color.DarkBlue;
 
             // 3. Tạo một Series mới (Loại Cột)
-            System.Windows.Forms.DataVisualization.Charting.Series series = new System.Windows.Forms.DataVisualization.Charting.Series("DuLieu");
+            System.Windows.Forms.DataVisualization.Charting.Series series = new System.Windows.Forms.DataVisualization.Charting.Series("Tổng tiền");
             series.ChartType = SeriesChartType.Column; // Chọn loại biểu đồ Cột (Column)
 
             // Trang trí màu sắc

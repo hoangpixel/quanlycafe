@@ -21,8 +21,10 @@ namespace DAO
                     hd.MABAN, 
                     hd.THOIGIANTAO, 
                     hd.TRANGTHAI,
-                    hd.TONGTIEN
+                    hd.TONGTIEN,
+                    hd.KHOASO
                 FROM hoadon hd
+                WHERE hd.TRANGTHAIXOA = 1
                 ORDER BY hd.MAHOADON DESC
                 ";
 
@@ -42,7 +44,8 @@ namespace DAO
                         MaBan = Convert.ToInt32(reader["MABAN"]), // VARCHAR
                         ThoiGianTao = reader.GetDateTime("THOIGIANTAO"),
                         TrangThai = reader.GetBoolean("TRANGTHAI"),
-                        TongTien = reader.GetDecimal("TONGTIEN")
+                        TongTien = reader.GetDecimal("TONGTIEN"),
+                        KhoaSo = reader.GetInt32("KHOASO")
                     };
                     ds.Add(hd);
                 }
@@ -86,7 +89,7 @@ namespace DAO
                 INSERT INTO hoadon 
                     (MABAN, MATT, THOIGIANTAO, TRANGTHAI, TONGTIEN, MAKHACHHANG, MANHANVIEN)
                 VALUES
-                    (@MaBan, @MaTT, @ThoiGianTao, @TrangThai, 0, @MaKH, @MaNV);
+                    (@MaBan, @MaTT, @ThoiGianTao, 1, 0, @MaKH, @MaNV);
                 SELECT LAST_INSERT_ID();
                 ";
 
@@ -101,10 +104,6 @@ namespace DAO
                     ? DateTime.Now
                     : hd.ThoiGianTao;
                 cmdHD.Parameters.AddWithValue("@ThoiGianTao", thoiGian);
-
-                byte trangThaiValue = hd.TrangThai ? (byte)1 : (byte)0;
-
-                cmdHD.Parameters.AddWithValue("@TrangThai", trangThaiValue);
 
                 int maHD = Convert.ToInt32(cmdHD.ExecuteScalar());
                 hd.MaHD = maHD;
@@ -359,14 +358,13 @@ namespace DAO
                 }
             }
         }
-        public bool UpdateTrangThai(int maHD, bool trangThai)
+        public bool UpdateTrangThai(int maHD)
         {
-            string sql = "UPDATE hoadon SET TRANGTHAI = @tt WHERE MAHOADON = @id";
+            string sql = "UPDATE hoadon SET TRANGTHAIXOA = 0 WHERE MAHOADON = @id";
 
             using (var conn = DBConnect.GetConnection())
             using (var cmd = new MySqlCommand(sql, conn))
             {
-                cmd.Parameters.AddWithValue("@tt", trangThai ? 1 : 0);
                 cmd.Parameters.AddWithValue("@id", maHD);
 
                 return cmd.ExecuteNonQuery() > 0;

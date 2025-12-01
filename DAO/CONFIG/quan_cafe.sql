@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2025 at 07:21 AM
+-- Generation Time: Dec 01, 2025 at 08:02 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,55 +31,56 @@ CREATE TABLE `ban` (
   `MABAN` int(11) NOT NULL,
   `TENBAN` varchar(100) NOT NULL,
   `DANGSUDUNG` tinyint(1) NOT NULL DEFAULT 1,
-  `MADONHIENTAI` int(11) DEFAULT NULL,
-  `MAKHUVUC` int(11) NOT NULL
+  `MAKHUVUC` int(11) NOT NULL,
+  `TRANGTHAIXOA` tinyint(1) NOT NULL DEFAULT 1,
+  `MADONHIENTAI` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `ban`
 --
 
-INSERT INTO `ban` (`MABAN`, `TENBAN`, `DANGSUDUNG`, `MADONHIENTAI`, `MAKHUVUC`) VALUES
-(1, 'Ban1', 1, NULL, 1),
-(2, 'Ban2', 1, NULL, 1),
-(3, 'Ban3', 1, NULL, 1),
-(4, 'Ban4', 1, NULL, 1),
-(5, 'Ban5', 1, NULL, 1),
-(6, 'Ban6', 1, NULL, 1),
-(7, 'Ban7', 1, NULL, 1),
-(8, 'Ban8', 1, NULL, 1),
-(9, 'Ban9', 1, NULL, 1),
-(10, 'Ban10', 1, NULL, 1),
-(11, 'Ban11', 1, NULL, 1),
-(12, 'Ban12', 1, NULL, 1),
-(13, 'Ban13', 1, NULL, 1),
-(14, 'Ban14', 1, NULL, 1),
-(15, 'Ban15', 1, NULL, 1),
-(16, 'Ban16', 1, NULL, 1),
-(17, 'Ban17', 1, NULL, 1),
-(18, 'Ban18', 1, NULL, 1),
-(19, 'Ban19', 1, NULL, 1),
-(20, 'Ban20', 1, NULL, 1),
-(21, 'Ban21', 1, NULL, 2),
-(22, 'Ban22', 1, NULL, 2),
-(23, 'Ban23', 1, NULL, 2),
-(24, 'Ban24', 1, NULL, 2),
-(25, 'Ban25', 1, NULL, 2),
-(26, 'Ban26', 1, NULL, 2),
-(27, 'Ban27', 1, NULL, 2),
-(28, 'Ban28', 1, NULL, 2),
-(29, 'Ban29', 1, NULL, 2),
-(30, 'Ban30', 1, NULL, 2),
-(31, 'Ban31', 1, NULL, 2),
-(32, 'Ban32', 1, NULL, 2),
-(33, 'Ban33', 1, NULL, 2),
-(34, 'Ban34', 1, NULL, 2),
-(35, 'Ban35', 1, NULL, 2),
-(36, 'Ban36', 1, NULL, 2),
-(37, 'Ban37', 1, NULL, 2),
-(38, 'Ban38', 1, NULL, 2),
-(39, 'Ban39', 1, NULL, 2),
-(40, 'Ban40', 1, NULL, 2);
+INSERT INTO `ban` (`MABAN`, `TENBAN`, `DANGSUDUNG`, `MAKHUVUC`, `TRANGTHAIXOA`, `MADONHIENTAI`) VALUES
+(1, 'Ban1', 0, 1, 1, 6),
+(2, 'Ban2', 1, 1, 1, NULL),
+(3, 'Ban3', 1, 1, 1, NULL),
+(4, 'Ban4', 1, 1, 1, NULL),
+(5, 'Ban5', 1, 1, 1, NULL),
+(6, 'Ban6', 1, 1, 1, NULL),
+(7, 'Ban7', 1, 1, 1, NULL),
+(8, 'Ban8', 1, 1, 1, NULL),
+(9, 'Ban9', 1, 1, 1, NULL),
+(10, 'Ban10', 1, 1, 1, NULL),
+(11, 'Ban11', 1, 1, 1, NULL),
+(12, 'Ban12', 1, 1, 1, NULL),
+(13, 'Ban13', 1, 1, 1, NULL),
+(14, 'Ban14', 1, 1, 1, NULL),
+(15, 'Ban15', 1, 1, 1, NULL),
+(16, 'Ban16', 1, 1, 1, NULL),
+(17, 'Ban17', 1, 1, 1, NULL),
+(18, 'Ban18', 1, 1, 1, NULL),
+(19, 'Ban19', 1, 1, 1, NULL),
+(20, 'Ban20', 1, 1, 1, NULL),
+(21, 'Ban21', 1, 2, 1, NULL),
+(22, 'Ban22', 1, 2, 1, NULL),
+(23, 'Ban23', 1, 2, 1, NULL),
+(24, 'Ban24', 1, 2, 1, NULL),
+(25, 'Ban25', 1, 2, 1, NULL),
+(26, 'Ban26', 1, 2, 1, NULL),
+(27, 'Ban27', 1, 2, 1, NULL),
+(28, 'Ban28', 1, 2, 1, NULL),
+(29, 'Ban29', 1, 2, 1, NULL),
+(30, 'Ban30', 1, 2, 1, NULL),
+(31, 'Ban31', 1, 2, 1, NULL),
+(32, 'Ban32', 1, 2, 1, NULL),
+(33, 'Ban33', 1, 2, 1, NULL),
+(34, 'Ban34', 1, 2, 1, NULL),
+(35, 'Ban35', 1, 2, 1, NULL),
+(36, 'Ban36', 1, 2, 1, NULL),
+(37, 'Ban37', 1, 2, 1, NULL),
+(38, 'Ban38', 1, 2, 1, NULL),
+(39, 'Ban39', 1, 2, 1, NULL),
+(40, 'Ban40', 1, 2, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -151,7 +152,13 @@ INSERT INTO `cthd` (`MAHOADON`, `MASANPHAM`, `SOLUONG`, `DONGIA`, `THANHTIEN`) V
 (18, 3, 2, 25000.00, 50000.00),
 (19, 1, 3, 17000.00, 51000.00),
 (19, 2, 5, 25000.00, 125000.00),
-(19, 5, 1, 2000000.00, 2000000.00);
+(19, 5, 1, 2000000.00, 2000000.00),
+(20, 1, 1, 17000.00, 17000.00),
+(20, 2, 1, 25000.00, 25000.00),
+(20, 4, 1, 15000.00, 15000.00),
+(21, 1, 1, 17000.00, 17000.00),
+(22, 1, 1, 17000.00, 17000.00),
+(22, 4, 1, 15000.00, 15000.00);
 
 --
 -- Triggers `cthd`
@@ -252,19 +259,23 @@ CREATE TABLE `hoadon` (
   `TONGTIEN` decimal(12,2) NOT NULL DEFAULT 0.00,
   `MAKHACHHANG` int(11) DEFAULT NULL,
   `MANHANVIEN` int(11) NOT NULL,
-  `TRANGTHAIXOA` tinyint(1) NOT NULL DEFAULT 1
+  `TRANGTHAIXOA` tinyint(1) NOT NULL DEFAULT 1,
+  `KHOASO` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `hoadon`
 --
 
-INSERT INTO `hoadon` (`MAHOADON`, `MABAN`, `MATT`, `THOIGIANTAO`, `TRANGTHAI`, `TONGTIEN`, `MAKHACHHANG`, `MANHANVIEN`, `TRANGTHAIXOA`) VALUES
-(6, 1, 1, '2025-11-14 13:57:53', 0, 67000.00, 1, 1, 1),
-(15, 1, 1, '2025-11-14 14:44:44', 0, 17000.00, 1, 1, 1),
-(17, 40, 1, '2025-11-14 15:07:45', 0, 17000.00, 1, 1, 1),
-(18, 8, 1, '2025-11-14 15:24:58', 0, 100000.00, 1, 1, 1),
-(19, 8, 1, '2025-11-14 15:38:52', 0, 2176000.00, 1, 1, 1);
+INSERT INTO `hoadon` (`MAHOADON`, `MABAN`, `MATT`, `THOIGIANTAO`, `TRANGTHAI`, `TONGTIEN`, `MAKHACHHANG`, `MANHANVIEN`, `TRANGTHAIXOA`, `KHOASO`) VALUES
+(6, 1, 1, '2025-11-14 13:57:53', 1, 67000.00, 1, 1, 1, 1),
+(15, 1, 1, '2025-11-14 14:44:44', 1, 17000.00, 1, 1, 1, 0),
+(17, 40, 1, '2025-11-14 15:07:45', 1, 17000.00, 1, 1, 1, 0),
+(18, 8, 1, '2025-11-14 15:24:58', 1, 100000.00, 1, 1, 1, 0),
+(19, 8, 1, '2025-11-14 15:38:52', 1, 2176000.00, 1, 1, 1, 0),
+(20, 2, 1, '2025-12-01 12:10:25', 1, 57000.00, 1, 1, 1, 0),
+(21, 3, 1, '2025-12-01 12:18:03', 1, 17000.00, 1, 1, 1, 0),
+(22, 20, 1, '2025-12-01 13:46:41', 1, 32000.00, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -527,7 +538,8 @@ CREATE TABLE `taikhoan` (
   `TENDANGNHAP` varchar(60) NOT NULL,
   `MATKHAU` varchar(255) NOT NULL,
   `TRANGTHAI` tinyint(1) NOT NULL DEFAULT 1,
-  `NGAYTAO` datetime NOT NULL DEFAULT current_timestamp()
+  `NGAYTAO` datetime NOT NULL DEFAULT current_timestamp(),
+  `MAVAITRO` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -726,7 +738,8 @@ ALTER TABLE `sanpham`
 ALTER TABLE `taikhoan`
   ADD PRIMARY KEY (`MATAIKHOAN`),
   ADD UNIQUE KEY `MANHANVIEN` (`MANHANVIEN`),
-  ADD UNIQUE KEY `TENDANGNHAP` (`TENDANGNHAP`);
+  ADD UNIQUE KEY `TENDANGNHAP` (`TENDANGNHAP`),
+  ADD KEY `FK_TK_VAITRO` (`MAVAITRO`);
 
 --
 -- Indexes for table `thanhtoan`
@@ -773,7 +786,7 @@ ALTER TABLE `donvi`
 -- AUTO_INCREMENT for table `hoadon`
 --
 ALTER TABLE `hoadon`
-  MODIFY `MAHOADON` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `MAHOADON` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `khachhang`
@@ -945,7 +958,8 @@ ALTER TABLE `sanpham`
 -- Constraints for table `taikhoan`
 --
 ALTER TABLE `taikhoan`
-  ADD CONSTRAINT `FK_TAIKHOAN_NHANVIEN` FOREIGN KEY (`MANHANVIEN`) REFERENCES `nhanvien` (`MANHANVIEN`);
+  ADD CONSTRAINT `FK_TAIKHOAN_NHANVIEN` FOREIGN KEY (`MANHANVIEN`) REFERENCES `nhanvien` (`MANHANVIEN`),
+  ADD CONSTRAINT `FK_TK_VAITRO` FOREIGN KEY (`MAVAITRO`) REFERENCES `vaitro` (`MAVAITRO`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

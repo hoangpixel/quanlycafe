@@ -57,6 +57,7 @@
     <Compile Include="nhomDTO.cs" />
     <Compile Include="phanquyenDTO.cs" />
     <Compile Include="phieuNhapDTO.cs" />
+    <Compile Include="ppThanhToanDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="quyenDTO.cs" />
     <Compile Include="sanPhamDTO.cs" />

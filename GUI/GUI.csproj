@@ -165,6 +165,12 @@
     <Compile Include="GUI_CRUD\selectExcelKhachHangGUI.Designer.cs">
       <DependentUpon>selectExcelKhachHangGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_CRUD\updateHoaDon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\updateHoaDon.Designer.cs">
+      <DependentUpon>updateHoaDon.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_CRUD\updateKhachHang.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -433,6 +439,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\selectExcelKhachHangGUI.resx">
       <DependentUpon>selectExcelKhachHangGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\updateHoaDon.resx">
+      <DependentUpon>updateHoaDon.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\updateKhachHang.resx">
       <DependentUpon>updateKhachHang.cs</DependentUpon>

@@ -49,6 +49,11 @@ namespace GUI.GUI_UC
             loadFontChuVaSizeHoaDon();
             CapNhatTrangThaiNutHoaDon();
             AnNutHoaDon();
+
+            BindingList<ppThanhToanDTO> dsThanhToan = new ppThanhToanBUS().LayDanhSach();
+            cbThanhToan.DataSource = dsThanhToan;
+            cbThanhToan.DisplayMember = "HinhThuc";
+            cbThanhToan.ValueMember = "MaTT";
         }
         private void loadFontChuVaSize()
         {
@@ -167,20 +172,12 @@ namespace GUI.GUI_UC
 
         private void LoadDanhSachHoaDon()
         {
-            try
-            {
                 dsHoaDon = busHoaDon.LayDanhSach(); // Lấy hết từ DB
-
-                // CHỈ HIỂN THỊ HÓA ĐƠN CHƯA THANH TOÁN
-                var dsHienThi = dsHoaDon
-                    .Where(hd => hd.TrangThai == false)
-                    .OrderByDescending(hd => hd.ThoiGianTao) // mới nhất lên trên
-                    .ToList();
 
                 // Gán DataSource
                 dgvHoaDon.AutoGenerateColumns = false;
                 dgvHoaDon.DataSource = null; // reset
-                dgvHoaDon.DataSource = dsHienThi;
+                dgvHoaDon.DataSource = dsHoaDon;
 
                 // Tạo lại cột (nếu chưa có)
                 if (dgvHoaDon.Columns.Count == 0)
@@ -223,12 +220,6 @@ namespace GUI.GUI_UC
                     CapNhatTrangThaiNutHoaDon(); // tắt hết nút
                 });
 
-                Console.WriteLine($"[LOAD HD] Đang hiển thị {dsHienThi.Count} hóa đơn chưa thanh toán.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi tải hóa đơn: " + ex.Message);
-            }
             AnNutHoaDon();
         }
 
@@ -460,7 +451,7 @@ namespace GUI.GUI_UC
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
+            int maTT = Convert.ToInt32(cbThanhToan.SelectedValue);
             // 5. Tính tổng tiền
             decimal tongTien = gioHang.Sum(g => g.ThanhTien);
 
@@ -471,6 +462,7 @@ namespace GUI.GUI_UC
             Khách hàng: {(maKH.HasValue ? txtKhachHang.Text : "Khách lẻ")}
             Nhân viên: {txtNhanVien.Text}
             Số món: {gioHang.Count}
+            PPTT: {maTT}
             Tổng tiền: {tongTien:N0} VNĐ
             ────────────────────────────
             Bạn có chắc chắn muốn tạo hóa đơn không?";
@@ -486,15 +478,17 @@ namespace GUI.GUI_UC
                 return;
             }
 
+
+
             // 7. Tạo hóa đơn DTO
             var hd = new hoaDonDTO
             {
                 MaBan = maBan,
                 MaKhachHang = maKH ??0,           // có thể null → khách lẻ
                 MaNhanVien = maNV,
-                MaTT = 1,                     // mặc định hình thức thanh toán tiền mặt
+                MaTT = maTT,                     // mặc định hình thức thanh toán tiền mặt
                 ThoiGianTao = DateTime.Now,
-                TrangThai = false             // chưa thanh toán
+                TrangThai = true             // chưa thanh toán
             };
 
             // 8. Gọi BUS thêm hóa đơn
@@ -519,7 +513,7 @@ namespace GUI.GUI_UC
 
                 // 10. Chuyển sang tab hóa đơn + reload
                 tabControl1.SelectedTab = tabHoaDon;
-                LoadDanhSachHoaDon();
+                //LoadDanhSachHoaDon();
 
                 // 11. Cập nhật trạng thái bàn (đổi màu thành đang sử dụng)
                 //CapNhatTrangThaiBan(maBan, dangSuDung: true);
@@ -626,7 +620,7 @@ namespace GUI.GUI_UC
         }
         private void AnNutHoaDon()
         {
-            btnChiTietHD.Enabled = btnTinhTien.Enabled = btnXoaHD.Enabled = btnSuaHD.Enabled = false;
+            btnChiTietHD.Enabled = btnDonBan.Enabled = btnXoaHD.Enabled = btnSuaHD.Enabled = false;
         }
 
         private void btnChiTietHD_Click(object sender, EventArgs e)
@@ -681,20 +675,54 @@ namespace GUI.GUI_UC
 
         private void dgvHoaDon_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.RowIndex >= dsHoaDon.Count)
-                return;
+            // 1. Kiểm tra index hợp lệ (tránh click vào header)
+            if (e.RowIndex < 0) return;
 
+            // 2. Xử lý logic Click lần 2 để bỏ chọn (như code cũ của bạn)
             if (e.RowIndex == lastSelectedRowIndex)
             {
                 dgvHoaDon.ClearSelection();
                 lastSelectedRowIndex = -1;
 
-                btnChiTietHD.Enabled = btnTinhTien.Enabled = btnXoaHD.Enabled = btnSuaHD.Enabled = false;
+                // Khi bỏ chọn thì tắt hết nút
+                btnChiTietHD.Enabled = false;
+                btnDonBan.Enabled = false;
+                btnXoaHD.Enabled = false;
+                btnSuaHD.Enabled = false;
                 return;
             }
 
+            // 3. Ghi nhận dòng mới chọn
             lastSelectedRowIndex = e.RowIndex;
-            
+
+            // 4. LẤY DỮ LIỆU TỪ DÒNG ĐƯỢC CHỌN
+            // Lưu ý: Phải ép kiểu (cast) về đúng DTO của bạn
+            var row = dgvHoaDon.Rows[e.RowIndex];
+            var hd = row.DataBoundItem as hoaDonDTO;
+
+            if (hd == null) return; // Phòng hờ null
+
+            // 5. KIỂM TRA KHÓA SỔ ĐỂ ẨN/HIỆN NÚT
+            // Giả sử KhoaSo là kiểu int (1 hoặc 0). Nếu trong DTO bạn để bool thì sửa thành (hd.KhoaSo == true)
+            if (hd.KhoaSo == 1)
+            {
+                // === TRƯỜNG HỢP: ĐÃ KHÓA SỔ (Khách đã về) ===
+                // Chỉ cho xem chi tiết, CẤM sửa/xóa/dọn bàn
+                btnChiTietHD.Enabled = true;  // Vẫn nên cho xem
+
+                btnDonBan.Enabled = false;    // Đã dọn rồi thì không dọn nữa
+                btnXoaHD.Enabled = false;     // Cấm xóa
+                btnSuaHD.Enabled = false;     // Cấm sửa
+            }
+            else
+            {
+                // === TRƯỜNG HỢP: ĐANG PHỤC VỤ ===
+                // Mở hết các nút để thao tác
+                btnChiTietHD.Enabled = true;
+                btnDonBan.Enabled = true;
+                btnXoaHD.Enabled = true;
+                btnSuaHD.Enabled = true;
+            }
         }
 
         private void btnChonKH_Click(object sender, EventArgs e)
@@ -751,7 +779,7 @@ namespace GUI.GUI_UC
                                 MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 // 🔥 Chỉ chuyển trạng thái của hóa đơn, không xoá!
-                bool ok = busHoaDon.ChuyenTrangThai(hd.MaHD, true);
+                bool ok = busHoaDon.XoaHoaDon(hd.MaHD);
 
                 if (ok)
                 {
@@ -768,8 +796,6 @@ namespace GUI.GUI_UC
                         if (f is FormChonBan chonBan)
                             chonBan.CapNhatBanTrong(hd.MaBan);
 
-                    // 🎯 Reload danh sách (HD đã thanh toán sẽ ẩn đi)
-                    LoadDanhSachHoaDon();
                 }
                 else
                 {
@@ -783,18 +809,15 @@ namespace GUI.GUI_UC
         {
             if (dgvHoaDon.Rows[e.RowIndex].DataBoundItem is hoaDonDTO hd)
             {
-                if (hd.TrangThai == true) // hoặc 1 / "1" tùy kiểu bạn lưu
+                if (hd.KhoaSo == 1)
                 {
                     dgvHoaDon.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightGray;
                     dgvHoaDon.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.DarkGray;
-                    dgvHoaDon.Rows[e.RowIndex].DefaultCellStyle.Font = new Font("Segoe UI", 9, FontStyle.Italic);
                 }
                 else
                 {
-                    // Reset khi không bị xoá
                     dgvHoaDon.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
                     dgvHoaDon.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
-                    dgvHoaDon.Rows[e.RowIndex].DefaultCellStyle.Font = new Font("Segoe UI", 9, FontStyle.Regular);
                 }
             }
         }
@@ -837,7 +860,7 @@ namespace GUI.GUI_UC
                 btnSuaHD.Enabled = false;
                 btnXoaHD.Enabled = false;
                 btnChiTietHD.Enabled = false;
-                btnTinhTien.Enabled = false;
+                btnDonBan.Enabled = false;
                 return;
             }
 
@@ -849,14 +872,14 @@ namespace GUI.GUI_UC
                 btnChiTietHD.Enabled = true;
                 btnSuaHD.Enabled = false;
                 btnXoaHD.Enabled = false;
-                btnTinhTien.Enabled = false;
+                btnDonBan.Enabled = false;
             }
             else // chưa thanh toán → cho phép thao tác
             {
                 btnChiTietHD.Enabled = true;
                 btnSuaHD.Enabled = true;
                 btnXoaHD.Enabled = true;
-                btnTinhTien.Enabled = true;
+                btnDonBan.Enabled = true;
             }
         }
 
