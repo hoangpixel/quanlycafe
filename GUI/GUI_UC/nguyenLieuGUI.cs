@@ -41,11 +41,13 @@ namespace GUI.GUI_UC
 
         private void hienThiPlaceHolderNguyenLieu()
         {
+            SetupComboBoxData(cbTrangThaiNL);
+
             SetPlaceholder(txtTimKiemNL, "Nhập giá trị cần tìm");
             SetPlaceholder(txtTenNLTK, "Tên NL");
             SetPlaceholder(txtMinNL, "Tồn min");
             SetPlaceholder(txtMaxNL, "Tồn max");
-            SetPlaceholder(txtTenDonViTK, "Tên đơn vị");
+            SetPlaceholder(txtTenDonViTK, "Tên ĐV");
             SetComboBoxPlaceholder(cboTimKiemNL, "Chọn giá trị TK");
             SetComboBoxPlaceholder(cbTrangThaiNL, "Chọn trạng thái");
         }
@@ -99,6 +101,20 @@ namespace GUI.GUI_UC
             };
         }
 
+        private void SetupComboBoxData(ComboBox cbo)
+        {
+            var items = new List<dynamic>
+    {
+        new { Text = "Có", Value = 1 },
+        new { Text = "Không", Value = 0 }
+    };
+
+            cbo.DisplayMember = "Text";
+            cbo.ValueMember = "Value";
+            cbo.DataSource = items;
+
+            cbo.SelectedIndex = -1;
+        }
         public void loadDanhSachNguyenLieu(BindingList<nguyenLieuDTO> ds)
         {
             tableNguyenLieu.AutoGenerateColumns = false;
@@ -336,7 +352,69 @@ namespace GUI.GUI_UC
 
         private void timKiemNangCaoNL()
         {
+            // 1. Xử lý chuỗi (Loại bỏ placeholder nếu người dùng không nhập)
+            string tenNL = txtTenNLTK.Text.Trim();
+            if (tenNL == "Tên NL") tenNL = null; // Kiểm tra đúng text placeholder
 
+            string tenDV = txtTenDonViTK.Text.Trim();
+            if (tenDV == "Tên ĐV") tenDV = null;
+
+            // 2. Xử lý ComboBox (Dùng SelectedValue thay vì SelectedIndex)
+            int trangThaiDV = -1;
+            if (cbTrangThaiNL.SelectedIndex != -1 && cbTrangThaiNL.SelectedValue != null)
+            {
+                if (int.TryParse(cbTrangThaiNL.SelectedValue.ToString(), out int val))
+                {
+                    trangThaiDV = val;
+                }
+            }
+
+            // 3. Xử lý số (Min/Max)
+            float tonMin = -1;
+            string strMin = txtMinNL.Text.Trim();
+            // Phải chắc chắn text không phải là Placeholder mới parse
+            if (!string.IsNullOrWhiteSpace(strMin) && strMin != "Tồn min")
+            {
+                float.TryParse(strMin, out tonMin);
+            }
+
+            float tonMax = -1;
+            string strMax = txtMaxNL.Text.Trim();
+            if (!string.IsNullOrWhiteSpace(strMax) && strMax != "Tồn max")
+            {
+                float.TryParse(strMax, out tonMax);
+            }
+
+            // 4. Validate Min > Max
+            if (tonMin != -1 && tonMax != -1 && tonMin > tonMax)
+            {
+                MessageBox.Show("Tồn tối thiểu không được lớn hơn tồn tối đa", "Lỗi nhập liệu",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 5. Validate không nhập gì cả
+            if (string.IsNullOrEmpty(tenNL) && string.IsNullOrEmpty(tenDV) &&
+                tonMin == -1 && tonMax == -1 && trangThaiDV == -1)
+            {
+                MessageBox.Show("Vui lòng nhập ít nhất một điều kiện", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // 6. Gọi BUS
+            BindingList<nguyenLieuDTO> dskq = busNguyenLieu.timKiemNangCao(trangThaiDV, tenNL, tenDV, tonMin, tonMax);
+
+            if (dskq != null && dskq.Count > 0)
+            {
+                loadDanhSachNguyenLieu(dskq);
+                loadFontChuVaSize();
+            }
+            else
+            {
+                // Nên clear DataGridView hoặc thông báo
+                MessageBox.Show("Không tìm thấy kết quả", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // loadDanhSachNguyenLieu(new BindingList<nguyenLieuDTO>()); // Dòng này tùy chọn để xóa lưới
+            }
         }
 
         // dòng này là để cho khi mà mình load trang nó kh chọn dòng đầu nha

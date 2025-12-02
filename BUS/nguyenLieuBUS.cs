@@ -82,7 +82,6 @@ namespace BUS
             return data.TimTheoMa(ma);
         }
 
-        // 🧹 Xóa toàn bộ dữ liệu (nếu cần làm mới khi nhập Excel)
         public void XoaTatCa()
         {
             var ds = data.docDanhSachNguyenLieu();
@@ -92,7 +91,6 @@ namespace BUS
             }
         }
 
-        // 🧭 Kiểm tra 2 nguyên liệu có giống nhau không
         private bool LaNguyenLieuGiongNhau(nguyenLieuDTO a, nguyenLieuDTO b)
         {
             return a.TenNguyenLieu == b.TenNguyenLieu &&
@@ -100,53 +98,44 @@ namespace BUS
                    a.TonKho == b.TonKho;
         }
 
-        // 🧠 Nhập Excel thông minh: thêm / sửa / giữ nguyên
         public void NhapExcelThongMinh(BindingList<nguyenLieuDTO> dsExcel)
         {
             int soThem = 0, soCapNhat = 0, soBoQua = 0, soLoi = 0, soTrungTen = 0;
 
-            // 🔍 Lấy toàn bộ danh sách hiện tại 1 lần để so sánh
             var dsHienTai = data.docDanhSachNguyenLieu();
 
             foreach (var nlMoi in dsExcel)
             {
                 try
                 {
-                    // ✅ Nếu trạng thái chưa có hoặc = 0 → tự động set lại = 1
                     if (nlMoi.TrangThai == 0)
                         nlMoi.TrangThai = 1;
 
-                    // 🔎 Kiểm tra trùng tên nguyên liệu
                     bool tenTrung = dsHienTai.Any(n =>
                         string.Equals(n.TenNguyenLieu.Trim(), nlMoi.TenNguyenLieu.Trim(), StringComparison.OrdinalIgnoreCase));
 
                     if (tenTrung)
                     {
-                        // 🚫 Trùng tên → bỏ qua và ghi log
                         Console.WriteLine($"⚠️ Nguyên liệu '{nlMoi.TenNguyenLieu}' đã tồn tại → bỏ qua!");
                         soTrungTen++;
                         continue;
                     }
 
-                    // 🔍 Kiểm tra theo mã nguyên liệu
                     var nlCu = data.TimTheoMa(nlMoi.MaNguyenLieu);
 
                     if (nlCu == null)
                     {
-                        // 🆕 Chưa có → thêm mới
                         data.Them(nlMoi);
-                        dsHienTai.Add(nlMoi); // cập nhật vào danh sách hiện tại để tránh trùng thêm lần sau
+                        dsHienTai.Add(nlMoi);
                         soThem++;
                     }
                     else if (!LaNguyenLieuGiongNhau(nlCu, nlMoi))
                     {
-                        // 🔄 Có khác biệt → cập nhật
                         data.Sua(nlMoi);
                         soCapNhat++;
                     }
                     else
                     {
-                        // ⚪ Giống hệt → bỏ qua
                         soBoQua++;
                     }
                 }
@@ -156,18 +145,6 @@ namespace BUS
                     soLoi++;
                 }
             }
-
-            //MessageBox.Show(
-            //    $"✅ Nhập Excel hoàn tất!\n" +
-            //    $"- {soThem} nguyên liệu mới được thêm.\n" +
-            //    $"- {soCapNhat} nguyên liệu được cập nhật.\n" +
-            //    $"- {soBoQua} nguyên liệu giữ nguyên.\n" +
-            //    $"- {soTrungTen} nguyên liệu bị bỏ qua do trùng tên.\n" +
-            //    $"- {soLoi} dòng bị lỗi.",
-            //    "Kết quả nhập Excel",
-            //    MessageBoxButtons.OK,
-            //    MessageBoxIcon.Information
-            //);
         }
 
         public BindingList<nguyenLieuDTO> timKiemCoBanNL(string tim,int index)
@@ -250,6 +227,44 @@ namespace BUS
                 return false;
             }
             return true;
+        }
+
+        public BindingList<nguyenLieuDTO> timKiemNangCao(int trangThaiNL,string tenNL,string tenDV,float tonKhoMin,float tonKhoMax)
+        {
+            BindingList<nguyenLieuDTO> dskq = new BindingList<nguyenLieuDTO>();
+            BindingList<donViDTO> dsDV = new donViBUS().LayDanhSach();
+
+            foreach(nguyenLieuDTO ct in ds)
+            {
+                bool dk = true;
+                donViDTO dv = dsDV.FirstOrDefault(x => x.MaDonVi == ct.MaDonViCoSo);
+                string tenDVtim = dv?.TenDonVi ?? "";
+                if(trangThaiNL != -1 && ct.TrangThaiDV != trangThaiNL)
+                {
+                    dk = false;
+                }
+                if(!string.IsNullOrEmpty(tenNL) && ct.TenNguyenLieu.IndexOf(tenNL,StringComparison.OrdinalIgnoreCase) < 0)
+                {
+                    dk = false;
+                }
+                if(!string.IsNullOrEmpty(tenDV) && tenDV.IndexOf(tenDVtim, StringComparison.OrdinalIgnoreCase) <0 )
+                {
+                    dk = false;
+                }
+                if(tonKhoMin != -1 && ct.TonKho < tonKhoMin)
+                {
+                    dk = false;
+                }
+                if(tonKhoMax != -1 && ct.TonKho > tonKhoMax)
+                {
+                    dk = false;
+                }
+                if(dk)
+                {
+                    dskq.Add(ct);
+                }
+            }
+            return dskq;
         }
     }
 }

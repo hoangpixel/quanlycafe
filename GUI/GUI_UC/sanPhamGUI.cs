@@ -376,7 +376,7 @@ namespace GUI.GUI_UC
 
             if (giaMin != -1 && giaMax != -1 && giaMin > giaMax)
             {
-                MessageBox.Show("Giá tối thiểu phải ≤ giá tối đa.", "Lỗi nhập liệu",
+                MessageBox.Show("Giá tối thiểu phải bé hơn hoặc bằng giá tối đa.", "Lỗi nhập liệu",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
