@@ -324,15 +324,7 @@ namespace GUI.GUI_UC
             {
                 MessageBox.Show("Không có kết quả tìm kiếm!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                busSanPham.LayDanhSach();
-                loadDanhSachSanPham(sanPhamBUS.ds);
-                loadFontChuVaSize();
-
-                txtTimKiemSP.Clear();
-                cboTimKiemSP.SelectedIndex = -1;
-                SetPlaceholder(txtTimKiemSP, "Nhập giá trị cần tìm");
-                SetComboBoxPlaceholder(cboTimKiemSP, "Chọn giá trị TK");
+                return;
             }
         }
 
@@ -401,8 +393,7 @@ namespace GUI.GUI_UC
             {
                 MessageBox.Show("Không có kết quả tìm kiếm!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-                busSanPham.LayDanhSach();
-                loadDanhSachSanPham(sanPhamBUS.ds);
+                return;
             }
         }
 
@@ -492,6 +483,16 @@ namespace GUI.GUI_UC
             tbSanPham.ClearSelection();
         }
 
+        private void resetInput()
+        {
+            cboTimKiemSP.SelectedIndex = -1;
+            txtTimKiemSP.Clear();
+            txtTenSPTK.Clear();
+            txtGiaMin.Clear();
+            txtGiaMax.Clear();
+            cboTrangThai.SelectedIndex = -1;
+            hienThiPlaceHolderSanPham();
+        }
         private void rdoTimNangCao_CheckedChanged(object sender, EventArgs e)
         {
             if (rdoTimNangCao.Checked)
@@ -499,11 +500,13 @@ namespace GUI.GUI_UC
                 rdoTimCoBan.Checked = false;
                 txtTimKiemSP.Enabled = false;
                 cboTimKiemSP.Enabled = false;
+                resetInput();
             }
             else
             {
                 txtTimKiemSP.Enabled = true;
                 cboTimKiemSP.Enabled = true;
+                resetInput();
             }
         }
 
@@ -517,6 +520,7 @@ namespace GUI.GUI_UC
                 txtTenSPTK.Enabled = false;
                 cboTrangThai.Enabled = false;
                 cboLoaiSP.Enabled = false;
+                resetInput();
             }
             else
             {
@@ -525,6 +529,7 @@ namespace GUI.GUI_UC
                 txtTenSPTK.Enabled = true;
                 cboTrangThai.Enabled = true;
                 cboLoaiSP.Enabled = true;
+                resetInput();
             }
         }
 

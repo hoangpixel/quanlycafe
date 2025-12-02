@@ -69,5 +69,15 @@ namespace BUS
             heSoDAO data = new heSoDAO();
             return data.layDanhSachHeSoTheoNL(maNL);
         }
+
+        public bool kiemTraTrungHeSo(int maNL,int maDV)
+        {
+            heSoDTO hs = ds.FirstOrDefault(x => x.MaDonVi == maDV && x.MaNguyenLieu == maNL);
+            if(hs != null)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

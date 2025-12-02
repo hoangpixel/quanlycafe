@@ -185,5 +185,7 @@ namespace DAO
                 DBConnect.CloseConnection(conn);
             }
         }
+
+        public bool themQuyenVaoTaiKhoan()
     }
 }

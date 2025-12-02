@@ -359,6 +359,12 @@ namespace GUI.GUI_CRUD
                 return;
             }
 
+            if(busHeSo.kiemTraTrungHeSo(maNL,maDV))
+            {
+                MessageBox.Show("Hệ số bạn vừa nhập đã tồn tại rồi", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             decimal heso = (decimal)txtHeSo.Value;
             heSoBUS bus = new heSoBUS();
             heSoDTO ct = new heSoDTO();
@@ -538,10 +544,12 @@ namespace GUI.GUI_CRUD
                 return;
             }
             string tim = txtTimHS.Text.ToLower().Trim();
-            string giaChiChon = cboTimHS.SelectedValue.ToString();
+            string giaChiChon = cboTimHS.SelectedItem.ToString();
             List<heSoDTO> dsTim = new List<heSoDTO>();
             BindingList<heSoDTO> dsHS = new heSoBUS().LayDanhSach();
             BindingList<nguyenLieuDTO> dsNL = new nguyenLieuBUS().LayDanhSach();
+            BindingList<donViDTO> dsDV = new donViBUS().LayDanhSach();
+
             if (giaChiChon == "Mã NL")
             {
                 dsTim = (from item in dsHS
@@ -558,6 +566,74 @@ namespace GUI.GUI_CRUD
                          orderby nl.MaNguyenLieu
                          select heso).ToList();
             }
+
+            if(giaChiChon == "Mã ĐV")
+            {
+                dsTim = (from heso in dsHS
+                         where heso.MaDonVi.ToString().Contains(tim)
+                         orderby heso.MaDonVi
+                         select heso).ToList();
+;           }
+
+            if(giaChiChon == "Tên ĐV")
+            {
+                dsTim = (from heso in dsHS
+                         join dv in dsDV on heso.MaDonVi equals dv.MaDonVi
+                         where dv.TenDonVi.ToLower().Contains(tim)
+                         orderby dv.MaDonVi
+                         select heso).ToList();
+            }
+
+            if(giaChiChon == "Hệ số Min")
+            {
+                decimal heSoTim;
+                bool isNumber = decimal.TryParse(txtTimHS.Text.Trim(), out heSoTim);
+
+                if (isNumber)
+                {
+                    dsTim = (from heso in dsHS
+                             where heso.HeSo <= heSoTim
+                             orderby heso.HeSo
+                             select heso).ToList();
+                }
+                else
+                {
+                    MessageBox.Show("Vui lòng nhập hệ số là một con số hợp lệ", "Lỗi định dạng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTimHS.Focus();
+                    return;
+                }
+            }
+
+            if (giaChiChon == "Hệ số Max")
+            {
+                decimal heSoTim;
+                bool isNumber = decimal.TryParse(txtTimHS.Text.Trim(), out heSoTim);
+
+                if (isNumber)
+                {
+                    dsTim = (from heso in dsHS
+                             where heso.HeSo >= heSoTim
+                             orderby heso.HeSo
+                             select heso).ToList();
+                }
+                else
+                {
+                    MessageBox.Show("Vui lòng nhập hệ số là một con số hợp lệ", "Lỗi định dạng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTimHS.Focus();
+                    return;
+                }
+            }
+
+            if(dsTim != null && dsTim.Count > 0)
+            {
+                BindingList<heSoDTO> dsBinding = new BindingList<heSoDTO>(dsTim);
+                loadDanhSachHeSo(dsBinding);
+                loadFontChuVaSizeTableHeSo();
+            }else
+            {
+                MessageBox.Show("Không tìm thấy kết quả", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
         }
 
         private void btnChonDV_Click(object sender, EventArgs e)
@@ -571,6 +647,20 @@ namespace GUI.GUI_CRUD
                     txtMaDV.Text = form.tenDonVi;
                 }
             }
+        }
+
+        private void btnRsDV_Click(object sender, EventArgs e)
+        {
+            txtTenNL.Clear();
+            maNL = -1;
+            txtMaDV.Clear();
+            maDV = -1;
+            txtHeSo.Value = 0.001M;
+            cboTimHS.SelectedIndex = -1;
+            txtTimHS.Clear();
+            BindingList<heSoDTO> ds = new heSoBUS().LayDanhSach();
+            loadDanhSachHeSo(ds);
+            loadFontChuVaSizeTableHeSo();
         }
     }
 }

@@ -352,14 +352,12 @@ namespace GUI.GUI_UC
 
         private void timKiemNangCaoNL()
         {
-            // 1. Xử lý chuỗi (Loại bỏ placeholder nếu người dùng không nhập)
             string tenNL = txtTenNLTK.Text.Trim();
-            if (tenNL == "Tên NL") tenNL = null; // Kiểm tra đúng text placeholder
+            if (tenNL == "Tên NL") tenNL = null;
 
             string tenDV = txtTenDonViTK.Text.Trim();
             if (tenDV == "Tên ĐV") tenDV = null;
 
-            // 2. Xử lý ComboBox (Dùng SelectedValue thay vì SelectedIndex)
             int trangThaiDV = -1;
             if (cbTrangThaiNL.SelectedIndex != -1 && cbTrangThaiNL.SelectedValue != null)
             {
@@ -369,10 +367,8 @@ namespace GUI.GUI_UC
                 }
             }
 
-            // 3. Xử lý số (Min/Max)
             float tonMin = -1;
             string strMin = txtMinNL.Text.Trim();
-            // Phải chắc chắn text không phải là Placeholder mới parse
             if (!string.IsNullOrWhiteSpace(strMin) && strMin != "Tồn min")
             {
                 float.TryParse(strMin, out tonMin);
@@ -385,7 +381,6 @@ namespace GUI.GUI_UC
                 float.TryParse(strMax, out tonMax);
             }
 
-            // 4. Validate Min > Max
             if (tonMin != -1 && tonMax != -1 && tonMin > tonMax)
             {
                 MessageBox.Show("Tồn tối thiểu không được lớn hơn tồn tối đa", "Lỗi nhập liệu",
@@ -393,7 +388,6 @@ namespace GUI.GUI_UC
                 return;
             }
 
-            // 5. Validate không nhập gì cả
             if (string.IsNullOrEmpty(tenNL) && string.IsNullOrEmpty(tenDV) &&
                 tonMin == -1 && tonMax == -1 && trangThaiDV == -1)
             {
@@ -401,7 +395,6 @@ namespace GUI.GUI_UC
                 return;
             }
 
-            // 6. Gọi BUS
             BindingList<nguyenLieuDTO> dskq = busNguyenLieu.timKiemNangCao(trangThaiDV, tenNL, tenDV, tonMin, tonMax);
 
             if (dskq != null && dskq.Count > 0)
@@ -411,13 +404,11 @@ namespace GUI.GUI_UC
             }
             else
             {
-                // Nên clear DataGridView hoặc thông báo
                 MessageBox.Show("Không tìm thấy kết quả", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                // loadDanhSachNguyenLieu(new BindingList<nguyenLieuDTO>()); // Dòng này tùy chọn để xóa lưới
+                return;
             }
         }
 
-        // dòng này là để cho khi mà mình load trang nó kh chọn dòng đầu nha
         private void tableNguyenLieu_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             tableNguyenLieu.ClearSelection();

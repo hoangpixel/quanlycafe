@@ -406,7 +406,60 @@ namespace GUI.GUI_UC
         }
         public void timKiemNangCao()
         {
+            string tenSP = string.IsNullOrWhiteSpace(txtTenSP.Text) ? null : txtTenSP.Text.Trim();
+            string tenNL = string.IsNullOrWhiteSpace(txtTenNL.Text) ? null : txtTenNL.Text.Trim();
+            string tenDV = string.IsNullOrWhiteSpace(txtTenDV.Text) ? null : txtTenDV.Text.Trim();
 
+            if(tenSP == "Tên SP")
+            {
+                tenSP = null;
+            }
+            if(tenNL == "Tên NL")
+            {
+                tenNL = null;
+            }
+            if(tenDV == "Tên ĐV")
+            {
+                tenDV = null;
+            }
+
+            float slMin = -1;
+            string strMin = txtSoLuongMin.Text.Trim();
+            if (!string.IsNullOrWhiteSpace(strMin) && strMin != "SL min")
+            {
+                float.TryParse(strMin, out slMin);
+            }
+
+            float slMax = -1;
+            string strMax = txtSoLuongMax.Text.Trim();
+            if (!string.IsNullOrWhiteSpace(strMax) && strMax != "SL max")
+            {
+                float.TryParse(strMax, out slMax);
+            }
+
+            if(slMin != -1 && slMax != -1 && slMin > slMax)
+            {
+                MessageBox.Show("Số lượng tối thiểu không được lớn hơn tồn tối đa", "Lỗi nhập liệu",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if(tenSP == null && tenNL == null && tenDV == null && slMin == -1 && slMax == -1)
+            {
+                MessageBox.Show("Vui lòng nhập ít nhất một điều kiện", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            BindingList<congThucDTO> dsTimKiemNangCao = busCongThuc.timKiemNangCao(tenSP, tenNL, tenDV, slMin, slMax);
+            if(dsTimKiemNangCao != null && dsTimKiemNangCao.Count > 0)
+            {
+                loadDanhSachCongThuc(dsTimKiemNangCao);
+                loadFontChuVaSize();
+            }else
+            {
+                MessageBox.Show("Không tìm thấy kết quả", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
         }
     }
 }

@@ -167,6 +167,12 @@
     <Compile Include="GUI_CRUD\Form1ChonBan.Designer.cs">
       <DependentUpon>Form1ChonBan.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_CRUD\insertGanQuyenChoTaiKhoan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\insertGanQuyenChoTaiKhoan.Designer.cs">
+      <DependentUpon>insertGanQuyenChoTaiKhoan.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_CRUD\insertKhachHang.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -483,6 +489,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\Form1ChonBan.resx">
       <DependentUpon>Form1ChonBan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\insertGanQuyenChoTaiKhoan.resx">
+      <DependentUpon>insertGanQuyenChoTaiKhoan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\insertKhachHang.resx">
       <DependentUpon>insertKhachHang.cs</DependentUpon>

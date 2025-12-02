@@ -81,14 +81,14 @@ namespace GUI.GUI_CRUD
 
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
 
-            Font headerFont = new Font("Segoe UI", 10, FontStyle.Bold);
+            // --- ĐÃ XÓA: Font cứng (Segoe UI 10) ---
             Color headerColor = Color.FromArgb(64, 64, 64);
 
             // Cột 0: Tên Quyền
             Label lblHeaderQuyen = new Label()
             {
                 Text = "Tên Quyền / Chức năng",
-                Font = headerFont,
+                // Không set Font ở đây nữa, để FontManager tự lo
                 ForeColor = headerColor,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Dock = DockStyle.Fill,
@@ -103,7 +103,7 @@ namespace GUI.GUI_CRUD
                 Label lblHeader = new Label()
                 {
                     Text = crudHeaders[i],
-                    Font = headerFont,
+                    // Không set Font ở đây nữa
                     ForeColor = headerColor,
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill
@@ -129,7 +129,7 @@ namespace GUI.GUI_CRUD
                 BindingList<phanquyenDTO> listPermissions = pqBUS.LayChiTietQuyenTheoVaiTro(maVaiTro);
 
                 int row = 1;
-                Font rowFont = new Font("Segoe UI", 10, FontStyle.Regular);
+                // --- ĐÃ XÓA: Font rowFont = new Font(...) ---
 
                 foreach (phanquyenDTO item in listPermissions)
                 {
@@ -139,16 +139,15 @@ namespace GUI.GUI_CRUD
 
                     int maQuyen = item.MaQuyen;
 
-                    // --- [QUAY LẠI DÙNG LABEL] ---
                     Label lblQuyen = new Label();
                     lblQuyen.Text = item.TenQuyen;
-                    lblQuyen.Font = rowFont;
+                    // Không gán Font cứng, để nó kế thừa hoặc được set bởi FontManager sau đó
 
                     // Cấu hình để Label tự xuống dòng nếu tên quá dài
                     lblQuyen.AutoSize = true;
                     lblQuyen.Dock = DockStyle.Fill;
                     lblQuyen.TextAlign = ContentAlignment.MiddleLeft;
-                    lblQuyen.Padding = new Padding(10, 5, 0, 5); // Padding cho thoáng
+                    lblQuyen.Padding = new Padding(10, 5, 0, 5);
 
                     tableLayoutPanel1.Controls.Add(lblQuyen, 0, row);
 
@@ -167,6 +166,12 @@ namespace GUI.GUI_CRUD
                 tableLayoutPanel1.ResumeLayout(true);
                 gbPhanQuyen.ResumeLayout(true);
                 pnlPhanQuyen.ResumeLayout(true);
+
+                // --- QUAN TRỌNG NHẤT: Áp dụng lại Font chuẩn cho các control vừa mới sinh ra ---
+                // Vì các Label/Checkbox mới sinh ra sẽ mang font mặc định của hệ thống
+                // nên cần gọi lại hàm này để đồng bộ với font của FontManager.
+                FontManager.ApplyFontToAllControls(this);
+
                 this.ResumeLayout(true);
             }
         }
