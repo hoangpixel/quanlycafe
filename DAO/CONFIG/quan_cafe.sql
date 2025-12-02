@@ -539,7 +539,7 @@ CREATE TABLE `taikhoan` (
   `MATKHAU` varchar(255) NOT NULL,
   `TRANGTHAI` tinyint(1) NOT NULL DEFAULT 1,
   `NGAYTAO` datetime NOT NULL DEFAULT current_timestamp(),
-  `MAVAITRO` int(11) NOT NULL
+  `MAVAITRO` int(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
