@@ -1,10 +1,4 @@
-// T�N FILE: phieuNhapDTO.cs
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace DTO
 {
@@ -12,22 +6,10 @@ namespace DTO
     {
         public int MaPN { get; set; }
         public int MaNCC { get; set; }
-        public int MANHANVIEN { get; set; }      
-        public decimal TongTien { get; set; } 
-        public DateTime ThoiGian { get; set; } = DateTime.Now;
-        public int TrangThai { get; set; } = 1;
-
-        
-        public List<ctPhieuNhapDTO> ChiTiet { get; set; } = new List<ctPhieuNhapDTO>();
-        public string TenNCC { get; set; } 
-        public string TenNV { get; set; }  
-        public phieuNhapDTO() { }
-
-        public phieuNhapDTO(int maNcc)
-        {
-            MaNCC = maNcc;
-            ThoiGian = DateTime.Now;
-            TrangThai = 1;
-        }
+        public int MaNhanVien { get; set; }
+        public DateTime ThoiGian { get; set; }
+        public decimal TongTien { get; set; }
+        public int TrangThai { get; set; } // 0: Chưa xử lý, 1: Đã nhập kho
+        public int TrangThaiXoa { get; set; } // 1: Chưa xóa
     }
 }

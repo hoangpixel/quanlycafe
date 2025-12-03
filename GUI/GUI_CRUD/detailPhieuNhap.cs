@@ -51,7 +51,7 @@ namespace GUI.GUI_CRUD
                 txtNhaCungCap.Text = ncc != null ? ncc.TenNCC : "Không xác định";
 
 
-                var nv = nvBus.LayDanhSach().FirstOrDefault(x => x.MaNhanVien == pn.MANHANVIEN);
+                var nv = nvBus.LayDanhSach().FirstOrDefault(x => x.MaNhanVien == pn.MaNhanVien);
                 txtNhanVien.Text = nv != null ? nv.HoTen : "Không xác định";
             }
         }

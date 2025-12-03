@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2025 at 03:28 PM
+-- Generation Time: Dec 03, 2025 at 08:20 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -183,15 +183,14 @@ DELIMITER ;
 --
 
 CREATE TABLE `ctphieunhap` (
-  `MACTPN` int(11) NOT NULL,
-  `MAPN` int(11) DEFAULT NULL,
-  `MANGUYENLIEU` int(11) DEFAULT NULL,
-  `MADONVI` int(11) DEFAULT NULL,
-  `SOLUONG` decimal(10,2) DEFAULT NULL,
-  `SOLUONGCOSO` decimal(10,2) DEFAULT NULL,
-  `DONGIA` decimal(10,2) DEFAULT NULL,
-  `THANHTIEN` decimal(10,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `MAPN` int(11) NOT NULL,
+  `MANGUYENLIEU` int(11) NOT NULL,
+  `MADONVI` int(11) NOT NULL,
+  `SOLUONG` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `SOLUONGCOSO` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `DONGIA` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `THANHTIEN` decimal(12,2) NOT NULL DEFAULT 0.00
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -539,7 +538,7 @@ CREATE TABLE `taikhoan` (
   `MATKHAU` varchar(255) NOT NULL,
   `TRANGTHAI` tinyint(1) NOT NULL DEFAULT 1,
   `NGAYTAO` datetime NOT NULL DEFAULT current_timestamp(),
-  `MAVAITRO` int(11)
+  `MAVAITRO` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -617,10 +616,9 @@ ALTER TABLE `cthd`
 -- Indexes for table `ctphieunhap`
 --
 ALTER TABLE `ctphieunhap`
-  ADD PRIMARY KEY (`MACTPN`),
-  ADD KEY `MAPN` (`MAPN`),
-  ADD KEY `MANGUYENLIEU` (`MANGUYENLIEU`),
-  ADD KEY `MADONVI` (`MADONVI`);
+  ADD PRIMARY KEY (`MAPN`,`MANGUYENLIEU`,`MADONVI`),
+  ADD KEY `fk_ctpn_nl` (`MANGUYENLIEU`),
+  ADD KEY `fk_ctpn_dv` (`MADONVI`);
 
 --
 -- Indexes for table `donvi`
@@ -771,12 +769,6 @@ ALTER TABLE `calam`
   MODIFY `MACA` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ctphieunhap`
---
-ALTER TABLE `ctphieunhap`
-  MODIFY `MACTPN` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `donvi`
 --
 ALTER TABLE `donvi`
@@ -895,9 +887,9 @@ ALTER TABLE `cthd`
 -- Constraints for table `ctphieunhap`
 --
 ALTER TABLE `ctphieunhap`
-  ADD CONSTRAINT `ctphieunhap_ibfk_1` FOREIGN KEY (`MAPN`) REFERENCES `phieunhap` (`MAPN`),
-  ADD CONSTRAINT `ctphieunhap_ibfk_2` FOREIGN KEY (`MANGUYENLIEU`) REFERENCES `nguyenlieu` (`MANGUYENLIEU`),
-  ADD CONSTRAINT `ctphieunhap_ibfk_3` FOREIGN KEY (`MADONVI`) REFERENCES `donvi` (`MADONVI`);
+  ADD CONSTRAINT `fk_ctpn_dv` FOREIGN KEY (`MADONVI`) REFERENCES `donvi` (`MADONVI`),
+  ADD CONSTRAINT `fk_ctpn_nl` FOREIGN KEY (`MANGUYENLIEU`) REFERENCES `nguyenlieu` (`MANGUYENLIEU`),
+  ADD CONSTRAINT `fk_ctpn_pn` FOREIGN KEY (`MAPN`) REFERENCES `phieunhap` (`MAPN`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `hesodonvi`

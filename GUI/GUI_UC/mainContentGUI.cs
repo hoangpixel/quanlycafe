@@ -72,7 +72,7 @@ namespace GUI.GUI_UC
                     switch (page)
                     {
                         case "home": uc = new banHangGUI(); break;
-                        case "nhaphang": uc = new nhapHangGUI(); break;
+                        case "nhaphang": uc = new nhapHangrielGUI(); break;
                         case "sanpham": uc = new sanPhamGUI(); break;
                         case "nguyenlieu": uc = new nguyenLieuGUI(); break;
                         case "congthuc": uc = new congThucGUI(); break;
