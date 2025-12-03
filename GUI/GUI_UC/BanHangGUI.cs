@@ -11,9 +11,11 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Interop;
 
 namespace GUI.GUI_UC
 {
@@ -27,7 +29,7 @@ namespace GUI.GUI_UC
         private BindingList<hoaDonDTO> dsHoaDon;
         private hoaDonBUS busHoaDon = new hoaDonBUS();
         private hoaDonDAO hoaDonDAO = new hoaDonDAO();
-
+        private int maHDDangChon = 0;
         public banHangGUI()
         {
             InitializeComponent();
@@ -146,14 +148,12 @@ namespace GUI.GUI_UC
             dgvSanPham.DataSource = null;
             dgvSanPham.DataSource = danhSachSP;
 
-            // XÓA CỘT CŨ
             dgvSanPham.Columns.Clear();
 
-            // THÊM CỘT
             dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaSP", HeaderText = "Mã SP" });
             dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TenSP", HeaderText = "Tên SP" });
-            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên loại" });   // Không DataPropertyName
-            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên nhóm" });   // Không DataPropertyName
+            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên loại" });   
+            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên nhóm" });   
             dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "Gia",
@@ -172,14 +172,11 @@ namespace GUI.GUI_UC
 
         private void LoadDanhSachHoaDon()
         {
-                dsHoaDon = busHoaDon.LayDanhSach(); // Lấy hết từ DB
-
-                // Gán DataSource
+                dsHoaDon = busHoaDon.LayDanhSach();
                 dgvHoaDon.AutoGenerateColumns = false;
                 dgvHoaDon.DataSource = null; // reset
                 dgvHoaDon.DataSource = dsHoaDon;
 
-                // Tạo lại cột (nếu chưa có)
                 if (dgvHoaDon.Columns.Count == 0)
                 {
                     dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
@@ -194,7 +191,8 @@ namespace GUI.GUI_UC
                         HeaderText = "Bàn",
                         Width = 60
                     });
-                    dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
+                
+                dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
                     {
                         DataPropertyName = "ThoiGianTao",
                         HeaderText = "Thời gian",
@@ -211,13 +209,13 @@ namespace GUI.GUI_UC
                 }
 
                 dgvHoaDon.ClearSelection();
-                dgvHoaDon.CurrentCell = null; // cực kỳ quan trọng!
+                dgvHoaDon.CurrentCell = null; 
 
                 this.BeginInvoke((MethodInvoker)delegate
                 {
                     dgvHoaDon.ClearSelection();
                     dgvHoaDon.CurrentCell = null;
-                    CapNhatTrangThaiNutHoaDon(); // tắt hết nút
+                    CapNhatTrangThaiNutHoaDon();
                 });
 
             AnNutHoaDon();
@@ -308,7 +306,6 @@ namespace GUI.GUI_UC
                     txtBan.Text = maBanChon.ToString();
                     txtBan.Tag = maBanChon;
 
-                    // TỰ ĐỘNG LOAD LẠI DANH SÁCH HÓA ĐƠN ĐỂ HIỂN THỊ BÀN MỚI TẠO
                     LoadDanhSachHoaDon();
                 }
             }
@@ -423,7 +420,6 @@ namespace GUI.GUI_UC
         {
             Console.WriteLine($"[DEBUG] txtBan.Text = '{txtBan.Text}'");
 
-            // 1. Kiểm tra giỏ hàng
             if (gioHang.Count == 0)
             {
                 MessageBox.Show("Giỏ hàng trống! Vui lòng thêm món ăn.", "Chưa có món",
@@ -431,7 +427,6 @@ namespace GUI.GUI_UC
                 return;
             }
 
-            // 2. Kiểm tra bàn
             if (txtBan.Tag == null || !int.TryParse(txtBan.Tag.ToString(), out int maBan))
             {
                 MessageBox.Show("Vui lòng chọn bàn hợp lệ!", "Lỗi bàn",
@@ -439,12 +434,10 @@ namespace GUI.GUI_UC
                 return;
             }
 
-            // 3. Kiểm tra khách hàng (có thể là khách lẻ → cho phép null)
             int? maKH = null;
             if (txtKhachHang.Tag != null && int.TryParse(txtKhachHang.Tag.ToString(), out int kh))
                 maKH = kh;
 
-            // 4. Kiểm tra nhân viên (bắt buộc)
             if (txtNhanVien.Tag == null || !int.TryParse(txtNhanVien.Tag.ToString(), out int maNV))
             {
                 MessageBox.Show("Vui lòng chọn nhân viên phục vụ!", "Lỗi nhân viên",
@@ -452,10 +445,8 @@ namespace GUI.GUI_UC
                 return;
             }
             int maTT = Convert.ToInt32(cbThanhToan.SelectedValue);
-            // 5. Tính tổng tiền
             decimal tongTien = gioHang.Sum(g => g.ThanhTien);
 
-            // 6. Xác nhận tạo hóa đơn (hộp thoại đẹp)
             string message = $@"XÁC NHẬN TẠO HÓA ĐƠN
             ────────────────────────────
             Bàn số: {maBan}
@@ -478,19 +469,18 @@ namespace GUI.GUI_UC
                 return;
             }
 
-
-
-            // 7. Tạo hóa đơn DTO
             var hd = new hoaDonDTO
             {
                 MaBan = maBan,
-                MaKhachHang = maKH ??0,           // có thể null → khách lẻ
+                MaKhachHang = maKH ??0,   
                 MaNhanVien = maNV,
-                MaTT = maTT,                     // mặc định hình thức thanh toán tiền mặt
+                MaTT = maTT,       
                 ThoiGianTao = DateTime.Now,
-                TrangThai = true             // chưa thanh toán
+                TrangThai = true
             };
-
+            banBUS busBan = new banBUS();
+            busBan.DoiTrangThai(maBan,busHoaDon.LayMa());
+            
             // 8. Gọi BUS thêm hóa đơn
             int maHD = busHoaDon.ThemHoaDon(hd, gioHang);
 
@@ -503,7 +493,6 @@ namespace GUI.GUI_UC
                 Nhân viên: {txtNhanVien.Text}",
                                 "Thành công!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // 9. Dọn dẹp giao diện
                 gioHang.Clear();
                 CapNhatGioHang();
                 txtBan.Clear();
@@ -511,12 +500,7 @@ namespace GUI.GUI_UC
                 txtKhachHang.Clear(); txtKhachHang.Tag = null;
                 txtNhanVien.Clear(); txtNhanVien.Tag = null;
 
-                // 10. Chuyển sang tab hóa đơn + reload
                 tabControl1.SelectedTab = tabHoaDon;
-                //LoadDanhSachHoaDon();
-
-                // 11. Cập nhật trạng thái bàn (đổi màu thành đang sử dụng)
-                //CapNhatTrangThaiBan(maBan, dangSuDung: true);
             }
             else
             {
@@ -527,7 +511,7 @@ namespace GUI.GUI_UC
             {
                 if (frm is FormChonBan chonBanForm)
                 {
-                    chonBanForm.RefreshBan(); // hàm public trong FormChonBan
+                    chonBanForm.RefreshBan(); 
                 }
             }
         }
@@ -555,8 +539,6 @@ namespace GUI.GUI_UC
 
                 numSoLuong.Enabled = true;
                 numSoLuong.Visible = true;
-
-                // Chỉ set lại khi người dùng đang chọn SP mới
                 numSoLuong.Value = 0;
             }
             else
@@ -625,12 +607,16 @@ namespace GUI.GUI_UC
 
         private void btnChiTietHD_Click(object sender, EventArgs e)
         {
-            if (dgvHoaDon.CurrentRow == null) return;
-            int maHD = dsHoaDon[dgvHoaDon.CurrentRow.Index].MaHD;
-            if (dgvHoaDon.CurrentRow == null) return;
-
-            var frm = new frmChiTietHD(maHD);  // TRUYỀN MÃ HÓA ĐƠN VÀO ĐÂY!!!
-            frm.ShowDialog();
+            if (dgvHoaDon.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = dgvHoaDon.SelectedRows[0];
+                hoaDonDTO hd = row.DataBoundItem as hoaDonDTO;
+                using(frmChiTietHD form = new frmChiTietHD(hd))
+                {
+                    form.StartPosition = FormStartPosition.CenterParent;
+                    form.ShowDialog();
+                }
+            }
         }
 
         private void btnRefreshSP_Click(object sender, EventArgs e)
@@ -642,49 +628,39 @@ namespace GUI.GUI_UC
         {
             if (e.RowIndex < 0 || e.RowIndex >= gioHang.Count)
             {
-                // Không có dòng hợp lệ
                 btThemSP.Enabled = false;
                 btnXoaSP.Enabled = false;
                 button2.Enabled = false;
                 numSoLuong.Visible = false;
                 return;
             }
-
-            // Bật các nút liên quan đến giỏ hàng
             btnXoaSP.Enabled = true;
-            button2.Enabled = true; // nút cập nhật số lượng
+            button2.Enabled = true;
             numSoLuong.Enabled = true;
             numSoLuong.Visible = true;
 
-            // LẤY ĐÚNG SẢN PHẨM TỪ GIỎ HÀNG
             var itemGioHang = gioHang[e.RowIndex];
             var spTrongGio = danhSachSP.FirstOrDefault(s => s.MaSP == itemGioHang.MaSP);
 
             if (spTrongGio != null)
             {
-                // Hiển thị chi tiết sản phẩm từ danh sách đầy đủ (có ảnh, loại, v.v.)
                 HienThiChiTietSanPham(spTrongGio);
 
-                // Tự động điền số lượng hiện tại trong giỏ để người dùng chỉnh sửa
                 numSoLuong.Value = itemGioHang.SoLuong;
             }
 
-            // Cập nhật lại nút thêm (không cho thêm khi đang chọn trong giỏ)
             btThemSP.Enabled = false;
         }
 
         private void dgvHoaDon_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // 1. Kiểm tra index hợp lệ (tránh click vào header)
             if (e.RowIndex < 0) return;
 
-            // 2. Xử lý logic Click lần 2 để bỏ chọn (như code cũ của bạn)
             if (e.RowIndex == lastSelectedRowIndex)
             {
                 dgvHoaDon.ClearSelection();
                 lastSelectedRowIndex = -1;
 
-                // Khi bỏ chọn thì tắt hết nút
                 btnChiTietHD.Enabled = false;
                 btnDonBan.Enabled = false;
                 btnXoaHD.Enabled = false;
@@ -692,32 +668,21 @@ namespace GUI.GUI_UC
                 return;
             }
 
-            // 3. Ghi nhận dòng mới chọn
             lastSelectedRowIndex = e.RowIndex;
 
-            // 4. LẤY DỮ LIỆU TỪ DÒNG ĐƯỢC CHỌN
-            // Lưu ý: Phải ép kiểu (cast) về đúng DTO của bạn
             var row = dgvHoaDon.Rows[e.RowIndex];
             var hd = row.DataBoundItem as hoaDonDTO;
 
-            if (hd == null) return; // Phòng hờ null
-
-            // 5. KIỂM TRA KHÓA SỔ ĐỂ ẨN/HIỆN NÚT
-            // Giả sử KhoaSo là kiểu int (1 hoặc 0). Nếu trong DTO bạn để bool thì sửa thành (hd.KhoaSo == true)
+            if (hd == null) return;
             if (hd.KhoaSo == 1)
             {
-                // === TRƯỜNG HỢP: ĐÃ KHÓA SỔ (Khách đã về) ===
-                // Chỉ cho xem chi tiết, CẤM sửa/xóa/dọn bàn
-                btnChiTietHD.Enabled = true;  // Vẫn nên cho xem
-
-                btnDonBan.Enabled = false;    // Đã dọn rồi thì không dọn nữa
-                btnXoaHD.Enabled = false;     // Cấm xóa
-                btnSuaHD.Enabled = false;     // Cấm sửa
+                btnChiTietHD.Enabled = true; 
+                btnDonBan.Enabled = false;
+                btnXoaHD.Enabled = false;
+                btnSuaHD.Enabled = false;
             }
             else
             {
-                // === TRƯỜNG HỢP: ĐANG PHỤC VỤ ===
-                // Mở hết các nút để thao tác
                 btnChiTietHD.Enabled = true;
                 btnDonBan.Enabled = true;
                 btnXoaHD.Enabled = true;
@@ -732,7 +697,7 @@ namespace GUI.GUI_UC
                 if (f.ShowDialog() == DialogResult.OK)
                 {
                     txtKhachHang.Text = f.TenKHChon;
-                    txtKhachHang.Tag = f.MaKHChon; // lưu mã khách hàng
+                    txtKhachHang.Tag = f.MaKHChon;
                 }
             }
         }
@@ -744,7 +709,7 @@ namespace GUI.GUI_UC
                 if (f.ShowDialog() == DialogResult.OK)
                 {
                     txtNhanVien.Text = f.TenNVChon;
-                    txtNhanVien.Tag = f.MaNVChon; // lưu mã khách hàng
+                    txtNhanVien.Tag = f.MaNVChon;
                 }
             }
         }
@@ -765,22 +730,20 @@ namespace GUI.GUI_UC
                                 MessageBoxIcon.Warning);
                 return;
             }
-
             var hd = dsHoaDon[dgvHoaDon.CurrentRow.Index];
 
             string msg =
-        $@"XÁC NHẬN XÓA HÓA ĐƠN
-        ────────────────────────────
+            $@"XÁC NHẬN XÓA HÓA ĐƠN
+            ────────────────────────────
 
-        Bạn có chắc muốn xóa hóa đơn này không?";
+            Bạn có chắc muốn xóa hóa đơn này không?";
 
             if (MessageBox.Show(msg, "Xóa hóa đơn",
                                 MessageBoxButtons.YesNo,
                                 MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                // 🔥 Chỉ chuyển trạng thái của hóa đơn, không xoá!
                 bool ok = busHoaDon.XoaHoaDon(hd.MaHD);
-
+                busHoaDon.doiTrangThaiBanSauKhiXoaHD(hd.MaHD);                
                 if (ok)
                 {
                     MessageBox.Show(
@@ -791,11 +754,10 @@ namespace GUI.GUI_UC
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 
-                    // 🎯 Cập nhật bàn trong FormChonBan
                     foreach (Form f in Application.OpenForms)
                         if (f is FormChonBan chonBan)
                             chonBan.CapNhatBanTrong(hd.MaBan);
-
+                    
                 }
                 else
                 {
@@ -856,7 +818,6 @@ namespace GUI.GUI_UC
 
             if (!coChonDong)
             {
-                // CHƯA CHỌN GÌ → TẮT HẾT
                 btnSuaHD.Enabled = false;
                 btnXoaHD.Enabled = false;
                 btnChiTietHD.Enabled = false;
@@ -867,14 +828,14 @@ namespace GUI.GUI_UC
 
             var hd = dsHoaDon[dgvHoaDon.CurrentRow.Index];
 
-            if (hd.TrangThai == true) // đã thanh toán / đã xóa
+            if (hd.TrangThai == true) 
             {
                 btnChiTietHD.Enabled = true;
                 btnSuaHD.Enabled = false;
                 btnXoaHD.Enabled = false;
                 btnDonBan.Enabled = false;
             }
-            else // chưa thanh toán → cho phép thao tác
+            else
             {
                 btnChiTietHD.Enabled = true;
                 btnSuaHD.Enabled = true;
@@ -886,6 +847,69 @@ namespace GUI.GUI_UC
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             AnNutHoaDon();
+        }
+
+        private void btnSuaHD_Click(object sender, EventArgs e)
+        {
+            if(dgvHoaDon.SelectedRows.Count >0 )
+            {
+                DataGridViewRow row = dgvHoaDon.SelectedRows[0];
+                hoaDonDTO hd = row.DataBoundItem as hoaDonDTO;
+
+                using(updateHoaDon form = new updateHoaDon(hd))
+                {
+                    form.StartPosition = FormStartPosition.CenterParent;
+                    form.ShowDialog();
+                }
+            }
+        }
+
+        private void btnDonBan_Click(object sender, EventArgs e)
+        {
+            if (dgvHoaDon.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = dgvHoaDon.SelectedRows[0];
+                hoaDonDTO hd = row.DataBoundItem as hoaDonDTO;
+                string msg =
+                $@"XÁC NHẬN XÓA HÓA ĐƠN
+                ────────────────────────────
+
+                Bạn có chắc muốn dọn bàn này không?";
+                if (MessageBox.Show(msg, "Khoa so hóa đơn",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+
+                    foreach (hoaDonDTO hdDs in dsHoaDon)
+                    {
+                        if (hd.MaBan == hdDs.MaBan)
+                        {
+                            busHoaDon.UpdateKhoaSo(hd.MaBan);
+                        }
+                    }
+
+                    busHoaDon.doiTrangThaiBanSauKhiXoaHD(hd.MaHD);
+
+                    MessageBox.Show(
+                        $@"KHOA SO THÀNH CÔNG!
+                        Hóa đơn HD{hd.MaHD} đã xóa hoàn tất.
+                        Bàn {hd.MaBan} đã được giải phóng.",
+                        "Thành công",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    foreach (Form f in Application.OpenForms)
+                        if (f is FormChonBan chonBan)
+                            chonBan.CapNhatBanTrong(hd.MaBan);
+
+                    if (dgvHoaDon.DataSource != null)
+                    {
+                        dgvHoaDon.DataSource = null; 
+                        dgvHoaDon.DataSource = dsHoaDon; 
+                        dgvHoaDon.Refresh();
+                    }
+                }
+            }
         }
     }
  }

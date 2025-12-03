@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppDbContext.cs" />
+    <Compile Include="banDAO.cs" />
     <Compile Include="CONFIG\DBConnection.cs" />
     <Compile Include="congThucDAO.cs" />
     <Compile Include="ctPhieuNhapDAO.cs" />

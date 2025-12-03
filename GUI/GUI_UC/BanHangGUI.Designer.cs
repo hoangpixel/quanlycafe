@@ -1068,6 +1068,7 @@
             this.btnDonBan.Text = "Dọn bàn";
             this.btnDonBan.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnDonBan.UseVisualStyleBackColor = true;
+            this.btnDonBan.Click += new System.EventHandler(this.btnDonBan_Click);
             // 
             // btnRefreshSP
             // 
@@ -1138,6 +1139,7 @@
             this.btnSuaHD.Text = "Sửa";
             this.btnSuaHD.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnSuaHD.UseVisualStyleBackColor = true;
+            this.btnSuaHD.Click += new System.EventHandler(this.btnSuaHD_Click);
             // 
             // panel3
             // 

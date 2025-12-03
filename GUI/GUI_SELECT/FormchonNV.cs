@@ -108,10 +108,7 @@ namespace GUI.GUI_SELECT
 
         private void dgvNhanVien_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
-            {
-                ChonNhanVien();
-            }
+
         }
 
         private void txtTimKiem_TextChanged(object sender, EventArgs e)
@@ -136,6 +133,14 @@ namespace GUI.GUI_SELECT
         private void dgvNhanVien_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             dgvNhanVien.ClearSelection();
+        }
+
+        private void dgvNhanVien_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                ChonNhanVien();
+            }
         }
     }
 }

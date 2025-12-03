@@ -1,11 +1,12 @@
-﻿using MySql.Data.MySqlClient;
-using DAO.CONFIG;
+﻿using DAO.CONFIG;
 using DTO;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data.Common;
 using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
 
 namespace DAO
 {
@@ -22,7 +23,8 @@ namespace DAO
                     hd.THOIGIANTAO, 
                     hd.TRANGTHAI,
                     hd.TONGTIEN,
-                    hd.KHOASO
+                    hd.KHOASO,
+                    hd.MATT
                 FROM hoadon hd
                 WHERE hd.TRANGTHAIXOA = 1
                 ORDER BY hd.MAHOADON DESC
@@ -44,6 +46,7 @@ namespace DAO
                         MaBan = Convert.ToInt32(reader["MABAN"]), // VARCHAR
                         ThoiGianTao = reader.GetDateTime("THOIGIANTAO"),
                         TrangThai = reader.GetBoolean("TRANGTHAI"),
+                        MaTT=reader.GetInt32("MATT"),
                         TongTien = reader.GetDecimal("TONGTIEN"),
                         KhoaSo = reader.GetInt32("KHOASO")
                     };
@@ -65,7 +68,6 @@ namespace DAO
             return ds;
         }
 
-        // 2. THÊM HÓA ĐƠN + CHI TIẾT (CÓ TRANSACTION)
         public int Them(hoaDonDTO hd, BindingList<cthoaDonDTO> dsCT)
         {
             MySqlConnection conn = DBConnect.GetConnection();
@@ -130,7 +132,7 @@ namespace DAO
                 }
 
                 tran.Commit();
-                return maHD;     // 🔥 trả về mã hóa đơn
+                return maHD;
             }
             catch (MySqlException ex)
             {
@@ -138,17 +140,13 @@ namespace DAO
                     tran.Rollback();
 
                 Console.WriteLine("Lỗi thêm hóa đơn: " + ex.Message);
-                return -1;       // báo lỗi
+                return -1;
             }
             finally
             {
                 DBConnect.CloseConnection(conn);
             }
         }
-
-
-
-        // 3. CẬP NHẬT TRẠNG THÁI HÓA ĐƠN
         public bool CapNhatTrangThai(int maHD, string trangThai)
         {
             string qry = "UPDATE hoadon SET TRANGTHAI = @TrangThai WHERE MAHOADON = @MaHD";
@@ -174,8 +172,6 @@ namespace DAO
                 DBConnect.CloseConnection(conn);
             }
         }
-
-        // 4. XÓA HÓA ĐƠN (ẨN HOẶC XÓA THẬT – TÙY YÊU CẦU)
         public bool Xoa(int maHD)
         {
             MySqlConnection conn = DBConnect.GetConnection();
@@ -186,13 +182,11 @@ namespace DAO
                 conn.Open();
                 tran = conn.BeginTransaction();
 
-                // Xóa chi tiết trước
                 string qryCT = "DELETE FROM cthd WHERE MAHOADON = @MaHD";
                 MySqlCommand cmdCT = new MySqlCommand(qryCT, conn, tran);
                 cmdCT.Parameters.AddWithValue("@MaHD", maHD);
                 cmdCT.ExecuteNonQuery();
 
-                // Xóa hóa đơn
                 string qryHD = "DELETE FROM hoadon WHERE MAHOADON = @MaHD";
                 MySqlCommand cmdHD = new MySqlCommand(qryHD, conn, tran);
                 cmdHD.Parameters.AddWithValue("@MaHD", maHD);
@@ -213,8 +207,6 @@ namespace DAO
                 DBConnect.CloseConnection(conn);
             }
         }
-
-        // 5. TÌM HÓA ĐƠN THEO MÃ
         public hoaDonDTO TimTheoMa(int maHD)
         {
             hoaDonDTO hd = null;
@@ -242,8 +234,7 @@ namespace DAO
 
             return hd;
         }
-        // Kiểm tra bàn đang có hóa đơn chưa thanh toán không
-        public bool BanDangCoHoaDonChuaThanhToan(int maBan)
+        /*public bool BanDangCoHoaDonChuaThanhToan(int maBan)
         {
             string qry = @"
         SELECT COUNT(*) 
@@ -259,7 +250,7 @@ namespace DAO
                 long count = (long)cmd.ExecuteScalar();
                 return count > 0;
             }
-        }
+        }*/
         // LẤY CHI TIẾT HÓA ĐƠN THEO MÃ HÓA ĐƠN
         public BindingList<cthoaDonDTO> LayChiTietHoaDon(int maHD)
         {
@@ -298,7 +289,6 @@ namespace DAO
             return dsCT;
         }
 
-        // LẤY THÔNG TIN CHUNG CỦA HÓA ĐƠN (Bàn, Khách, Nhân viên, Thời gian, Tổng tiền)
         public hoaDonDTO LayThongTinHoaDon(int maHD)
         {
             string qry = @"
@@ -330,8 +320,6 @@ namespace DAO
                             MaBan = Convert.ToInt32(reader["MABAN"]),
                             ThoiGianTao = reader.GetDateTime("THOIGIANTAO"),
                             TongTien = reader.GetDecimal("TONGTIEN"),
-                            // Các thông tin bổ sung
-                            //TenKhuVuc = reader.IsDBNull(reader.GetOrdinal("TENKV")) ? "" : reader.GetString("TENKV"),
                             TenKhachHang = reader.GetString("TenKhach"),
                             HoTen = reader.GetString("TenNV")
                         };
@@ -340,7 +328,6 @@ namespace DAO
             }
             return null;
         }
-        // XÓA HÓA ĐƠN + CHI TIẾT (AN TOÀN VỚI TRANSACTION)
         public bool KhoaHoaDon(int maHD)
         {
             using (var conn = DBConnect.GetConnection())
@@ -353,7 +340,6 @@ namespace DAO
                 {
                     cmd.Parameters.AddWithValue("@maHD", maHD);
 
-                    // rows > 0 nghĩa là update thành công
                     return cmd.ExecuteNonQuery() > 0;
                 }
             }
@@ -370,8 +356,73 @@ namespace DAO
                 return cmd.ExecuteNonQuery() > 0;
             }
         }
+        public int layMa()
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            int maHD = 0;
+            try
+            {
+                string qry = "SELECT IFNULL(MAX(MAHOADON), 0) FROM hoadon";
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                maHD = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine("Lỗi lấy mã HD: " + ex);
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+            return maHD + 1;
+        }
 
+        public bool UpdateKhoaSo(int maBan)
+        {
+            string sql = "UPDATE hoadon SET KHOASO = 1 WHERE MABAN = @id";
 
+            using (var conn = DBConnect.GetConnection())
+            using (var cmd = new MySqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", maBan);
 
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
+        public bool doiTrangThaiBanSauKhiXoaHD(int maHD)
+        {
+            string sql = "UPDATE ban SET DANGSUDUNG = 1, MADONHIENTAI = NULL WHERE MADONHIENTAI = @id";
+
+            using (var conn = DBConnect.GetConnection())
+            using (var cmd = new MySqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", maHD);
+
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+        public bool CapNhatHoaDon(hoaDonDTO hd)
+        {
+            string sql = @"
+        UPDATE hoadon SET 
+            MaKhachHang = @maKH, 
+            MaNhanVien = @maNV, 
+            MaTT = @maTT,
+            TongTien = @tongTien
+        WHERE MaHoaDon = @maHD";
+
+            using (var conn = DBConnect.GetConnection())
+            using (var cmd = new MySqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@maHD", hd.MaHD);
+                cmd.Parameters.AddWithValue("@maKH", hd.MaKhachHang);
+                cmd.Parameters.AddWithValue("@maNV", hd.MaNhanVien);
+                cmd.Parameters.AddWithValue("@maTT", hd.MaTT);
+                cmd.Parameters.AddWithValue("@tongTien", hd.TongTien);
+
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
     }
 }

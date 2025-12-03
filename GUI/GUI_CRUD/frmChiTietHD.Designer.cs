@@ -47,6 +47,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtThanhToan = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -143,6 +145,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtThanhToan);
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.txtTongTien);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.txtThgian);
@@ -153,17 +157,17 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(4, 21);
+            this.groupBox1.Location = new System.Drawing.Point(4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(428, 363);
+            this.groupBox1.Size = new System.Drawing.Size(428, 380);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
+            this.groupBox1.Text = "Thông tin cơ bản";
             // 
             // txtTongTien
             // 
             this.txtTongTien.Enabled = false;
-            this.txtTongTien.Location = new System.Drawing.Point(138, 277);
+            this.txtTongTien.Location = new System.Drawing.Point(138, 250);
             this.txtTongTien.Name = "txtTongTien";
             this.txtTongTien.Size = new System.Drawing.Size(230, 22);
             this.txtTongTien.TabIndex = 9;
@@ -171,7 +175,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(22, 284);
+            this.label5.Location = new System.Drawing.Point(19, 253);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(69, 16);
             this.label5.TabIndex = 8;
@@ -180,7 +184,7 @@
             // txtThgian
             // 
             this.txtThgian.Enabled = false;
-            this.txtThgian.Location = new System.Drawing.Point(138, 208);
+            this.txtThgian.Location = new System.Drawing.Point(138, 197);
             this.txtThgian.Name = "txtThgian";
             this.txtThgian.Size = new System.Drawing.Size(230, 22);
             this.txtThgian.TabIndex = 7;
@@ -212,7 +216,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 209);
+            this.label4.Location = new System.Drawing.Point(19, 200);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(93, 16);
             this.label4.TabIndex = 3;
@@ -221,7 +225,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(19, 150);
+            this.label3.Location = new System.Drawing.Point(20, 149);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(69, 16);
             this.label3.TabIndex = 2;
@@ -230,7 +234,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(19, 91);
+            this.label2.Location = new System.Drawing.Point(19, 95);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(80, 16);
             this.label2.TabIndex = 1;
@@ -239,11 +243,28 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 41);
+            this.label1.Location = new System.Drawing.Point(19, 44);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(83, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "Bàn-Khu Vực";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(20, 315);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(101, 16);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "PT Thanh Toán";
+            // 
+            // txtThanhToan
+            // 
+            this.txtThanhToan.Enabled = false;
+            this.txtThanhToan.Location = new System.Drawing.Point(138, 312);
+            this.txtThanhToan.Name = "txtThanhToan";
+            this.txtThanhToan.Size = new System.Drawing.Size(230, 22);
+            this.txtThanhToan.TabIndex = 11;
             // 
             // frmChiTietHD
             // 
@@ -289,5 +310,7 @@
         private System.Windows.Forms.TextBox txtBan;
         private System.Windows.Forms.TextBox txtTongTien;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtThanhToan;
+        private System.Windows.Forms.Label label6;
     }
 }

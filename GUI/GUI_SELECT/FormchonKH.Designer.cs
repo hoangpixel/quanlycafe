@@ -31,7 +31,6 @@
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvKhachHang = new System.Windows.Forms.DataGridView();
-            this.btnChon = new System.Windows.Forms.Button();
             this.btnHuy = new System.Windows.Forms.Button();
             this.txtTimKiem = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKhachHang)).BeginInit();
@@ -76,20 +75,10 @@
             this.dgvKhachHang.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvKhachHang.Size = new System.Drawing.Size(716, 252);
             this.dgvKhachHang.TabIndex = 2;
+            this.dgvKhachHang.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvKhachHang_CellClick);
             this.dgvKhachHang.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvKhachHang_CellDoubleClick);
             this.dgvKhachHang.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvKhachHang_DataBindingComplete);
             this.dgvKhachHang.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvKhachHang_KeyDown);
-            // 
-            // btnChon
-            // 
-            this.btnChon.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnChon.Location = new System.Drawing.Point(198, 473);
-            this.btnChon.Name = "btnChon";
-            this.btnChon.Size = new System.Drawing.Size(75, 40);
-            this.btnChon.TabIndex = 3;
-            this.btnChon.Text = "Chọn";
-            this.btnChon.UseVisualStyleBackColor = true;
-            this.btnChon.Click += new System.EventHandler(this.btnChon_Click);
             // 
             // btnHuy
             // 
@@ -117,7 +106,6 @@
             this.ClientSize = new System.Drawing.Size(782, 598);
             this.Controls.Add(this.txtTimKiem);
             this.Controls.Add(this.btnHuy);
-            this.Controls.Add(this.btnChon);
             this.Controls.Add(this.dgvKhachHang);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.bigLabel1);
@@ -134,7 +122,6 @@
         private ReaLTaiizor.Controls.BigLabel bigLabel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dgvKhachHang;
-        private System.Windows.Forms.Button btnChon;
         private System.Windows.Forms.Button btnHuy;
         private System.Windows.Forms.TextBox txtTimKiem;
     }

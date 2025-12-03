@@ -105,10 +105,7 @@ namespace GUI.GUI_SELECT
 
         private void dgvKhachHang_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
-            {
-                ChonKhachHang();
-            }
+
         }
 
         private void txtTimKiem_TextChanged(object sender, EventArgs e)
@@ -133,6 +130,14 @@ namespace GUI.GUI_SELECT
         private void dgvKhachHang_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             dgvKhachHang.ClearSelection();
+        }
+
+        private void dgvKhachHang_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                ChonKhachHang();
+            }
         }
     }
 }

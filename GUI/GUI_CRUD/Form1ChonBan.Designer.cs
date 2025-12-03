@@ -54,6 +54,7 @@
             this.cbbKhuVuc.Name = "cbbKhuVuc";
             this.cbbKhuVuc.Size = new System.Drawing.Size(181, 33);
             this.cbbKhuVuc.TabIndex = 1;
+            this.cbbKhuVuc.SelectedIndexChanged += new System.EventHandler(this.cbbKhuVuc_SelectedIndexChanged);
             // 
             // flowLayoutPanel1
             // 

@@ -9,35 +9,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BUS;
 namespace GUI.GUI_CRUD
 {
     public partial class frmChiTietHD : Form
     {
-        private int maHD;
+        private hoaDonDTO hd;
         private hoaDonDAO hdDAO = new hoaDonDAO();
-        public frmChiTietHD(int maHoaDon)
+        private BindingList<ppThanhToanDTO> dsThanhToan;
+        public frmChiTietHD(hoaDonDTO hd)
         {
             InitializeComponent();
-            this.maHD = maHoaDon;
-            this.Text = $"Chi Tiết Hóa Đơn - HD{maHoaDon}";
+            this.hd = hd;
+            this.Text = $"Chi Tiết Hóa Đơn - HD{hd.MaHD}";
+
+            dsThanhToan = new ppThanhToanBUS().LayDanhSach();            
+
             LoadDuLieu();
         }
         private void LoadDuLieu()
         {
 
-            // 1. Load thông tin hóa đơn (bàn, khách, nhân viên, thời gian)
-            var hd = hdDAO.LayThongTinHoaDon(maHD);
-            if (hd != null)
-            {
                 txtBan.Text = $"Bàn {hd.MaBan}";
                 txtKhachHang.Text = hd.TenKhachHang ?? "Khách lẻ";
                 txtNhanVien.Text = hd.HoTen ?? "Nhân viên";
                 txtThgian.Text = hd.ThoiGianTao.ToString("HH:mm dd/MM/yyyy");
                 txtTongTien.Text = hd.TongTien.ToString("N0") + " VNĐ";
-            }
+                ppThanhToanDTO TT = dsThanhToan.FirstOrDefault(x => x.MaTT == hd.MaTT);
+                txtThanhToan.Text = TT?.HinhThuc ?? "Khong xac dinh";
+
+            Console.Write(hd.MaTT);
 
             // 2. Load danh sách món ăn (chi tiết)
-            BindingList<cthoaDonDTO> dsCT = hdDAO.LayChiTietHoaDon(maHD);
+            BindingList<cthoaDonDTO> dsCT = hdDAO.LayChiTietHoaDon(hd.MaHD);
 
             dgvChiTiet.DataSource = dsCT;
             dgvChiTiet.AutoGenerateColumns = false;
