@@ -26,9 +26,5 @@ namespace BUS
         {
             return data.DoiTrangThai(maBan);
         }
-        public bool DoiTrangThais(int maBan)
-        {
-            return data.DoiTrangThais(maBan);
-        }
     }
 }

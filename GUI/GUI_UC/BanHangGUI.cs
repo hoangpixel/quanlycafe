@@ -454,7 +454,7 @@ namespace GUI.GUI_UC
             Nhân viên: {txtNhanVien.Text}
             Số món: {gioHang.Count}
             PPTT: {maTT}
- 
+            Tổng tiền: {tongTien:N0}
             ────────────────────────────
             Bạn có chắc chắn muốn tạo hóa đơn không?";
 
@@ -487,6 +487,34 @@ namespace GUI.GUI_UC
 
             if (maHD > 0)
             {
+                try
+                {
+                    // 1. Chuyển đổi List giỏ hàng sang Dictionary<MaSP, SoLuong> để gửi cho DAO
+                    // Lý do: Hàm TruTonKhoKhiBanHang mình viết lúc nãy nhận Dictionary
+                    Dictionary<int, int> dicGioHang = new Dictionary<int, int>();
+                    foreach (var item in gioHang)
+                    {
+                        if (dicGioHang.ContainsKey(item.MaSP))
+                            dicGioHang[item.MaSP] += item.SoLuong;
+                        else
+                            dicGioHang.Add(item.MaSP, item.SoLuong);
+                    }
+
+                    // 2. Gọi DAO Trừ kho (Hàm này nằm trong NguyenLieuDAO bạn đã tạo)
+                    nguyenLieuDAO nlDAO = new nguyenLieuDAO();
+                    bool ketQuaTruKho = nlDAO.TruTonKhoKhiBanHang(dicGioHang);
+
+                    if (!ketQuaTruKho)
+                    {
+                        // Nếu trừ kho thất bại (ví dụ lỗi DB), thông báo nhưng vẫn cho qua vì Hóa đơn đã tạo rồi
+                        MessageBox.Show("Hóa đơn đã tạo nhưng TRỪ KHO THẤT BẠI. Vui lòng kiểm tra lại tồn kho!",
+                                        "Cảnh báo kho", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi hệ thống khi trừ kho: " + ex.Message);
+                }
                 MessageBox.Show($@"TẠO HÓA ĐƠN THÀNH CÔNG!
                 Mã hóa đơn: HD{maHD}
                 Bàn: {maBan}
@@ -502,6 +530,7 @@ namespace GUI.GUI_UC
                 txtNhanVien.Clear(); txtNhanVien.Tag = null;
 
                 tabControl1.SelectedTab = tabHoaDon;
+                this.WindowState = FormWindowState.Maximized;
             }
             else
             {
@@ -531,6 +560,7 @@ namespace GUI.GUI_UC
         }
 
         private int lastSelectedRowIndex = -1;
+        private FormWindowState WindowState;
 
         private void dgvSanPham_CellClick(object sender, DataGridViewCellEventArgs e)
         {

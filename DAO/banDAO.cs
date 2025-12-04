@@ -109,25 +109,5 @@ namespace DAO
                 DBConnect.CloseConnection(conn);
             }
         }
-        public bool DoiTrangThais(int maBan)
-        {
-            MySqlConnection conn = DBConnect.GetConnection();
-            try
-            {
-                string qry = $"UPDATE ban SET DANGSUDUNG = 1 WHERE MABAN = {maBan}";
-                MySqlCommand cmd = new MySqlCommand(qry, conn);
-                cmd.ExecuteNonQuery();
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Lỗi xóa sản phẩm: " + e.Message);
-                return false;
-            }
-            finally
-            {
-                DBConnect.CloseConnection(conn);
-            }
-        }
     }
 }

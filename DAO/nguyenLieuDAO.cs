@@ -4,6 +4,7 @@ using MySql.Data.MySqlClient;
 using DAO.CONFIG;
 using DTO;
 using System.ComponentModel;
+using System.Windows;
 
 namespace DAO
 {
@@ -188,6 +189,88 @@ namespace DAO
                 }
             }
             return nl;
+        }
+
+        public bool TruTonKhoKhiBanHang(Dictionary<int, int> gioHang)
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+
+            // Đảm bảo kết nối mở
+            if (conn.State != System.Data.ConnectionState.Open)
+            {
+                conn.Open();
+            }
+
+            using (MySqlTransaction trans = conn.BeginTransaction())
+            {
+                try
+                {
+                    foreach (var item in gioHang)
+                    {
+                        int maSP = item.Key;
+                        int soLuongBan = item.Value;
+
+                        string queryInfo = @"
+                            SELECT 
+                                CT.MANGUYENLIEU,
+                                CT.SOLUONGCOSO AS DinhLuong,
+                                CASE 
+                                    WHEN CT.MADONVICOSO = NL.MADONVICOSO THEN 1
+                                    ELSE IFNULL(HS.HESO, 0) 
+                                END AS HeSoQuyDoi
+                            FROM congthuc CT
+                            JOIN nguyenlieu NL ON CT.MANGUYENLIEU = NL.MANGUYENLIEU
+                            LEFT JOIN hesodonvi HS ON CT.MANGUYENLIEU = HS.MANGUYENLIEU 
+                                                   AND CT.MADONVICOSO = HS.MADONVI
+                            WHERE CT.MASANPHAM = @maSP AND CT.TRANGTHAI = 1";
+
+                        var listUpdate = new List<(int MaNL, double LuongTru)>();
+
+                        using (MySqlCommand cmdInfo = new MySqlCommand(queryInfo, conn, trans))
+                        {
+                            cmdInfo.Parameters.AddWithValue("@maSP", maSP);
+                            using (MySqlDataReader reader = cmdInfo.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    int maNL = reader.GetInt32("MANGUYENLIEU");
+                                    double dinhLuong = reader.GetDouble("DinhLuong");
+                                    double heSo = reader.GetDouble("HeSoQuyDoi");
+
+                                    // Tính toán số lượng cần trừ
+                                    double tongTru = soLuongBan * dinhLuong * heSo;
+
+                                    if (tongTru > 0)
+                                    {
+                                        listUpdate.Add((maNL, tongTru));
+                                    }
+                                }
+                            }
+                        }
+
+                        // Cập nhật Database
+                        foreach (var update in listUpdate)
+                        {
+                            string queryUpdate = "UPDATE nguyenlieu SET TONKHO = TONKHO - @luongTru WHERE MANGUYENLIEU = @maNL";
+                            using (MySqlCommand cmdUpdate = new MySqlCommand(queryUpdate, conn, trans))
+                            {
+                                cmdUpdate.Parameters.AddWithValue("@luongTru", update.LuongTru);
+                                cmdUpdate.Parameters.AddWithValue("@maNL", update.MaNL);
+                                cmdUpdate.ExecuteNonQuery();
+                            }
+                        }
+                    }
+
+                    trans.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    Console.WriteLine("Lỗi trừ kho: " + ex.Message);
+                    return false;
+                }
+            }
         }
     }
 }
