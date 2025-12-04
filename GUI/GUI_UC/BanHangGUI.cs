@@ -479,7 +479,7 @@ namespace GUI.GUI_UC
                 TrangThai = true
             };
             banBUS busBan = new banBUS();
-            busBan.DoiTrangThai(maBan,busHoaDon.LayMa());
+            busBan.DoiTrangThai(maBan);
             
             // 8. Gọi BUS thêm hóa đơn
             int maHD = busHoaDon.ThemHoaDon(hd, gioHang);
@@ -743,7 +743,7 @@ namespace GUI.GUI_UC
                                 MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 bool ok = busHoaDon.XoaHoaDon(hd.MaHD);
-                busHoaDon.doiTrangThaiBanSauKhiXoaHD(hd.MaHD);                
+                busHoaDon.doiTrangThaiBanSauKhiXoaHD(hd.MaBan);                
                 if (ok)
                 {
                     MessageBox.Show(
@@ -879,17 +879,8 @@ namespace GUI.GUI_UC
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-
-                    foreach (hoaDonDTO hdDs in dsHoaDon)
-                    {
-                        if (hd.MaBan == hdDs.MaBan)
-                        {
-                            busHoaDon.UpdateKhoaSo(hd.MaBan);
-                        }
-                    }
-
-                    busHoaDon.doiTrangThaiBanSauKhiXoaHD(hd.MaHD);
-
+                    busHoaDon.doiTrangThaiBanSauKhiXoaHD(hd.MaBan);
+                    busHoaDon.UpdateKhoaSo(hd.MaHD);
                     MessageBox.Show(
                         $@"KHOA SO THÀNH CÔNG!
                         Hóa đơn HD{hd.MaHD} đã xóa hoàn tất.
@@ -901,13 +892,7 @@ namespace GUI.GUI_UC
                     foreach (Form f in Application.OpenForms)
                         if (f is FormChonBan chonBan)
                             chonBan.CapNhatBanTrong(hd.MaBan);
-
-                    if (dgvHoaDon.DataSource != null)
-                    {
-                        dgvHoaDon.DataSource = null; 
-                        dgvHoaDon.DataSource = dsHoaDon; 
-                        dgvHoaDon.Refresh();
-                    }
+                                      
                 }
             }
         }

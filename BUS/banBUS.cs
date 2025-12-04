@@ -22,9 +22,13 @@ namespace BUS
             }
             return ds;
         }
-        public bool DoiTrangThai(int maBan,int maHD)
+        public bool DoiTrangThai(int maBan)
         {
-            return data.DoiTrangThai(maBan, maHD);
+            return data.DoiTrangThai(maBan);
+        }
+        public bool DoiTrangThais(int maBan)
+        {
+            return data.DoiTrangThais(maBan);
         }
     }
 }

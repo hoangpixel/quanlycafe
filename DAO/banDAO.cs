@@ -15,7 +15,7 @@ namespace DAO
         public BindingList<banDTO> LayDanhSachBan()
         {
             BindingList<banDTO> ds = new BindingList<banDTO>();
-            string qry = "SELECT MABAN, TENBAN, DANGSUDUNG, MAKHUVUC, TRANGTHAIXOA, MADONHIENTAI FROM ban";
+            string qry = "SELECT MABAN, TENBAN, DANGSUDUNG, MAKHUVUC, TRANGTHAIXOA FROM ban";
             MySqlConnection conn = null;
 
             try
@@ -32,16 +32,6 @@ namespace DAO
                     ban.DangSuDung = reader.GetByte("DANGSUDUNG");
                     ban.MaKhuVuc = reader.GetInt32("MAKHUVUC");
                     ban.TrangThaiXoa = reader.GetByte("TRANGTHAIXOA");
-
-                    if (!reader.IsDBNull(reader.GetOrdinal("MADONHIENTAI")))
-                    {
-                        ban.MaDonHienTai = reader.GetInt32("MADONHIENTAI");
-                    }
-                    else
-                    {
-                        ban.MaDonHienTai = null;
-                    }
-
                     ds.Add(ban);
                 }
 
@@ -63,7 +53,7 @@ namespace DAO
         public BindingList<banDTO> LayDanhSachTheoKhuVuc(int maKhuVuc)
         {
             BindingList<banDTO> ds = new BindingList<banDTO>();
-            string qry = "SELECT MABAN, TENBAN, DANGSUDUNG, MAKHUVUC, TRANGTHAIXOA, MADONHIENTAI FROM ban WHERE MAKHUVUC = @maKhuVuc AND TRANGTHAIXOA = 1";
+            string qry = "SELECT MABAN, TENBAN, DANGSUDUNG, MAKHUVUC, TRANGTHAIXOA FROM ban WHERE MAKHUVUC = @maKhuVuc AND TRANGTHAIXOA = 1";
             MySqlConnection conn = null;
 
             try
@@ -83,15 +73,6 @@ namespace DAO
                     ban.MaKhuVuc = reader.GetInt32("MAKHUVUC");
                     ban.TrangThaiXoa = reader.GetByte("TRANGTHAIXOA");
 
-                    if (!reader.IsDBNull(reader.GetOrdinal("MADONHIENTAI")))
-                    {
-                        ban.MaDonHienTai = reader.GetInt32("MADONHIENTAI");
-                    }
-                    else
-                    {
-                        ban.MaDonHienTai = null;
-                    }
-
                     ds.Add(ban);
                 }
                 reader.Close();
@@ -108,12 +89,32 @@ namespace DAO
 
             return ds;
         }
-        public bool DoiTrangThai(int maBan,int maHD)
+        public bool DoiTrangThai(int maBan)
         {
             MySqlConnection conn = DBConnect.GetConnection();
             try
             {
-                string qry = $"UPDATE ban SET DANGSUDUNG = 0, MADONHIENTAI = {maHD} WHERE MABAN = {maBan}";
+                string qry = $"UPDATE ban SET DANGSUDUNG = 0 WHERE MABAN = {maBan}";
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Lỗi xóa sản phẩm: " + e.Message);
+                return false;
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+        }
+        public bool DoiTrangThais(int maBan)
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            try
+            {
+                string qry = $"UPDATE ban SET DANGSUDUNG = 1 WHERE MABAN = {maBan}";
                 MySqlCommand cmd = new MySqlCommand(qry, conn);
                 cmd.ExecuteNonQuery();
                 return true;

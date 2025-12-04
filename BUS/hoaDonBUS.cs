@@ -23,21 +23,10 @@ namespace BUS
         {
             return dao.layMa();
         }
-        public bool UpdateKhoaSo(int maBan)
+        public bool UpdateKhoaSo(int maHD)
         {
-            bool kq = dao.UpdateKhoaSo(maBan);
-            if(kq)
-            {
-                hoaDonDTO hd = ds.FirstOrDefault(x => x.MaBan == maBan);
-                foreach(hoaDonDTO hoadonGoc in ds)
-                {
-                    if(hoadonGoc.MaBan == maBan)
-                    {
-                        hoadonGoc.KhoaSo = 1;
-                    }
-                }
-            }
-            return kq;
+            return dao.UpdateKhoaSo(maHD);
+            
         }
         public int ThemHoaDon(hoaDonDTO hd, BindingList<cthoaDonDTO> dsChiTiet)
         {
@@ -55,7 +44,22 @@ namespace BUS
 
             return newID;
         }
+        public int SuaHoaDon(hoaDonDTO hd, BindingList<cthoaDonDTO> dsChiTiet)
+        {
+            int newID = dao.SuaHD(hd, dsChiTiet);
 
+            if (newID > 0)
+            {
+                hoaDonDTO hoaDonMoi = dao.LayThongTinHoaDon(newID);
+
+                if (hoaDonMoi != null)
+                {
+                    ds.Insert(0, hoaDonMoi);
+                }
+            }
+
+            return newID;
+        }
         public bool CapNhatTrangThai(int maHD, string trangThai)
             => dao.CapNhatTrangThai(maHD, trangThai);
 
@@ -80,9 +84,9 @@ namespace BUS
             return result;
         }
 
-        public bool doiTrangThaiBanSauKhiXoaHD(int maHD)
+        public bool doiTrangThaiBanSauKhiXoaHD(int maBan)
         {
-            return dao.doiTrangThaiBanSauKhiXoaHD(maHD);
+            return dao.doiTrangThaiBanSauKhiXoaHD(maBan);
         }
 
     }

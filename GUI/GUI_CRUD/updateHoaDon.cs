@@ -435,16 +435,13 @@ namespace GUI.GUI_CRUD
             int maTT = Convert.ToInt32(cbThanhToan.SelectedValue);
             decimal tongTien = gioHang.Sum(g => g.ThanhTien);
             int maBan = doiTuong.MaBan;
-            int? maKhachHang = doiTuong.MaKhachHang > 0 ? doiTuong.MaKhachHang : (int?)null;
-            string tenKhach = string.IsNullOrEmpty(doiTuong.TenKhachHang) ? "Khách lẻ" : doiTuong.TenKhachHang;
-
-            bool isUpdate = maHDDangSua > 0 && !dangLamMoi;
-            bool isTaoMoi = maHDDangSua == 0;
+            int maKhachHang = doiTuong.MaKhachHang;
+            //string tenKhach = string.IsNullOrEmpty(doiTuong.TenKhachHang) ? "Khách lẻ" : doiTuong.TenKhachHang;
 
             string message = $@"XÁC NHẬN TẠO HÓA ĐƠN
             ────────────────────────────
             Bàn số: {maBan}
-            Khách hàng: {tenKhach}
+            
             Nhân viên: {txtNhanVien.Text}
             Số món: {gioHang.Count}
             PPTT: {maTT}
@@ -464,20 +461,18 @@ namespace GUI.GUI_CRUD
             }
             var hd = new hoaDonDTO
             {
-                MaHD= maHDDangSua,
                 MaBan = maBan,
-                MaKhachHang = maKH,
+                MaKhachHang = maKhachHang,
                 MaNhanVien = maNV,
                 MaTT = maTT,
                 ThoiGianTao = DateTime.Now,
                 TrangThai = true,
                 KhoaSo = dangLamMoi ? (byte)1 : (byte)0
             };
-            /*banBUS busBan = new banBUS();
-            busBan.DoiTrangThai(maBan, busHoaDon.LayMa());
-
+            banBUS busBan = new banBUS();
+            //busBan.DoiTrangThais(maBan);
             int maHD = busHoaDon.ThemHoaDon(hd, gioHang);
-
+            
             if (maHD > 0)
             {
                 MessageBox.Show($@"TẠO HÓA ĐƠN THÀNH CÔNG!
@@ -492,51 +487,14 @@ namespace GUI.GUI_CRUD
                 txtBan.Clear();txtBan.Tag = null;
                 txtKhachHang.Clear(); txtKhachHang.Tag = null;
                 txtNhanVien.Clear(); txtNhanVien.Tag = null;
-            }*/
-            bool thanhCong = false;
-            int maHDKetQua = 0;
-            if (dangLamMoi)
-            {
-                hd.MaHD = 0;
-                maHDKetQua = busHoaDon.ThemHoaDon(hd, gioHang);
             }
-            else 
-            {
-                hd.MaHD = 0;
-                maHDKetQua = busHoaDon.ThemHoaDon(hd, gioHang);
-                if (maHDKetQua > 0)
-                {
-                    new banBUS().DoiTrangThai(maBan, maHDKetQua);
-                    thanhCong = true;
-                }
-            }
-            if (thanhCong)
-            {
-                MessageBox.Show($@"Sua THÀNH CÔNG!
-                Mã hóa đơn: HD{maHDKetQua}
-                Bàn: {maBan}
-                Tổng tiền: {tongTien:N0} VNĐ
-                Nhân viên: {txtNhanVien.Text}",
-                "Thành công!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                gioHang.Clear();
-                CapNhatGioHang();
-                txtBan.Clear();
-                txtBan.Tag = null;
-                txtKhachHang.Clear(); txtKhachHang.Tag = null;
-                txtNhanVien.Clear(); txtNhanVien.Tag = null;
-            }
+
             else
                 {
                 MessageBox.Show("Tạo hóa đơn thất bại! Vui lòng thử lại.", "Lỗi hệ thống",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            foreach (Form frm in Application.OpenForms)
-            {
-                if (frm is FormChonBan chonBanForm)
-                {
-                    chonBanForm.RefreshBan();
-                }
-            }
+
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
