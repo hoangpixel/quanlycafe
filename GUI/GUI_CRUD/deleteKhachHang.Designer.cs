@@ -91,7 +91,7 @@
             this.ClientSize = new System.Drawing.Size(483, 216);
             this.Controls.Add(this.groupBox1);
             this.Name = "deleteKhachHang";
-            this.Text = "deleteKhachHang";
+            this.Text = "Xóa khách hàng";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

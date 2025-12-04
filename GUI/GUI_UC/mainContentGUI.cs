@@ -72,7 +72,7 @@ namespace GUI.GUI_UC
                     switch (page)
                     {
                         case "home": uc = new banHangGUI(); break;
-                        case "nhaphang": uc = new nhapHangrielGUI(); break;
+                        case "nhaphang": uc = new nhapHangGUI(); break;
                         case "sanpham": uc = new sanPhamGUI(); break;
                         case "nguyenlieu": uc = new nguyenLieuGUI(); break;
                         case "congthuc": uc = new congThucGUI(); break;
@@ -80,7 +80,7 @@ namespace GUI.GUI_UC
                         case "thongke": uc = new thongKeGUI(); break;
                         case "phanquyen": uc = new phanQuyenGUI(); break;
                         case "nhacungcap": uc = new nhaCungCapGUI(); break;
-                        case "nhanvien": uc = new nhanVienGUI(); break;
+                        case "nhanvien": uc = new nhanVienriel(); break;
                         case "taikhoan": uc = new taikhoanGUI(); break;
                         //case "nhanvien": uc = new nhanVienGUI(); break; // Nhớ thêm class này nếu có
                         default:

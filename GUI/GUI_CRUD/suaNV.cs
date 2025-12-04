@@ -9,8 +9,7 @@ namespace GUI.GUI_CRUD
 {
     public partial class suaNV : Form
     {
-        private nhanVienDTO nv;
-        private nhanVienBUS busNhanVien = new nhanVienBUS();
+        public nhanVienDTO nv;
 
         public suaNV(nhanVienDTO nv)
         {
@@ -23,16 +22,10 @@ namespace GUI.GUI_CRUD
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
 
-            // Hiển thị thông tin hiện tại
-            txtMaNV.Text = nv.MaNhanVien.ToString();
             txtTen.Text = nv.HoTen;
             txtSDT.Text = nv.SoDienThoai;
             txtEmail.Text = nv.Email;
             txtLuong.Text = nv.Luong.ToString();
-
-            // Khóa Mã NV (không cho sửa)
-            txtMaNV.ReadOnly = true;
-            txtMaNV.BackColor = Color.LightGray;
 
             txtTen.Focus();
         }
@@ -41,7 +34,6 @@ namespace GUI.GUI_CRUD
         {
             try
             {
-                // Validate
                 if (string.IsNullOrWhiteSpace(txtTen.Text))
                 {
                     MessageBox.Show("Vui lòng nhập tên nhân viên!", "Cảnh báo",
@@ -66,7 +58,7 @@ namespace GUI.GUI_CRUD
                     return;
                 }
 
-                if (!decimal.TryParse(txtLuong.Text, out decimal luong) || luong <= 0)
+                if (!float.TryParse(txtLuong.Text, out float luong) || luong <= 0)
                 {
                     MessageBox.Show("Lương phải là số dương!", "Cảnh báo",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -74,16 +66,13 @@ namespace GUI.GUI_CRUD
                     return;
                 }
 
-                // Cập nhật thông tin
                 nv.HoTen = txtTen.Text.Trim();
                 nv.SoDienThoai = txtSDT.Text.Trim();
                 nv.Email = txtEmail.Text.Trim();
                 nv.Luong = luong;
 
-                // Lưu vào DB
-                bool result = busNhanVien.CapNhatNhanVien(nv);  // ← ĐÃ SỬA
 
-                if (result)
+                if (nv != null)
                 {
                     this.DialogResult = DialogResult.OK;
                     this.Close();

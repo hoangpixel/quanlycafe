@@ -16,118 +16,47 @@ namespace GUI.GUI_CRUD
     public partial class addNv : Form
     {
         private nhanVienBUS nvBus = new nhanVienBUS();
-        private nhanVienDTO _existingNV = null;
+        public nhanVienDTO nv;
 
-        // Constructor mặc định (Thêm mới)
-        public addNv()
-        {
-            InitializeComponent();
-        }
-
-        // Constructor có tham số (Sửa nhân viên)
         public addNv(nhanVienDTO nv)
         {
             InitializeComponent();
-            _existingNV = nv;
+            this.nv = nv;
         }
 
-        // ==================== EVENT LOAD FORM ====================
         private void addNv_Load(object sender, EventArgs e)
         {
-            // Focus vào ô tên
-            txtTen.Focus();
 
-            // Nếu là chỉnh sửa, load dữ liệu cũ
-            if (_existingNV != null)
-            {
-                bigLabel1.Text = "Sửa Thông Tin Nhân Viên";
-                LoadExistingData();
-            }
         }
 
-        // ==================== LOAD DỮ LIỆU CŨ ====================
-        private void LoadExistingData()
-        {
-            txtTen.Text = _existingNV.HoTen;
-            txtSDT.Text = _existingNV.SoDienThoai;
-            txtEmail.Text = _existingNV.Email;
-            txtDiaChi.Text = _existingNV.Luong.ToString("N0");
-        }
 
         // ==================== NÚT LƯU ====================
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            try
+            if (!ValidateInput())
+                return;
+
+            nv.MaNhanVien = nvBus.LayMa();
+            nv.HoTen = txtTen.Text.Trim();
+            nv.SoDienThoai = txtSDT.Text.Trim();
+            nv.Email = txtEmail.Text.Trim();
+            nv.Luong = float.Parse(txtDiaChi.Text.Trim());
+
+            if(nv != null)
             {
-                // 1. Validate dữ liệu
-                if (!ValidateInput())
-                    return;
-
-                // 2.  Tạo đối tượng DTO
-                nhanVienDTO nv = new nhanVienDTO
-                {
-                    HoTen = txtTen.Text.Trim(),
-                    SoDienThoai = txtSDT.Text.Trim(),
-                    Email = txtEmail.Text.Trim(),
-                    Luong = ParseLuong(txtDiaChi.Text)
-                };
-
-                // 3. Kiểm tra nếu đang sửa hay thêm mới
-                if (_existingNV != null)
-                {
-                    // === SỬA NHÂN VIÊN ===
-                    nv.MaNhanVien = _existingNV.MaNhanVien;
-
-                    if (nvBus.CapNhatNhanVien(nv))
-                    {
-                        MessageBox.Show("Cập nhật nhân viên thành công!", "Thông báo",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.DialogResult = DialogResult.OK;
-                        this.Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Cập nhật thất bại!", "Lỗi",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                else
-                {
-                    // === THÊM MỚI NHÂN VIÊN ===
-                    if (nvBus.ThemNhanVien(nv))
-                    {
-                        MessageBox.Show("Thêm nhân viên thành công!", "Thông báo",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.DialogResult = DialogResult.OK;
-                        this.Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Thêm nhân viên thất bại!", "Lỗi",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-            catch (Exception ex)
+                MessageBox.Show("Thêm nhân viên thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }else
             {
-                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Thêm nhân viên thất bại", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
             }
         }
 
-        // ==================== NÚT HỦY ====================
         private void btnHuy_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show(
-                "Bạn có chắc muốn hủy thao tác? ",
-                "Xác nhận",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
                 this.Close();
-            }
         }
 
         // ==================== VALIDATE DỮ LIỆU ====================
@@ -177,7 +106,7 @@ namespace GUI.GUI_CRUD
                 return false;
             }
 
-            decimal luong = ParseLuong(txtDiaChi.Text);
+            float luong = float.Parse(txtDiaChi.Text.Trim());
             if (luong <= 0)
             {
                 MessageBox.Show("Lương phải lớn hơn 0!", "Cảnh báo",
@@ -189,24 +118,6 @@ namespace GUI.GUI_CRUD
             return true;
         }
 
-        // ==================== PARSE LƯƠNG ====================
-        private decimal ParseLuong(string text)
-        {
-            decimal result = 0;
-            string cleaned = text.Replace(",", "").Replace(".", "");
-            decimal.TryParse(cleaned, out result);
-            return result;
-        }
-
-        // ==================== FORMAT LƯƠNG ====================
-        private void txtDiaChi_Leave(object sender, EventArgs e)
-        {
-            decimal luong = ParseLuong(txtDiaChi.Text);
-            if (luong > 0)
-            {
-                txtDiaChi.Text = luong.ToString("N0");
-            }
-        }
 
         // ==================== CHỈ CHO PHÉP NHẬP SỐ ====================
         private void txtSDT_KeyPress(object sender, KeyPressEventArgs e)

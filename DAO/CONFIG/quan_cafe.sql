@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2025 at 08:20 AM
+-- Generation Time: Dec 04, 2025 at 06:22 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -159,22 +159,6 @@ INSERT INTO `cthd` (`MAHOADON`, `MASANPHAM`, `SOLUONG`, `DONGIA`, `THANHTIEN`) V
 (21, 1, 1, 17000.00, 17000.00),
 (22, 1, 1, 17000.00, 17000.00),
 (22, 4, 1, 15000.00, 15000.00);
-
---
--- Triggers `cthd`
---
-DELIMITER $$
-CREATE TRIGGER `trg_cthd_ad` AFTER DELETE ON `cthd` FOR EACH ROW BEGIN
-  UPDATE HOADON SET TONGTIEN = TONGTIEN - OLD.THANHTIEN WHERE MAHOADON = OLD.MAHOADON;
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `trg_cthd_ai` AFTER INSERT ON `cthd` FOR EACH ROW BEGIN
-  UPDATE HOADON SET TONGTIEN = TONGTIEN + NEW.THANHTIEN WHERE MAHOADON = NEW.MAHOADON;
-END
-$$
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -404,15 +388,16 @@ CREATE TABLE `nhanvien` (
   `SODIENTHOAI` varchar(20) DEFAULT NULL,
   `EMAIL` varchar(120) DEFAULT NULL,
   `LUONG` decimal(12,2) DEFAULT 0.00,
-  `NGAYTAO` datetime NOT NULL DEFAULT current_timestamp()
+  `NGAYTAO` datetime NOT NULL DEFAULT current_timestamp(),
+  `TRANGTHAI` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `nhanvien`
 --
 
-INSERT INTO `nhanvien` (`MANHANVIEN`, `HOTEN`, `SODIENTHOAI`, `EMAIL`, `LUONG`, `NGAYTAO`) VALUES
-(1, 'bcd', '12312', '12123@gmail.com', 10000.00, '2025-11-14 13:17:41');
+INSERT INTO `nhanvien` (`MANHANVIEN`, `HOTEN`, `SODIENTHOAI`, `EMAIL`, `LUONG`, `NGAYTAO`, `TRANGTHAI`) VALUES
+(1, 'bcd', '12312', '12123@gmail.com', 10000.00, '2025-11-14 13:17:41', 1);
 
 -- --------------------------------------------------------
 

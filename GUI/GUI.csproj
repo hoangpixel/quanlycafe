@@ -140,12 +140,6 @@
     <Compile Include="GUI_CRUD\addTK.Designer.cs">
       <DependentUpon>addTK.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI_CRUD\chiTietNV.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI_CRUD\chiTietNV.Designer.cs">
-      <DependentUpon>chiTietNV.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI_CRUD\ctTK.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,6 +158,12 @@
     <Compile Include="GUI_CRUD\deleteNhaCungCap.Designer.cs">
       <DependentUpon>deleteNhaCungCap.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_CRUD\deleteNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\deleteNhanVien.Designer.cs">
+      <DependentUpon>deleteNhanVien.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_CRUD\deletePhieuNhap.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -181,6 +181,12 @@
     </Compile>
     <Compile Include="GUI_CRUD\detailNhaCungCap.Designer.cs">
       <DependentUpon>detailNhaCungCap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\detailNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\detailNhanVien.Designer.cs">
+      <DependentUpon>detailNhanVien.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_CRUD\detailPhanQuyen.cs">
       <SubType>Form</SubType>
@@ -313,12 +319,6 @@
     </Compile>
     <Compile Include="GUI_CRUD\vaiTroVaQuyenGUI.Designer.cs">
       <DependentUpon>vaiTroVaQuyenGUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI_CRUD\XOAnv.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI_CRUD\XOAnv.Designer.cs">
-      <DependentUpon>XOAnv.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_CRUD\xoaTk.cs">
       <SubType>Form</SubType>
@@ -530,11 +530,17 @@
     <Compile Include="GUI_UC\nhanVienGUI.Designer.cs">
       <DependentUpon>nhanVienGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI_UC\nhapHangrielGUI.cs">
+    <Compile Include="GUI_UC\nhanVienriel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI_UC\nhapHangrielGUI.Designer.cs">
-      <DependentUpon>nhapHangrielGUI.cs</DependentUpon>
+    <Compile Include="GUI_UC\nhanVienriel.Designer.cs">
+      <DependentUpon>nhanVienriel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_UC\nhapHangGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI_UC\nhapHangGUI.Designer.cs">
+      <DependentUpon>nhapHangGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_UC\phanQuyenGUI.cs">
       <SubType>UserControl</SubType>
@@ -572,9 +578,6 @@
     <EmbeddedResource Include="GUI_CRUD\addTK.resx">
       <DependentUpon>addTK.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI_CRUD\chiTietNV.resx">
-      <DependentUpon>chiTietNV.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\ctTK.resx">
       <DependentUpon>ctTK.cs</DependentUpon>
     </EmbeddedResource>
@@ -584,6 +587,9 @@
     <EmbeddedResource Include="GUI_CRUD\deleteNhaCungCap.resx">
       <DependentUpon>deleteNhaCungCap.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\deleteNhanVien.resx">
+      <DependentUpon>deleteNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\deletePhieuNhap.resx">
       <DependentUpon>deletePhieuNhap.cs</DependentUpon>
     </EmbeddedResource>
@@ -592,6 +598,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\detailNhaCungCap.resx">
       <DependentUpon>detailNhaCungCap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\detailNhanVien.resx">
+      <DependentUpon>detailNhanVien.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\detailPhanQuyen.resx">
       <DependentUpon>detailPhanQuyen.cs</DependentUpon>
@@ -655,9 +664,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\vaiTroVaQuyenGUI.resx">
       <DependentUpon>vaiTroVaQuyenGUI.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI_CRUD\XOAnv.resx">
-      <DependentUpon>XOAnv.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\xoaTk.resx">
       <DependentUpon>xoaTk.cs</DependentUpon>
@@ -761,8 +767,11 @@
     <EmbeddedResource Include="GUI_UC\nhanVienGUI.resx">
       <DependentUpon>nhanVienGUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI_UC\nhapHangrielGUI.resx">
-      <DependentUpon>nhapHangrielGUI.cs</DependentUpon>
+    <EmbeddedResource Include="GUI_UC\nhanVienriel.resx">
+      <DependentUpon>nhanVienriel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_UC\nhapHangGUI.resx">
+      <DependentUpon>nhapHangGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\phanQuyenGUI.resx">
       <DependentUpon>phanQuyenGUI.cs</DependentUpon>

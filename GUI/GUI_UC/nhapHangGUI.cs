@@ -16,7 +16,7 @@ using GUI.GUI_CRUD;
 
 namespace GUI.GUI_UC
 {
-    public partial class nhapHangrielGUI : UserControl
+    public partial class nhapHangGUI : UserControl
     {
         private BindingList<donViDTO> dsDV = new donViBUS().LayDanhSach();
         private BindingList<nhaCungCapDTO> dsNCC = new nhaCungCapBUS().LayDanhSach();
@@ -26,7 +26,7 @@ namespace GUI.GUI_UC
         private int maNL = -1, maDV = -1, maNV = -1, maNCC = -1;
         private BindingList<ctPhieuNhapDTO> dsChiTietPN = new BindingList<ctPhieuNhapDTO>();
         private phieuNhapBUS busPhieuNhap = new phieuNhapBUS();
-        public nhapHangrielGUI()
+        public nhapHangGUI()
         {
             InitializeComponent();
             FontManager.LoadFont();
