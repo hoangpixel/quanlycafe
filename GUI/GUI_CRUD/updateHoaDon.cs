@@ -433,7 +433,8 @@ namespace GUI.GUI_CRUD
                 return;
             }
             int maTT = Convert.ToInt32(cbThanhToan.SelectedValue);
-            decimal tongTien = gioHang.Sum(g => g.ThanhTien);
+            decimal tongTien = gioHang.Sum(g => g.SoLuong * g.DonGia);
+
             int maBan = doiTuong.MaBan;
             int maKhachHang = doiTuong.MaKhachHang;
             //string tenKhach = string.IsNullOrEmpty(doiTuong.TenKhachHang) ? "Khách lẻ" : doiTuong.TenKhachHang;
@@ -467,11 +468,11 @@ namespace GUI.GUI_CRUD
                 MaTT = maTT,
                 ThoiGianTao = DateTime.Now,
                 TrangThai = true,
-                KhoaSo = dangLamMoi ? (byte)1 : (byte)0
+                //KhoaSo = dangLamMoi ? (byte)1 : (byte)0
             };
             banBUS busBan = new banBUS();
             //busBan.DoiTrangThais(maBan);
-            int maHD = busHoaDon.ThemHoaDon(hd, gioHang);
+            int maHD = busHoaDon.SuaHoaDon(hd, gioHang);
             
             if (maHD > 0)
             {

@@ -445,7 +445,7 @@ namespace GUI.GUI_UC
                 return;
             }
             int maTT = Convert.ToInt32(cbThanhToan.SelectedValue);
-            decimal tongTien = gioHang.Sum(g => g.ThanhTien);
+            decimal tongTien = gioHang.Sum(g => g.SoLuong * g.DonGia);
 
             string message = $@"XÁC NHẬN TẠO HÓA ĐƠN
             ────────────────────────────
@@ -454,7 +454,7 @@ namespace GUI.GUI_UC
             Nhân viên: {txtNhanVien.Text}
             Số món: {gioHang.Count}
             PPTT: {maTT}
-            Tổng tiền: {tongTien:N0} VNĐ
+ 
             ────────────────────────────
             Bạn có chắc chắn muốn tạo hóa đơn không?";
 
@@ -476,7 +476,8 @@ namespace GUI.GUI_UC
                 MaNhanVien = maNV,
                 MaTT = maTT,       
                 ThoiGianTao = DateTime.Now,
-                TrangThai = true
+                TrangThai = true,
+                TongTien= tongTien
             };
             banBUS busBan = new banBUS();
             busBan.DoiTrangThai(maBan);
@@ -489,7 +490,7 @@ namespace GUI.GUI_UC
                 MessageBox.Show($@"TẠO HÓA ĐƠN THÀNH CÔNG!
                 Mã hóa đơn: HD{maHD}
                 Bàn: {maBan}
-                Tổng tiền: {tongTien:N0} VNĐ
+
                 Nhân viên: {txtNhanVien.Text}",
                                 "Thành công!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -880,7 +881,14 @@ namespace GUI.GUI_UC
                     MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     busHoaDon.doiTrangThaiBanSauKhiXoaHD(hd.MaBan);
-                    busHoaDon.UpdateKhoaSo(hd.MaHD);
+                    
+                    foreach (hoaDonDTO ct in dsHoaDon)
+                    {
+                        if ( ct.MaBan==hd.MaBan)
+                        {
+                            busHoaDon.UpdateKhoaSo(hd.MaBan);
+                        }
+                    }
                     MessageBox.Show(
                         $@"KHOA SO THÀNH CÔNG!
                         Hóa đơn HD{hd.MaHD} đã xóa hoàn tất.
@@ -895,6 +903,7 @@ namespace GUI.GUI_UC
                                       
                 }
             }
+            dgvHoaDon.Refresh();
         }
     }
  }

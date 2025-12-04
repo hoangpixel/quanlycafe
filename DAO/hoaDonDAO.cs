@@ -70,37 +70,54 @@ namespace DAO
 
         public int Them(hoaDonDTO hd, BindingList<cthoaDonDTO> dsCT)
         {
+            if (hd == null)
+                throw new Exception("hoaDonDTO (hd) đang NULL!");
+
+            if (dsCT == null || dsCT.Count == 0)
+                throw new Exception("Danh sách chi tiết hóa đơn (dsCT) NULL hoặc không có sản phẩm!");
+
             MySqlConnection conn = DBConnect.GetConnection();
             MySqlTransaction tran = null;
 
             try
             {
+                // ĐẢM BẢO CHẮC CHẮN KẾT NỐI ĐƯỢC MỞ
                 if (conn.State != System.Data.ConnectionState.Open)
+                {
                     conn.Open();
+                }
 
+                // PHẢI CÓ NGOẶC {}, NẾU KHÔNG tran SẼ LUÔN NULL
                 tran = conn.BeginTransaction();
 
-                decimal tongTien = 0;
+                //-------------------------------------
+                // TÍNH TỔNG TIỀN
+                //-------------------------------------
+                /*decimal tongTien = 0;
                 foreach (var ct in dsCT)
                 {
                     tongTien += ct.SoLuong * ct.DonGia;
                 }
-                hd.TongTien = tongTien;
+                hd.TongTien = tongTien;*/
+
+                //-------------------------------------
+                // INSERT HÓA ĐƠN
+                //-------------------------------------
 
                 string sqlHD = @"
-                INSERT INTO hoadon 
-                    (MABAN, MATT, THOIGIANTAO, TRANGTHAI, TONGTIEN, MAKHACHHANG, MANHANVIEN)
-                VALUES
-                    (@MaBan, @MaTT, @ThoiGianTao, 1, 0, @MaKH, @MaNV);
-                SELECT LAST_INSERT_ID();
-                ";
-
+            INSERT INTO hoadon 
+                (MABAN, MATT, THOIGIANTAO, TRANGTHAI, TONGTIEN, MAKHACHHANG, MANHANVIEN)
+            VALUES
+                (@MaBan, @MaTT, @ThoiGianTao, 1, @TongTien, @MaKH, @MaNV);
+            SELECT LAST_INSERT_ID();
+        ";
 
                 var cmdHD = new MySqlCommand(sqlHD, conn, tran);
                 cmdHD.Parameters.AddWithValue("@MaBan", hd.MaBan);
                 cmdHD.Parameters.AddWithValue("@MaTT", hd.MaTT);
                 cmdHD.Parameters.AddWithValue("@MaKH", hd.MaKhachHang);
                 cmdHD.Parameters.AddWithValue("@MaNV", hd.MaNhanVien);
+                cmdHD.Parameters.AddWithValue("@TongTien", hd.TongTien);
 
                 var thoiGian = hd.ThoiGianTao == default(DateTime)
                     ? DateTime.Now
@@ -108,11 +125,17 @@ namespace DAO
                 cmdHD.Parameters.AddWithValue("@ThoiGianTao", thoiGian);
 
                 int maHD = Convert.ToInt32(cmdHD.ExecuteScalar());
-                hd.MaHD = maHD;
+                hd.MaHD = maHD; // Gán mã hóa đơn cho DTO
+
+                //-------------------------------------
+                // INSERT CHI TIẾT HÓA ĐƠN
+                //-------------------------------------
 
                 string sqlCT = @"
-            INSERT INTO cthd (MAHOADON, MASANPHAM, SOLUONG, DONGIA, THANHTIEN)
-            VALUES (@MaHD, @MaSP, @SoLuong, @DonGia, @ThanhTien);
+            INSERT INTO cthd 
+                (MAHOADON, MASANPHAM, SOLUONG, DONGIA, THANHTIEN)
+            VALUES 
+                (@MaHD, @MaSP, @SoLuong, @DonGia, @ThanhTien);
         ";
 
                 foreach (var ct in dsCT)
@@ -131,10 +154,13 @@ namespace DAO
                     cmdCT.ExecuteNonQuery();
                 }
 
+                //-------------------------------------
+                // COMMIT TRANSACTION
+                //-------------------------------------
                 tran.Commit();
                 return maHD;
             }
-            catch (MySqlException ex)
+            catch (Exception ex)
             {
                 if (tran != null)
                     tran.Rollback();
@@ -147,6 +173,7 @@ namespace DAO
                 DBConnect.CloseConnection(conn);
             }
         }
+
         public int SuaHD(hoaDonDTO hd, BindingList<cthoaDonDTO> dsCT)
         {
             MySqlConnection conn = DBConnect.GetConnection();
@@ -154,11 +181,9 @@ namespace DAO
 
             try
             {
-                if (conn.State != System.Data.ConnectionState.Open)
-                    conn.Open();
-
                 tran = conn.BeginTransaction();
 
+                // 1. Tính tổng tiền
                 decimal tongTien = 0;
                 foreach (var ct in dsCT)
                 {
@@ -166,29 +191,45 @@ namespace DAO
                 }
                 hd.TongTien = tongTien;
 
+                // 2. Insert Hóa Đơn
+                // Lưu ý: Đã sửa số 0 thành @TongTien
                 string sqlHD = @"
-                INSERT INTO hoadon 
-                    (MABAN, MATT, THOIGIANTAO, TRANGTHAI, TONGTIEN, MAKHACHHANG, MANHANVIEN)
-                VALUES
-                    (@MaBan, @MaTT, @ThoiGianTao, 1, 0, @MaKH, @MaNV);
-                SELECT LAST_INSERT_ID();
-                ";
-
+        INSERT INTO hoadon 
+            (MABAN, MATT, THOIGIANTAO, TRANGTHAI, TONGTIEN, MAKHACHHANG, MANHANVIEN)
+        VALUES
+            (@MaBan, @MaTT, @ThoiGianTao, 1, @TongTien, @MaKH, @MaNV);
+        SELECT LAST_INSERT_ID();
+        ";
 
                 var cmdHD = new MySqlCommand(sqlHD, conn, tran);
                 cmdHD.Parameters.AddWithValue("@MaBan", hd.MaBan);
                 cmdHD.Parameters.AddWithValue("@MaTT", hd.MaTT);
-                cmdHD.Parameters.AddWithValue("@MaKH", hd.MaKhachHang);
+
+                // --- SỬA LỖI QUAN TRỌNG Ở ĐÂY ---
+                // Nếu Mã KH <= 0 (Khách lẻ) thì truyền NULL vào database
+                if (hd.MaKhachHang <= 0)
+                {
+                    cmdHD.Parameters.AddWithValue("@MaKH", DBNull.Value);
+                }
+                else
+                {
+                    cmdHD.Parameters.AddWithValue("@MaKH", hd.MaKhachHang);
+                }
+                // --------------------------------
+
                 cmdHD.Parameters.AddWithValue("@MaNV", hd.MaNhanVien);
+                cmdHD.Parameters.AddWithValue("@TongTien", hd.TongTien); // Truyền tổng tiền vào
 
                 var thoiGian = hd.ThoiGianTao == default(DateTime)
                     ? DateTime.Now
                     : hd.ThoiGianTao;
                 cmdHD.Parameters.AddWithValue("@ThoiGianTao", thoiGian);
 
+                // Thực thi insert hóa đơn
                 int maHD = Convert.ToInt32(cmdHD.ExecuteScalar());
                 hd.MaHD = maHD;
 
+                // 3. Insert Chi Tiết Hóa Đơn
                 string sqlCT = @"
             INSERT INTO cthd (MAHOADON, MASANPHAM, SOLUONG, DONGIA, THANHTIEN)
             VALUES (@MaHD, @MaSP, @SoLuong, @DonGia, @ThanhTien);
@@ -209,7 +250,6 @@ namespace DAO
 
                     cmdCT.ExecuteNonQuery();
                 }
-
                 tran.Commit();
                 return maHD;
             }
@@ -217,8 +257,7 @@ namespace DAO
             {
                 if (tran != null)
                     tran.Rollback();
-
-                Console.WriteLine("Lỗi thêm hóa đơn: " + ex.Message);
+                Console.WriteLine("Lỗi thêm hóa đơn chi tiết: " + ex.Message);
                 return -1;
             }
             finally
@@ -258,7 +297,7 @@ namespace DAO
 
             try
             {
-                conn.Open();
+
                 tran = conn.BeginTransaction();
 
                 string qryCT = "DELETE FROM cthd WHERE MAHOADON = @MaHD";
@@ -395,8 +434,6 @@ namespace DAO
         {
             using (var conn = DBConnect.GetConnection())
             {
-                conn.Open();
-
                 string qry = "UPDATE hoadon SET TrangThai = 1 WHERE MaHD = @maHD";
 
                 using (var cmd = new MySqlCommand(qry, conn))
@@ -440,14 +477,14 @@ namespace DAO
             return maHD + 1;
         }
 
-        public bool UpdateKhoaSo(int maHD)
+        public bool UpdateKhoaSo(int maBan)
         {
-            string sql = "UPDATE hoadon SET KHOASO = 1 WHERE MAHOADON = @id";
+            string sql = "UPDATE hoadon SET KHOASO = 1 WHERE MABAN = @id";
 
             using (var conn = DBConnect.GetConnection())
             using (var cmd = new MySqlCommand(sql, conn))
             {
-                cmd.Parameters.AddWithValue("@id", maHD);
+                cmd.Parameters.AddWithValue("@id", maBan);
 
                 return cmd.ExecuteNonQuery() > 0;
             }

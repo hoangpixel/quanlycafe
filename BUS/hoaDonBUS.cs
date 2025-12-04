@@ -23,10 +23,17 @@ namespace BUS
         {
             return dao.layMa();
         }
-        public bool UpdateKhoaSo(int maHD)
+        public bool UpdateKhoaSo(int maBan)
         {
-            return dao.UpdateKhoaSo(maHD);
-            
+            bool kq = dao.UpdateKhoaSo(maBan);
+            foreach(hoaDonDTO hd in ds)
+            {
+                if(hd.MaBan == maBan)
+                {
+                    hd.KhoaSo = 1;
+                }
+            }
+            return kq;
         }
         public int ThemHoaDon(hoaDonDTO hd, BindingList<cthoaDonDTO> dsChiTiet)
         {
