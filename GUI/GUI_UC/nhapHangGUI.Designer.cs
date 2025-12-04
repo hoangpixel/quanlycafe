@@ -306,7 +306,7 @@
             "Mã nguyên liệu",
             "Tên nguyên liệu",
             "Tên đơn vị"});
-            this.cboTimKiemNL.Location = new System.Drawing.Point(10, 10);
+            this.cboTimKiemNL.Location = new System.Drawing.Point(10, 8);
             this.cboTimKiemNL.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemNL.Name = "cboTimKiemNL";
             this.cboTimKiemNL.Size = new System.Drawing.Size(176, 28);
@@ -492,6 +492,11 @@
             // numSoLuong
             // 
             this.numSoLuong.Location = new System.Drawing.Point(186, 150);
+            this.numSoLuong.Maximum = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
             this.numSoLuong.Name = "numSoLuong";
             this.numSoLuong.Size = new System.Drawing.Size(177, 28);
             this.numSoLuong.TabIndex = 17;
@@ -780,7 +785,7 @@
             // 
             this.cboLoaiSP.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cboLoaiSP.FormattingEnabled = true;
-            this.cboLoaiSP.Location = new System.Drawing.Point(11, 15);
+            this.cboLoaiSP.Location = new System.Drawing.Point(11, 13);
             this.cboLoaiSP.Name = "cboLoaiSP";
             this.cboLoaiSP.Size = new System.Drawing.Size(109, 28);
             this.cboLoaiSP.TabIndex = 0;
@@ -789,7 +794,7 @@
             // 
             this.cboTrangThai.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cboTrangThai.FormattingEnabled = true;
-            this.cboTrangThai.Location = new System.Drawing.Point(142, 15);
+            this.cboTrangThai.Location = new System.Drawing.Point(142, 13);
             this.cboTrangThai.Name = "cboTrangThai";
             this.cboTrangThai.Size = new System.Drawing.Size(109, 28);
             this.cboTrangThai.TabIndex = 1;
@@ -855,7 +860,7 @@
             "Tên nhóm",
             "Giá min",
             "Giá max"});
-            this.cboTimKiemSP.Location = new System.Drawing.Point(10, 10);
+            this.cboTimKiemSP.Location = new System.Drawing.Point(10, 8);
             this.cboTimKiemSP.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemSP.Name = "cboTimKiemSP";
             this.cboTimKiemSP.Size = new System.Drawing.Size(176, 28);
@@ -1051,14 +1056,14 @@
             this.btnChiTietPN.UseVisualStyleBackColor = true;
             this.btnChiTietPN.Click += new System.EventHandler(this.btnChiTietPN_Click);
             // 
-            // nhapHangrGUI
+            // nhapHangGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
-            this.Name = "nhapHangrGUI";
+            this.Name = "nhapHangGUI";
             this.Size = new System.Drawing.Size(1700, 1000);
             this.Load += new System.EventHandler(this.nhapHangrielGUI_Load);
             this.tabControl1.ResumeLayout(false);

@@ -17,6 +17,8 @@ namespace GUI.GUI_UC
     public partial class nhanVienriel : UserControl
     {
         private nhanVienBUS busNhanVien = new nhanVienBUS();
+        private BindingList<taikhoanDTO> dsTK;
+        public BindingList<nhanVienDTO> dsNhanVien = new nhanVienBUS().LayDanhSach();
         public nhanVienriel()
         {
             InitializeComponent();
@@ -26,10 +28,11 @@ namespace GUI.GUI_UC
         {
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
+            dsTK = new taikhoanBUS().LayDanhSach();
 
-            BindingList<nhanVienDTO> ds = new nhanVienBUS().LayDanhSach();
-            loadDanhSachNhanVien(ds);
+            loadDanhSachNhanVien(dsNhanVien);
             rdoTimCoBan.Checked = true;
+            loadChuVoTxtVaCb();
         }
 
         private void loadDanhSachNhanVien(BindingList<nhanVienDTO> ds)
@@ -79,6 +82,26 @@ namespace GUI.GUI_UC
             tbNhanVien.ClearSelection();
             loadFontChuVaSize();
         }
+
+        private void tbNhanVien_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= tbNhanVien.Rows.Count) return;
+            var column = tbNhanVien.Columns[e.ColumnIndex];
+
+            if (column.HeaderText == "Tài khoản")
+            {
+                nhanVienDTO nv = tbNhanVien.Rows[e.RowIndex].DataBoundItem as nhanVienDTO;
+
+                if (nv != null && dsTK != null)
+                {
+                    var tk = dsTK.FirstOrDefault(x => x.MANHANVIEN == nv.MaNhanVien);
+
+                    e.Value = (tk != null) ? "Có" : "Không";
+                    e.FormattingApplied = true;
+                }
+            }
+        }
+
         private void loadFontChuVaSize()
         {
             foreach (DataGridViewColumn col in tbNhanVien.Columns)
@@ -100,6 +123,64 @@ namespace GUI.GUI_UC
             tbNhanVien.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
 
             tbNhanVien.Refresh();
+        }
+
+        private void SetPlaceholder(TextBox txt, string placeholder)
+        {
+            txt.ForeColor = Color.Gray;
+            txt.Text = placeholder;
+            txt.GotFocus += (s, e) =>
+            {
+                if (txt.Text == placeholder)
+                {
+                    txt.Text = "";
+                    txt.ForeColor = Color.Black;
+                }
+            };
+            txt.LostFocus += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(txt.Text))
+                {
+                    txt.ForeColor = Color.Gray;
+                    txt.Text = placeholder;
+                }
+            };
+        }
+
+        private void SetComboBoxPlaceholder(ComboBox cbo, string placeholder)
+        {
+
+            cbo.ForeColor = Color.Gray;
+            cbo.Text = placeholder;
+
+            cbo.GotFocus += (s, e) =>
+            {
+                if (cbo.Text == placeholder)
+                {
+                    cbo.Text = "";
+                    cbo.ForeColor = Color.Black;
+                }
+            };
+            cbo.LostFocus += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(cbo.Text))
+                {
+                    cbo.Text = placeholder;
+                    cbo.ForeColor = Color.Gray;
+                }
+            };
+        }
+
+        private void loadChuVoTxtVaCb()
+        {
+            SetupComboBoxData(cboTaiKhoan);
+
+            SetComboBoxPlaceholder(cboTimKiemNV, "Chọn giá trị TK");
+            SetPlaceholder(txtTimKiemNV, "Nhập giá trị tìm cần tìm");
+            SetPlaceholder(txtTenNV, "Nhập tên NV");
+            SetPlaceholder(txtSdtNV, "Nhập sđt NV");
+            SetPlaceholder(txtEmailNV, "Nhập email NV");
+            SetComboBoxPlaceholder(cboTaiKhoan, "Tài khoản");
         }
 
         private int lastSelectedRowNhanVien = -1;
@@ -203,6 +284,22 @@ namespace GUI.GUI_UC
             }
         }
 
+        private void SetupComboBoxData(ComboBox cbo)
+        {
+            // Tạo danh sách dữ liệu có Giá trị đi kèm
+            var items = new List<dynamic>
+    {
+        new { Text = "Có", Value = 1 },
+        new { Text = "Không", Value = 0 }
+    };
+
+            cbo.DisplayMember = "Text";
+            cbo.ValueMember = "Value";
+            cbo.DataSource = items;
+
+            cbo.SelectedIndex = -1;
+        }
+
         private void resetGiaTri()
         {
             cboTimKiemNV.SelectedIndex = -1;
@@ -212,6 +309,7 @@ namespace GUI.GUI_UC
             txtTenNV.Clear();
             txtEmailNV.Clear();
             loadFontChuVaSize();
+            loadChuVoTxtVaCb();
         }
 
         private void rdoTimCoBan_CheckedChanged(object sender, EventArgs e)
@@ -222,7 +320,7 @@ namespace GUI.GUI_UC
                 txtTimKiemNV.Enabled = true;
 
                 txtSdtNV.Enabled = false;
-                txtSdtNV.Enabled = false;
+                txtTenNV.Enabled = false;
                 txtEmailNV.Enabled = false;
                 cboTaiKhoan.Enabled = false;
                 rdoTimNangCao.Checked = false;
@@ -319,39 +417,63 @@ namespace GUI.GUI_UC
             string tenNCC = string.IsNullOrWhiteSpace(txtTenNV.Text) ? null : txtTenNV.Text.Trim();
             string sdtNCC = string.IsNullOrWhiteSpace(txtSdtNV.Text) ? null : txtSdtNV.Text.Trim();
             string emailNCC = string.IsNullOrWhiteSpace(txtEmailNV.Text) ? null : txtEmailNV.Text.Trim();
-            if (tenNCC == "Nhập tên NCC")
+            int tk = (cboTaiKhoan.SelectedIndex == -1) ? -1 : Convert.ToInt32(cboTaiKhoan.SelectedValue);
+            if (tenNCC == "Nhập tên NV")
             {
                 tenNCC = null;
             }
-            if (sdtNCC == "Nhập sđt NCC")
+            if (sdtNCC == "Nhập sđt NV")
             {
                 sdtNCC = null;
             }
-            if (emailNCC == "Nhập email NCC")
+            if (emailNCC == "Nhập email NV")
             {
                 emailNCC = null;
             }
-            if (diachiNCC == "Nhập địa chỉ")
-            {
-                diachiNCC = null;
-            }
 
-            if (tenNCC == null && sdtNCC == null && emailNCC == null && diachiNCC == null)
+
+            if (tenNCC == null && sdtNCC == null && emailNCC == null && tk == -1)
             {
                 MessageBox.Show("Vui lòng nhập ít nhất một điều kiện để tìm kiếm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            BindingList<nhaCungCapDTO> dskq = busNhaCungCap.timKiemNangCao(tenNCC, sdtNCC, emailNCC, diachiNCC);
+            BindingList<nhanVienDTO> dskq = busNhanVien.timKiemNangCao(tenNCC, sdtNCC, emailNCC, tk);
             if (dskq != null && dskq.Count > 0)
             {
-                loadDanhSachNhaCungCap(dskq);
+                loadDanhSachNhanVien(dskq);
                 loadFontChuVaSize();
             }
             else
             {
                 MessageBox.Show("Không tìm thấy giá trị cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
+            }
+        }
+
+        private void tbNhanVien_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            tbNhanVien.ClearSelection();
+        }
+
+        private void btnReFreshNV_Click(object sender, EventArgs e)
+        {
+            resetGiaTri();
+            BindingList<nhanVienDTO> ds = new nhanVienBUS().LayDanhSach();
+            loadDanhSachNhanVien(ds);
+            loadChuVoTxtVaCb();
+        }
+
+        private void btnExcelNV_Click(object sender, EventArgs e)
+        {
+            using(selectExcelNhanVien form = new selectExcelNhanVien())
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                if(form.ShowDialog() == DialogResult.OK)
+                {
+                    BindingList<nhanVienDTO> ds = new nhanVienBUS().LayDanhSach();
+                    loadDanhSachNhanVien(ds);
+                }
             }
         }
     }

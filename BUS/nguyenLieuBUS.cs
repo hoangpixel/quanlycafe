@@ -189,7 +189,7 @@ namespace BUS
                         }
                     case 3:
                         {
-                            float tonKhoMin = float.Parse(tim.ToString());
+                            decimal tonKhoMin = decimal.Parse(tim.ToString());
                             if(ct.TonKho >= tonKhoMin)
                             {
                                 kq.Add(ct);
@@ -198,7 +198,7 @@ namespace BUS
                         }
                     case 4:
                         {
-                            float tonKhoMax = float.Parse(tim.ToString());
+                            decimal tonKhoMax = decimal.Parse(tim.ToString());
                             if(ct.TonKho <= tonKhoMax)
                             {
                                 kq.Add(ct);
@@ -229,7 +229,7 @@ namespace BUS
             return true;
         }
 
-        public BindingList<nguyenLieuDTO> timKiemNangCao(int trangThaiNL,string tenNL,string tenDV,float tonKhoMin,float tonKhoMax)
+        public BindingList<nguyenLieuDTO> timKiemNangCao(int trangThaiNL,string tenNL,string tenDV, decimal tonKhoMin, decimal tonKhoMax)
         {
             BindingList<nguyenLieuDTO> dskq = new BindingList<nguyenLieuDTO>();
             BindingList<donViDTO> dsDV = new donViBUS().LayDanhSach();

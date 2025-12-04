@@ -129,7 +129,7 @@ namespace DAO
             }
             catch (Exception e)
             {
-                Console.WriteLine("❌ Lỗi sửa công thức: " + e.Message);
+                Console.WriteLine("Lỗi sửa công thức: " + e.Message);
                 return false;
             }
         }
@@ -173,7 +173,7 @@ namespace DAO
                 catch (Exception ex)
                 {
                     trans.Rollback();
-                    Console.WriteLine("❌ Lỗi xóa công thức: " + ex.Message);
+                    Console.WriteLine("Lỗi xóa công thức: " + ex.Message);
                     return false;
                 }
             }

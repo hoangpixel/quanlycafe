@@ -29,7 +29,7 @@ namespace DAO
                         TenNguyenLieu = reader.GetString("TENNGUYENLIEU"),
                         MaDonViCoSo = reader.GetInt32("MADONVICOSO"),
                         TrangThai = reader.GetInt32("TRANGTHAI"),
-                        TonKho = reader.GetFloat("TONKHO"),
+                        TonKho = reader.GetDecimal("TONKHO"),
                         TrangThaiDV = reader.GetInt32("TRANGTHAIDV")
                     };
 
@@ -182,7 +182,7 @@ namespace DAO
                             MaNguyenLieu = reader.GetInt32("MANGUYENLIEU"),
                             TenNguyenLieu = reader.GetString("TENNGUYENLIEU"),
                             MaDonViCoSo = reader.GetInt32("MADONVICOSO"),
-                            TonKho = reader.GetFloat("TONKHO")
+                            TonKho = reader.GetDecimal("TONKHO")
                         };
                     }
                 }

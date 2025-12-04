@@ -1,15 +1,16 @@
-﻿using System;
+﻿using BUS;
+using DAO;
+using DTO;
+using FONTS;
+using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Text.RegularExpressions;
-using DAO;
-using DTO;
-using BUS;
 
 namespace GUI.GUI_CRUD
 {
@@ -22,6 +23,8 @@ namespace GUI.GUI_CRUD
         {
             InitializeComponent();
             this.nv = nv;
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
         }
 
         private void addNv_Load(object sender, EventArgs e)
@@ -35,6 +38,11 @@ namespace GUI.GUI_CRUD
         {
             if (!ValidateInput())
                 return;
+
+            if (nv == null)
+            {
+                nv = new nhanVienDTO();
+            }
 
             nv.MaNhanVien = nvBus.LayMa();
             nv.HoTen = txtTen.Text.Trim();

@@ -14,17 +14,8 @@ namespace DTO
 
         public int TrangThaiDV { get; set; }
 
-        public float TonKho { get; set; }
+        public decimal TonKho { get; set; }
 
         public nguyenLieuDTO() { }
-
-        public nguyenLieuDTO(int ma, string ten, int maDonVi, int trangThai, float tonKho)
-        {
-            MaNguyenLieu = ma;
-            TenNguyenLieu = ten;
-            MaDonViCoSo = maDonVi;
-            TrangThai = trangThai;
-            TonKho = tonKho;
-        }
     }
 }

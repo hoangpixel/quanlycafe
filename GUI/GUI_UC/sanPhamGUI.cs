@@ -31,7 +31,6 @@ namespace GUI.GUI_UC
             hienThiPlaceHolderSanPham();
             FontManager.ApplyFontToAllControls(this);
 
-            // đoạn này là để load danh sách của 2 cái nhóm với loại rồi hiện lên cột á
             loaiSanPhamBUS loaiBus = new loaiSanPhamBUS();
             dsLoai = loaiBus.LayDanhSach();
 
@@ -45,9 +44,42 @@ namespace GUI.GUI_UC
             tbSanPham.ClearSelection();
             loadComboBoxLoaiSPTK();
             rdoTimCoBan.Checked = true;
+
+            CheckQuyen();
         }
 
+        private void CheckQuyen()
+        {
+            var quyenSP = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 1);
 
+            if (quyenSP != null)
+            {
+                // Có quyền cấu hình -> Set Enable/Visible cho các nút
+
+                // Quyền Thêm (Create)
+                btnThemSP.Enabled = (quyenSP.CAN_CREATE == 1);
+
+                // Quyền Sửa (Update)
+                btnSuaSP.Enabled = (quyenSP.CAN_UPDATE) == 1;
+
+                // Quyền Xóa (Delete)
+                btnXoaSP.Enabled = (quyenSP.CAN_DELETE) == 1;
+
+                // Nếu không có quyền xem (Read) -> Ẩn luôn cả bảng hoặc báo lỗi
+                if (quyenSP.CAN_READ == 0)
+                {
+                    MessageBox.Show("Bạn không có quyền truy cập trang này!");
+                    this.Visible = false; // Hoặc disable cả form
+                }
+            }
+            else
+            {
+                // Không tìm thấy cấu hình quyền -> Mặc định khóa hết cho an toàn
+                btnThemSP.Enabled = false;
+                btnSuaSP.Enabled = false;
+                btnXoaSP.Enabled = false;
+            }
+        }
         private void loadFontChuVaSize()
         {
             foreach (DataGridViewColumn col in tbSanPham.Columns)

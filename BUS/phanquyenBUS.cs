@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace BUS
 {
@@ -348,6 +349,11 @@ namespace BUS
 
             LayDanhSach(); // Refresh lại list hiển thị
             return $"Hoàn tất!\n- Thêm mới: {soThem}\n- Cập nhật: {soCapNhat}\n- Bỏ qua: {soBoQua}";
+        }
+
+        public BindingList<phanquyenDTO> LayQuyenCuaNhanVien(int maVaiTro)
+        {
+            return data.LayChiTietQuyenTheoVaiTro(maVaiTro);
         }
     }
 }

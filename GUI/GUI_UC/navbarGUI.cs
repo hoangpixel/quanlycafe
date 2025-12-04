@@ -2,6 +2,8 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Linq; // Cần thêm dòng này để dùng LINQ
+using DTO;         // Cần thêm dòng này để dùng Session và PhanQuyenDTO
 
 namespace GUI.GUI_UC
 {
@@ -11,53 +13,156 @@ namespace GUI.GUI_UC
 
         private Button currentButton;
         private Panel highlightPanel;
+        private Label lblTenNhanVien;
+
+        // ĐỊNH NGHĨA MÀU SẮC (THEME CAFE)
+        private Color colorBackground = Color.FromArgb(61, 34, 22);
+        private Color colorButtonHover = Color.FromArgb(85, 55, 40);
+        private Color colorActive = Color.FromArgb(100, 60, 40);
+        private Color colorHighlight = Color.FromArgb(210, 180, 140);
 
         public navbarGUI()
         {
             InitializeComponent();
             InitializeLayout();
+            LoadThongTinUser();
+        }
+
+        private void LoadThongTinUser()
+        {
+            if (DTO.Session.NhanVienHienTai != null)
+            {
+                SetTenNhanVien(DTO.Session.NhanVienHienTai.HoTen);
+            }
+            else
+            {
+                SetTenNhanVien("Admin");
+            }
         }
 
         private void InitializeLayout()
         {
             this.Dock = DockStyle.Left;
             this.Width = 230;
-            this.BackColor = Color.FromArgb(40, 42, 54);
+            this.BackColor = colorBackground;
 
-            // 🔹 Thanh highlight bên trái
+            // 1. THANH HIGHLIGHT BÊN TRÁI
             highlightPanel = new Panel
             {
                 Size = new Size(5, 50),
-                BackColor = Color.MediumSlateBlue,
+                BackColor = colorHighlight,
                 Visible = false
             };
             this.Controls.Add(highlightPanel);
 
-            // 🔹 Logo / Header
+            // 2. LOGO / HEADER
             Label lblHeader = new Label
             {
-                Text = "☕  XANGCAFE",
+                Text = "☕ XANGCAFE",
                 Dock = DockStyle.Top,
-                Height = 70,
+                Height = 60,
                 TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Segoe UI Semibold", 13, FontStyle.Bold),
-                ForeColor = Color.White
+                Font = new Font("Segoe UI", 14, FontStyle.Bold),
+                ForeColor = Color.White,
+                BackColor = colorBackground
             };
             this.Controls.Add(lblHeader);
 
-            // 🔹 Các nút menu
-            AddNavButton("🏠  Trang chủ", "home");
-            AddNavButton("🚚  Nhập hàng", "nhaphang");
-            AddNavButton("☕  Sản phẩm", "sanpham");
-            AddNavButton("🌾  Nguyên liệu", "nguyenlieu");
-            AddNavButton("📖  Công thức", "congthuc");
-            AddNavButton("🧑‍🍳  Nhân viên", "nhanvien");
-            AddNavButton("🧑‍🍳  Tài khoản", "taikhoan");
-            AddNavButton("👥  Khách hàng", "khachhang");
-            AddNavButton("📈  Báo cáo", "thongke");
-            AddNavButton("🛡️  Phân quyền", "phanquyen");
-            AddNavButton("🏭  Nhà cung cấp", "nhacungcap");
-            AddNavButton("👋  Thoát", "exit");
+            // 3. KHU VỰC HIỂN THỊ THÔNG TIN NHÂN VIÊN
+            Panel panelUser = new Panel
+            {
+                Dock = DockStyle.Top,
+                Height = 80,
+                BackColor = colorBackground
+            };
+
+            Label lblUserIcon = new Label
+            {
+                Text = "👤",
+                Font = new Font("Segoe UI", 24),
+                ForeColor = colorHighlight,
+                AutoSize = true,
+                Location = new Point(95, 0)
+            };
+
+            lblTenNhanVien = new Label
+            {
+                Text = "Xin chào, Nhân viên",
+                Dock = DockStyle.Bottom,
+                Height = 30,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI", 10, FontStyle.Italic),
+                ForeColor = Color.LightGray
+            };
+
+            panelUser.Controls.Add(lblUserIcon);
+            panelUser.Controls.Add(lblTenNhanVien);
+            this.Controls.Add(panelUser);
+
+            // 4. CÁC NÚT MENU (Kiểm tra quyền trước khi Add)
+
+            AddNavButton("🏠 Trang chủ", "home"); // Trang chủ luôn hiện
+
+            // Nhập hàng (Mã Quyền = 2 - Nhập xuất)
+            CheckAndAddButton("🚚 Nhập hàng", "nhaphang", 2);
+
+            // Sản phẩm, Công thức, Nguyên liệu (Mã Quyền = 1 - Quản lý sản phẩm)
+            CheckAndAddButton("📖 Công thức", "congthuc", 1);
+            CheckAndAddButton("🌾 Nguyên liệu", "nguyenlieu", 1);
+            CheckAndAddButton("☕ Sản phẩm", "sanpham", 1);
+
+            // Tài khoản & Nhân viên (Giả sử Mã Quyền = 4 - Quản lý nhân sự)
+            CheckAndAddButton("🧑‍🍳 Tài khoản", "taikhoan", 4);
+            CheckAndAddButton("🧑‍🍳 Nhân viên", "nhanvien", 4);
+
+            AddNavButton("📈 Báo cáo", "thongke"); // Giả sử ai cũng xem được báo cáo
+            AddNavButton("👥 Khách hàng", "khachhang");
+
+            // Phân quyền (Thường chỉ Admin có, hoặc Mã Quyền riêng)
+            // Nếu không check quyền thì cứ dùng AddNavButton bình thường
+            AddNavButton("🛡️ Phân quyền", "phanquyen");
+
+            // Nhà cung cấp (Giả sử Mã Quyền = 2 - Nhập xuất)
+            CheckAndAddButton("🏭 Nhà cung cấp", "nhacungcap", 2);
+
+            // Những trang cơ bản (ai cũng thấy hoặc không cần quyền đặc biệt)
+            AddNavButton("👋 Thoát", "exit");
+
+            // Các trang cần check quyền (Ví dụ mã quyền tương ứng)
+            // Lưu ý: Bạn cần biết Mã Quyền của từng trang trong DB là gì    
+        }
+
+        // HÀM KIỂM TRA QUYỀN VÀ THÊM NÚT
+        private void CheckAndAddButton(string text, string tag, int maQuyenCanThiet)
+        {
+            // 1. Nếu là Admin (Ví dụ MAVAITRO = 1) thì luôn cho phép
+            if (DTO.Session.TaiKhoanHienTai != null && DTO.Session.TaiKhoanHienTai.MAVAITRO == 1)
+            {
+                AddNavButton(text, tag);
+                return;
+            }
+
+            // 2. Kiểm tra trong danh sách quyền hiện tại
+            if (DTO.Session.QuyenHienTai != null)
+            {
+                // Tìm xem có quyền này không
+                var quyen = DTO.Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == maQuyenCanThiet);
+
+                // Nếu có quyền VÀ được phép Xem (CAN_READ = true/1)
+                if (quyen != null && quyen.CAN_READ == 1)
+                {
+                    AddNavButton(text, tag);
+                }
+                // Ngược lại: Không làm gì cả -> Nút sẽ không được thêm vào -> Tự động ẩn
+            }
+        }
+
+        public void SetTenNhanVien(string ten)
+        {
+            if (lblTenNhanVien != null)
+            {
+                lblTenNhanVien.Text = "Hi, " + ten;
+            }
         }
 
         private void AddNavButton(string text, string tag)
@@ -73,54 +178,48 @@ namespace GUI.GUI_UC
                 Padding = new Padding(25, 0, 0, 0),
                 Font = new Font("Segoe UI", 10, FontStyle.Regular),
                 ForeColor = Color.White,
-                BackColor = Color.FromArgb(45, 47, 59),
+                BackColor = colorBackground,
                 Cursor = Cursors.Hand
             };
 
             btn.FlatAppearance.BorderSize = 0;
 
-            // Hiệu ứng hover
             btn.MouseEnter += (s, e) =>
             {
                 if (btn != currentButton)
-                    btn.BackColor = Color.FromArgb(60, 62, 78);
+                    btn.BackColor = colorButtonHover;
             };
             btn.MouseLeave += (s, e) =>
             {
                 if (btn != currentButton)
-                    btn.BackColor = Color.FromArgb(45, 47, 59);
+                    btn.BackColor = colorBackground;
             };
 
-            // Xử lý click
             btn.Click += (s, e) => ActivateButton(btn);
 
             this.Controls.Add(btn);
-            this.Controls.SetChildIndex(btn, 1); // Giữ thứ tự menu đúng
+            this.Controls.SetChildIndex(btn, 0); // Đảm bảo thứ tự
         }
 
         private void ActivateButton(Button btn)
         {
-            // Reset màu nút cũ
             foreach (Control ctrl in this.Controls)
             {
                 if (ctrl is Button b)
                 {
-                    b.BackColor = Color.FromArgb(45, 47, 59);
+                    b.BackColor = colorBackground;
                     b.ForeColor = Color.White;
                 }
             }
 
-            // Cập nhật nút đang chọn
             currentButton = btn;
-            btn.BackColor = Color.MediumSlateBlue;
-            btn.ForeColor = Color.WhiteSmoke;
+            btn.BackColor = colorActive;
+            btn.ForeColor = colorHighlight;
 
-            // Hiển thị highlight
             highlightPanel.Visible = true;
             highlightPanel.BringToFront();
             highlightPanel.Location = new Point(0, btn.Top);
 
-            // Gọi sự kiện điều hướng
             string tag = btn.Tag.ToString();
             if (tag == "exit") Application.Exit();
             else OnNavClick?.Invoke(tag);
@@ -136,10 +235,9 @@ namespace GUI.GUI_UC
         {
             foreach (Control ctrl in this.Controls)
             {
-                // Tìm nút có Tag tương ứng và là Button
                 if (ctrl is Button btn && btn.Tag != null && btn.Tag.ToString() == tag)
                 {
-                    ActivateButton(btn); // Kích hoạt giao diện nút đó
+                    ActivateButton(btn);
                     break;
                 }
             }

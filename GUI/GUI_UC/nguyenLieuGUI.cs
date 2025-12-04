@@ -126,7 +126,7 @@ namespace GUI.GUI_UC
             tableNguyenLieu.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TenNguyenLieu", HeaderText = "Tên NL" });
             tableNguyenLieu.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaDonViCoSo", HeaderText = "Đơn vị" });
             tableNguyenLieu.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TrangThaiDV", HeaderText = "Trạng thái HS" });
-            tableNguyenLieu.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TonKho", HeaderText = "Tồn kho" });
+            tableNguyenLieu.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TonKho", HeaderText = "Tồn kho", DefaultCellStyle = new DataGridViewCellStyle { Format = "0.000" } });
 
             btnSuaNL.Enabled = false;
             btnXoaNL.Enabled = false;
@@ -153,7 +153,22 @@ namespace GUI.GUI_UC
             if (tableNguyenLieu.Columns[e.ColumnIndex].HeaderText == "Trạng thái HS")
             {
                 e.Value = ct.TrangThaiDV == 1 ? "Đã có hệ số" : "Chưa có hệ số";
-            }    
+            }
+            if (tableNguyenLieu.Columns[e.ColumnIndex].HeaderText == "Tồn kho" && e.Value != null)
+            {
+                if (double.TryParse(e.Value.ToString(), out double tonKho))
+                {
+                    if (tonKho % 1 == 0)
+                    {
+                        e.Value = tonKho.ToString("N0");
+                    }
+                    else
+                    {
+                        e.Value = tonKho.ToString("0.000"); 
+                    }
+                    e.FormattingApplied = true;
+                }
+            }
         }
         private void loadFontChuVaSize()
         {
@@ -367,18 +382,18 @@ namespace GUI.GUI_UC
                 }
             }
 
-            float tonMin = -1;
+            decimal tonMin = -1;
             string strMin = txtMinNL.Text.Trim();
             if (!string.IsNullOrWhiteSpace(strMin) && strMin != "Tồn min")
             {
-                float.TryParse(strMin, out tonMin);
+                decimal.TryParse(strMin, out tonMin);
             }
 
-            float tonMax = -1;
+            decimal tonMax = -1;
             string strMax = txtMaxNL.Text.Trim();
             if (!string.IsNullOrWhiteSpace(strMax) && strMax != "Tồn max")
             {
-                float.TryParse(strMax, out tonMax);
+                decimal.TryParse(strMax, out tonMax);
             }
 
             if (tonMin != -1 && tonMax != -1 && tonMin > tonMax)

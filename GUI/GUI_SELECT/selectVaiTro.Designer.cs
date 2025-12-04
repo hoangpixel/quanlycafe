@@ -1,6 +1,6 @@
 ﻿namespace GUI.GUI_SELECT
 {
-    partial class selectDonVi
+    partial class selectVaiTro
     {
         /// <summary>
         /// Required designer variable.
@@ -28,50 +28,62 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.btnThoat = new System.Windows.Forms.Button();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnTimKiem = new System.Windows.Forms.Button();
             this.txtTimKiem = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableDonVi = new System.Windows.Forms.DataGridView();
-            this.panelDV = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.panel5 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
-            this.panel3.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tableDonVi)).BeginInit();
-            this.panelDV.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.panel5.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel3
+            // panel1
             // 
-            this.panel3.Controls.Add(this.btnThoat);
-            this.panel3.Location = new System.Drawing.Point(183, 78);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(407, 488);
-            this.panel3.TabIndex = 1;
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.panel5);
+            this.panel1.Controls.Add(this.panel4);
+            this.panel1.Controls.Add(this.panel2);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Padding = new System.Windows.Forms.Padding(10);
+            this.panel1.Size = new System.Drawing.Size(429, 636);
+            this.panel1.TabIndex = 3;
             // 
-            // btnThoat
+            // button1
             // 
-            this.btnThoat.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnThoat.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThoat.Location = new System.Drawing.Point(283, 450);
-            this.btnThoat.Name = "btnThoat";
-            this.btnThoat.Size = new System.Drawing.Size(108, 49);
-            this.btnThoat.TabIndex = 4;
-            this.btnThoat.Text = "Thoát";
-            this.btnThoat.UseVisualStyleBackColor = true;
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(168, 583);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(93, 42);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "Thoát";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // panel5
+            // 
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.groupBox2);
+            this.panel5.Controls.Add(this.groupBox1);
+            this.panel5.Location = new System.Drawing.Point(10, 120);
+            this.panel5.Name = "panel5";
+            this.panel5.Padding = new System.Windows.Forms.Padding(10);
+            this.panel5.Size = new System.Drawing.Size(407, 457);
+            this.panel5.TabIndex = 6;
             // 
             // groupBox2
             // 
@@ -84,7 +96,7 @@
             this.groupBox2.Size = new System.Drawing.Size(380, 100);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Tìm kiếm đơn vị";
+            this.groupBox2.Text = "Tìm kiếm vai trò";
             // 
             // btnRefresh
             // 
@@ -127,7 +139,7 @@
             this.groupBox1.Size = new System.Drawing.Size(380, 322);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Danh sách đơn vị";
+            this.groupBox1.Text = "Danh sách vai trò";
             // 
             // tableDonVi
             // 
@@ -136,14 +148,14 @@
             this.tableDonVi.AllowUserToResizeColumns = false;
             this.tableDonVi.AllowUserToResizeRows = false;
             this.tableDonVi.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tableDonVi.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tableDonVi.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.tableDonVi.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableDonVi.EnableHeadersVisualStyles = false;
             this.tableDonVi.Location = new System.Drawing.Point(6, 27);
@@ -158,59 +170,12 @@
             this.tableDonVi.TabIndex = 0;
             this.tableDonVi.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableDonVi_CellClick);
             // 
-            // panelDV
-            // 
-            this.panelDV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelDV.Controls.Add(this.panel1);
-            this.panelDV.Controls.Add(this.panel3);
-            this.panelDV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelDV.Location = new System.Drawing.Point(0, 0);
-            this.panelDV.Name = "panelDV";
-            this.panelDV.Size = new System.Drawing.Size(429, 636);
-            this.panelDV.TabIndex = 1;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.panel5);
-            this.panel1.Controls.Add(this.panel4);
-            this.panel1.Controls.Add(this.panel2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(10);
-            this.panel1.Size = new System.Drawing.Size(427, 634);
-            this.panel1.TabIndex = 2;
-            // 
-            // button1
-            // 
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(168, 583);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(93, 42);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Thoát";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // panel5
-            // 
-            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel5.Controls.Add(this.groupBox2);
-            this.panel5.Controls.Add(this.groupBox1);
-            this.panel5.Location = new System.Drawing.Point(10, 120);
-            this.panel5.Name = "panel5";
-            this.panel5.Padding = new System.Windows.Forms.Padding(10);
-            this.panel5.Size = new System.Drawing.Size(407, 457);
-            this.panel5.TabIndex = 6;
-            // 
             // panel4
             // 
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(10, 110);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(407, 10);
+            this.panel4.Size = new System.Drawing.Size(409, 10);
             this.panel4.TabIndex = 1;
             // 
             // panel2
@@ -221,7 +186,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(10, 10);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(407, 100);
+            this.panel2.Size = new System.Drawing.Size(409, 100);
             this.panel2.TabIndex = 0;
             // 
             // bigLabel1
@@ -230,29 +195,26 @@
             this.bigLabel1.BackColor = System.Drawing.Color.Transparent;
             this.bigLabel1.Font = new System.Drawing.Font("Segoe UI", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bigLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.bigLabel1.Location = new System.Drawing.Point(87, 27);
+            this.bigLabel1.Location = new System.Drawing.Point(77, 25);
             this.bigLabel1.Name = "bigLabel1";
-            this.bigLabel1.Size = new System.Drawing.Size(208, 45);
+            this.bigLabel1.Size = new System.Drawing.Size(210, 45);
             this.bigLabel1.TabIndex = 0;
-            this.bigLabel1.Text = "Chọn đơn vị";
+            this.bigLabel1.Text = "Chọn vai trò";
             // 
-            // selectDonVi
+            // selectVaiTro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(429, 636);
-            this.Controls.Add(this.panelDV);
-            this.Name = "selectDonVi";
-            this.Text = "Chọn đơn vị";
-            this.Load += new System.EventHandler(this.selectDonVi_Load);
-            this.panel3.ResumeLayout(false);
+            this.Controls.Add(this.panel1);
+            this.Name = "selectVaiTro";
+            this.Text = "Chọn vai trò";
+            this.panel1.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tableDonVi)).EndInit();
-            this.panelDV.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel5.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
@@ -261,20 +223,17 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Button btnTimKiem;
         private System.Windows.Forms.TextBox txtTimKiem;
-        private System.Windows.Forms.Button btnThoat;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView tableDonVi;
-        private System.Windows.Forms.Panel panelDV;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel2;
         private ReaLTaiizor.Controls.BigLabel bigLabel1;
-        private System.Windows.Forms.Button button1;
     }
 }

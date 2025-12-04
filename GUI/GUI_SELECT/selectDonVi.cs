@@ -100,11 +100,6 @@ namespace GUI.GUI_SELECT
             }
         }
 
-        private void btnThoat_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -136,6 +131,31 @@ namespace GUI.GUI_SELECT
                 MessageBox.Show("Không tìm thấy kết quả", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            txtTimKiem.Clear();
+            BindingList<donViDTO> dsDonVi = new BindingList<donViDTO>();
+            if (chiLayHeSo && maNguyenLieu > 0)
+            {
+                dsDonVi = bus.layDanhSachDonViTheoNguyenLieu(maNguyenLieu);
+                if (dsDonVi.Count == 0)
+                {
+                    MessageBox.Show("Nguyên liệu này chưa có đơn vị quy đổi trong hệ số đơn vị!",
+                                    "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                    return;
+                }
+            }
+            else
+            {
+                bus.LayDanhSach();
+                dsDonVi = donViBUS.ds;
+            }
+
+            loadDanhSachDonVi(dsDonVi);
+            loadFontChuVaSizeTableDonVi();
         }
     }
 }

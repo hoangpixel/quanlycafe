@@ -128,24 +128,6 @@
     <Compile Include="GUI_CRUD\addNv.Designer.cs">
       <DependentUpon>addNv.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI_CRUD\addTaiKhoan.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI_CRUD\addTaiKhoan.Designer.cs">
-      <DependentUpon>addTaiKhoan.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI_CRUD\addTK.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI_CRUD\addTK.Designer.cs">
-      <DependentUpon>addTK.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI_CRUD\ctTK.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI_CRUD\ctTK.Designer.cs">
-      <DependentUpon>ctTK.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI_CRUD\deleteKhachHang.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -200,23 +182,17 @@
     <Compile Include="GUI_CRUD\detailPhieuNhap.Designer.cs">
       <DependentUpon>detailPhieuNhap.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI_CRUD\excelNV.cs">
+    <Compile Include="GUI_CRUD\detailTaiKhoan.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI_CRUD\excelNV.Designer.cs">
-      <DependentUpon>excelNV.cs</DependentUpon>
+    <Compile Include="GUI_CRUD\detailTaiKhoan.Designer.cs">
+      <DependentUpon>detailTaiKhoan.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_CRUD\excelPhanQuyen.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI_CRUD\excelPhanQuyen.Designer.cs">
       <DependentUpon>excelPhanQuyen.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI_CRUD\excelTK.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI_CRUD\excelTK.Designer.cs">
-      <DependentUpon>excelTK.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_CRUD\Form1ChonBan.cs">
       <SubType>Form</SubType>
@@ -248,6 +224,12 @@
     <Compile Include="GUI_CRUD\insertPhanQuyen.Designer.cs">
       <DependentUpon>insertPhanQuyen.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_CRUD\insertTaiKhoan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\insertTaiKhoan.Designer.cs">
+      <DependentUpon>insertTaiKhoan.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_CRUD\khoaSoPhieuNhap.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -266,23 +248,29 @@
     <Compile Include="GUI_CRUD\selectExcelNhaCungCap.Designer.cs">
       <DependentUpon>selectExcelNhaCungCap.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_CRUD\selectExcelNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\selectExcelNhanVien.Designer.cs">
+      <DependentUpon>selectExcelNhanVien.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_CRUD\selectExcelPhieuNhapvaCTPN.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI_CRUD\selectExcelPhieuNhapvaCTPN.Designer.cs">
       <DependentUpon>selectExcelPhieuNhapvaCTPN.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_CRUD\selectExcelTaiKhoan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\selectExcelTaiKhoan.Designer.cs">
+      <DependentUpon>selectExcelTaiKhoan.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_CRUD\suaNV.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI_CRUD\suaNV.Designer.cs">
       <DependentUpon>suaNV.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI_CRUD\suaTK.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI_CRUD\suaTK.Designer.cs">
-      <DependentUpon>suaTK.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_CRUD\updateHoaDon.cs">
       <SubType>Form</SubType>
@@ -313,6 +301,12 @@
     </Compile>
     <Compile Include="GUI_CRUD\updatePhieuNhap.Designer.cs">
       <DependentUpon>updatePhieuNhap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\updateTaiKhoang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\updateTaiKhoang.Designer.cs">
+      <DependentUpon>updateTaiKhoang.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_CRUD\vaiTroVaQuyenGUI.cs">
       <SubType>Form</SubType>
@@ -362,6 +356,12 @@
     <Compile Include="GUI_SELECT\selectNhanVien.Designer.cs">
       <DependentUpon>selectNhanVien.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_SELECT\selectVaiTro.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_SELECT\selectVaiTro.Designer.cs">
+      <DependentUpon>selectVaiTro.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_UC\banHangGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -373,6 +373,12 @@
     </Compile>
     <Compile Include="GUI_UC\congThucGUI.Designer.cs">
       <DependentUpon>congThucGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_UC\dangNhapGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_UC\dangNhapGUI.Designer.cs">
+      <DependentUpon>dangNhapGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_UC\khachHangGUI.cs">
       <SubType>UserControl</SubType>
@@ -524,12 +530,6 @@
     <Compile Include="GUI_UC\nhaCungCapGUI.Designer.cs">
       <DependentUpon>nhaCungCapGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI_UC\nhanVienGUI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI_UC\nhanVienGUI.Designer.cs">
-      <DependentUpon>nhanVienGUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI_UC\nhanVienriel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -554,11 +554,11 @@
     <Compile Include="GUI_UC\sanPhamGUI.Designer.cs">
       <DependentUpon>sanPhamGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI_UC\taikhoanGUI.cs">
+    <Compile Include="GUI_UC\taiKhoanRiel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI_UC\taikhoanGUI.Designer.cs">
-      <DependentUpon>taikhoanGUI.cs</DependentUpon>
+    <Compile Include="GUI_UC\taiKhoanRiel.Designer.cs">
+      <DependentUpon>taiKhoanRiel.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_UC\thongKeGUI.cs">
       <SubType>UserControl</SubType>
@@ -574,12 +574,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\addNv.resx">
       <DependentUpon>addNv.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI_CRUD\addTK.resx">
-      <DependentUpon>addTK.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI_CRUD\ctTK.resx">
-      <DependentUpon>ctTK.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\deleteKhachHang.resx">
       <DependentUpon>deleteKhachHang.cs</DependentUpon>
@@ -608,14 +602,11 @@
     <EmbeddedResource Include="GUI_CRUD\detailPhieuNhap.resx">
       <DependentUpon>detailPhieuNhap.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI_CRUD\excelNV.resx">
-      <DependentUpon>excelNV.cs</DependentUpon>
+    <EmbeddedResource Include="GUI_CRUD\detailTaiKhoan.resx">
+      <DependentUpon>detailTaiKhoan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\excelPhanQuyen.resx">
       <DependentUpon>excelPhanQuyen.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI_CRUD\excelTK.resx">
-      <DependentUpon>excelTK.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\Form1ChonBan.resx">
       <DependentUpon>Form1ChonBan.cs</DependentUpon>
@@ -632,6 +623,9 @@
     <EmbeddedResource Include="GUI_CRUD\insertPhanQuyen.resx">
       <DependentUpon>insertPhanQuyen.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\insertTaiKhoan.resx">
+      <DependentUpon>insertTaiKhoan.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\khoaSoPhieuNhap.resx">
       <DependentUpon>khoaSoPhieuNhap.cs</DependentUpon>
     </EmbeddedResource>
@@ -641,14 +635,17 @@
     <EmbeddedResource Include="GUI_CRUD\selectExcelNhaCungCap.resx">
       <DependentUpon>selectExcelNhaCungCap.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\selectExcelNhanVien.resx">
+      <DependentUpon>selectExcelNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\selectExcelPhieuNhapvaCTPN.resx">
       <DependentUpon>selectExcelPhieuNhapvaCTPN.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\selectExcelTaiKhoan.resx">
+      <DependentUpon>selectExcelTaiKhoan.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\suaNV.resx">
       <DependentUpon>suaNV.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI_CRUD\suaTK.resx">
-      <DependentUpon>suaTK.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\updateHoaDon.resx">
       <DependentUpon>updateHoaDon.cs</DependentUpon>
@@ -661,6 +658,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\updatePhieuNhap.resx">
       <DependentUpon>updatePhieuNhap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\updateTaiKhoang.resx">
+      <DependentUpon>updateTaiKhoang.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\vaiTroVaQuyenGUI.resx">
       <DependentUpon>vaiTroVaQuyenGUI.cs</DependentUpon>
@@ -686,11 +686,17 @@
     <EmbeddedResource Include="GUI_SELECT\selectNhanVien.resx">
       <DependentUpon>selectNhanVien.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI_SELECT\selectVaiTro.resx">
+      <DependentUpon>selectVaiTro.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\banHangGUI.resx">
       <DependentUpon>banHangGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\congThucGUI.resx">
       <DependentUpon>congThucGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_UC\dangNhapGUI.resx">
+      <DependentUpon>dangNhapGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\khachHangGUI.resx">
       <DependentUpon>khachHangGUI.cs</DependentUpon>
@@ -764,9 +770,6 @@
     <EmbeddedResource Include="GUI_UC\nhaCungCapGUI.resx">
       <DependentUpon>nhaCungCapGUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI_UC\nhanVienGUI.resx">
-      <DependentUpon>nhanVienGUI.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\nhanVienriel.resx">
       <DependentUpon>nhanVienriel.cs</DependentUpon>
     </EmbeddedResource>
@@ -779,8 +782,8 @@
     <EmbeddedResource Include="GUI_UC\sanPhamGUI.resx">
       <DependentUpon>sanPhamGUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI_UC\taikhoanGUI.resx">
-      <DependentUpon>taikhoanGUI.cs</DependentUpon>
+    <EmbeddedResource Include="GUI_UC\taiKhoanRiel.resx">
+      <DependentUpon>taiKhoanRiel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\thongKeGUI.resx">
       <DependentUpon>thongKeGUI.cs</DependentUpon>
@@ -851,6 +854,7 @@
     <None Include="Resources\6372969_loading_refresh_refresh button_reload_repeat_icon.png" />
     <None Include="Resources\id-card.png" />
     <None Include="Resources\id-card %281%29.png" />
+    <None Include="Resources\image %281%29.png" />
     <Content Include="Resources\IMG\SP\cafe-den-da-8801.png" />
     <Content Include="Resources\IMG\SP\pngtree-cute-iced-coffee-takeaway-png-image_11477425.png" />
     <Content Include="Resources\IMG\SP\pngtree-ice-milk-coffee-png-image_9162395.png" />

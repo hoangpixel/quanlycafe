@@ -1,227 +1,171 @@
-﻿using DTO;
+﻿using DAO.CONFIG;
+using DTO;
 using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 
 namespace DAO
 {
     public class taikhoanDAO
     {
-        private string connectionString = "Server=localhost;Database=quan_cafe;Uid=root;Pwd=;CharSet=utf8mb4;";
-
-        public List<taikhoanDTO> LayDanhSach()
+        public BindingList<taikhoanDTO> LayDanhSach()
         {
-            List<taikhoanDTO> list = new List<taikhoanDTO>();
-            string query = @"
-                SELECT 
-                    tk.MATAIKHOAN,
-                    tk.MANHANVIEN,
-                    tk.TENDANGNHAP,
-                    tk.MATKHAU,
-                    tk.TRANGTHAI,
-                    tk.NGAYTAO,
-                    tk.MAVAITRO,
-                    nv.HOTEN AS TENNHANVIEN,
-                    vt.TENVAITRO
-                FROM TAIKHOAN tk
-                INNER JOIN NHANVIEN nv ON tk.MANHANVIEN = nv.MANHANVIEN
-                INNER JOIN VAITRO vt ON tk.MAVAITRO = vt.MAVAITRO
-                ORDER BY tk.NGAYTAO DESC";
+            BindingList<taikhoanDTO> list = new BindingList<taikhoanDTO>();
+            MySqlConnection conn = DBConnect.GetConnection();
 
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            try
             {
-                conn.Open();
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                string query = @"SELECT * FROM taikhoan WHERE TRANGTHAI = 1";
+
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
                 {
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            list.Add(new taikhoanDTO
-                            {
-                                MAtaikHOAN = reader.GetInt32(0),
-                                MANHANVIEN = reader.GetInt32(1),
-                                TENDANGNHAP = reader.GetString(2),
-                                MATKHAU = reader.GetString(3),
-                                TRANGTHAI = reader.GetBoolean(4),
-                                NGAYTAO = reader.GetDateTime(5),
-                                MAVAITRO = reader.GetInt32(6),
-                                TENNHANVIEN = reader.GetString(7),
-                                TENVAITRO = reader.GetString(8)
-                            });
-                        }
-                    }
+                    taikhoanDTO tk = new taikhoanDTO();
+                    tk.MATAIKHOAN = Convert.ToInt32(reader["MATAIKHOAN"]);
+                    tk.MANHANVIEN = Convert.ToInt32(reader["MANHANVIEN"]);
+                    tk.TENDANGNHAP = reader["TENDANGNHAP"].ToString();
+                    tk.MATKHAU = reader["MATKHAU"].ToString();
+                    tk.TRANGTHAI = Convert.ToInt32(reader["TRANGTHAI"]);
+                    tk.NGAYTAO = Convert.ToDateTime(reader["NGAYTAO"]);
+                    tk.MAVAITRO = Convert.ToInt32(reader["MAVAITRO"]);
+
+                    list.Add(tk);
                 }
             }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi lấy danh sách tài khoản: " + ex.Message);
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
             return list;
+        }
+
+        public int layMa()
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            int maTK = 0;
+            try
+            {
+                string qry = "SELECT IFNULL(MAX(MATAIKHOAN), 0) FROM taikhoan";
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                maTK = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine("Lỗi lấy mã maTK : " + ex);
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+            return maTK + 1;
+        }
+        public taikhoanDTO DangNhap(string tenDangNhap, string matKhau)
+        {
+            taikhoanDTO tk = null;
+            MySqlConnection conn = DBConnect.GetConnection();
+
+            try
+            {
+                string query = "SELECT * FROM TAIKHOAN WHERE TENDANGNHAP = @User AND MATKHAU = @Pass AND TRANGTHAI = 1";
+
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@User", tenDangNhap);
+                cmd.Parameters.AddWithValue("@Pass", matKhau);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    tk = new taikhoanDTO();
+                    tk.MATAIKHOAN = Convert.ToInt32(reader["MATAIKHOAN"]);
+                    tk.MANHANVIEN = Convert.ToInt32(reader["MANHANVIEN"]);
+                    tk.TENDANGNHAP = reader["TENDANGNHAP"].ToString();
+                    tk.MATKHAU = reader["MATKHAU"].ToString();
+                    tk.TRANGTHAI = Convert.ToInt32(reader["TRANGTHAI"]);
+                    tk.MAVAITRO = Convert.ToInt32(reader["MAVAITRO"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi đăng nhập: " + ex.Message);
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+
+            return tk;
         }
 
         public bool Them(taikhoanDTO tk)
         {
-            string query = @"
-                INSERT INTO TAIKHOAN (MANHANVIEN, TENDANGNHAP, MATKHAU, TRANGTHAI, MAVAITRO)
-                VALUES (@MANHANVIEN, @TENDANGNHAP, @MATKHAU, @TRANGTHAI, @MAVAITRO)";
-
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            MySqlConnection conn = DBConnect.GetConnection();
+            try
             {
-                conn.Open();
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@MANHANVIEN", tk.MANHANVIEN);
-                    cmd.Parameters.AddWithValue("@TENDANGNHAP", tk.TENDANGNHAP);
-                    cmd.Parameters.AddWithValue("@MATKHAU", tk.MATKHAU);
-                    cmd.Parameters.AddWithValue("@TRANGTHAI", tk.TRANGTHAI);
-                    cmd.Parameters.AddWithValue("@MAVAITRO", tk.MAVAITRO);
+                // 1. Thêm cột MATAIKHOAN vào danh sách cột
+                string query = @"INSERT INTO TAIKHOAN (MANHANVIEN, TENDANGNHAP, MATKHAU, MAVAITRO) 
+                        VALUES (@MaNV, @TenDN, @MatKhau, @MaVaiTro)";
 
-                    return cmd.ExecuteNonQuery() > 0;
-                }
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue("@MaNV", tk.MANHANVIEN);
+                cmd.Parameters.AddWithValue("@TenDN", tk.TENDANGNHAP);
+                cmd.Parameters.AddWithValue("@MatKhau", tk.MATKHAU);
+                cmd.Parameters.AddWithValue("@MaVaiTro", tk.MAVAITRO);
+
+                return cmd.ExecuteNonQuery() > 0;
             }
+            catch (Exception ex)
+            {
+                // Ném lỗi ra để Form bắt được và hiện MessageBox
+                throw new Exception("Lỗi SQL: " + ex.Message);
+            }
+            finally { DBConnect.CloseConnection(conn); }
         }
 
         public bool Sua(taikhoanDTO tk)
         {
-            string query = @"
-                UPDATE TAIKHOAN 
-                SET MANHANVIEN = @MANHANVIEN,
-                    TENDANGNHAP = @TENDANGNHAP,
-                    MATKHAU = @MATKHAU,
-                    TRANGTHAI = @TRANGTHAI,
-                    MAVAITRO = @MAVAITRO
-                WHERE MATAIKHOAN = @MATAIKHOAN";
-
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            MySqlConnection conn = DBConnect.GetConnection();
+            try
             {
-                conn.Open();
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@MATAIKHOAN", tk.MAtaikHOAN);
-                    cmd.Parameters.AddWithValue("@MANHANVIEN", tk.MANHANVIEN);
-                    cmd.Parameters.AddWithValue("@TENDANGNHAP", tk.TENDANGNHAP);
-                    cmd.Parameters.AddWithValue("@MATKHAU", tk.MATKHAU);
-                    cmd.Parameters.AddWithValue("@TRANGTHAI", tk.TRANGTHAI);
-                    cmd.Parameters.AddWithValue("@MAVAITRO", tk.MAVAITRO);
+                string query = @"UPDATE TAIKHOAN 
+                                SET MANHANVIEN = @MaNV, TENDANGNHAP = @TenDN, MATKHAU = @MatKhau, 
+                                    TRANGTHAI = @TrangThai, MAVAITRO = @MaVaiTro 
+                                WHERE MATAIKHOAN = @MaTK";
 
-                    return cmd.ExecuteNonQuery() > 0;
-                }
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaTK", tk.MATAIKHOAN);
+                cmd.Parameters.AddWithValue("@MaNV", tk.MANHANVIEN);
+                cmd.Parameters.AddWithValue("@TenDN", tk.TENDANGNHAP);
+                cmd.Parameters.AddWithValue("@MatKhau", tk.MATKHAU);
+                cmd.Parameters.AddWithValue("@TrangThai", tk.TRANGTHAI);
+                cmd.Parameters.AddWithValue("@MaVaiTro", tk.MAVAITRO);
+
+                return cmd.ExecuteNonQuery() > 0;
             }
+            catch { return false; }
+            finally { DBConnect.CloseConnection(conn); }
         }
 
-        public bool Xoa(int mataikhoan)
+        public bool Xoa(int maTK)
         {
-            string query = "DELETE FROM TAIKHOAN WHERE MATAIKHOAN = @MATAIKHOAN";
-
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            MySqlConnection conn = DBConnect.GetConnection();
+            try
             {
-                conn.Open();
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@MATAIKHOAN", mataikhoan);
-                    return cmd.ExecuteNonQuery() > 0;
-                }
+                string query = "DELETE FROM taikhoan WHERE MATAIKHOAN = @MaTK";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaTK", maTK);
+                return cmd.ExecuteNonQuery() > 0;
             }
-        }
-
-        public taikhoanDTO DangNhap(string tenDangNhap, string matKhau)
-        {
-            string query = @"
-                SELECT 
-                    tk.MATAIKHOAN,
-                    tk.MANHANVIEN,
-                    tk.TENDANGNHAP,
-                    tk.MAVAITRO,
-                    nv.HOTEN AS TENNHANVIEN,
-                    vt.TENVAITRO
-                FROM TAIKHOAN tk
-                INNER JOIN NHANVIEN nv ON tk.MANHANVIEN = nv.MANHANVIEN
-                INNER JOIN VAITRO vt ON tk.MAVAITRO = vt.MAVAITRO
-                WHERE tk.TENDANGNHAP = @TENDANGNHAP 
-                  AND tk.MATKHAU = @MATKHAU
-                  AND tk.TRANGTHAI = 1";
-
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
-            {
-                conn.Open();
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@TENDANGNHAP", tenDangNhap);
-                    cmd.Parameters.AddWithValue("@MATKHAU", matKhau);
-
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            return new taikhoanDTO
-                            {
-                                MAtaikHOAN = reader.GetInt32(0),
-                                MANHANVIEN = reader.GetInt32(1),
-                                TENDANGNHAP = reader.GetString(2),
-                                MAVAITRO = reader.GetInt32(3),
-                                TENNHANVIEN = reader.GetString(4),
-                                TENVAITRO = reader.GetString(5)
-                            };
-                        }
-                    }
-                }
-            }
-            return null;
-        }
-
-        public List<KeyValuePair<int, string>> LayDanhSachVaiTro()
-        {
-            List<KeyValuePair<int, string>> list = new List<KeyValuePair<int, string>>();
-            string query = "SELECT MAVAITRO, TENVAITRO FROM VAITRO WHERE TRANGTHAI = 1 ORDER BY MAVAITRO";
-
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
-            {
-                conn.Open();
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            list.Add(new KeyValuePair<int, string>(
-                                reader.GetInt32(0),
-                                reader.GetString(1)
-                            ));
-                        }
-                    }
-                }
-            }
-            return list;
-        }
-
-        // ✅ ĐÚNG VỚI DATABASE CỦA BẠN
-        public List<KeyValuePair<int, string>> LayDanhSachNhanVienChuaCoTK()
-        {
-            List<KeyValuePair<int, string>> list = new List<KeyValuePair<int, string>>();
-            string query = @"
-                SELECT nv.MANHANVIEN, nv.HOTEN 
-                FROM NHANVIEN nv
-                WHERE NOT EXISTS (
-                    SELECT 1 FROM TAIKHOAN tk 
-                    WHERE tk.MANHANVIEN = nv.MANHANVIEN
-                )
-                ORDER BY nv.HOTEN";
-
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
-            {
-                conn.Open();
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            list.Add(new KeyValuePair<int, string>(
-                                reader.GetInt32(0),
-                                reader.GetString(1)
-                            ));
-                        }
-                    }
-                }
-            }
-            return list;
+            catch { return false; }
+            finally { DBConnect.CloseConnection(conn); }
         }
     }
 }
