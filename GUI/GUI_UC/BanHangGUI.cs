@@ -774,9 +774,22 @@ namespace GUI.GUI_UC
                                 MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 bool ok = busHoaDon.XoaHoaDon(hd.MaHD);
-                busHoaDon.doiTrangThaiBanSauKhiXoaHD(hd.MaBan);                
+
                 if (ok)
                 {
+                    bool conHoaDonNaoKhac = dsHoaDon.Any(x => x.MaBan == hd.MaBan);
+                    if (conHoaDonNaoKhac == false)
+                    {
+                        busHoaDon.doiTrangThaiBanSauKhiXoaHD(hd.MaBan);
+
+                        foreach (Form f in Application.OpenForms)
+                        {
+                            if (f is FormChonBan chonBan)
+                            {
+                                chonBan.CapNhatBanTrong(hd.MaBan);
+                            }
+                        }
+                    }
                     MessageBox.Show(
                         $@"XÓA HÓA ĐƠN THÀNH CÔNG!
                         Hóa đơn HD{hd.MaHD} đã xóa hoàn tất.
