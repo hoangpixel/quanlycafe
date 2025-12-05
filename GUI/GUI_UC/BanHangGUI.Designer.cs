@@ -109,7 +109,6 @@
             this.btnChiTietHD = new System.Windows.Forms.Button();
             this.btnXoaHD = new System.Windows.Forms.Button();
             this.btnSuaHD = new System.Windows.Forms.Button();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -156,7 +155,6 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.panel4);
-            this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -168,9 +166,9 @@
             // 
             this.panel4.Controls.Add(this.tabControl1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(0, 60);
+            this.panel4.Location = new System.Drawing.Point(0, 30);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1700, 880);
+            this.panel4.Size = new System.Drawing.Size(1700, 970);
             this.panel4.TabIndex = 2;
             // 
             // tabControl1
@@ -182,7 +180,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1700, 880);
+            this.tabControl1.Size = new System.Drawing.Size(1700, 970);
             this.tabControl1.TabIndex = 1;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -193,7 +191,7 @@
             this.tabBanHang.Location = new System.Drawing.Point(4, 27);
             this.tabBanHang.Name = "tabBanHang";
             this.tabBanHang.Padding = new System.Windows.Forms.Padding(3);
-            this.tabBanHang.Size = new System.Drawing.Size(1692, 849);
+            this.tabBanHang.Size = new System.Drawing.Size(1692, 939);
             this.tabBanHang.TabIndex = 0;
             this.tabBanHang.Text = "Bán Hàng";
             this.tabBanHang.UseVisualStyleBackColor = true;
@@ -210,7 +208,7 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(3, 3);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(1682, 839);
+            this.panel6.Size = new System.Drawing.Size(1682, 929);
             this.panel6.TabIndex = 0;
             // 
             // groupBox6
@@ -403,7 +401,7 @@
             // 
             this.button5.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Location = new System.Drawing.Point(1245, 715);
+            this.button5.Location = new System.Drawing.Point(1245, 791);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(154, 50);
             this.button5.TabIndex = 12;
@@ -415,7 +413,7 @@
             // 
             this.btnXacNhan.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnXacNhan.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnXacNhan.Location = new System.Drawing.Point(1412, 715);
+            this.btnXacNhan.Location = new System.Drawing.Point(1412, 791);
             this.btnXacNhan.Name = "btnXacNhan";
             this.btnXacNhan.Size = new System.Drawing.Size(120, 50);
             this.btnXacNhan.TabIndex = 11;
@@ -430,7 +428,7 @@
             this.groupBox3.Location = new System.Drawing.Point(87, 571);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(10, 8, 10, 10);
-            this.groupBox3.Size = new System.Drawing.Size(1455, 138);
+            this.groupBox3.Size = new System.Drawing.Size(1455, 214);
             this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Giỏ Hàng";
@@ -471,7 +469,7 @@
             this.dgvGioHang.RowHeadersWidth = 51;
             this.dgvGioHang.RowTemplate.Height = 24;
             this.dgvGioHang.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvGioHang.Size = new System.Drawing.Size(1435, 99);
+            this.dgvGioHang.Size = new System.Drawing.Size(1435, 175);
             this.dgvGioHang.TabIndex = 6;
             this.dgvGioHang.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvGioHang_CellClick);
             this.dgvGioHang.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvGioHang_DataBindingComplete);
@@ -718,7 +716,7 @@
             this.tabHoaDon.Location = new System.Drawing.Point(4, 27);
             this.tabHoaDon.Name = "tabHoaDon";
             this.tabHoaDon.Padding = new System.Windows.Forms.Padding(3);
-            this.tabHoaDon.Size = new System.Drawing.Size(1692, 849);
+            this.tabHoaDon.Size = new System.Drawing.Size(1692, 939);
             this.tabHoaDon.TabIndex = 1;
             this.tabHoaDon.Text = "Hóa Đơn";
             this.tabHoaDon.UseVisualStyleBackColor = true;
@@ -731,7 +729,7 @@
             this.panelTable.Location = new System.Drawing.Point(3, 223);
             this.panelTable.Name = "panelTable";
             this.panelTable.Padding = new System.Windows.Forms.Padding(10);
-            this.panelTable.Size = new System.Drawing.Size(1682, 619);
+            this.panelTable.Size = new System.Drawing.Size(1682, 709);
             this.panelTable.TabIndex = 10;
             // 
             // dgvHoaDon
@@ -770,7 +768,7 @@
             this.dgvHoaDon.RowHeadersWidth = 51;
             this.dgvHoaDon.RowTemplate.Height = 24;
             this.dgvHoaDon.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvHoaDon.Size = new System.Drawing.Size(1662, 599);
+            this.dgvHoaDon.Size = new System.Drawing.Size(1662, 689);
             this.dgvHoaDon.TabIndex = 4;
             this.dgvHoaDon.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHoaDon_CellClick);
             this.dgvHoaDon.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvHoaDon_DataBindingComplete);
@@ -1051,6 +1049,7 @@
             this.btnExcelSP.Text = "In HĐ / Excel";
             this.btnExcelSP.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnExcelSP.UseVisualStyleBackColor = true;
+            this.btnExcelSP.Click += new System.EventHandler(this.btnExcelSP_Click);
             // 
             // btnDonBan
             // 
@@ -1141,20 +1140,12 @@
             this.btnSuaHD.UseVisualStyleBackColor = true;
             this.btnSuaHD.Click += new System.EventHandler(this.btnSuaHD_Click);
             // 
-            // panel3
-            // 
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 940);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1700, 60);
-            this.panel3.TabIndex = 1;
-            // 
             // panel2
             // 
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1700, 60);
+            this.panel2.Size = new System.Drawing.Size(1700, 30);
             this.panel2.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -1248,7 +1239,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabBanHang;
