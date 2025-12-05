@@ -1,5 +1,6 @@
-﻿using DTO;
-using BUS;
+﻿using BUS;
+using DTO;
+using FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,18 +22,35 @@ namespace GUI.GUI_CRUD
         {
             InitializeComponent();
             this.tk = tk;
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
         }
 
         private void detailTaiKhoan_Load(object sender, EventArgs e)
         {
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
             nhanVienDTO nv = dsNV.FirstOrDefault(x => x.MaNhanVien == tk.MANHANVIEN);
             vaitroDTO vt = dsVT.FirstOrDefault(x => x.MaVaiTro == tk.MAVAITRO);
 
             txtTenNV.Text = nv?.HoTen ?? "Không xác định";
             txtTenVT.Text = vt?.TenVaiTro ?? "Không xác định";
-            txtTenTK.Text = tk.TENDANGNHAP;
-            txtMatKhau.Text = tk.MATKHAU;
-            txtNgayTao.Text = tk.NGAYTAO.ToString();
+            if(isAdmin)
+            {
+                txtTenTK.Text = tk.TENDANGNHAP;
+            }else
+            {
+                txtTenTK.Text = "Không có quyền xem tài khoản";
+            }
+            if (isAdmin)
+            {
+                txtMatKhau.Text = tk.MATKHAU;
+            }
+            else
+            {
+                txtMatKhau.Text = "Không có quyền xem mật khẩu";
+            }
+
+                txtNgayTao.Text = tk.NGAYTAO.ToString();
         }
 
         private void btnThoat_Click(object sender, EventArgs e)

@@ -25,7 +25,7 @@ namespace BUS
 
         public BindingList<phanquyenDTO> LayChiTietQuyenTheoVaiTro(int maVaiTro)
         {
-            // Logic cache cho ds chi tiết
+            // Luôn load lại từ DB nếu danh sách rỗng hoặc khác vai trò để đảm bảo dữ liệu tươi mới
             if (ds == null || ds.Count == 0 || (ds.Count > 0 && ds[0].MaVaiTro != maVaiTro))
             {
                 ds = data.LayChiTietQuyenTheoVaiTro(maVaiTro);
@@ -35,14 +35,18 @@ namespace BUS
 
         public bool LuuPhanQuyen(int maVaiTro, BindingList<phanquyenDTO> dsQuyenMoi)
         {
-            // 1. Thao tác Database (Giữ nguyên)
+            // [BƯỚC 1]: QUAN TRỌNG NHẤT - COPY DANH SÁCH RA MỘT LIST RIÊNG
+            // Để tránh việc ds.Clear() làm mất dữ liệu của dsQuyenMoi do trùng tham chiếu
+            List<phanquyenDTO> listSaoChep = dsQuyenMoi.ToList();
+
+            // [BƯỚC 2]: Thao tác Database (Xóa cũ -> Thêm mới)
             bool kqXoa = data.XoaToanBoQuyenCuaVaiTro(maVaiTro);
             if (!kqXoa) return false;
 
             bool kqThem = true;
-            foreach (var pq in dsQuyenMoi)
+            foreach (var pq in listSaoChep) // Duyệt trên list sao chép
             {
-                pq.MaVaiTro = maVaiTro;
+                pq.MaVaiTro = maVaiTro; // Đảm bảo mã vai trò đúng
                 if (!data.ThemPhanQuyen(pq))
                 {
                     kqThem = false;
@@ -50,64 +54,32 @@ namespace BUS
                 }
             }
 
-            // 2. Cập nhật Cache nếu lưu thành công
+            // [BƯỚC 3]: Cập nhật Cache sau khi lưu thành công
             if (kqThem)
             {
-                // [Bước A]: Chuẩn bị Tên Quyền (Giữ nguyên)
-                Dictionary<int, string> mapTenQuyen = new Dictionary<int, string>();
-                if (dsHienThi != null)
-                {
-                    foreach (var item in dsHienThi)
-                    {
-                        if (!mapTenQuyen.ContainsKey(item.MaQuyen) && !string.IsNullOrEmpty(item.TenQuyen))
-                            mapTenQuyen.Add(item.MaQuyen, item.TenQuyen);
-                    }
-                }
-
-                // [Bước B]: Cập nhật ds (Cache chi tiết) - Xóa đi thêm lại cho sạch
+                // A. Cập nhật ds (Chi tiết)
+                // Bây giờ ds.Clear() an toàn vì ta đã có listSaoChep
                 ds.Clear();
-                foreach (var item in dsQuyenMoi)
+                foreach (var item in listSaoChep)
                 {
-                    if (mapTenQuyen.ContainsKey(item.MaQuyen))
-                        item.TenQuyen = mapTenQuyen[item.MaQuyen];
                     ds.Add(item);
                 }
 
-                // [Bước C]: Cập nhật dsHienThi (SỬA ĐOẠN NÀY ĐỂ GIỮ THỨ TỰ)
+                // B. Cập nhật dsHienThi (Danh sách tổng quát - nếu có dùng)
                 if (dsHienThi != null)
                 {
-                    // Duyệt qua danh sách mới vừa lưu (ds)
-                    foreach (var itemMoi in ds)
+                    foreach (var itemMoi in listSaoChep)
                     {
-                        // Tìm xem trong danh sách hiển thị đã có dòng này chưa
                         var itemCu = dsHienThi.FirstOrDefault(x => x.MaVaiTro == itemMoi.MaVaiTro && x.MaQuyen == itemMoi.MaQuyen);
-
                         if (itemCu != null)
                         {
-                            // 1. NẾU CÓ RỒI -> Cập nhật đè lên chính vị trí đó (Để giữ thứ tự)
+                            // Update đè lên item cũ để Grid tự refresh
                             int index = dsHienThi.IndexOf(itemCu);
-                            dsHienThi[index] = itemMoi; // Gán object mới vào vị trí cũ => Grid tự refresh
+                            dsHienThi[index] = itemMoi;
                         }
                         else
                         {
-                            // 2. NẾU CHƯA CÓ -> Thêm mới vào cuối
                             dsHienThi.Add(itemMoi);
-                        }
-                    }
-
-                    // 3. Xóa những dòng dư thừa (Những dòng có trên lưới nhưng không còn trong ds mới)
-                    for (int i = dsHienThi.Count - 1; i >= 0; i--)
-                    {
-                        var item = dsHienThi[i];
-                        // Chỉ xét những dòng thuộc vai trò đang sửa
-                        if (item.MaVaiTro == maVaiTro)
-                        {
-                            // Nếu mã quyền này không tồn tại trong danh sách mới -> Xóa
-                            bool conTonTai = ds.Any(x => x.MaQuyen == item.MaQuyen);
-                            if (!conTonTai)
-                            {
-                                dsHienThi.RemoveAt(i);
-                            }
                         }
                     }
                 }

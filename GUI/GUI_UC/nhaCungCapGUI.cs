@@ -36,7 +36,7 @@ namespace GUI.GUI_UC
 
         private void CheckQuyen()
         {
-            var quyenNCC = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 6);
+            var quyenNCC = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 7);
 
             if (quyenNCC != null)
             {
@@ -253,7 +253,7 @@ namespace GUI.GUI_UC
             if (e.RowIndex < 0) return;
 
 
-            var quyenNCC = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 6);
+            var quyenNCC = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 7);
 
             bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
 

@@ -572,11 +572,11 @@
     <Compile Include="GUI_UC\sanPhamGUI.Designer.cs">
       <DependentUpon>sanPhamGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI_UC\taiKhoanRiel.cs">
+    <Compile Include="GUI_UC\taiKhoanGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI_UC\taiKhoanRiel.Designer.cs">
-      <DependentUpon>taiKhoanRiel.cs</DependentUpon>
+    <Compile Include="GUI_UC\taiKhoanGUI.Designer.cs">
+      <DependentUpon>taiKhoanGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_UC\thongKeGUI.cs">
       <SubType>UserControl</SubType>
@@ -803,8 +803,8 @@
     <EmbeddedResource Include="GUI_UC\sanPhamGUI.resx">
       <DependentUpon>sanPhamGUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI_UC\taiKhoanRiel.resx">
-      <DependentUpon>taiKhoanRiel.cs</DependentUpon>
+    <EmbeddedResource Include="GUI_UC\taiKhoanGUI.resx">
+      <DependentUpon>taiKhoanGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\thongKeGUI.resx">
       <DependentUpon>thongKeGUI.cs</DependentUpon>

@@ -53,14 +53,13 @@
             this.btnThucHienTimKiem = new System.Windows.Forms.Button();
             this.xulycongthuc = new System.Windows.Forms.GroupBox();
             this.tableLayoutChoChucNang = new System.Windows.Forms.TableLayoutPanel();
-            this.panelTable = new System.Windows.Forms.Panel();
-            this.tbPhanQuyen = new System.Windows.Forms.DataGridView();
             this.btnExcelPQ = new System.Windows.Forms.Button();
             this.btnReFreshPQ = new System.Windows.Forms.Button();
             this.btnChiTietPQ = new System.Windows.Forms.Button();
             this.btnVaiTro = new System.Windows.Forms.Button();
-            this.btnGanQuyen = new System.Windows.Forms.Button();
             this.btnCRUDPQ = new System.Windows.Forms.Button();
+            this.panelTable = new System.Windows.Forms.Panel();
+            this.tbPhanQuyen = new System.Windows.Forms.DataGridView();
             this.chucNangPanel.SuspendLayout();
             this.roundedChucNang.SuspendLayout();
             this.layoutChucNang.SuspendLayout();
@@ -194,7 +193,7 @@
             this.can_create.Items.AddRange(new object[] {
             "Không",
             "Có"});
-            this.can_create.Location = new System.Drawing.Point(209, 12);
+            this.can_create.Location = new System.Drawing.Point(209, 14);
             this.can_create.Name = "can_create";
             this.can_create.Size = new System.Drawing.Size(97, 28);
             this.can_create.TabIndex = 12;
@@ -206,7 +205,7 @@
             this.can_delete.Items.AddRange(new object[] {
             "Không",
             "Có"});
-            this.can_delete.Location = new System.Drawing.Point(518, 12);
+            this.can_delete.Location = new System.Drawing.Point(518, 14);
             this.can_delete.Name = "can_delete";
             this.can_delete.Size = new System.Drawing.Size(82, 28);
             this.can_delete.TabIndex = 11;
@@ -218,7 +217,7 @@
             this.can_update.Items.AddRange(new object[] {
             "Không",
             "Có"});
-            this.can_update.Location = new System.Drawing.Point(415, 12);
+            this.can_update.Location = new System.Drawing.Point(415, 14);
             this.can_update.Name = "can_update";
             this.can_update.Size = new System.Drawing.Size(97, 28);
             this.can_update.TabIndex = 10;
@@ -259,7 +258,7 @@
             this.can_read.Items.AddRange(new object[] {
             "Không",
             "Có"});
-            this.can_read.Location = new System.Drawing.Point(312, 12);
+            this.can_read.Location = new System.Drawing.Point(312, 14);
             this.can_read.Name = "can_read";
             this.can_read.Size = new System.Drawing.Size(97, 28);
             this.can_read.TabIndex = 9;
@@ -307,7 +306,7 @@
             "READ (Có/Không)",
             "UPDATE (Có/Không)",
             "DELETE (Có/Không)"});
-            this.cboTimKiemPQ.Location = new System.Drawing.Point(10, 8);
+            this.cboTimKiemPQ.Location = new System.Drawing.Point(10, 10);
             this.cboTimKiemPQ.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemPQ.Name = "cboTimKiemPQ";
             this.cboTimKiemPQ.Size = new System.Drawing.Size(176, 28);
@@ -360,18 +359,17 @@
             // 
             // tableLayoutChoChucNang
             // 
-            this.tableLayoutChoChucNang.ColumnCount = 6;
-            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutChoChucNang.Controls.Add(this.btnExcelPQ, 5, 0);
-            this.tableLayoutChoChucNang.Controls.Add(this.btnReFreshPQ, 4, 0);
-            this.tableLayoutChoChucNang.Controls.Add(this.btnChiTietPQ, 3, 0);
-            this.tableLayoutChoChucNang.Controls.Add(this.btnVaiTro, 2, 0);
-            this.tableLayoutChoChucNang.Controls.Add(this.btnGanQuyen, 1, 0);
+            this.tableLayoutChoChucNang.ColumnCount = 5;
+            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutChoChucNang.Controls.Add(this.btnExcelPQ, 4, 0);
+            this.tableLayoutChoChucNang.Controls.Add(this.btnReFreshPQ, 3, 0);
+            this.tableLayoutChoChucNang.Controls.Add(this.btnChiTietPQ, 2, 0);
+            this.tableLayoutChoChucNang.Controls.Add(this.btnVaiTro, 1, 0);
             this.tableLayoutChoChucNang.Controls.Add(this.btnCRUDPQ, 0, 0);
             this.tableLayoutChoChucNang.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutChoChucNang.Location = new System.Drawing.Point(3, 23);
@@ -380,6 +378,90 @@
             this.tableLayoutChoChucNang.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutChoChucNang.Size = new System.Drawing.Size(847, 143);
             this.tableLayoutChoChucNang.TabIndex = 0;
+            // 
+            // btnExcelPQ
+            // 
+            this.btnExcelPQ.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnExcelPQ.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnExcelPQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExcelPQ.Image = global::GUI.Properties.Resources.xls;
+            this.btnExcelPQ.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnExcelPQ.Location = new System.Drawing.Point(708, 10);
+            this.btnExcelPQ.Margin = new System.Windows.Forms.Padding(32, 10, 32, 10);
+            this.btnExcelPQ.Name = "btnExcelPQ";
+            this.btnExcelPQ.Size = new System.Drawing.Size(107, 123);
+            this.btnExcelPQ.TabIndex = 7;
+            this.btnExcelPQ.Text = "Excel";
+            this.btnExcelPQ.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnExcelPQ.UseVisualStyleBackColor = true;
+            this.btnExcelPQ.Click += new System.EventHandler(this.btnExcelPQ_Click);
+            // 
+            // btnReFreshPQ
+            // 
+            this.btnReFreshPQ.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnReFreshPQ.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnReFreshPQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReFreshPQ.Image = global::GUI.Properties.Resources.reload;
+            this.btnReFreshPQ.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnReFreshPQ.Location = new System.Drawing.Point(539, 10);
+            this.btnReFreshPQ.Margin = new System.Windows.Forms.Padding(32, 10, 32, 10);
+            this.btnReFreshPQ.Name = "btnReFreshPQ";
+            this.btnReFreshPQ.Size = new System.Drawing.Size(105, 123);
+            this.btnReFreshPQ.TabIndex = 4;
+            this.btnReFreshPQ.Text = "Làm mới";
+            this.btnReFreshPQ.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnReFreshPQ.UseVisualStyleBackColor = true;
+            this.btnReFreshPQ.Click += new System.EventHandler(this.btnReFreshPQ_Click);
+            // 
+            // btnChiTietPQ
+            // 
+            this.btnChiTietPQ.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnChiTietPQ.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnChiTietPQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnChiTietPQ.Image = global::GUI.Properties.Resources.info;
+            this.btnChiTietPQ.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnChiTietPQ.Location = new System.Drawing.Point(370, 10);
+            this.btnChiTietPQ.Margin = new System.Windows.Forms.Padding(32, 10, 32, 10);
+            this.btnChiTietPQ.Name = "btnChiTietPQ";
+            this.btnChiTietPQ.Size = new System.Drawing.Size(105, 123);
+            this.btnChiTietPQ.TabIndex = 3;
+            this.btnChiTietPQ.Text = "Chi tiết";
+            this.btnChiTietPQ.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnChiTietPQ.UseVisualStyleBackColor = true;
+            this.btnChiTietPQ.Click += new System.EventHandler(this.btnChiTietPQ_Click);
+            // 
+            // btnVaiTro
+            // 
+            this.btnVaiTro.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnVaiTro.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnVaiTro.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVaiTro.Image = global::GUI.Properties.Resources.id_card__1_;
+            this.btnVaiTro.Location = new System.Drawing.Point(201, 10);
+            this.btnVaiTro.Margin = new System.Windows.Forms.Padding(32, 10, 32, 10);
+            this.btnVaiTro.Name = "btnVaiTro";
+            this.btnVaiTro.Size = new System.Drawing.Size(105, 123);
+            this.btnVaiTro.TabIndex = 2;
+            this.btnVaiTro.Text = "Vai trò";
+            this.btnVaiTro.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnVaiTro.UseVisualStyleBackColor = true;
+            this.btnVaiTro.Click += new System.EventHandler(this.btnVaiTro_Click);
+            // 
+            // btnCRUDPQ
+            // 
+            this.btnCRUDPQ.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCRUDPQ.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnCRUDPQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCRUDPQ.Image = global::GUI.Properties.Resources.add;
+            this.btnCRUDPQ.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnCRUDPQ.Location = new System.Drawing.Point(32, 10);
+            this.btnCRUDPQ.Margin = new System.Windows.Forms.Padding(32, 10, 32, 10);
+            this.btnCRUDPQ.Name = "btnCRUDPQ";
+            this.btnCRUDPQ.Size = new System.Drawing.Size(105, 123);
+            this.btnCRUDPQ.TabIndex = 0;
+            this.btnCRUDPQ.Text = "T/S/X";
+            this.btnCRUDPQ.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnCRUDPQ.UseVisualStyleBackColor = true;
+            this.btnCRUDPQ.Click += new System.EventHandler(this.btnCRUDPQ_Click);
             // 
             // panelTable
             // 
@@ -430,105 +512,6 @@
             this.tbPhanQuyen.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tbPhanQuyen_CellClick);
             this.tbPhanQuyen.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.tbPhanQuyen_CellFormatting);
             this.tbPhanQuyen.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tbPhanQuyen_DataBindingComplete);
-            // 
-            // btnExcelPQ
-            // 
-            this.btnExcelPQ.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnExcelPQ.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnExcelPQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExcelPQ.Image = global::GUI.Properties.Resources.xls;
-            this.btnExcelPQ.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnExcelPQ.Location = new System.Drawing.Point(727, 10);
-            this.btnExcelPQ.Margin = new System.Windows.Forms.Padding(22, 10, 22, 10);
-            this.btnExcelPQ.Name = "btnExcelPQ";
-            this.btnExcelPQ.Size = new System.Drawing.Size(98, 123);
-            this.btnExcelPQ.TabIndex = 7;
-            this.btnExcelPQ.Text = "Excel";
-            this.btnExcelPQ.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnExcelPQ.UseVisualStyleBackColor = true;
-            this.btnExcelPQ.Click += new System.EventHandler(this.btnExcelPQ_Click);
-            // 
-            // btnReFreshPQ
-            // 
-            this.btnReFreshPQ.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnReFreshPQ.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnReFreshPQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReFreshPQ.Image = global::GUI.Properties.Resources.reload;
-            this.btnReFreshPQ.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnReFreshPQ.Location = new System.Drawing.Point(586, 10);
-            this.btnReFreshPQ.Margin = new System.Windows.Forms.Padding(22, 10, 22, 10);
-            this.btnReFreshPQ.Name = "btnReFreshPQ";
-            this.btnReFreshPQ.Size = new System.Drawing.Size(97, 123);
-            this.btnReFreshPQ.TabIndex = 4;
-            this.btnReFreshPQ.Text = "Làm mới";
-            this.btnReFreshPQ.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnReFreshPQ.UseVisualStyleBackColor = true;
-            this.btnReFreshPQ.Click += new System.EventHandler(this.btnReFreshPQ_Click);
-            // 
-            // btnChiTietPQ
-            // 
-            this.btnChiTietPQ.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnChiTietPQ.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnChiTietPQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnChiTietPQ.Image = global::GUI.Properties.Resources.info;
-            this.btnChiTietPQ.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnChiTietPQ.Location = new System.Drawing.Point(445, 10);
-            this.btnChiTietPQ.Margin = new System.Windows.Forms.Padding(22, 10, 22, 10);
-            this.btnChiTietPQ.Name = "btnChiTietPQ";
-            this.btnChiTietPQ.Size = new System.Drawing.Size(97, 123);
-            this.btnChiTietPQ.TabIndex = 3;
-            this.btnChiTietPQ.Text = "Chi tiết";
-            this.btnChiTietPQ.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnChiTietPQ.UseVisualStyleBackColor = true;
-            this.btnChiTietPQ.Click += new System.EventHandler(this.btnChiTietPQ_Click);
-            // 
-            // btnVaiTro
-            // 
-            this.btnVaiTro.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnVaiTro.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnVaiTro.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnVaiTro.Image = global::GUI.Properties.Resources.id_card__1_;
-            this.btnVaiTro.Location = new System.Drawing.Point(304, 10);
-            this.btnVaiTro.Margin = new System.Windows.Forms.Padding(22, 10, 22, 10);
-            this.btnVaiTro.Name = "btnVaiTro";
-            this.btnVaiTro.Size = new System.Drawing.Size(97, 123);
-            this.btnVaiTro.TabIndex = 2;
-            this.btnVaiTro.Text = "Vai trò";
-            this.btnVaiTro.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnVaiTro.UseVisualStyleBackColor = true;
-            this.btnVaiTro.Click += new System.EventHandler(this.btnVaiTro_Click);
-            // 
-            // btnGanQuyen
-            // 
-            this.btnGanQuyen.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGanQuyen.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnGanQuyen.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGanQuyen.Image = global::GUI.Properties.Resources.project_management__3_;
-            this.btnGanQuyen.Location = new System.Drawing.Point(163, 10);
-            this.btnGanQuyen.Margin = new System.Windows.Forms.Padding(22, 10, 22, 10);
-            this.btnGanQuyen.Name = "btnGanQuyen";
-            this.btnGanQuyen.Size = new System.Drawing.Size(97, 123);
-            this.btnGanQuyen.TabIndex = 1;
-            this.btnGanQuyen.Text = "Gán";
-            this.btnGanQuyen.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnGanQuyen.UseVisualStyleBackColor = true;
-            // 
-            // btnCRUDPQ
-            // 
-            this.btnCRUDPQ.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCRUDPQ.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnCRUDPQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCRUDPQ.Image = global::GUI.Properties.Resources.add;
-            this.btnCRUDPQ.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnCRUDPQ.Location = new System.Drawing.Point(22, 10);
-            this.btnCRUDPQ.Margin = new System.Windows.Forms.Padding(22, 10, 22, 10);
-            this.btnCRUDPQ.Name = "btnCRUDPQ";
-            this.btnCRUDPQ.Size = new System.Drawing.Size(97, 123);
-            this.btnCRUDPQ.TabIndex = 0;
-            this.btnCRUDPQ.Text = "T/S/X";
-            this.btnCRUDPQ.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnCRUDPQ.UseVisualStyleBackColor = true;
-            this.btnCRUDPQ.Click += new System.EventHandler(this.btnCRUDPQ_Click);
             // 
             // phanQuyenGUI
             // 
@@ -584,7 +567,6 @@
         private System.Windows.Forms.Button btnReFreshPQ;
         private System.Windows.Forms.Button btnChiTietPQ;
         private System.Windows.Forms.Button btnVaiTro;
-        private System.Windows.Forms.Button btnGanQuyen;
         private System.Windows.Forms.Button btnCRUDPQ;
         private System.Windows.Forms.Panel panelTable;
         private System.Windows.Forms.DataGridView tbPhanQuyen;

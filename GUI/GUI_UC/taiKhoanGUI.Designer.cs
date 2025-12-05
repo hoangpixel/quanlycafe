@@ -1,6 +1,6 @@
 ﻿namespace GUI.GUI_UC
 {
-    partial class taiKhoanRiel
+    partial class taiKhoanGUI
     {
         /// <summary> 
         /// Required designer variable.
@@ -481,7 +481,7 @@
             this.tbTaiKhoan.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.tbTaiKhoan_CellFormatting);
             this.tbTaiKhoan.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tbTaiKhoan_DataBindingComplete);
             // 
-            // taiKhoanRiel
+            // taiKhoanGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -489,7 +489,7 @@
             this.Controls.Add(this.chucNangPanel);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.topPanel);
-            this.Name = "taiKhoanRiel";
+            this.Name = "taiKhoanGUI";
             this.Size = new System.Drawing.Size(1550, 720);
             this.Load += new System.EventHandler(this.taiKhoanRiel_Load);
             this.chucNangPanel.ResumeLayout(false);

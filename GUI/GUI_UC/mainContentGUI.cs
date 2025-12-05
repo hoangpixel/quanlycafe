@@ -95,7 +95,7 @@ namespace GUI.GUI_UC
                         case "phanquyen": uc = new phanQuyenGUI(); break;
                         case "nhacungcap": uc = new nhaCungCapGUI(); break;
                         case "nhanvien": uc = new nhanVienGUI(); break;
-                        case "taikhoan": uc = new taiKhoanRiel(); break;
+                        case "taikhoan": uc = new taiKhoanGUI(); break;
 
                         default:
                             MessageBox.Show($"Đang phát triển trang: {page}", "Thông báo");

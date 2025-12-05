@@ -522,9 +522,10 @@ INSERT INTO `quyen` (`MAQUYEN`, `TENQUYEN`, `TRANGTHAI`) VALUES
 (2, 'Quản lý nhập xuất', 1),
 (3, 'Quản lý bán hàng', 1),
 (4, 'Quản lý nhân sự', 1),
-(5, 'Quản lý khách hàng', 1),
-(6, 'Quản lý nhà cung cấp', 1),
-(7, 'Quản lý phân quyền', 1);
+(5, 'Quản lý tài khoản', 1),
+(6, 'Quản lý khách hàng', 1),
+(7, 'Quản lý nhà cung cấp', 1),
+(8, 'Quản lý phân quyền', 1);
 
 -- --------------------------------------------------------
 

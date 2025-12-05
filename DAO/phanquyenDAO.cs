@@ -84,7 +84,7 @@ namespace DAO
                     pq.MaVaiTro = maVaiTro;
                     pq.MaQuyen = reader.GetInt32("MAQUYEN");
 
-                    pq.TenQuyen = reader.GetString("TENQUYEN");
+                    pq.TenQuyen = reader["TENQUYEN"] == DBNull.Value ? "" : reader.GetString("TENQUYEN");
 
                     pq.CAN_READ = Convert.ToInt32(reader["CAN_READ"]);
                     pq.CAN_CREATE = Convert.ToInt32(reader["CAN_CREATE"]);

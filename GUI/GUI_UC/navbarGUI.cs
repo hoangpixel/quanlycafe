@@ -58,7 +58,7 @@ namespace GUI.GUI_UC
             // 2. LOGO / HEADER
             Label lblHeader = new Label
             {
-                Text = "☕ XANGCAFE",
+                Text = "XANGCAFE",
                 Dock = DockStyle.Top,
                 Height = 60,
                 TextAlign = ContentAlignment.MiddleCenter,
@@ -112,18 +112,18 @@ namespace GUI.GUI_UC
             CheckAndAddButton("☕ Sản phẩm", "sanpham", 1);
 
             // Tài khoản & Nhân viên (Giả sử Mã Quyền = 4 - Quản lý nhân sự)
-            CheckAndAddButton("🧑‍🍳 Tài khoản", "taikhoan", 4);
+            CheckAndAddButton("🧑‍🍳 Tài khoản", "taikhoan", 5);
             CheckAndAddButton("🧑‍🍳 Nhân viên", "nhanvien", 4);
 
             AddNavButton("📈 Báo cáo", "thongke"); // Giả sử ai cũng xem được báo cáo
-            CheckAndAddButton("👥 Khách hàng", "khachhang",5);
+            CheckAndAddButton("👥 Khách hàng", "khachhang",6);
 
             // Phân quyền (Thường chỉ Admin có, hoặc Mã Quyền riêng)
             // Nếu không check quyền thì cứ dùng AddNavButton bình thường
-            CheckAndAddButton("🛡️ Phân quyền", "phanquyen",7);
+            CheckAndAddButton("🛡️ Phân quyền", "phanquyen",8);
 
             // Nhà cung cấp (Giả sử Mã Quyền = 2 - Nhập xuất)
-            CheckAndAddButton("🏭 Nhà cung cấp", "nhacungcap", 6);
+            CheckAndAddButton("🏭 Nhà cung cấp", "nhacungcap", 7);
 
             // Những trang cơ bản (ai cũng thấy hoặc không cần quyền đặc biệt)
             AddNavButton("👋 Thoát", "exit");

@@ -14,11 +14,12 @@ using System.Windows.Forms;
 
 namespace GUI.GUI_UC
 {
-    public partial class taiKhoanRiel : UserControl
+    public partial class taiKhoanGUI : UserControl
     {
         private taikhoanBUS busTaiKhoan = new taikhoanBUS();
         private BindingList<nhanVienDTO> dsNV;
-        public taiKhoanRiel()
+        private BindingList<vaitroDTO> dsVT;
+        public taiKhoanGUI()
         {
             InitializeComponent();
             FontManager.LoadFont();
@@ -28,6 +29,7 @@ namespace GUI.GUI_UC
         private void taiKhoanRiel_Load(object sender, EventArgs e)
         {
             dsNV = new nhanVienBUS().LayDanhSach();
+            dsVT = new vaitroBUS().LayDanhSach();
 
             BindingList<taikhoanDTO> ds = busTaiKhoan.LayDanhSach();
             loadDanhSachTaiKhoan(ds);
@@ -37,7 +39,7 @@ namespace GUI.GUI_UC
 
         private void CheckQuyen()
         {
-            var quyenTK = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 4);
+            var quyenTK = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 5);
 
             if (quyenTK != null)
             {
@@ -63,6 +65,7 @@ namespace GUI.GUI_UC
         }
         private void loadDanhSachTaiKhoan(BindingList<taikhoanDTO> ds)
         {
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
             tbTaiKhoan.AutoGenerateColumns = false;
 
             tbTaiKhoan.Columns.Clear();
@@ -82,16 +85,26 @@ namespace GUI.GUI_UC
                 DataPropertyName = "MANHANVIEN",
                 HeaderText = "Tên nhân viên"
             });
-            tbTaiKhoan.Columns.Add(new DataGridViewTextBoxColumn
+
+            if(isAdmin)
             {
-                DataPropertyName = "TENDANGNHAP",
-                HeaderText = "Tên đăng nhập"
-            });
-            tbTaiKhoan.Columns.Add(new DataGridViewTextBoxColumn
+                tbTaiKhoan.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "TENDANGNHAP",
+                    HeaderText = "Tên đăng nhập"
+                });
+            }
+
+            if(isAdmin)
             {
-                DataPropertyName = "MATKHAU",
-                HeaderText = "Mật khẩu"
-            });
+                tbTaiKhoan.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "MATKHAU",
+                    HeaderText = "Mật khẩu"
+                });
+            }
+
+
             tbTaiKhoan.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "NGAYTAO",
@@ -116,6 +129,11 @@ namespace GUI.GUI_UC
             {
                 nhanVienDTO nv = dsNV.FirstOrDefault(x => x.MaNhanVien == tk.MANHANVIEN);
                 e.Value = nv?.HoTen ?? "Không xác định";
+            }
+            if (tbTaiKhoan.Columns[e.ColumnIndex].HeaderText == "Vai trò")
+            {
+                vaitroDTO vt = dsVT.FirstOrDefault(x => x.MaVaiTro == tk.MAVAITRO);
+                e.Value = vt?.TenVaiTro ?? "Không xác định";
             }
         }
 
@@ -228,12 +246,21 @@ namespace GUI.GUI_UC
         private void tbTaiKhoan_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
+
+            var quyenTK = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 5);
+
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
+
+            bool coQuyenThem = isAdmin || (quyenTK != null && quyenTK.CAN_CREATE == 1);
+            bool coQuyenSua = isAdmin || (quyenTK != null && quyenTK.CAN_UPDATE == 1);
+            bool coQuyenXoa = isAdmin || (quyenTK != null && quyenTK.CAN_DELETE == 1);
+
             if (e.RowIndex == lastSelectedRowTaiKhoan)
             {
                 tbTaiKhoan.ClearSelection();
                 lastSelectedRowTaiKhoan = -1;
 
-                btnThemTK.Enabled = true;
+                btnThemTK.Enabled = coQuyenThem;
                 btnSuaTK.Enabled = false;
                 btnXoaTK.Enabled = false;
                 btnChiTietTK.Enabled = false;
@@ -244,9 +271,9 @@ namespace GUI.GUI_UC
             tbTaiKhoan.Rows[e.RowIndex].Selected = true;
             lastSelectedRowTaiKhoan = e.RowIndex;
 
-            btnThemTK.Enabled = true;
-            btnSuaTK.Enabled = true;
-            btnXoaTK.Enabled = true;
+            btnThemTK.Enabled = coQuyenThem;
+            btnSuaTK.Enabled = coQuyenSua;
+            btnXoaTK.Enabled = coQuyenXoa;
             btnChiTietTK.Enabled = true;
         }
 
