@@ -293,7 +293,7 @@
             "Mã nguyên liệu",
             "Tên nguyên liệu",
             "Tên đơn vị"});
-            this.cboTimKiemNL.Location = new System.Drawing.Point(10, 8);
+            this.cboTimKiemNL.Location = new System.Drawing.Point(10, 10);
             this.cboTimKiemNL.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemNL.Name = "cboTimKiemNL";
             this.cboTimKiemNL.Size = new System.Drawing.Size(176, 28);

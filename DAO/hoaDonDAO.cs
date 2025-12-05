@@ -86,23 +86,7 @@ namespace DAO
                 {
                     conn.Open();
                 }
-
-                // PHẢI CÓ NGOẶC {}, NẾU KHÔNG tran SẼ LUÔN NULL
                 tran = conn.BeginTransaction();
-
-                //-------------------------------------
-                // TÍNH TỔNG TIỀN
-                //-------------------------------------
-                /*decimal tongTien = 0;
-                foreach (var ct in dsCT)
-                {
-                    tongTien += ct.SoLuong * ct.DonGia;
-                }
-                hd.TongTien = tongTien;*/
-
-                //-------------------------------------
-                // INSERT HÓA ĐƠN
-                //-------------------------------------
 
                 string sqlHD = @"
             INSERT INTO hoadon 
@@ -125,11 +109,7 @@ namespace DAO
                 cmdHD.Parameters.AddWithValue("@ThoiGianTao", thoiGian);
 
                 int maHD = Convert.ToInt32(cmdHD.ExecuteScalar());
-                hd.MaHD = maHD; // Gán mã hóa đơn cho DTO
-
-                //-------------------------------------
-                // INSERT CHI TIẾT HÓA ĐƠN
-                //-------------------------------------
+                hd.MaHD = maHD;
 
                 string sqlCT = @"
             INSERT INTO cthd 
@@ -191,8 +171,6 @@ namespace DAO
                 }
                 hd.TongTien = tongTien;
 
-                // 2. Insert Hóa Đơn
-                // Lưu ý: Đã sửa số 0 thành @TongTien
                 string sqlHD = @"
         INSERT INTO hoadon 
             (MABAN, MATT, THOIGIANTAO, TRANGTHAI, TONGTIEN, MAKHACHHANG, MANHANVIEN)
@@ -204,9 +182,6 @@ namespace DAO
                 var cmdHD = new MySqlCommand(sqlHD, conn, tran);
                 cmdHD.Parameters.AddWithValue("@MaBan", hd.MaBan);
                 cmdHD.Parameters.AddWithValue("@MaTT", hd.MaTT);
-
-                // --- SỬA LỖI QUAN TRỌNG Ở ĐÂY ---
-                // Nếu Mã KH <= 0 (Khách lẻ) thì truyền NULL vào database
                 if (hd.MaKhachHang <= 0)
                 {
                     cmdHD.Parameters.AddWithValue("@MaKH", DBNull.Value);

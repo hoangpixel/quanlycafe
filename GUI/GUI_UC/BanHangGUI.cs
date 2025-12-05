@@ -29,7 +29,7 @@ namespace GUI.GUI_UC
         private BindingList<hoaDonDTO> dsHoaDon;
         private hoaDonBUS busHoaDon = new hoaDonBUS();
         private hoaDonDAO hoaDonDAO = new hoaDonDAO();
-        private int maHDDangChon = 0;
+        private int maHDDangChon = -1;
         public banHangGUI()
         {
             InitializeComponent();
@@ -686,7 +686,7 @@ namespace GUI.GUI_UC
         private void dgvHoaDon_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
-
+            
             if (e.RowIndex == lastSelectedRowIndex)
             {
                 dgvHoaDon.ClearSelection();
@@ -696,6 +696,7 @@ namespace GUI.GUI_UC
                 btnDonBan.Enabled = false;
                 btnXoaHD.Enabled = false;
                 btnSuaHD.Enabled = false;
+                
                 return;
             }
 
@@ -711,6 +712,7 @@ namespace GUI.GUI_UC
                 btnDonBan.Enabled = false;
                 btnXoaHD.Enabled = false;
                 btnSuaHD.Enabled = false;
+                
             }
             else
             {
@@ -718,6 +720,7 @@ namespace GUI.GUI_UC
                 btnDonBan.Enabled = true;
                 btnXoaHD.Enabled = true;
                 btnSuaHD.Enabled = true;
+                
             }
         }
 
@@ -947,6 +950,15 @@ namespace GUI.GUI_UC
                 }
             }
             dgvHoaDon.Refresh();
+        }
+
+        private void btnExcelSP_Click(object sender, EventArgs e)
+        {
+            using (selectExcelHoaDon form = new selectExcelHoaDon())
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.ShowDialog();
+            }
         }
     }
  }

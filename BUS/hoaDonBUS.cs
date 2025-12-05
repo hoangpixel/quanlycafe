@@ -95,6 +95,10 @@ namespace BUS
         {
             return dao.doiTrangThaiBanSauKhiXoaHD(maBan);
         }
+        public BindingList<cthoaDonDTO> LayChiTiet(int maHD)
+        {
+            return dao.LayChiTietHoaDon(maHD);
+        }
 
     }
 }
