@@ -1,6 +1,6 @@
 ﻿namespace GUI.GUI_UC
 {
-    partial class nhanVienriel
+    partial class nhanVienGUI
     {
         /// <summary> 
         /// Required designer variable.
@@ -222,7 +222,7 @@
             // 
             this.cboTaiKhoan.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cboTaiKhoan.FormattingEnabled = true;
-            this.cboTaiKhoan.Location = new System.Drawing.Point(3, 12);
+            this.cboTaiKhoan.Location = new System.Drawing.Point(3, 14);
             this.cboTaiKhoan.Name = "cboTaiKhoan";
             this.cboTaiKhoan.Size = new System.Drawing.Size(140, 28);
             this.cboTaiKhoan.TabIndex = 9;
@@ -266,7 +266,7 @@
             "Tên NV",
             "SĐT NV",
             "Email NV"});
-            this.cboTimKiemNV.Location = new System.Drawing.Point(10, 10);
+            this.cboTimKiemNV.Location = new System.Drawing.Point(10, 8);
             this.cboTimKiemNV.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemNV.Name = "cboTimKiemNV";
             this.cboTimKiemNV.Size = new System.Drawing.Size(176, 28);
@@ -492,7 +492,7 @@
             this.tbNhanVien.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.tbNhanVien_CellFormatting);
             this.tbNhanVien.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tbNhanVien_DataBindingComplete);
             // 
-            // nhanVienriel
+            // nhanVienGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -500,7 +500,7 @@
             this.Controls.Add(this.chucNangPanel);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.topPanel);
-            this.Name = "nhanVienriel";
+            this.Name = "nhanVienGUI";
             this.Size = new System.Drawing.Size(1550, 720);
             this.Load += new System.EventHandler(this.nhanVienriel_Load);
             this.chucNangPanel.ResumeLayout(false);

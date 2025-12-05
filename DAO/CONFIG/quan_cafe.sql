@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2025 at 06:22 AM
+-- Generation Time: Dec 05, 2025 at 08:46 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -397,7 +397,7 @@ CREATE TABLE `nhanvien` (
 --
 
 INSERT INTO `nhanvien` (`MANHANVIEN`, `HOTEN`, `SODIENTHOAI`, `EMAIL`, `LUONG`, `NGAYTAO`, `TRANGTHAI`) VALUES
-(1, 'bcd', '12312', '12123@gmail.com', 10000.00, '2025-11-14 13:17:41', 1);
+(1, 'Phạm Minh Hoàng', '0333333333', 'admin1@gmail.com', 500000000.00, '2025-11-14 13:17:41', 1);
 
 -- --------------------------------------------------------
 
@@ -443,6 +443,9 @@ INSERT INTO `phanquyen` (`MAVAITRO`, `MAQUYEN`, `CAN_READ`, `CAN_CREATE`, `CAN_U
 (1, 1, 1, 1, 1, 1),
 (1, 2, 1, 1, 1, 1),
 (1, 3, 1, 1, 1, 1),
+(1, 4, 1, 1, 1, 1),
+(1, 5, 1, 1, 1, 1),
+(1, 6, 1, 1, 1, 1),
 (2, 1, 1, 0, 0, 0),
 (2, 2, 1, 1, 0, 0);
 
@@ -480,8 +483,11 @@ CREATE TABLE `quyen` (
 
 INSERT INTO `quyen` (`MAQUYEN`, `TENQUYEN`, `TRANGTHAI`) VALUES
 (1, 'Quản lý sản phẩm', 1),
-(2, 'Nhập xuất', 1),
-(3, 'Thanh toán', 1);
+(2, 'Quản lý nhập xuất', 1),
+(3, 'Quản lý bán hàng', 1),
+(4, 'Quản lý nhân sự', 1),
+(5, 'Quản lý khách hàng', 1),
+(6, 'Quản lý phân quyền', 1);
 
 -- --------------------------------------------------------
 
@@ -525,6 +531,13 @@ CREATE TABLE `taikhoan` (
   `NGAYTAO` datetime NOT NULL DEFAULT current_timestamp(),
   `MAVAITRO` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `taikhoan`
+--
+
+INSERT INTO `taikhoan` (`MATAIKHOAN`, `MANHANVIEN`, `TENDANGNHAP`, `MATKHAU`, `TRANGTHAI`, `NGAYTAO`, `MAVAITRO`) VALUES
+(1, 1, 'admin', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 1, '2025-12-05 14:44:52', 1);
 
 -- --------------------------------------------------------
 
@@ -817,7 +830,7 @@ ALTER TABLE `phieunhap`
 -- AUTO_INCREMENT for table `quyen`
 --
 ALTER TABLE `quyen`
-  MODIFY `MAQUYEN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `MAQUYEN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `sanpham`
@@ -829,7 +842,7 @@ ALTER TABLE `sanpham`
 -- AUTO_INCREMENT for table `taikhoan`
 --
 ALTER TABLE `taikhoan`
-  MODIFY `MATAIKHOAN` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MATAIKHOAN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `thanhtoan`

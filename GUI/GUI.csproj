@@ -530,11 +530,11 @@
     <Compile Include="GUI_UC\nhaCungCapGUI.Designer.cs">
       <DependentUpon>nhaCungCapGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI_UC\nhanVienriel.cs">
+    <Compile Include="GUI_UC\nhanVienGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI_UC\nhanVienriel.Designer.cs">
-      <DependentUpon>nhanVienriel.cs</DependentUpon>
+    <Compile Include="GUI_UC\nhanVienGUI.Designer.cs">
+      <DependentUpon>nhanVienGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_UC\nhapHangGUI.cs">
       <SubType>UserControl</SubType>
@@ -770,8 +770,8 @@
     <EmbeddedResource Include="GUI_UC\nhaCungCapGUI.resx">
       <DependentUpon>nhaCungCapGUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI_UC\nhanVienriel.resx">
-      <DependentUpon>nhanVienriel.cs</DependentUpon>
+    <EmbeddedResource Include="GUI_UC\nhanVienGUI.resx">
+      <DependentUpon>nhanVienGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_UC\nhapHangGUI.resx">
       <DependentUpon>nhapHangGUI.cs</DependentUpon>

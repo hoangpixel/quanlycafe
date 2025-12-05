@@ -14,12 +14,12 @@ using System.Windows.Forms;
 
 namespace GUI.GUI_UC
 {
-    public partial class nhanVienriel : UserControl
+    public partial class nhanVienGUI : UserControl
     {
         private nhanVienBUS busNhanVien = new nhanVienBUS();
         private BindingList<taikhoanDTO> dsTK;
         public BindingList<nhanVienDTO> dsNhanVien = new nhanVienBUS().LayDanhSach();
-        public nhanVienriel()
+        public nhanVienGUI()
         {
             InitializeComponent();
         }
@@ -64,11 +64,6 @@ namespace GUI.GUI_UC
             });
             tbNhanVien.Columns.Add(new DataGridViewTextBoxColumn
             {
-                DataPropertyName = "",
-                HeaderText = "Tài khoản"
-            });
-            tbNhanVien.Columns.Add(new DataGridViewTextBoxColumn
-            {
                 DataPropertyName = "Luong",
                 HeaderText = "Lương",
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" }
@@ -87,19 +82,6 @@ namespace GUI.GUI_UC
         {
             if (e.RowIndex < 0 || e.RowIndex >= tbNhanVien.Rows.Count) return;
             var column = tbNhanVien.Columns[e.ColumnIndex];
-
-            if (column.HeaderText == "Tài khoản")
-            {
-                nhanVienDTO nv = tbNhanVien.Rows[e.RowIndex].DataBoundItem as nhanVienDTO;
-
-                if (nv != null && dsTK != null)
-                {
-                    var tk = dsTK.FirstOrDefault(x => x.MANHANVIEN == nv.MaNhanVien);
-
-                    e.Value = (tk != null) ? "Có" : "Không";
-                    e.FormattingApplied = true;
-                }
-            }
         }
 
         private void loadFontChuVaSize()

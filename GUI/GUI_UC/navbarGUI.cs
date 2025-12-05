@@ -101,7 +101,7 @@ namespace GUI.GUI_UC
 
             // 4. CÁC NÚT MENU (Kiểm tra quyền trước khi Add)
 
-            AddNavButton("🏠 Trang chủ", "home"); // Trang chủ luôn hiện
+            CheckAndAddButton("🏠 Trang chủ", "home", 3);
 
             // Nhập hàng (Mã Quyền = 2 - Nhập xuất)
             CheckAndAddButton("🚚 Nhập hàng", "nhaphang", 2);
@@ -116,11 +116,11 @@ namespace GUI.GUI_UC
             CheckAndAddButton("🧑‍🍳 Nhân viên", "nhanvien", 4);
 
             AddNavButton("📈 Báo cáo", "thongke"); // Giả sử ai cũng xem được báo cáo
-            AddNavButton("👥 Khách hàng", "khachhang");
+            CheckAndAddButton("👥 Khách hàng", "khachhang",5);
 
             // Phân quyền (Thường chỉ Admin có, hoặc Mã Quyền riêng)
             // Nếu không check quyền thì cứ dùng AddNavButton bình thường
-            AddNavButton("🛡️ Phân quyền", "phanquyen");
+            CheckAndAddButton("🛡️ Phân quyền", "phanquyen",6);
 
             // Nhà cung cấp (Giả sử Mã Quyền = 2 - Nhập xuất)
             CheckAndAddButton("🏭 Nhà cung cấp", "nhacungcap", 2);

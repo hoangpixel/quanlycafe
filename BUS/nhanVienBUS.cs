@@ -13,20 +13,12 @@ namespace BUS
         private nhanVienDAO data = new nhanVienDAO();
         public static BindingList<nhanVienDTO> ds = new BindingList<nhanVienDTO>();
 
-        public BindingList<nhanVienDTO> LayDanhSach()
+        public BindingList<nhanVienDTO> LayDanhSach(bool forceReload = false)
         {
-            if(ds == null || ds.Count == 0)
+            if(ds == null || ds.Count == 0 || forceReload)
             {
                 ds = data.LayDanhSach();
             }
-            return ds;
-        }
-        // File: BUS/nhanVienBUS.cs
-
-        public BindingList<nhanVienDTO> LamMoiDanhSach()
-        {
-            if (ds != null) ds.Clear(); // Xóa sạch danh sách cũ trong RAM
-            ds = data.LayDanhSach();    // Lấy lại từ SQL
             return ds;
         }
 
