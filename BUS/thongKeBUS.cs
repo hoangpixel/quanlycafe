@@ -52,5 +52,25 @@ namespace BUS
         {
             return thongKeDAO.Instance.GetDoanhThuTheoKhoang_GroupThang(tuNgay, denNgay);
         }
+
+        // Add this method to the thongKeBUS class to fix CS1061
+        public List<thongKeDTO> GetChiTieuTheoKhoang_GroupThang(DateTime tuNgay, DateTime denNgay)
+        {
+            // Implement logic similar to GetDoanhThuTheoKhoang_GroupThang, but for Chi Tieu
+            // This is a stub implementation. Replace with actual data retrieval logic.
+            List<thongKeDTO> result = new List<thongKeDTO>();
+            DateTime current = new DateTime(tuNgay.Year, tuNgay.Month, 1);
+            while (current <= denNgay)
+            {
+                // Example: Add dummy data for each month in the range
+                result.Add(new thongKeDTO
+                {
+                    Nhan = current.ToString("MM/yyyy"),
+                    GiaTri = 0 // Replace with actual value
+                });
+                current = current.AddMonths(1);
+            }
+            return result;
+        }
     }
 }

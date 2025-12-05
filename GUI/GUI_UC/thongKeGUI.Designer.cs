@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea13 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend13 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea14 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend14 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea15 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend15 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -59,7 +59,6 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.panel6 = new System.Windows.Forms.Panel();
             this.panel7 = new System.Windows.Forms.Panel();
             this.chartCT = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -78,6 +77,7 @@
             this.panel9 = new System.Windows.Forms.Panel();
             this.panel10 = new System.Windows.Forms.Panel();
             this.bigLabel2 = new ReaLTaiizor.Controls.BigLabel();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.panelTKluong = new System.Windows.Forms.Panel();
             this.panel11 = new System.Windows.Forms.Panel();
             this.panel12 = new System.Windows.Forms.Panel();
@@ -108,7 +108,6 @@
             this.tableLayoutPanel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartCT)).BeginInit();
@@ -116,6 +115,7 @@
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel10.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.panelTKluong.SuspendLayout();
             this.panel11.SuspendLayout();
             this.panel12.SuspendLayout();
@@ -183,17 +183,17 @@
             // 
             // chartDT
             // 
-            chartArea13.Name = "ChartArea1";
-            this.chartDT.ChartAreas.Add(chartArea13);
+            chartArea1.Name = "ChartArea1";
+            this.chartDT.ChartAreas.Add(chartArea1);
             this.chartDT.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend13.Name = "Legend1";
-            this.chartDT.Legends.Add(legend13);
+            legend1.Name = "Legend1";
+            this.chartDT.Legends.Add(legend1);
             this.chartDT.Location = new System.Drawing.Point(0, 0);
             this.chartDT.Name = "chartDT";
-            series13.ChartArea = "ChartArea1";
-            series13.Legend = "Legend1";
-            series13.Name = "Series1";
-            this.chartDT.Series.Add(series13);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chartDT.Series.Add(series1);
             this.chartDT.Size = new System.Drawing.Size(1496, 412);
             this.chartDT.TabIndex = 0;
             this.chartDT.Text = "chart1";
@@ -394,16 +394,6 @@
             this.tabPage2.Text = "Chi tiêu";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.panelTKluong);
-            this.tabPage3.Location = new System.Drawing.Point(4, 25);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1522, 671);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Lương NV";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
             // panel6
             // 
             this.panel6.Controls.Add(this.panel7);
@@ -428,17 +418,17 @@
             // 
             // chartCT
             // 
-            chartArea14.Name = "ChartArea1";
-            this.chartCT.ChartAreas.Add(chartArea14);
+            chartArea2.Name = "ChartArea1";
+            this.chartCT.ChartAreas.Add(chartArea2);
             this.chartCT.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend14.Name = "Legend1";
-            this.chartCT.Legends.Add(legend14);
+            legend2.Name = "Legend1";
+            this.chartCT.Legends.Add(legend2);
             this.chartCT.Location = new System.Drawing.Point(0, 0);
             this.chartCT.Name = "chartCT";
-            series14.ChartArea = "ChartArea1";
-            series14.Legend = "Legend1";
-            series14.Name = "Series1";
-            this.chartCT.Series.Add(series14);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chartCT.Series.Add(series2);
             this.chartCT.Size = new System.Drawing.Size(1496, 412);
             this.chartCT.TabIndex = 0;
             this.chartCT.Text = "chart1";
@@ -626,6 +616,16 @@
             this.bigLabel2.TabIndex = 0;
             this.bigLabel2.Text = "Thống kê chi tiêu";
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.panelTKluong);
+            this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(1522, 671);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Lương NV";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
             // panelTKluong
             // 
             this.panelTKluong.Controls.Add(this.panel11);
@@ -660,17 +660,17 @@
             // 
             // chartNV
             // 
-            chartArea15.Name = "ChartArea1";
-            this.chartNV.ChartAreas.Add(chartArea15);
+            chartArea3.Name = "ChartArea1";
+            this.chartNV.ChartAreas.Add(chartArea3);
             this.chartNV.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend15.Name = "Legend1";
-            this.chartNV.Legends.Add(legend15);
+            legend3.Name = "Legend1";
+            this.chartNV.Legends.Add(legend3);
             this.chartNV.Location = new System.Drawing.Point(0, 0);
             this.chartNV.Name = "chartNV";
-            series15.ChartArea = "ChartArea1";
-            series15.Legend = "Legend1";
-            series15.Name = "Series1";
-            this.chartNV.Series.Add(series15);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.chartNV.Series.Add(series3);
             this.chartNV.Size = new System.Drawing.Size(1496, 412);
             this.chartNV.TabIndex = 0;
             this.chartNV.Text = "chart1";
@@ -877,7 +877,6 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartCT)).EndInit();
@@ -887,6 +886,7 @@
             this.tableLayoutPanel2.PerformLayout();
             this.panel10.ResumeLayout(false);
             this.panel10.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
             this.panelTKluong.ResumeLayout(false);
             this.panel11.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
