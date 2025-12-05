@@ -101,10 +101,26 @@ namespace GUI.GUI_UC
                 // Cách tốt nhất là BringToFront trang cần hiện
                 if (pages.ContainsKey(page))
                 {
-                    pages[page].BringToFront();
+                    // Lấy trang hiện tại ra
+                    UserControl currentPage = pages[page];
 
-                    // Mẹo nhỏ: Focus vào trang mới để trỏ chuột hoạt động đúng
-                    pages[page].Focus();
+                    // Đưa lên đầu
+                    currentPage.BringToFront();
+                    currentPage.Focus();
+
+                    // === THÊM ĐOẠN CODE NÀY VÀO ===
+
+                    // Kiểm tra: Nếu là trang Nguyên Liệu thì gọi hàm LoadData()
+                    if (page == "nguyenlieu")
+                    {
+                        // Ép kiểu UserControl về nguyenLieuGUI
+                        if (currentPage is nguyenLieuGUI gui)
+                        {
+                            gui.LoadData(); // <-- Hàm public bạn vừa sửa ở Bước 1
+                        }
+                    }
+
+                    // ==============================
                 }
             }
             catch (Exception ex)

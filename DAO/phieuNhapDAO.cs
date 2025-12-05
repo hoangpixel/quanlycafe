@@ -14,7 +14,7 @@ namespace DAO
         public BindingList<phieuNhapDTO> LayDanhSach()
         {
             BindingList<phieuNhapDTO> ds = new BindingList<phieuNhapDTO>();
-            string sql = @"SELECT * FROM phieunhap WHERE TRANGTHAIXOA = 1";
+            string sql = @"SELECT * FROM phieunhap WHERE TRANGTHAIXOA = 1 ORDER BY phieunhap.MAPN DESC";
 
             // Dùng using để tự động Close connection dù có lỗi hay không
             using (MySqlConnection conn = DBConnect.GetConnection())

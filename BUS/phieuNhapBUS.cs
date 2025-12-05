@@ -190,124 +190,95 @@ namespace BUS
 
         // Thêm đoạn này vào trong class phieuNhapBUS
 
-        // Trong class phieuNhapBUS
         public void NhapExcelGop(List<DTO.PhieuNhapExcelRow> rawData)
         {
-            // 1. Gom nhóm các dòng Excel theo Mã PN (để tạo 1 Phiếu nhiều Chi tiết)
+            if (rawData == null || rawData.Count == 0) return;
+
             var groups = rawData.GroupBy(x => x.MaPN_Excel);
 
             List<string> errors = new List<string>();
             int countSuccess = 0;
 
-            // 2. Load trước dữ liệu tham chiếu (Tối ưu hiệu suất, tránh gọi DB trong vòng lặp)
-            var listMaNCC = new DAO.nhaCungCapDAO().LayDanhSach().Select(x => x.MaNCC).ToList();
-            var listMaNV = new DAO.nhanVienDAO().LayDanhSach().Select(x => x.MaNhanVien).ToList();
-
-            // Lấy full list NL và Đơn vị để tra cứu
-            var listNL_Full = new DAO.nguyenLieuDAO().docDanhSachNguyenLieu();
-            var listDonVi = new DAO.donViDAO().docDangSachDonVi();
+            var listNCC = new nhaCungCapBUS().LayDanhSach().ToList();
+            var listNV = new nhanVienBUS().LayDanhSach().ToList();
+            var listNL_Full = new nguyenLieuBUS().LayDanhSach().ToList();
+            var listDonVi = new donViBUS().LayDanhSach().ToList();
 
             foreach (var group in groups)
             {
-                // Lấy thông tin Header từ dòng đầu tiên của nhóm
                 var firstRow = group.First();
                 int maPN_Excel = firstRow.MaPN_Excel;
 
-                // --- VALIDATE HEADER ---
-                if (!listMaNCC.Contains(firstRow.MaNCC))
+                if (!listNCC.Any(x => x.MaNCC == firstRow.MaNCC))
                 {
-                    errors.Add($"PN Excel {maPN_Excel}: Mã NCC {firstRow.MaNCC} không tồn tại.");
+                    errors.Add($"Mã tạm {maPN_Excel}: Mã NCC {firstRow.MaNCC} không tồn tại.");
                     continue;
                 }
-                if (!listMaNV.Contains(firstRow.MaNV))
+                if (!listNV.Any(x => x.MaNhanVien == firstRow.MaNV))
                 {
-                    errors.Add($"PN Excel {maPN_Excel}: Mã NV {firstRow.MaNV} không tồn tại.");
+                    errors.Add($"Mã tạm {maPN_Excel}: Mã NV {firstRow.MaNV} không tồn tại.");
                     continue;
                 }
 
-                // Tạo Header DTO
                 phieuNhapDTO header = new phieuNhapDTO
                 {
+                    MaPN = 0,
                     MaNCC = firstRow.MaNCC,
                     MaNhanVien = firstRow.MaNV,
                     ThoiGian = firstRow.ThoiGian,
-                    TrangThai = 0, // Mặc định: CHƯA DUYỆT
-                    TrangThaiXoa = 1
+                    TrangThai = 0,
+                    TrangThaiXoa = 1,
+                    TongTien = 0
                 };
 
-                // Tạo List Details
                 List<ctPhieuNhapDTO> details = new List<ctPhieuNhapDTO>();
                 bool hasDetailError = false;
 
                 foreach (var row in group)
                 {
-                    // Bỏ qua nếu dòng này không có nguyên liệu (chỉ có header)
                     if (row.MaNguyenLieu <= 0) continue;
 
-                    // 1. Check Nguyên Liệu tồn tại
                     var nlInfo = listNL_Full.FirstOrDefault(n => n.MaNguyenLieu == row.MaNguyenLieu);
                     if (nlInfo == null)
                     {
-                        errors.Add($"PN {maPN_Excel}: Mã NL {row.MaNguyenLieu} không tồn tại.");
+                        errors.Add($"Mã tạm {maPN_Excel}: Nguyên liệu ID {row.MaNguyenLieu} không tồn tại.");
                         hasDetailError = true; break;
                     }
 
-                    // 2. Xử lý Đơn Vị Tính & Hệ Số
-                    int maDonViDB = 0;
+                    int maDonViDB = nlInfo.MaDonViCoSo;
                     decimal heSo = 1;
 
-                    // Tìm Mã Đơn Vị dựa trên Tên người dùng nhập trong Excel
-                    var dvObj = listDonVi.FirstOrDefault(d => d.TenDonVi.Equals(row.TenDonVi, StringComparison.OrdinalIgnoreCase));
-
-                    if (dvObj != null)
+                    if (!string.IsNullOrEmpty(row.TenDonVi))
                     {
-                        maDonViDB = dvObj.MaDonVi;
-
-                        // --- LOGIC HỆ SỐ (Quan trọng) ---
-                        // Nếu đơn vị nhập == đơn vị gốc của NL -> Hệ số = 1
-                        if (maDonViDB == nlInfo.MaDonViCoSo)
+                        var dvObj = listDonVi.FirstOrDefault(d => d.TenDonVi.Equals(row.TenDonVi.Trim(), StringComparison.OrdinalIgnoreCase));
+                        if (dvObj != null)
                         {
-                            heSo = 1;
-                        }
-                        else
-                        {
-                            // Nếu khác đơn vị gốc, bạn cần logic lấy hệ số quy đổi
-                            // Ví dụ: Tìm trong bảng QuyDoi(MaNL, MaDV) -> heSo
-                            // Ở đây tui tạm gán = 1, bạn có thể sửa logic này nếu có bảng quy đổi
+                            maDonViDB = dvObj.MaDonVi;
                             heSo = 1;
                         }
                     }
-                    else
-                    {
-                        // Nếu không nhập ĐVT hoặc nhập sai tên -> Lấy ĐVT gốc của Nguyên Liệu
-                        maDonViDB = nlInfo.MaDonViCoSo;
-                        heSo = 1;
-                    }
 
-                    // 3. Tạo chi tiết
                     details.Add(new ctPhieuNhapDTO
                     {
                         MaNguyenLieu = row.MaNguyenLieu,
                         MaDonVi = maDonViDB,
-                        SoLuong = row.SoLuong,              // Số lượng nhập
+                        SoLuong = row.SoLuong,
                         HeSo = heSo,
-                        SoLuongCoSo = row.SoLuong * heSo,   // Tự tính
+                        SoLuongCoSo = row.SoLuong * heSo,
                         DonGia = row.DonGia,
-                        ThanhTien = row.SoLuong * row.DonGia // Tự tính
+                        ThanhTien = row.SoLuong * row.DonGia
                     });
                 }
 
-                if (hasDetailError) continue; // Nếu 1 dòng lỗi thì bỏ qua cả phiếu
+                if (hasDetailError) continue;
                 if (details.Count == 0)
                 {
-                    errors.Add($"PN {maPN_Excel}: Không có chi tiết nguyên liệu hợp lệ.");
+                    errors.Add($"Mã tạm {maPN_Excel}: Không có chi tiết sản phẩm.");
                     continue;
                 }
 
-                // --- INSERT VÀO DATABASE ---
                 try
                 {
-                    // Gọi hàm ThemPhieuNhap (Có Transaction) trong BUS (đã viết ở các bước trước)
                     if (ThemPhieuNhap(header, details) > 0)
                     {
                         countSuccess++;
@@ -315,17 +286,16 @@ namespace BUS
                 }
                 catch (Exception ex)
                 {
-                    errors.Add($"PN {maPN_Excel}: Lỗi DB - {ex.Message}");
+                    errors.Add($"Mã tạm {maPN_Excel}: Lỗi Insert - {ex.Message}");
                 }
             }
 
-            // --- HIỂN THỊ KẾT QUẢ ---
-            string msg = $"Hoàn tất! Đã thêm thành công: {countSuccess} phiếu.";
+            string msg = $"Đã nhập thành công: {countSuccess} phiếu.";
             if (errors.Count > 0)
             {
-                msg += "\n\n⚠️ Chi tiết lỗi:\n" + string.Join("\n", errors);
+                msg += "\n\n--- CÁC LỖI BỎ QUA ---\n" + string.Join("\n", errors);
             }
-            System.Windows.Forms.MessageBox.Show(msg, "Kết quả nhập Excel", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
+            System.Windows.Forms.MessageBox.Show(msg, "Kết quả nhập Excel");
         }
     }
-}
+    }

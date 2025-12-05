@@ -13,7 +13,7 @@ namespace DAO
         public BindingList<nguyenLieuDTO> docDanhSachNguyenLieu()
         {
             BindingList<nguyenLieuDTO> ds = new BindingList<nguyenLieuDTO>();
-            string qry = "SELECT * FROM nguyenlieu WHERE TRANGTHAI = 1";
+            string qry = "SELECT * FROM nguyenlieu WHERE TRANGTHAI = 1 ORDER BY nguyenlieu.MANGUYENLIEU DESC";
             MySqlConnection conn = null;
 
             try

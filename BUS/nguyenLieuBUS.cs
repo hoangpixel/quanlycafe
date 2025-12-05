@@ -13,9 +13,9 @@ namespace BUS
         public static BindingList<nguyenLieuDTO> ds = new BindingList<nguyenLieuDTO>();
         private nguyenLieuDAO data = new nguyenLieuDAO();
 
-        public BindingList<nguyenLieuDTO> LayDanhSach()
+        public BindingList<nguyenLieuDTO> LayDanhSach(bool forceReload = false)
         {
-            if(ds == null || ds.Count == 0)
+            if(ds == null || ds.Count == 0 || forceReload)
             {
                 ds = data.docDanhSachNguyenLieu();
             }

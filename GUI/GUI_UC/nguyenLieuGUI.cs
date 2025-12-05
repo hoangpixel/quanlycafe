@@ -28,6 +28,17 @@ namespace GUI.GUI_UC
             rdCoBanNL.Checked = true;
         }
 
+        public void LoadData()
+        {
+            // 1. Lấy dữ liệu mới nhất từ DB (Force Reload)
+            var data = busNguyenLieu.LayDanhSach(true);
+
+            // 2. Gọi hàm hiển thị đã viết sẵn để nó setup lại cột và các nút bấm
+            // Thay vì chỉ gán DataSource = data
+            loadDanhSachNguyenLieu(data);
+            tableNguyenLieu.Refresh();
+        }
+
         private void nguyenLieuGUI_Load(object sender, EventArgs e)
         {
             donViBUS busDV = new donViBUS();
