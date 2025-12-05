@@ -31,7 +31,36 @@ namespace GUI.GUI_UC
             loadFontChuVaSize();
             loadChuVoTxtVaCb();
             rdoTimCoBan.Checked = true;
+            CheckQuyen();
         }
+
+        private void CheckQuyen()
+        {
+            var quyenNCC = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 6);
+
+            if (quyenNCC != null)
+            {
+                btnThemNCC.Enabled = (quyenNCC.CAN_CREATE == 1);
+
+                btnSuaNCC.Enabled = (quyenNCC.CAN_UPDATE) == 1;
+
+                btnXoaNCC.Enabled = (quyenNCC.CAN_DELETE) == 1;
+
+                btnExcelNCC.Enabled = (quyenNCC.CAN_CREATE) == 1;
+
+                btnSuaNCC.Enabled = false;
+                btnXoaNCC.Enabled = false;
+            }
+            else
+            {
+                btnThemNCC.Enabled = false;
+                btnSuaNCC.Enabled = false;
+                btnXoaNCC.Enabled = false;
+                btnChiTietNCC.Enabled = false;
+                btnExcelNCC.Enabled = false;
+            }
+        }
+
         private void loadDanhSachNhaCungCap(BindingList<nhaCungCapDTO> ds)
         {
             tbNhaCungCap.AutoGenerateColumns = false;
@@ -222,12 +251,22 @@ namespace GUI.GUI_UC
         private void tbNhaCungCap_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
+
+
+            var quyenNCC = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 6);
+
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
+
+            bool coQuyenThem = isAdmin || (quyenNCC != null && quyenNCC.CAN_CREATE == 1);
+            bool coQuyenSua = isAdmin || (quyenNCC != null && quyenNCC.CAN_UPDATE == 1);
+            bool coQuyenXoa = isAdmin || (quyenNCC != null && quyenNCC.CAN_DELETE == 1);
+
             if (e.RowIndex == lastSelectedRowNhaCungCap)
             {
                 tbNhaCungCap.ClearSelection();
                 lastSelectedRowNhaCungCap = -1;
 
-                btnThemNCC.Enabled = true;
+                btnThemNCC.Enabled = coQuyenThem;
                 btnSuaNCC.Enabled = false;
                 btnXoaNCC.Enabled = false;
                 btnChiTietNCC.Enabled = false;
@@ -238,9 +277,9 @@ namespace GUI.GUI_UC
             tbNhaCungCap.Rows[e.RowIndex].Selected = true;
             lastSelectedRowNhaCungCap = e.RowIndex;
 
-            btnThemNCC.Enabled = true;
-            btnSuaNCC.Enabled = true;
-            btnXoaNCC.Enabled = true;
+            btnThemNCC.Enabled = coQuyenThem;
+            btnSuaNCC.Enabled = coQuyenSua;
+            btnXoaNCC.Enabled = coQuyenXoa;
             btnChiTietNCC.Enabled = true;
         }
 

@@ -43,8 +43,35 @@ namespace GUI.GUI_UC
             loadDanhSachCongThuc(ds);
             rdoTimCoBan.Checked = true;
             hienThiPlaceHolderCongThuc();
+            CheckQuyen();
         }
 
+        private void CheckQuyen()
+        {
+            var quyenSP = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 1);
+
+            if (quyenSP != null)
+            {
+                btnThemCT.Enabled = (quyenSP.CAN_CREATE == 1);
+
+                btnSuaCT.Enabled = (quyenSP.CAN_UPDATE) == 1;
+
+                btnXoaCT.Enabled = (quyenSP.CAN_DELETE) == 1;
+
+                btnExcelCT.Enabled = (quyenSP.CAN_CREATE) == 1;
+
+                btnSuaCT.Enabled = false;
+                btnXoaCT.Enabled = false;
+            }
+            else
+            {
+                btnThemCT.Enabled = false;
+                btnSuaCT.Enabled = false;
+                btnXoaCT.Enabled = false;
+                btnChiTietCT.Enabled = false;
+                btnExcelCT.Enabled = false;
+            }
+        }
         private void loadDanhSachCongThuc(BindingList<congThucDTO> ds)
         {
             tableCongThuc.AutoGenerateColumns = false;
@@ -122,11 +149,20 @@ namespace GUI.GUI_UC
         private void kiemTraClickTable(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
+
+            var quyenSP = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 1);
+
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
+
+            bool coQuyenThem = isAdmin || (quyenSP != null && quyenSP.CAN_CREATE == 1);
+            bool coQuyenSua = isAdmin || (quyenSP != null && quyenSP.CAN_UPDATE == 1);
+            bool coQuyenXoa = isAdmin || (quyenSP != null && quyenSP.CAN_DELETE == 1);
+
             if (e.RowIndex == lastSelectedRowCongThuc)
             {
                 tableCongThuc.ClearSelection();
                 lastSelectedRowCongThuc = -1;
-                btnThemCT.Enabled = true;
+                btnThemCT.Enabled = coQuyenThem;
                 btnSuaCT.Enabled = false;
                 btnXoaCT.Enabled = false;
                 btnChiTietCT.Enabled = false;
@@ -137,8 +173,9 @@ namespace GUI.GUI_UC
             tableCongThuc.Rows[e.RowIndex].Selected = true;
             lastSelectedRowCongThuc = e.RowIndex;
 
-            btnSuaCT.Enabled = true;
-            btnXoaCT.Enabled = true;
+            btnThemCT.Enabled = coQuyenThem;
+            btnSuaCT.Enabled = coQuyenSua;
+            btnXoaCT.Enabled = coQuyenXoa;
             btnChiTietCT.Enabled = true;
         }
 

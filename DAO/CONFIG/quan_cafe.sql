@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2025 at 08:46 AM
+-- Generation Time: Dec 05, 2025 at 10:46 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -175,6 +175,14 @@ CREATE TABLE `ctphieunhap` (
   `DONGIA` decimal(12,2) NOT NULL DEFAULT 0.00,
   `THANHTIEN` decimal(12,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `ctphieunhap`
+--
+
+INSERT INTO `ctphieunhap` (`MAPN`, `MANGUYENLIEU`, `MADONVI`, `SOLUONG`, `SOLUONGCOSO`, `DONGIA`, `THANHTIEN`) VALUES
+(1, 5, 7, 10.00, 60.00, 60000.00, 600000.00),
+(2, 5, 5, 2.00, 2.00, 123.00, 246.00);
 
 -- --------------------------------------------------------
 
@@ -359,7 +367,7 @@ INSERT INTO `nguyenlieu` (`MANGUYENLIEU`, `TENNGUYENLIEU`, `TRANGTHAI`, `TONKHO`
 (2, 'Đường trắng', 1, 0.000, 1, 2),
 (3, 'Sữa đặc', 1, 0.000, 1, 2),
 (4, 'Sữa tươi không đường', 1, 0.000, 1, 4),
-(5, 'Coca cola', 1, 0.000, 1, 5);
+(5, 'Coca cola', 1, 60.000, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -375,6 +383,13 @@ CREATE TABLE `nhacungcap` (
   `DIACHI` varchar(255) DEFAULT NULL,
   `CONHOATDONG` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `nhacungcap`
+--
+
+INSERT INTO `nhacungcap` (`MANCC`, `TENNCC`, `SODIENTHOAI`, `EMAIL`, `DIACHI`, `CONHOATDONG`) VALUES
+(1, '123', '0123123123', '123@gmail.com', '123', 1);
 
 -- --------------------------------------------------------
 
@@ -397,7 +412,9 @@ CREATE TABLE `nhanvien` (
 --
 
 INSERT INTO `nhanvien` (`MANHANVIEN`, `HOTEN`, `SODIENTHOAI`, `EMAIL`, `LUONG`, `NGAYTAO`, `TRANGTHAI`) VALUES
-(1, 'Phạm Minh Hoàng', '0333333333', 'admin1@gmail.com', 500000000.00, '2025-11-14 13:17:41', 1);
+(1, 'Phạm Minh Hoàng', '0333333333', 'admin1@gmail.com', 500000000.00, '2025-11-14 13:17:41', 1),
+(2, 'Test1', '0111111111', 'test1@gmail.com', 500000000.00, '2025-12-05 14:49:45', 1),
+(3, 'Khách hàng 1', '0111111111', '111@gmail.com', 123.00, '2025-12-05 16:18:25', 1);
 
 -- --------------------------------------------------------
 
@@ -446,8 +463,19 @@ INSERT INTO `phanquyen` (`MAVAITRO`, `MAQUYEN`, `CAN_READ`, `CAN_CREATE`, `CAN_U
 (1, 4, 1, 1, 1, 1),
 (1, 5, 1, 1, 1, 1),
 (1, 6, 1, 1, 1, 1),
-(2, 1, 1, 0, 0, 0),
-(2, 2, 1, 1, 0, 0);
+(1, 7, 1, 1, 1, 1),
+(2, 1, 1, 1, 1, 1),
+(2, 2, 1, 1, 0, 0),
+(2, 3, 0, 0, 0, 0),
+(2, 4, 0, 0, 0, 0),
+(2, 5, 0, 0, 0, 0),
+(2, 6, 0, 0, 0, 0),
+(3, 1, 0, 0, 0, 0),
+(3, 2, 0, 1, 1, 1),
+(3, 3, 0, 1, 1, 1),
+(3, 4, 1, 1, 1, 1),
+(3, 5, 1, 1, 1, 1),
+(3, 6, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -464,6 +492,14 @@ CREATE TABLE `phieunhap` (
   `TONGTIEN` decimal(12,2) NOT NULL DEFAULT 0.00,
   `TRANGTHAIXOA` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `phieunhap`
+--
+
+INSERT INTO `phieunhap` (`MAPN`, `MANCC`, `MANHANVIEN`, `THOIGIAN`, `TRANGTHAI`, `TONGTIEN`, `TRANGTHAIXOA`) VALUES
+(1, 1, 1, '2025-12-05 16:22:50', 1, 600000.00, 1),
+(2, 1, 2, '2025-12-05 16:33:51', 0, 246.00, 1);
 
 -- --------------------------------------------------------
 
@@ -487,7 +523,8 @@ INSERT INTO `quyen` (`MAQUYEN`, `TENQUYEN`, `TRANGTHAI`) VALUES
 (3, 'Quản lý bán hàng', 1),
 (4, 'Quản lý nhân sự', 1),
 (5, 'Quản lý khách hàng', 1),
-(6, 'Quản lý phân quyền', 1);
+(6, 'Quản lý nhà cung cấp', 1),
+(7, 'Quản lý phân quyền', 1);
 
 -- --------------------------------------------------------
 
@@ -537,7 +574,9 @@ CREATE TABLE `taikhoan` (
 --
 
 INSERT INTO `taikhoan` (`MATAIKHOAN`, `MANHANVIEN`, `TENDANGNHAP`, `MATKHAU`, `TRANGTHAI`, `NGAYTAO`, `MAVAITRO`) VALUES
-(1, 1, 'admin', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 1, '2025-12-05 14:44:52', 1);
+(1, 1, 'admin', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 1, '2025-12-05 14:44:52', 1),
+(2, 2, 'nhanvien1', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 1, '2025-12-05 14:50:35', 2),
+(3, 3, 'khachhang', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 1, '2025-12-05 16:18:46', 3);
 
 -- --------------------------------------------------------
 
@@ -806,13 +845,13 @@ ALTER TABLE `nguyenlieu`
 -- AUTO_INCREMENT for table `nhacungcap`
 --
 ALTER TABLE `nhacungcap`
-  MODIFY `MANCC` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MANCC` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `nhanvien`
 --
 ALTER TABLE `nhanvien`
-  MODIFY `MANHANVIEN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `MANHANVIEN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `nhom`
@@ -824,13 +863,13 @@ ALTER TABLE `nhom`
 -- AUTO_INCREMENT for table `phieunhap`
 --
 ALTER TABLE `phieunhap`
-  MODIFY `MAPN` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MAPN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `quyen`
 --
 ALTER TABLE `quyen`
-  MODIFY `MAQUYEN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `MAQUYEN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `sanpham`
@@ -842,7 +881,7 @@ ALTER TABLE `sanpham`
 -- AUTO_INCREMENT for table `taikhoan`
 --
 ALTER TABLE `taikhoan`
-  MODIFY `MATAIKHOAN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `MATAIKHOAN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `thanhtoan`

@@ -120,10 +120,10 @@ namespace GUI.GUI_UC
 
             // Phân quyền (Thường chỉ Admin có, hoặc Mã Quyền riêng)
             // Nếu không check quyền thì cứ dùng AddNavButton bình thường
-            CheckAndAddButton("🛡️ Phân quyền", "phanquyen",6);
+            CheckAndAddButton("🛡️ Phân quyền", "phanquyen",7);
 
             // Nhà cung cấp (Giả sử Mã Quyền = 2 - Nhập xuất)
-            CheckAndAddButton("🏭 Nhà cung cấp", "nhacungcap", 2);
+            CheckAndAddButton("🏭 Nhà cung cấp", "nhacungcap", 6);
 
             // Những trang cơ bản (ai cũng thấy hoặc không cần quyền đặc biệt)
             AddNavButton("👋 Thoát", "exit");
@@ -241,6 +241,31 @@ namespace GUI.GUI_UC
                     break;
                 }
             }
+        }
+
+        // Thêm hàm này vào navbarGUI để MainGUI gọi
+        public string LayTrangDauTienChoPhep()
+        {
+            foreach (Control ctrl in this.Controls)
+            {
+                if (ctrl is Button btn && btn.Tag.ToString() == "home")
+                {
+                    return "home"; // Nếu thấy nút home thì trả về ngay lập tức
+                }
+            }
+            foreach (Control ctrl in this.Controls)
+            {
+                if (ctrl is Button btn)
+                {
+                    string tag = btn.Tag.ToString();
+                    if (tag != "exit")
+                    {
+                        return tag;
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

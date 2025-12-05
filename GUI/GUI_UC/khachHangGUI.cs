@@ -34,8 +34,35 @@ namespace GUI.GUI_UC
             loadFontChuVaSize();
             loadChuVoTxtVaCb();
             rdoTimCoBan.Checked = true;
+            CheckQuyen();
         }
 
+        private void CheckQuyen()
+        {
+            var quyenKH = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 5);
+
+            if (quyenKH != null)
+            {
+                btnThemKH.Enabled = (quyenKH.CAN_CREATE == 1);
+
+                btnSuaKH.Enabled = (quyenKH.CAN_UPDATE) == 1;
+
+                btnXoaKH.Enabled = (quyenKH.CAN_DELETE) == 1;
+
+                btnExcelKH.Enabled = (quyenKH.CAN_CREATE) == 1;
+
+                btnSuaKH.Enabled = false;
+                btnXoaKH.Enabled = false;
+            }
+            else
+            {
+                btnThemKH.Enabled = false;
+                btnSuaKH.Enabled = false;
+                btnXoaKH.Enabled = false;
+                btnChiTietKH.Enabled = false;
+                btnExcelKH.Enabled = false;
+            }
+        }
         private void loadDanhSachKhachHang(BindingList<khachHangDTO> ds)
         {
             tableKhachHang.AutoGenerateColumns = false;
@@ -138,12 +165,21 @@ namespace GUI.GUI_UC
         private void tableKhachHang_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
+
+            var quyenKH = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 5);
+
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
+
+            bool coQuyenThem = isAdmin || (quyenKH != null && quyenKH.CAN_CREATE == 1);
+            bool coQuyenSua = isAdmin || (quyenKH != null && quyenKH.CAN_UPDATE == 1);
+            bool coQuyenXoa = isAdmin || (quyenKH != null && quyenKH.CAN_DELETE == 1);
+
             if (e.RowIndex == lastSelectedRowKhachHang)
             {
                 tableKhachHang.ClearSelection();
                 lastSelectedRowKhachHang = -1;
 
-                btnThemKH.Enabled = true;
+                btnThemKH.Enabled = coQuyenThem;
                 btnSuaKH.Enabled = false;
                 btnXoaKH.Enabled = false;
                 btnChiTietKH.Enabled = false;
@@ -154,9 +190,9 @@ namespace GUI.GUI_UC
             tableKhachHang.Rows[e.RowIndex].Selected = true;
             lastSelectedRowKhachHang = e.RowIndex;
 
-            btnThemKH.Enabled = true;
-            btnSuaKH.Enabled = true;
-            btnXoaKH.Enabled = true;
+            btnThemKH.Enabled = coQuyenThem;
+            btnSuaKH.Enabled = coQuyenSua;
+            btnXoaKH.Enabled = coQuyenXoa;
             btnChiTietKH.Enabled = true;
         }
 

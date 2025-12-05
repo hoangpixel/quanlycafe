@@ -40,7 +40,6 @@
             this.tabBanHang = new System.Windows.Forms.TabPage();
             this.panel6 = new System.Windows.Forms.Panel();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.btnChonNV = new System.Windows.Forms.Button();
             this.txtTenNV = new System.Windows.Forms.TextBox();
             this.btnChonNCC = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -185,11 +184,10 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.btnChonNV);
             this.groupBox5.Controls.Add(this.txtTenNV);
             this.groupBox5.Controls.Add(this.btnChonNCC);
-            this.groupBox5.Controls.Add(this.label6);
             this.groupBox5.Controls.Add(this.txtTenNCC);
+            this.groupBox5.Controls.Add(this.label6);
             this.groupBox5.Controls.Add(this.label4);
             this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox5.Location = new System.Drawing.Point(1076, 23);
@@ -199,29 +197,18 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Thông tin nhập hàng";
             // 
-            // btnChonNV
-            // 
-            this.btnChonNV.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnChonNV.Location = new System.Drawing.Point(356, 98);
-            this.btnChonNV.Name = "btnChonNV";
-            this.btnChonNV.Size = new System.Drawing.Size(62, 38);
-            this.btnChonNV.TabIndex = 26;
-            this.btnChonNV.Text = "...";
-            this.btnChonNV.UseVisualStyleBackColor = true;
-            this.btnChonNV.Click += new System.EventHandler(this.btnChonNV_Click);
-            // 
             // txtTenNV
             // 
             this.txtTenNV.Enabled = false;
-            this.txtTenNV.Location = new System.Drawing.Point(190, 98);
+            this.txtTenNV.Location = new System.Drawing.Point(192, 43);
             this.txtTenNV.Name = "txtTenNV";
-            this.txtTenNV.Size = new System.Drawing.Size(160, 27);
+            this.txtTenNV.Size = new System.Drawing.Size(227, 27);
             this.txtTenNV.TabIndex = 25;
             // 
             // btnChonNCC
             // 
             this.btnChonNCC.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnChonNCC.Location = new System.Drawing.Point(355, 43);
+            this.btnChonNCC.Location = new System.Drawing.Point(357, 89);
             this.btnChonNCC.Name = "btnChonNCC";
             this.btnChonNCC.Size = new System.Drawing.Size(62, 38);
             this.btnChonNCC.TabIndex = 24;
@@ -233,7 +220,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(20, 101);
+            this.label6.Location = new System.Drawing.Point(22, 46);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(132, 20);
             this.label6.TabIndex = 23;
@@ -242,7 +229,7 @@
             // txtTenNCC
             // 
             this.txtTenNCC.Enabled = false;
-            this.txtTenNCC.Location = new System.Drawing.Point(190, 43);
+            this.txtTenNCC.Location = new System.Drawing.Point(192, 89);
             this.txtTenNCC.Name = "txtTenNCC";
             this.txtTenNCC.Size = new System.Drawing.Size(160, 27);
             this.txtTenNCC.TabIndex = 22;
@@ -251,7 +238,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(20, 46);
+            this.label4.Location = new System.Drawing.Point(22, 92);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(164, 20);
             this.label4.TabIndex = 19;
@@ -785,7 +772,7 @@
             // 
             this.cboLoaiSP.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cboLoaiSP.FormattingEnabled = true;
-            this.cboLoaiSP.Location = new System.Drawing.Point(11, 13);
+            this.cboLoaiSP.Location = new System.Drawing.Point(11, 15);
             this.cboLoaiSP.Name = "cboLoaiSP";
             this.cboLoaiSP.Size = new System.Drawing.Size(109, 28);
             this.cboLoaiSP.TabIndex = 0;
@@ -794,7 +781,7 @@
             // 
             this.cboTrangThai.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cboTrangThai.FormattingEnabled = true;
-            this.cboTrangThai.Location = new System.Drawing.Point(142, 13);
+            this.cboTrangThai.Location = new System.Drawing.Point(142, 15);
             this.cboTrangThai.Name = "cboTrangThai";
             this.cboTrangThai.Size = new System.Drawing.Size(109, 28);
             this.cboTrangThai.TabIndex = 1;
@@ -860,7 +847,7 @@
             "Tên nhóm",
             "Giá min",
             "Giá max"});
-            this.cboTimKiemSP.Location = new System.Drawing.Point(10, 8);
+            this.cboTimKiemSP.Location = new System.Drawing.Point(10, 10);
             this.cboTimKiemSP.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemSP.Name = "cboTimKiemSP";
             this.cboTimKiemSP.Size = new System.Drawing.Size(176, 28);
@@ -1166,7 +1153,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtTenNCC;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button btnChonNV;
         private System.Windows.Forms.TextBox txtTenNV;
         private System.Windows.Forms.Button btnChotSo;
     }

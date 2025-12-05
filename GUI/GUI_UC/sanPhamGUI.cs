@@ -54,30 +54,27 @@ namespace GUI.GUI_UC
 
             if (quyenSP != null)
             {
-                // Có quyền cấu hình -> Set Enable/Visible cho các nút
-
-                // Quyền Thêm (Create)
                 btnThemSP.Enabled = (quyenSP.CAN_CREATE == 1);
 
-                // Quyền Sửa (Update)
                 btnSuaSP.Enabled = (quyenSP.CAN_UPDATE) == 1;
 
-                // Quyền Xóa (Delete)
                 btnXoaSP.Enabled = (quyenSP.CAN_DELETE) == 1;
 
-                // Nếu không có quyền xem (Read) -> Ẩn luôn cả bảng hoặc báo lỗi
-                if (quyenSP.CAN_READ == 0)
-                {
-                    MessageBox.Show("Bạn không có quyền truy cập trang này!");
-                    this.Visible = false; // Hoặc disable cả form
-                }
+                btnLoaiSP.Enabled = (quyenSP.CAN_CREATE) == 1;
+
+                btnExcelSP.Enabled = (quyenSP.CAN_CREATE) == 1;
+
+                btnSuaSP.Enabled = false;
+                btnXoaSP.Enabled = false;
             }
             else
             {
-                // Không tìm thấy cấu hình quyền -> Mặc định khóa hết cho an toàn
                 btnThemSP.Enabled = false;
                 btnSuaSP.Enabled = false;
                 btnXoaSP.Enabled = false;
+                btnChiTiet.Enabled = false;
+                btnLoaiSP.Enabled = false;
+                btnExcelSP.Enabled = false;
             }
         }
         private void loadFontChuVaSize()
@@ -283,12 +280,21 @@ namespace GUI.GUI_UC
         private void kiemTraClickTable(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
+
+            var quyenSP = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 1);
+
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
+
+            bool coQuyenThem = isAdmin || (quyenSP != null && quyenSP.CAN_CREATE == 1);
+            bool coQuyenSua = isAdmin || (quyenSP != null && quyenSP.CAN_UPDATE == 1);
+            bool coQuyenXoa = isAdmin || (quyenSP != null && quyenSP.CAN_DELETE == 1);
+
             if (e.RowIndex == lastSelectedRowSanPham)
             {
                 tbSanPham.ClearSelection();
                 lastSelectedRowSanPham = -1;
 
-                btnThemSP.Enabled = true;
+                btnThemSP.Enabled = coQuyenThem;
                 btnSuaSP.Enabled = false;
                 btnXoaSP.Enabled = false;
                 btnChiTiet.Enabled = false;
@@ -299,9 +305,9 @@ namespace GUI.GUI_UC
             tbSanPham.Rows[e.RowIndex].Selected = true;
             lastSelectedRowSanPham = e.RowIndex;
 
-            btnThemSP.Enabled = true;
-            btnSuaSP.Enabled = true;
-            btnXoaSP.Enabled = true;
+            btnThemSP.Enabled = coQuyenThem;
+            btnSuaSP.Enabled = coQuyenSua;
+            btnXoaSP.Enabled = coQuyenXoa;
             btnChiTiet.Enabled = true;
         }
 

@@ -40,8 +40,66 @@ namespace GUI.GUI_UC
 
             BindingList<phieuNhapDTO> ds = new phieuNhapBUS().LayDanhSach();
             loadDanhSachPhieuNhap(ds);
+
+            CheckQuyen();
+            tuDongLoadTenNhanVien();
         }
 
+
+        private void tuDongLoadTenNhanVien()
+        {
+            if(DTO.Session.NhanVienHienTai != null)
+            {
+                txtTenNV.Text = DTO.Session.NhanVienHienTai.HoTen;
+                maNV = DTO.Session.NhanVienHienTai.MaNhanVien;
+            }
+        }
+
+        private void CheckQuyen()
+        {
+            var quyenNX = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 2);
+
+            if (quyenNX != null)
+            {
+                btThemCTPN.Enabled = (quyenNX.CAN_CREATE == 1);
+                btnSuaPN.Enabled = (quyenNX.CAN_CREATE == 1);
+                btnXacNhan.Enabled = (quyenNX.CAN_CREATE == 1);
+                btnExcelPN.Enabled = (quyenNX.CAN_CREATE == 1);
+                btnChonNCC.Enabled = (quyenNX.CAN_CREATE == 1);
+                btnChonDV.Enabled = (quyenNX.CAN_CREATE == 1);
+                numSoLuong.Enabled = (quyenNX.CAN_CREATE == 1);
+
+                btnSuaCTPN.Enabled = (quyenNX.CAN_CREATE == 1);
+                btnChotSo.Enabled = (quyenNX.CAN_UPDATE == 1);
+
+                btnXoaCTPN.Enabled = (quyenNX.CAN_CREATE == 1);
+                button5.Enabled = (quyenNX.CAN_CREATE == 1);
+                btnXoaPN.Enabled = (quyenNX.CAN_DELETE == 1);
+
+                btnSuaPN.Enabled = false;
+                btThemCTPN.Enabled = false;
+                btnSuaCTPN.Enabled = false;
+                btnXoaCTPN.Enabled = false;
+                btnChonDV.Enabled = false;
+            }
+            else
+            {
+                btThemCTPN.Enabled = false;
+                btnSuaPN.Enabled = false;
+                btnXacNhan.Enabled = false;
+                btnExcelPN.Enabled = false;
+                btnChonNCC.Enabled = false;
+                btnChonDV.Enabled = false;
+                numSoLuong.Enabled = false;
+
+                btnSuaCTPN.Enabled = false;
+                btnChotSo.Enabled = false;
+
+                btnXoaCTPN.Enabled = false;
+                button5.Enabled = false;
+                btnXoaPN.Enabled = false;
+            }
+        }
         private void loadFontVaChu(DataGridView table)
         {
             table.EnableHeadersVisualStyles = false;
@@ -108,6 +166,7 @@ namespace GUI.GUI_UC
             {
                 dgvNguyenLieu.ClearSelection();
                 lastSelectedRowNguyenLieu = -1;
+                btnChonDV.Enabled = false;
 
                 LamMoiOInput();
                 return;
@@ -118,6 +177,7 @@ namespace GUI.GUI_UC
             lastSelectedRowNguyenLieu = e.RowIndex;
 
             btThemCTPN.Enabled = true;
+            btnChonDV.Enabled = true;
 
             btnSuaCTPN.Enabled = false;
             btnXoaCTPN.Enabled = false;
@@ -220,6 +280,7 @@ namespace GUI.GUI_UC
                 ctpn.ThanhTien = ctpn.SoLuong * ctpn.DonGia;
 
                 dsChiTietPN.Add(ctpn);
+                btnChonDV.Enabled = false;
             }
 
             LamMoiOInput();
@@ -257,6 +318,7 @@ namespace GUI.GUI_UC
             MessageBox.Show("Đã cập nhật thông tin!", "Thông báo");
 
             LamMoiOInput();
+            btnChonDV.Enabled = false;
         }
 
         private void btnXoaCTPN_Click(object sender, EventArgs e)
@@ -273,6 +335,7 @@ namespace GUI.GUI_UC
                 dsChiTietPN.Remove(item);
 
                 LamMoiOInput();
+                btnChonDV.Enabled = false;
             }
         }
         private void LamMoiOInput()
@@ -305,6 +368,8 @@ namespace GUI.GUI_UC
             {
                 dgvChiTietPN.ClearSelection();
                 lastSelectedRowChiTiet = -1;
+                btnChonDV.Enabled = false;
+
 
                 LamMoiOInput();
                 return;
@@ -331,6 +396,7 @@ namespace GUI.GUI_UC
             btThemCTPN.Enabled = false;
             btnSuaCTPN.Enabled = true;
             btnXoaCTPN.Enabled = true;
+            btnChonDV.Enabled = true;
         }
 
         private void dgvChiTietPN_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -579,16 +645,25 @@ namespace GUI.GUI_UC
         {
             if (e.RowIndex < 0) return;
 
+            var quyenNX = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 2);
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
+
+            bool coQuyenThem = isAdmin || (quyenNX != null && quyenNX.CAN_CREATE == 1);
+            bool coQuyenSua = isAdmin || (quyenNX != null && quyenNX.CAN_UPDATE == 1);
+            bool coQuyenXoa = isAdmin || (quyenNX != null && quyenNX.CAN_DELETE == 1);
+
             if (e.RowIndex == lastSelectedRowPhieuNhap)
             {
                 dgvPhieuNhap.ClearSelection();
                 lastSelectedRowPhieuNhap = -1;
 
-                btnSuaPN.Enabled = false;
+                btnSuaPN.Enabled = coQuyenThem;
                 btnXoaPN.Enabled = false;
+                btnChotSo.Enabled = false;
+
                 btnChiTietPN.Enabled = false;
                 btnInPDF.Enabled = false;
-                btnChotSo.Enabled = false;
+                btnSuaPN.Enabled = false;
                 return;
             }
 
@@ -602,9 +677,11 @@ namespace GUI.GUI_UC
             {
                 bool daKhoaSo = (pn.TrangThai == 1);
 
-                btnSuaPN.Enabled = !daKhoaSo;
-                btnXoaPN.Enabled = !daKhoaSo;
-                btnChotSo.Enabled = !daKhoaSo;
+                btnSuaPN.Enabled = coQuyenThem && !daKhoaSo;
+
+                btnXoaPN.Enabled = coQuyenXoa && !daKhoaSo;
+
+                btnChotSo.Enabled = coQuyenSua && !daKhoaSo;
 
                 btnChiTietPN.Enabled = true;
                 btnInPDF.Enabled = true;

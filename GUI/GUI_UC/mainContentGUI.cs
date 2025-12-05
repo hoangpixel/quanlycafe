@@ -43,11 +43,25 @@ namespace GUI.GUI_UC
             this.Controls.Add(panelMain);
             panelMain.BringToFront(); // Đảm bảo panel nội dung không bị che
 
-            // 3. MẶC ĐỊNH VÀO TRANG HOME (BÁN HÀNG)
-            // Kích hoạt giao diện nút Home trên Navbar
-            nav.SelectButtonByTag("home");
-            // Load nội dung trang Home
-            HandleNavClick("home");
+            string trangDauTien = nav.LayTrangDauTienChoPhep();
+
+            if (!string.IsNullOrEmpty(trangDauTien))
+            {
+                // Kích hoạt giao diện nút đó
+                nav.SelectButtonByTag(trangDauTien);
+                // Load nội dung trang đó
+                HandleNavClick(trangDauTien);
+            }
+            else
+            {
+                // Trường hợp nhân viên không có bất kỳ quyền nào (chỉ thấy nút Thoát)
+                Label lblThongBao = new Label();
+                lblThongBao.Text = "Bạn không có quyền truy cập vào hệ thống.\nVui lòng liên hệ Admin.";
+                lblThongBao.Dock = DockStyle.Fill;
+                lblThongBao.TextAlign = ContentAlignment.MiddleCenter;
+                lblThongBao.Font = new Font("Segoe UI", 14, FontStyle.Bold);
+                panelMain.Controls.Add(lblThongBao);
+            }
         }
 
         private void HandleNavClick(string page)

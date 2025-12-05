@@ -47,9 +47,38 @@ namespace GUI.GUI_UC
 
             BindingList<nguyenLieuDTO> ds = busNguyenLieu.LayDanhSach();
             loadDanhSachNguyenLieu(ds);
-            loadFontChuVaSize();
+            CheckQuyen();
         }
 
+        private void CheckQuyen()
+        {
+            var quyenSP = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 1);
+
+            if (quyenSP != null)
+            {
+                btnThemNL.Enabled = (quyenSP.CAN_CREATE == 1);
+
+                btnSuaNL.Enabled = (quyenSP.CAN_UPDATE) == 1;
+
+                btnXoaNL.Enabled = (quyenSP.CAN_DELETE) == 1;
+
+                btnDonVi.Enabled = (quyenSP.CAN_CREATE) == 1;
+
+                btnExcelNL.Enabled = (quyenSP.CAN_CREATE) == 1;
+
+                btnSuaNL.Enabled = false;
+                btnXoaNL.Enabled = false;
+            }
+            else
+            {
+                btnThemNL.Enabled = false;
+                btnSuaNL.Enabled = false;
+                btnXoaNL.Enabled = false;
+                btnChiTietNL.Enabled = false;
+                btnDonVi.Enabled = false;
+                btnExcelNL.Enabled = false;
+            }
+        }
         private void hienThiPlaceHolderNguyenLieu()
         {
             SetupComboBoxData(cbTrangThaiNL);
@@ -144,6 +173,7 @@ namespace GUI.GUI_UC
             btnChiTietNL.Enabled = false;
             tableNguyenLieu.ReadOnly = true;
             tableNguyenLieu.ClearSelection();
+            loadFontChuVaSize();
         }
         private void tableNguyenLieu_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
@@ -212,12 +242,20 @@ namespace GUI.GUI_UC
         {
             if (e.RowIndex < 0) return;
 
+            var quyenSP = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 1);
+
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
+
+            bool coQuyenThem = isAdmin || (quyenSP != null && quyenSP.CAN_CREATE == 1);
+            bool coQuyenSua = isAdmin || (quyenSP != null && quyenSP.CAN_UPDATE == 1);
+            bool coQuyenXoa = isAdmin || (quyenSP != null && quyenSP.CAN_DELETE == 1);
+
             if (e.RowIndex == lastSelectedRowNguyenLieu)
             {
                 tableNguyenLieu.ClearSelection();
                 lastSelectedRowNguyenLieu = -1;
 
-                btnThemNL.Enabled = true;
+                btnThemNL.Enabled = coQuyenThem;
                 btnSuaNL.Enabled = false;
                 btnXoaNL.Enabled = false;
                 btnChiTietNL.Enabled = false;
@@ -227,8 +265,9 @@ namespace GUI.GUI_UC
             tableNguyenLieu.Rows[e.RowIndex].Selected = true;
             lastSelectedRowNguyenLieu = e.RowIndex;
 
-            btnSuaNL.Enabled = true;
-            btnXoaNL.Enabled = true;
+            btnThemNL.Enabled = coQuyenThem;
+            btnSuaNL.Enabled = coQuyenSua;
+            btnXoaNL.Enabled = coQuyenXoa;
             btnChiTietNL.Enabled = true;
         }
 

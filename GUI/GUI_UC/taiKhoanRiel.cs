@@ -32,8 +32,35 @@ namespace GUI.GUI_UC
             BindingList<taikhoanDTO> ds = busTaiKhoan.LayDanhSach();
             loadDanhSachTaiKhoan(ds);
             loadChuVoTxtVaCb();
+            CheckQuyen();
         }
 
+        private void CheckQuyen()
+        {
+            var quyenTK = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 4);
+
+            if (quyenTK != null)
+            {
+                btnThemTK.Enabled = (quyenTK.CAN_CREATE == 1);
+
+                btnSuaTK.Enabled = (quyenTK.CAN_UPDATE) == 1;
+
+                btnXoaTK.Enabled = (quyenTK.CAN_DELETE) == 1;
+
+                btnExcelTK.Enabled = (quyenTK.CAN_CREATE) == 1;
+
+                btnSuaTK.Enabled = false;
+                btnXoaTK.Enabled = false;
+            }
+            else
+            {
+                btnThemTK.Enabled = false;
+                btnSuaTK.Enabled = false;
+                btnXoaTK.Enabled = false;
+                btnChiTietTK.Enabled = false;
+                btnExcelTK.Enabled = false;
+            }
+        }
         private void loadDanhSachTaiKhoan(BindingList<taikhoanDTO> ds)
         {
             tbTaiKhoan.AutoGenerateColumns = false;

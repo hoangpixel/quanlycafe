@@ -33,6 +33,34 @@ namespace GUI.GUI_UC
             loadDanhSachNhanVien(dsNhanVien);
             rdoTimCoBan.Checked = true;
             loadChuVoTxtVaCb();
+            CheckQuyen();
+        }
+
+        private void CheckQuyen()
+        {
+            var quyenNV = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 4);
+
+            if (quyenNV != null)
+            {
+                btnThemNV.Enabled = (quyenNV.CAN_CREATE == 1);
+
+                btnSuaNV.Enabled = (quyenNV.CAN_UPDATE) == 1;
+
+                btnXoaNV.Enabled = (quyenNV.CAN_DELETE) == 1;
+
+                btnExcelNV.Enabled = (quyenNV.CAN_CREATE) == 1;
+
+                btnSuaNV.Enabled = false;
+                btnXoaNV.Enabled = false;
+            }
+            else
+            {
+                btnThemNV.Enabled = false;
+                btnSuaNV.Enabled = false;
+                btnXoaNV.Enabled = false;
+                btnChiTietNV.Enabled = false;
+                btnExcelNV.Enabled = false;
+            }
         }
 
         private void loadDanhSachNhanVien(BindingList<nhanVienDTO> ds)
@@ -169,12 +197,21 @@ namespace GUI.GUI_UC
         private void tbNhanVien_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
+
+            var quyenNV = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 4);
+
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
+
+            bool coQuyenThem = isAdmin || (quyenNV != null && quyenNV.CAN_CREATE == 1);
+            bool coQuyenSua = isAdmin || (quyenNV != null && quyenNV.CAN_UPDATE == 1);
+            bool coQuyenXoa = isAdmin || (quyenNV != null && quyenNV.CAN_DELETE == 1);
+
             if (e.RowIndex == lastSelectedRowNhanVien)
             {
                 tbNhanVien.ClearSelection();
                 lastSelectedRowNhanVien = -1;
 
-                btnThemNV.Enabled = true;
+                btnThemNV.Enabled = coQuyenThem;
                 btnSuaNV.Enabled = false;
                 btnXoaNV.Enabled = false;
                 btnChiTietNV.Enabled = false;
@@ -185,9 +222,9 @@ namespace GUI.GUI_UC
             tbNhanVien.Rows[e.RowIndex].Selected = true;
             lastSelectedRowNhanVien = e.RowIndex;
 
-            btnThemNV.Enabled = true;
-            btnSuaNV.Enabled = true;
-            btnXoaNV.Enabled = true;
+            btnThemNV.Enabled = coQuyenThem;
+            btnSuaNV.Enabled = coQuyenSua;
+            btnXoaNV.Enabled = coQuyenXoa;
             btnChiTietNV.Enabled = true;
         }
 
