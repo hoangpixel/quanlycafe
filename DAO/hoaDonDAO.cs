@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
+using System.Data.Entity;
 using System.Data.SqlClient;
 
 namespace DAO
@@ -361,7 +362,34 @@ namespace DAO
             }
             return dsCT;
         }
+        public BindingList<cthoaDonDTO> LayTatCaChiTiet()
+        {
+            BindingList<cthoaDonDTO> list = new BindingList<cthoaDonDTO>();
+            string qry = @"SELECT ct.MAHOADON, ct.MASANPHAM, sp.TENSANPHAM, ct.SOLUONG, ct.DONGIA, ct.THANHTIEN 
+                         FROM cthd ct 
+                         JOIN sanpham sp ON ct.MASANPHAM = sp.MASANPHAM";
 
+            using (MySqlConnection conn = DBConnect.GetConnection())
+            using (MySqlCommand cmd = new MySqlCommand(qry, conn))
+            {
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new cthoaDonDTO
+                        {
+                            maHD = Convert.ToInt32(reader["MAHOADON"]),
+                            MaSP = Convert.ToInt32(reader["MASANPHAM"]),
+                            TenSP = reader["TENSANPHAM"].ToString(),
+                            SoLuong = Convert.ToInt32(reader["SOLUONG"]),
+                            DonGia = (decimal)reader["DONGIA"],
+                            ThanhTien = (decimal)reader["THANHTIEN"]
+                        });
+                    }
+                }
+            }
+            return list;
+        }
         public hoaDonDTO LayThongTinHoaDon(int maHD)
         {
             string qry = @"

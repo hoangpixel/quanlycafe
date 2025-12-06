@@ -31,12 +31,12 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnInPDF = new System.Windows.Forms.Button();
             this.btnXuatHD = new System.Windows.Forms.Button();
             this.btnNhapHD = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
-            this.btnInPDF = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -79,6 +79,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Phiếu nhập";
             // 
+            // btnInPDF
+            // 
+            this.btnInPDF.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnInPDF.Location = new System.Drawing.Point(47, 60);
+            this.btnInPDF.Name = "btnInPDF";
+            this.btnInPDF.Size = new System.Drawing.Size(173, 59);
+            this.btnInPDF.TabIndex = 2;
+            this.btnInPDF.Text = "In PDF";
+            this.btnInPDF.UseVisualStyleBackColor = true;
+            this.btnInPDF.Click += new System.EventHandler(this.btnInPDF_Click);
+            // 
             // btnXuatHD
             // 
             this.btnXuatHD.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -88,6 +99,7 @@
             this.btnXuatHD.TabIndex = 1;
             this.btnXuatHD.Text = "Xuất";
             this.btnXuatHD.UseVisualStyleBackColor = true;
+            this.btnXuatHD.Click += new System.EventHandler(this.btnXuatHD_Click);
             // 
             // btnNhapHD
             // 
@@ -129,17 +141,6 @@
             this.bigLabel1.Size = new System.Drawing.Size(306, 45);
             this.bigLabel1.TabIndex = 0;
             this.bigLabel1.Text = "Nhập / Xuất Excel ";
-            // 
-            // btnInPDF
-            // 
-            this.btnInPDF.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnInPDF.Location = new System.Drawing.Point(47, 60);
-            this.btnInPDF.Name = "btnInPDF";
-            this.btnInPDF.Size = new System.Drawing.Size(173, 59);
-            this.btnInPDF.TabIndex = 2;
-            this.btnInPDF.Text = "In PDF";
-            this.btnInPDF.UseVisualStyleBackColor = true;
-            this.btnInPDF.Click += new System.EventHandler(this.btnInPDF_Click);
             // 
             // selectExcelHoaDon
             // 

@@ -214,6 +214,7 @@ namespace GUI.GUI_UC
                 {
                     dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
                     {
+                        Name="MaHD",
                         DataPropertyName = "MaHD",
                         HeaderText = "Mã HD",
                     });
@@ -1078,7 +1079,12 @@ namespace GUI.GUI_UC
 
         private void btnExcelSP_Click(object sender, EventArgs e)
         {
-            using (selectExcelHoaDon form = new selectExcelHoaDon())
+            int? maHDSelected = null;
+            if (dgvHoaDon.CurrentRow != null)
+            {
+                maHDSelected = Convert.ToInt32(dgvHoaDon.CurrentRow.Cells["MaHD"].Value);
+            }
+            using (selectExcelHoaDon form = new selectExcelHoaDon(hoaDonBUS.ds, dgvHoaDon))
             {
                 form.StartPosition = FormStartPosition.CenterParent;
                 form.ShowDialog();

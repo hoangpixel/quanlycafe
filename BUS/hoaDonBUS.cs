@@ -100,31 +100,5 @@ namespace BUS
             return dao.LayChiTietHoaDon(maHD);
         }
 
-        public DateTime LayThoiGianTaoCuaBan(int maBan)
-        {
-            return dao.LayThoiGianTaoCuaBan(maBan);
-        }
-
-        public bool capNhatThongTinHoaDon(hoaDonDTO hd)
-        {
-            bool kq = dao.capNhatThongTinHoaDon(hd);
-            if(kq)
-            {
-                hoaDonDTO tontai = ds.FirstOrDefault(x => x.MaHD == hd.MaHD);
-                if(tontai != null)
-                {
-                    tontai.MaBan = hd.MaBan;
-                    tontai.MaTT = hd.MaTT;
-                    tontai.MaKhachHang = hd.MaKhachHang;
-                    tontai.MaNhanVien = hd.MaNhanVien;
-                }
-            }
-            return kq;
-        }
-
-        public bool KiemTraBanCoHoaDonMo(int maBan, int maHDDangSua)
-        {
-            return dao.KiemTraBanCoHoaDonMo(maBan, maHDDangSua);
-        }
     }
 }
