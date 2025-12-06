@@ -18,16 +18,10 @@ namespace DAO
             BindingList<hoaDonDTO> ds = new BindingList<hoaDonDTO>();
             string qry = @"
                 SELECT 
-                    hd.MAHOADON, 
-                    hd.MABAN, 
-                    hd.THOIGIANTAO, 
-                    hd.TRANGTHAI,
-                    hd.TONGTIEN,
-                    hd.KHOASO,
-                    hd.MATT
-                FROM hoadon hd
-                WHERE hd.TRANGTHAIXOA = 1
-                ORDER BY hd.MAHOADON DESC
+                *
+                FROM hoadon
+                WHERE TRANGTHAIXOA = 1
+                ORDER BY MAHOADON DESC
                 ";
 
             MySqlConnection conn = null;
@@ -48,7 +42,9 @@ namespace DAO
                         TrangThai = reader.GetBoolean("TRANGTHAI"),
                         MaTT=reader.GetInt32("MATT"),
                         TongTien = reader.GetDecimal("TONGTIEN"),
-                        KhoaSo = reader.GetInt32("KHOASO")
+                        KhoaSo = reader.GetInt32("KHOASO"),
+                        MaNhanVien = reader.GetInt32("MANHANVIEN"),
+                        MaKhachHang = reader.GetInt32("MAKHACHHANG")
                     };
                     ds.Add(hd);
                 }
@@ -515,6 +511,46 @@ namespace DAO
                 }
             }
             return DateTime.MinValue;
+        }
+
+        public bool capNhatThongTinHoaDon(hoaDonDTO hd)
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            try
+            {
+                string qry = @"UPDATE hoadon SET MABAN = @maBan, MATT = @maTT, MAKHACHHANG = @maKH, MANHANVIEN = @maNV WHERE MAHOADON = @maHD";
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                cmd.Parameters.AddWithValue("maBan", hd.MaBan);
+                cmd.Parameters.AddWithValue("maTT", hd.MaTT);
+                cmd.Parameters.AddWithValue("maKH", hd.MaKhachHang);
+                cmd.Parameters.AddWithValue("maNV", hd.MaNhanVien);
+                cmd.Parameters.AddWithValue("maHD", hd.MaHD);
+                int rs = cmd.ExecuteNonQuery();
+                return rs > 0;
+            }catch(MySqlException ex)
+            {
+                Console.WriteLine("Không sửa được thông tin hóa đơn : " + ex);
+                return false;
+            }finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+        }
+
+        public bool KiemTraBanCoHoaDonMo(int maBan, int maHDDangSua)
+        {
+            string qry = "SELECT COUNT(*) FROM hoadon WHERE MABAN = @maBan AND KHOASO = 0 AND MAHOADON != @maHD";
+
+            using (MySqlConnection conn = DBConnect.GetConnection())
+            using (MySqlCommand cmd = new MySqlCommand(qry, conn))
+            {
+                cmd.Parameters.AddWithValue("@maBan", maBan);
+                cmd.Parameters.AddWithValue("@maHD", maHDDangSua);
+
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+
+                return count > 0;
+            }
         }
     }
 }

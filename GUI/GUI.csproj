@@ -200,6 +200,12 @@
     <Compile Include="GUI_CRUD\detailTaiKhoan.Designer.cs">
       <DependentUpon>detailTaiKhoan.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_CRUD\dialogSuaHoacThemHD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\dialogSuaHoacThemHD.Designer.cs">
+      <DependentUpon>dialogSuaHoacThemHD.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_CRUD\excelPhanQuyen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -325,6 +331,12 @@
     </Compile>
     <Compile Include="GUI_CRUD\updateTaiKhoang.Designer.cs">
       <DependentUpon>updateTaiKhoang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\updateThongTinHD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\updateThongTinHD.Designer.cs">
+      <DependentUpon>updateThongTinHD.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_CRUD\vaiTroVaQuyenGUI.cs">
       <SubType>Form</SubType>
@@ -623,6 +635,9 @@
     <EmbeddedResource Include="GUI_CRUD\detailTaiKhoan.resx">
       <DependentUpon>detailTaiKhoan.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\dialogSuaHoacThemHD.resx">
+      <DependentUpon>dialogSuaHoacThemHD.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\excelPhanQuyen.resx">
       <DependentUpon>excelPhanQuyen.cs</DependentUpon>
     </EmbeddedResource>
@@ -682,6 +697,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\updateTaiKhoang.resx">
       <DependentUpon>updateTaiKhoang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\updateThongTinHD.resx">
+      <DependentUpon>updateThongTinHD.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\vaiTroVaQuyenGUI.resx">
       <DependentUpon>vaiTroVaQuyenGUI.cs</DependentUpon>

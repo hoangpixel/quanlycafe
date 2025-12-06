@@ -31,6 +31,8 @@ namespace GUI.GUI_UC
         private hoaDonDAO hoaDonDAO = new hoaDonDAO();
         private int maHDDangChon = -1;
         private int maNV = -1;
+        BindingList<nhanVienDTO> dsNV;
+        BindingList<khachHangDTO> dsKH;
         public banHangGUI()
         {
             InitializeComponent();
@@ -46,7 +48,8 @@ namespace GUI.GUI_UC
         {
             dsLoai = new loaiSanPhamBUS().LayDanhSach();
             dsNhom = new nhomBUS().layDanhSach();
-
+            dsKH = new khachHangBUS().LayDanhSach();
+            dsNV = new nhanVienBUS().LayDanhSach();
             busSanPham = new sanPhamBUS();
 
             danhSachSP = new sanPhamBUS().LayDanhSachCoCongThuc();
@@ -213,28 +216,32 @@ namespace GUI.GUI_UC
                     {
                         DataPropertyName = "MaHD",
                         HeaderText = "Mã HD",
-                        Width = 80
                     });
                     dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
                     {
                         DataPropertyName = "MaBan",
                         HeaderText = "Bàn",
-                        Width = 60
                     });
-                
+                dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "MaNhanVien",
+                    HeaderText = "Tên nhân viên",
+                }); dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "MaKhachHang",
+                    HeaderText = "Tên khách hàng",
+                });
                 dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
                     {
                         DataPropertyName = "ThoiGianTao",
                         HeaderText = "Thời gian",
                         DefaultCellStyle = new DataGridViewCellStyle { Format = "HH:mm dd/MM" },
-                        Width = 120
                     });
                     dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
                     {
                         DataPropertyName = "TongTien",
                         HeaderText = "Tổng tiền",
                         DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" },
-                        Width = 100
                     });
                 }
 
@@ -337,7 +344,7 @@ namespace GUI.GUI_UC
                     txtBan.Text = maBanChon.ToString();
                     txtBan.Tag = maBanChon;
 
-                    LoadDanhSachHoaDon();
+                    //LoadDanhSachHoaDon();
                 }
             }
 
@@ -997,11 +1004,34 @@ namespace GUI.GUI_UC
                 DataGridViewRow row = dgvHoaDon.SelectedRows[0];
                 hoaDonDTO hd = row.DataBoundItem as hoaDonDTO;
 
-                using(updateHoaDon form = new updateHoaDon(hd))
+                using(dialogSuaHoacThemHD formChon = new dialogSuaHoacThemHD())
                 {
-                    form.StartPosition = FormStartPosition.CenterParent;
-                    form.ShowDialog();
+                    formChon.StartPosition = FormStartPosition.CenterParent;
+                    if(formChon.ShowDialog() == DialogResult.OK)
+                    {
+                        if(formChon.luaChon == 1)
+                        {
+                            using(updateThongTinHD formSua = new updateThongTinHD(hd))
+                            {
+                                formSua.StartPosition = FormStartPosition.CenterParent;
+                                if(formSua.ShowDialog() == DialogResult.OK)
+                                {
+                                    hoaDonDTO hdsua = formSua.hd;
+                                    busHoaDon.capNhatThongTinHoaDon(hdsua);
+                                    dgvHoaDon.Refresh();
+                                }
+                            }
+                        }else
+                        {
+                            using (updateHoaDon form = new updateHoaDon(hd))
+                            {
+                                form.StartPosition = FormStartPosition.CenterParent;
+                                form.ShowDialog();
+                            }
+                        }
+                    }
                 }
+
             }
         }
 
@@ -1052,6 +1082,25 @@ namespace GUI.GUI_UC
             {
                 form.StartPosition = FormStartPosition.CenterParent;
                 form.ShowDialog();
+            }
+        }
+
+        private void dgvHoaDon_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            hoaDonDTO hd = dgvHoaDon.Rows[e.RowIndex].DataBoundItem as hoaDonDTO;
+
+            if (dgvHoaDon.Columns[e.ColumnIndex].HeaderText == "Tên nhân viên")
+            {
+                nhanVienDTO nv = dsNV.FirstOrDefault(x => x.MaNhanVien == hd.MaNhanVien);
+                e.Value = nv?.HoTen ?? "Không xác định";
+            }
+
+
+            if (dgvHoaDon.Columns[e.ColumnIndex].HeaderText == "Tên khách hàng")
+            {
+                khachHangDTO kh = dsKH.FirstOrDefault(x => x.MaKhachHang == hd.MaKhachHang);
+                e.Value = kh?.TenKhachHang ?? "Không xác định";
             }
         }
     }
