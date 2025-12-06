@@ -34,18 +34,23 @@ namespace GUI.GUI_UC
         public banHangGUI()
         {
             InitializeComponent();
+            try
+            {
+                FontManager.LoadFont();
+                FontManager.ApplyFontToAllControls(this);
+            }
+            catch { }
         }
 
         private void banHangGUI_Load(object sender, EventArgs e)
         {
-            FontManager.LoadFont();
-            FontManager.ApplyFontToAllControls(this);
-
             dsLoai = new loaiSanPhamBUS().LayDanhSach();
             dsNhom = new nhomBUS().layDanhSach();
 
             busSanPham = new sanPhamBUS();
-            LoadDanhSachSanPham();
+
+            danhSachSP = new sanPhamBUS().LayDanhSachCoCongThuc();
+            LoadDanhSachSanPham(danhSachSP);
             CapNhatGioHang();
             loadFontChuVaSizeGioHang();
             LoadDanhSachHoaDon();
@@ -146,25 +151,23 @@ namespace GUI.GUI_UC
             dsNhom = nhomBus.layDanhSach();
         }
 
-        private void LoadDanhSachSanPham()
+        public void LoadData()
         {
-            // 1. Lấy danh sách sản phẩm như bình thường
-            danhSachSP = busSanPham.LayDanhSach();
+            var data = busSanPham.LayDanhSachCoCongThuc(true);
+            LoadDanhSachSanPham(data);
+            dgvSanPham.Refresh();
+        }
 
-            if (danhSachSP == null || danhSachSP.Count == 0)
-            {
-                MessageBox.Show("Không có sản phẩm nào!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            foreach (var sp in danhSachSP)
+        private void LoadDanhSachSanPham(BindingList<sanPhamDTO> ds)
+        {
+            foreach (var sp in ds)
             {
                 sp.SoLuongToiDa = busSanPham.TinhSoLuongToiDa(sp.MaSP);
             }
 
             dgvSanPham.AutoGenerateColumns = false;
             dgvSanPham.DataSource = null;
-            dgvSanPham.DataSource = danhSachSP;
+            dgvSanPham.DataSource = ds;
 
             dgvSanPham.Columns.Clear();
 
@@ -252,6 +255,7 @@ namespace GUI.GUI_UC
         private void dgvSanPham_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0) return;
+            if (dsLoai == null || dsNhom == null) return;
             sanPhamDTO sp = dgvSanPham.Rows[e.RowIndex].DataBoundItem as sanPhamDTO;
             if (dgvSanPham.Columns[e.ColumnIndex].HeaderText == "Tên loại")
             {
@@ -471,8 +475,9 @@ namespace GUI.GUI_UC
         {
             if (MessageBox.Show("Xóa toàn bộ giỏ hàng?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
+                BindingList<sanPhamDTO> ds = new sanPhamBUS().LayDanhSachCoCongThuc();
                 gioHang.Clear();
-                LoadDanhSachSanPham();
+                LoadDanhSachSanPham(ds);
                 CapNhatGioHang();
                 ResetInput();
             }
@@ -616,7 +621,8 @@ namespace GUI.GUI_UC
 
         private void button11_Click(object sender, EventArgs e)
         {
-            LoadDanhSachSanPham();
+            BindingList<sanPhamDTO> ds = new sanPhamBUS().LayDanhSachCoCongThuc();
+            LoadDanhSachSanPham(ds);
             LoadDanhSachLoaiVaNhom();
             CapNhatGioHang();
         }

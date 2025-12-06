@@ -56,7 +56,48 @@ namespace DAO
             return ds;
         }
 
+        public BindingList<sanPhamDTO> DocDanhSachSanPhamCoCongThuc()
+        {
+            BindingList<sanPhamDTO> ds = new BindingList<sanPhamDTO>();
+            string qry = "SELECT * FROM sanpham WHERE TRANGTHAI = 1 AND TRANGTHAICT = 1";
+            MySqlConnection conn = null;
 
+            try
+            {
+                conn = DBConnect.GetConnection();
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    sanPhamDTO sp = new sanPhamDTO
+                    {
+                        MaSP = reader.GetInt32("MASANPHAM"),
+                        MaLoai = reader.GetInt32("MALOAI"),
+                        TenSP = reader.GetString("TENSANPHAM"),
+                        TrangThai = reader.GetInt32("TRANGTHAI"),
+                        TrangThaiCT = reader.GetInt32("TRANGTHAICT"),
+                        Gia = Convert.ToSingle(reader["GIA"]),
+                        Hinh = reader.IsDBNull(reader.GetOrdinal("HINH")) ? null : reader.GetString("HINH")
+                    };
+
+                    ds.Add(sp);
+                }
+
+                reader.Close();
+                cmd.Dispose();
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine("Lỗi đọc danh sách sản phẩm: " + ex.Message);
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+
+            return ds;
+        }
         public int layMa()
         {
             MySqlConnection conn = DBConnect.GetConnection();

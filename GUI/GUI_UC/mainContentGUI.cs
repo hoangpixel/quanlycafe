@@ -132,6 +132,12 @@ namespace GUI.GUI_UC
                         {
                             gui.LoadData(); // <-- Hàm public bạn vừa sửa ở Bước 1
                         }
+                    }else if(page == "home")
+                    {
+                        if (currentPage is banHangGUI gui)
+                        {
+                            gui.LoadData();
+                        }
                     }
 
                     // ==============================

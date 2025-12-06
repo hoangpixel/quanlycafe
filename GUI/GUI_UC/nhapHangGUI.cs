@@ -478,11 +478,9 @@ namespace GUI.GUI_UC
             numSoLuong.Value = 0;
             txtTenNL.Clear();
             txtTenDV.Clear();
-            txtTenNV.Clear();
             txtTenNCC.Clear();
             cboTimKiemNL.SelectedIndex = -1;
             txtTimKiemNL.Clear();
-            maNV = -1;
             maNCC = -1;
             maNL = -1;
             maDV = -1;

@@ -81,7 +81,7 @@ namespace GUI.GUI_UC
             tableCongThuc.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaSanPham", HeaderText = "Tên SP" });
             tableCongThuc.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaNguyenLieu", HeaderText = "Mã NL" });
             tableCongThuc.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaNguyenLieu", HeaderText = "Tên NL" });
-            tableCongThuc.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "SoLuongCoSo", HeaderText = "Số lượng" });
+            tableCongThuc.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "SoLuongCoSo", HeaderText = "Số lượng", DefaultCellStyle = new DataGridViewCellStyle { Format = "0.000" } });
             tableCongThuc.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaDonViCoSo", HeaderText = "Đơn vị" });
 
             tableCongThuc.DataSource = ds;
@@ -116,6 +116,22 @@ namespace GUI.GUI_UC
             {
                 donViDTO dv = dsDonVi.FirstOrDefault(x => x.MaDonVi == ct.MaDonViCoSo);
                 e.Value = dv?.TenDonVi ?? "Không xác định";
+            }
+
+            if (tableCongThuc.Columns[e.ColumnIndex].HeaderText == "Số lượng" && e.Value != null)
+            {
+                if (double.TryParse(e.Value.ToString(), out double soLuong))
+                {
+                    if (soLuong % 1 == 0)
+                    {
+                        e.Value = soLuong.ToString("N0");
+                    }
+                    else
+                    {
+                        e.Value = soLuong.ToString("0.000");
+                    }
+                    e.FormattingApplied = true;
+                }
             }
         }
 

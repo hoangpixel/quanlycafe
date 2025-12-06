@@ -222,7 +222,7 @@
             // 
             this.cboTaiKhoan.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cboTaiKhoan.FormattingEnabled = true;
-            this.cboTaiKhoan.Location = new System.Drawing.Point(3, 14);
+            this.cboTaiKhoan.Location = new System.Drawing.Point(3, 12);
             this.cboTaiKhoan.Name = "cboTaiKhoan";
             this.cboTaiKhoan.Size = new System.Drawing.Size(140, 28);
             this.cboTaiKhoan.TabIndex = 9;
@@ -266,7 +266,7 @@
             "Tên NV",
             "SĐT NV",
             "Email NV"});
-            this.cboTimKiemNV.Location = new System.Drawing.Point(10, 8);
+            this.cboTimKiemNV.Location = new System.Drawing.Point(10, 10);
             this.cboTimKiemNV.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemNV.Name = "cboTimKiemNV";
             this.cboTimKiemNV.Size = new System.Drawing.Size(176, 28);

@@ -12,7 +12,6 @@ namespace DTO
 
         public int TrangThai { get; set; } = 1;
         public string TenNguyenLieu { get; set; }
-        public string TenSanPham { get; set; }
 
         public congThucDTO() { }
 

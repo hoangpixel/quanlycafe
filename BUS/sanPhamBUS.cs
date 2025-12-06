@@ -293,48 +293,53 @@ namespace BUS
         // Trong SanPhamBUS
         public int TinhSoLuongToiDa(int maSP)
         {
-            // 1. Khởi tạo các BUS cần thiết MỘT LẦN ở ngoài
             congThucBUS ctBUS = new congThucBUS();
             nguyenLieuBUS nlBUS = new nguyenLieuBUS();
             heSoBUS hsBUS = new heSoBUS();
 
-            // 2. Lấy danh sách công thức
             BindingList<congThucDTO> listCT = ctBUS.docDSCongThucTheoSP(maSP);
 
-            // Nếu không có công thức (món bán sẵn/nhập sẵn) -> Trả về số lượng lớn
             if (listCT.Count == 0) return 9999;
 
             decimal maxQty = 999999;
 
             foreach (var ct in listCT)
             {
-                // 3. Sử dụng lại biến nlBUS đã khai báo ở trên
                 nguyenLieuDTO nl = nlBUS.LayNguyenLieuTheoID(ct.MaNguyenLieu);
-
-                // Kiểm tra null để tránh lỗi crash nếu nguyên liệu bị xóa
                 if (nl == null) continue;
+                decimal tuSo = nl.TonKho;
+                decimal mauSo = 0;
+                if (ct.MaDonViCoSo == nl.MaDonViCoSo)
+                {
+                    mauSo = ct.SoLuongCoSo;
+                }
+                else
+                {
+                    decimal heSo = hsBUS.LayHeSo(ct.MaNguyenLieu, ct.MaDonViCoSo);
+                    if (heSo == 0) return 0;
+                    mauSo = ct.SoLuongCoSo * heSo;
+                }
 
-                // 4. Lấy hệ số (Dùng lại hsBUS)
-                decimal heSoKho = hsBUS.LayHeSo(nl.MaNguyenLieu, nl.MaDonViCoSo);
-                decimal heSoCongThuc = hsBUS.LayHeSo(ct.MaNguyenLieu, ct.MaDonViCoSo);
-
-                // Nếu chưa cấu hình hệ số quy đổi -> Coi như không tính được (trả về 0 để cảnh báo)
-                if (heSoKho == 0 || heSoCongThuc == 0) return 0;
-
-                // 5. Tính toán (Logic của bạn đã chuẩn)
-                decimal tuSo = nl.TonKho * heSoKho;         // Quy đổi Tồn kho ra đơn vị chuẩn
-                decimal mauSo = ct.SoLuongCoSo * heSoCongThuc; // Quy đổi Công thức ra đơn vị chuẩn
-
-                if (mauSo == 0) continue; // Tránh chia cho 0
+                if (mauSo == 0) continue;
 
                 decimal sl = Math.Floor(tuSo / mauSo);
 
-                // Nguyên tắc thùng gỗ: Lấy số nhỏ nhất
                 if (sl < maxQty) maxQty = sl;
             }
-
             return (int)maxQty;
         }
 
+        // Bỏ chữ static đi
+        public BindingList<sanPhamDTO> dsSanPhamBanhang = new BindingList<sanPhamDTO>();
+
+        public BindingList<sanPhamDTO> LayDanhSachCoCongThuc(bool forceReload = false)
+        {
+            // Luôn luôn gọi DAO lấy dữ liệu mới nhất
+            // Không cần check if(...) nữa, vì bán hàng cần số liệu chính xác
+            sanPhamDAO data = new sanPhamDAO();
+            dsSanPhamBanhang = data.DocDanhSachSanPhamCoCongThuc();
+
+            return dsSanPhamBanhang;
+        }
     }
 }

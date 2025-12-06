@@ -24,10 +24,9 @@ namespace BUS
         public BindingList<congThucDTO> LayDanhSach()
         {
             congThucDAO data = new congThucDAO();
-            if (ds == null || ds.Count == 0)
-            {
+            
                 ds = data.layDanhSach();
-            }
+            
             return ds;
         }
 

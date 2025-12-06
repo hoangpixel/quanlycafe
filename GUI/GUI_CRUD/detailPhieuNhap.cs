@@ -19,12 +19,6 @@ namespace GUI.GUI_CRUD
         {
             InitializeComponent();
             _maPN = maPN;
-            this.StartPosition = FormStartPosition.CenterScreen;
-        
-            this.Size = new Size(1100, 700); 
-            this.FormBorderStyle = FormBorderStyle.FixedDialog; 
-            this.MaximizeBox = false; 
-
             btnClose.Click += (s, e) => this.Close();
         }
 
@@ -71,7 +65,6 @@ namespace GUI.GUI_CRUD
             {
                 HeaderText = "Mã NL",
                 DataPropertyName = "MaNguyenLieu",
-                Width = 80
             });
 
            
@@ -87,7 +80,6 @@ namespace GUI.GUI_CRUD
             {
                 HeaderText = "ĐVT",
                 DataPropertyName = "TenDonVi",
-                Width = 80
             });
 
             // Cột 4: Số Lượng
@@ -95,7 +87,6 @@ namespace GUI.GUI_CRUD
             {
                 HeaderText = "SL Nhập",
                 DataPropertyName = "SoLuong",
-                Width = 80,
                 DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter }
             });
 
@@ -104,7 +95,6 @@ namespace GUI.GUI_CRUD
             {
                 HeaderText = "Đơn Giá",
                 DataPropertyName = "DonGia",
-                Width = 120,
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
@@ -112,9 +102,31 @@ namespace GUI.GUI_CRUD
             {
                 HeaderText = "Thành Tiền",
                 DataPropertyName = "ThanhTien",
-                Width = 150,
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight, Font = new System.Drawing.Font("Arial", 10, System.Drawing.FontStyle.Bold) }
             });
+            loadFontChuVaSizeTableNguyenLieu();
+        }
+        private void loadFontChuVaSizeTableNguyenLieu()
+        {
+            foreach (DataGridViewColumn col in dgvChiTiet.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            dgvChiTiet.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvChiTiet.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            dgvChiTiet.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            dgvChiTiet.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
+
+            dgvChiTiet.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvChiTiet.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgvChiTiet.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            dgvChiTiet.Refresh();
         }
     }
 }
