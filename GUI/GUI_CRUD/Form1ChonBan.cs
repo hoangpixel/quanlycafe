@@ -1,46 +1,97 @@
-﻿using System;
+﻿using BUS;
+using DAO;
+using DTO;
+using FONTS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DAO;
-using DTO;
 
 namespace GUI.GUI_CRUD
 {
     public partial class FormChonBan : Form
     {
         public int maBan { get; private set; }
-        private hoaDonDAO hdDAO = new hoaDonDAO();
         private banDAO banDAO = new banDAO();
-        private Dictionary<string, int> MaKhuVucMap = new Dictionary<string, int>
-    {
-        { "KhuVuc1", 1 },
-        { "KhuVuc2", 2 }
-    };
+        private hoaDonDAO hdDAO = new hoaDonDAO();
+        private Timer timerDemGio;
+        private Dictionary<int, DateTime> thoiGianCacBan = new Dictionary<int, DateTime>();
         public FormChonBan()
         {
             InitializeComponent();
-            cbbKhuVuc.Items.AddRange(MaKhuVucMap.Keys.ToArray());
-            cbbKhuVuc.SelectedIndex = 0;
-            cbbKhuVuc.SelectedIndexChanged += cbbKhuVuc_SelectedIndexChanged;
-            LoadBan();
+            timerDemGio = new Timer();
+            timerDemGio.Interval = 1000;
+            timerDemGio.Tick += TimerDemGio_Tick;
+            timerDemGio.Start();
+
+            LoadKhuVuc();
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
+        }
+
+        private void TimerDemGio_Tick(object sender, EventArgs e)
+        {
+            foreach (Control ctrl in flowLayoutPanel1.Controls)
+            {
+                if (ctrl is Button btn && btn.Tag != null)
+                {
+                    int maBan = (int)btn.Tag;
+
+                    // Nếu bàn này nằm trong danh sách đang tính giờ
+                    if (thoiGianCacBan.ContainsKey(maBan))
+                    {
+                        DateTime timeVao = thoiGianCacBan[maBan];
+                        TimeSpan thoiGianDaNgoi = DateTime.Now - timeVao;
+
+                        // Định dạng hiển thị: 01:30:45
+                        string timeString = string.Format("{0:D2}:{1:D2}:{2:D2}",
+                            (int)thoiGianDaNgoi.TotalHours,
+                            thoiGianDaNgoi.Minutes,
+                            thoiGianDaNgoi.Seconds);
+
+                        // Cập nhật text mà không làm mất tên bàn
+                        // Format nút: "Bàn 1\n(Bận)\n00:15:30"
+                        string tenBan = btn.Name; // Mình sẽ lưu tên gốc vào Name để dễ lấy lại
+                        btn.Text = $"{tenBan}\n(Bận)\n{timeString}";
+                    }
+                }
+            }
+        }
+
+        private void LoadKhuVuc()
+        {
+            // Gọi BUS hoặc DAO để lấy danh sách khu vực từ Database
+            khuvucBUS kvBus = new khuvucBUS(); // Giả sử bạn có BUS, nếu chưa thì dùng DAO
+            BindingList<khuVucDTO> listKV = kvBus.LayDanhSach(); // Hàm này trả về SELECT * FROM khuvuc
+
+            cbbKhuVuc.DataSource = listKV;
+            cbbKhuVuc.DisplayMember = "TenKhuVuc"; // Tên cột hiển thị
+            cbbKhuVuc.ValueMember = "MaKhuVuc";    // Tên cột giá trị lấy dùng
+
+
+            // Load bàn cho khu vực đầu tiên
+            if (cbbKhuVuc.Items.Count > 0)
+            {
+                cbbKhuVuc.SelectedIndex = 0;
+                LoadBan();
+            }
         }
 
         private void LoadBan()
         {
             flowLayoutPanel1.Controls.Clear();
+            thoiGianCacBan.Clear(); // Reset bộ đếm giờ
 
-            string tenKhuVuc = cbbKhuVuc.SelectedItem.ToString();
-            if (!MaKhuVucMap.TryGetValue(tenKhuVuc, out int maKhuVuc))
-            {
-                MessageBox.Show("Không tìm thấy mã khu vực.");
-                return;
-            }
+            if (cbbKhuVuc.SelectedValue == null) return;
+
+            // Ép kiểu về int an toàn
+            if (!int.TryParse(cbbKhuVuc.SelectedValue.ToString(), out int maKhuVuc)) return;
 
             BindingList<banDTO> danhSachBan = banDAO.LayDanhSachTheoKhuVuc(maKhuVuc);
 
@@ -49,23 +100,42 @@ namespace GUI.GUI_CRUD
                 int maSoBan = ban.MaBan;
                 string tenBan = ban.TenBan;
 
+                // Logic cũ của bạn: 0 là bận, 1 là trống
+                bool dangCoKhach = (ban.DangSuDung == 0);
+
                 Button btn = new Button
                 {
+                    Name = tenBan,
                     Text = tenBan,
-                    Width = 80,
-                    Height = 55,
-                    Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                    Width = 120,
+                    Height = 80,
+                    Font = new Font("Segoe UI", 10F, FontStyle.Bold),
                     Margin = new Padding(5),
-                    Tag = maSoBan 
+                    Tag = maSoBan,
+                    Cursor = Cursors.Hand
                 };
-                bool dangCoKhach = ban.DangSuDung == 0;
 
                 if (dangCoKhach)
                 {
                     btn.BackColor = Color.IndianRed;
                     btn.ForeColor = Color.White;
-                    btn.Text = tenBan + "\n(Bận)";
-                    btn.Enabled = false; 
+                    btn.Enabled = false; // Bàn bận thì không cho chọn (hoặc tùy logic bạn)
+
+                    // --- LẤY GIỜ VÀO TỪ CSDL ---
+                    DateTime gioVao = hdDAO.LayThoiGianTaoCuaBan(maSoBan);
+
+                    if (gioVao != DateTime.MinValue)
+                    {
+                        thoiGianCacBan.Add(maSoBan, gioVao); // Thêm vào danh sách để Timer chạy
+
+                        // Hiển thị ngay lập tức (để đỡ đợi 1 giây sau mới hiện)
+                        TimeSpan span = DateTime.Now - gioVao;
+                        btn.Text = $"{tenBan}\n(Bận)\n{span.ToString(@"hh\:mm\:ss")}";
+                    }
+                    else
+                    {
+                        btn.Text = $"{tenBan}\n(Bận)\n--:--:--";
+                    }
                 }
                 else
                 {
@@ -107,6 +177,13 @@ namespace GUI.GUI_CRUD
         private void cbbKhuVuc_SelectedIndexChanged(object sender, EventArgs e)
         {
             LoadBan();
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            timerDemGio.Stop();
+            timerDemGio.Dispose();
+            base.OnFormClosing(e);
         }
     }
 }

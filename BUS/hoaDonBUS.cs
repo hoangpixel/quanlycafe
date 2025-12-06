@@ -100,5 +100,9 @@ namespace BUS
             return dao.LayChiTietHoaDon(maHD);
         }
 
+        public DateTime LayThoiGianTaoCuaBan(int maBan)
+        {
+            return dao.LayThoiGianTaoCuaBan(maBan);
+        }
     }
 }

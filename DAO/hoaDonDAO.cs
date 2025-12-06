@@ -499,5 +499,22 @@ namespace DAO
                 return cmd.ExecuteNonQuery() > 0;
             }
         }
+        public DateTime LayThoiGianTaoCuaBan(int maBan)
+        {
+            string qry = "SELECT THOIGIANTAO FROM hoadon WHERE MABAN = @maBan AND KHOASO = 0 ORDER BY MAHOADON DESC LIMIT 1";
+
+            using (MySqlConnection conn = DBConnect.GetConnection())
+            using (MySqlCommand cmd = new MySqlCommand(qry, conn))
+            {
+                cmd.Parameters.AddWithValue("@maBan", maBan);
+                object result = cmd.ExecuteScalar();
+
+                if (result != null && result != DBNull.Value)
+                {
+                    return Convert.ToDateTime(result);
+                }
+            }
+            return DateTime.MinValue;
+        }
     }
 }

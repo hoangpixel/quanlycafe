@@ -48,6 +48,7 @@
     <Compile Include="heSoBUS.cs" />
     <Compile Include="hoaDonBUS.cs" />
     <Compile Include="khachHangBUS.cs" />
+    <Compile Include="khuvucBUS.cs" />
     <Compile Include="loaiSanPhamBUS.cs" />
     <Compile Include="MaHoaMatKhau.cs" />
     <Compile Include="nguyenLieuBUS.cs" />
