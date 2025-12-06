@@ -149,6 +149,12 @@ namespace GUI.GUI_CRUD
                 HeaderText = "Giá",
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" }
             });
+            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "SoLuongToiDa",
+                HeaderText = "SL có thể bán",
+                DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter, Font = new Font(dgvSanPham.Font, FontStyle.Bold) } // Căn giữa và in đậm cho dễ nhìn
+            });
             btThemSP.Enabled = false;
             btnXoaSP.Enabled = false;
             button2.Enabled = false;
@@ -281,7 +287,18 @@ namespace GUI.GUI_CRUD
         {
             dgvGioHang.ClearSelection();
         }
-
+        private void ResetInput()
+        {
+            txtMaSP.Clear();
+            txtTenSP.Clear();
+            txtLoaiSP.Clear();
+            txtGia.Clear();
+            picSanPham.Image = null;
+            numSoLuong.Value = 1;
+            numSoLuong.Visible = false;
+            dgvGioHang.ClearSelection();
+            dgvSanPham.ClearSelection();
+        }
         private void btThemSP_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtMaSP.Text) || !int.TryParse(txtMaSP.Text, out int maSP))
@@ -293,32 +310,39 @@ namespace GUI.GUI_CRUD
                 MessageBox.Show("Sản phẩm không tồn tại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
-            int soLuong = (int)numSoLuong.Value;
-            if (soLuong <= 0)
+            int soLuongMuonThem = (int)numSoLuong.Value;
+            if (soLuongMuonThem <= 0)
             {
                 MessageBox.Show("Số lượng phải lớn hơn 0!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            var itemInCart = gioHang.FirstOrDefault(i => i.MaSP == sp.MaSP);
+            int soLuongDangCoTrongGio = (itemInCart != null) ? itemInCart.SoLuong : 0;
 
-            // Tìm trong giỏ theo MaSP
-            var item = gioHang.FirstOrDefault(i => i.MaSP == sp.MaSP);
-            if (item != null)
+            if (soLuongDangCoTrongGio + soLuongMuonThem > sp.SoLuongToiDa)
             {
-                item.SoLuong += soLuong;
-                item.ThanhTien = item.SoLuong * item.DonGia;
+                MessageBox.Show($"Không đủ nguyên liệu! \nKho chỉ còn đủ làm tối đa {sp.SoLuongToiDa} ly.\nTrong giỏ đã có: {soLuongDangCoTrongGio}.",
+                                "Cảnh báo tồn kho", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (itemInCart != null)
+            {
+                itemInCart.SoLuong += soLuongMuonThem;
+                itemInCart.ThanhTien = itemInCart.SoLuong * itemInCart.DonGia;
             }
             else
             {
                 gioHang.Add(new cthoaDonDTO
                 {
                     MaSP = sp.MaSP,
-                    SoLuong = soLuong,
+                    SoLuong = soLuongMuonThem,
                     DonGia = (decimal)sp.Gia,
-                    ThanhTien = soLuong * (decimal)sp.Gia
+                    ThanhTien = soLuongMuonThem * (decimal)sp.Gia
                 });
                 dgvSanPham.ClearSelection();
             }
+            sp.SoLuongToiDa -= soLuongMuonThem;
+            dgvSanPham.Refresh();
 
             CapNhatGioHang();
             //loadFontChuVaSizeGioHang();
@@ -353,15 +377,22 @@ namespace GUI.GUI_CRUD
 
             int index = dgvGioHang.CurrentRow.Index;
             if (index >= gioHang.Count) return;
-
+            var item = gioHang[index];
             if (MessageBox.Show("Xóa món này khỏi giỏ hàng?", "Xác nhận",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
+                var sp = danhSachSP.FirstOrDefault(s => s.MaSP == item.MaSP);
+                if (sp != null)
+                {
+                    sp.SoLuongToiDa += item.SoLuong;
+                    dgvSanPham.Refresh();
+                }
                 gioHang.RemoveAt(index);
                 CapNhatGioHang();
-                numSoLuong.Value = 0;
-                numSoLuong.Visible = false;
-                dgvGioHang.ClearSelection();
+                ResetInput();
+                btThemSP.Enabled = false;
+                button2.Enabled = false;
+                btnXoaSP.Enabled = false;
             }
         }
 
@@ -372,6 +403,7 @@ namespace GUI.GUI_CRUD
                 gioHang.Clear();
                 LoadDanhSachSanPham();
                 CapNhatGioHang();
+                ResetInput();
             }
         }
         private void CapNhatGioHang()
@@ -479,8 +511,6 @@ namespace GUI.GUI_CRUD
             {
                 try
                 {
-                    // 1. Chuyển đổi List giỏ hàng sang Dictionary<MaSP, SoLuong> để gửi cho DAO
-                    // Lý do: Hàm TruTonKhoKhiBanHang mình viết lúc nãy nhận Dictionary
                     Dictionary<int, int> dicGioHang = new Dictionary<int, int>();
                     foreach (var item in gioHang)
                     {

@@ -90,14 +90,12 @@
             this.layoutTimKiemNangCao = new System.Windows.Forms.TableLayoutPanel();
             this.txtGiaMax = new System.Windows.Forms.TextBox();
             this.txtGiaMin = new System.Windows.Forms.TextBox();
-            this.cboLoaiSP = new System.Windows.Forms.ComboBox();
-            this.cboTrangThai = new System.Windows.Forms.ComboBox();
-            this.txtTenSPTK = new System.Windows.Forms.TextBox();
+            this.txtTenBan = new System.Windows.Forms.TextBox();
             this.rdoTimNangCao = new System.Windows.Forms.RadioButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.layoutTimKiemCoban = new System.Windows.Forms.TableLayoutPanel();
-            this.cboTimKiemSP = new System.Windows.Forms.ComboBox();
-            this.txtTimKiemSP = new System.Windows.Forms.TextBox();
+            this.cboTimKiemHD = new System.Windows.Forms.ComboBox();
+            this.txtTimKiemHD = new System.Windows.Forms.TextBox();
             this.rdoTimCoBan = new System.Windows.Forms.RadioButton();
             this.btnThucHienTimKiem = new System.Windows.Forms.Button();
             this.xulycongthuc = new System.Windows.Forms.GroupBox();
@@ -115,6 +113,8 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.button10 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
+            this.txtKH = new System.Windows.Forms.TextBox();
+            this.txtNV = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -842,12 +842,12 @@
             this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.09496F));
             this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.09496F));
             this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 4.525194F));
-            this.layoutTimKiemNangCao.Controls.Add(this.txtGiaMax, 4, 0);
+            this.layoutTimKiemNangCao.Controls.Add(this.txtNV, 1, 0);
             this.layoutTimKiemNangCao.Controls.Add(this.txtGiaMin, 3, 0);
-            this.layoutTimKiemNangCao.Controls.Add(this.cboLoaiSP, 0, 0);
-            this.layoutTimKiemNangCao.Controls.Add(this.cboTrangThai, 1, 0);
-            this.layoutTimKiemNangCao.Controls.Add(this.txtTenSPTK, 2, 0);
+            this.layoutTimKiemNangCao.Controls.Add(this.txtTenBan, 2, 0);
             this.layoutTimKiemNangCao.Controls.Add(this.rdoTimNangCao, 5, 0);
+            this.layoutTimKiemNangCao.Controls.Add(this.txtGiaMax, 4, 0);
+            this.layoutTimKiemNangCao.Controls.Add(this.txtKH, 0, 0);
             this.layoutTimKiemNangCao.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutTimKiemNangCao.Location = new System.Drawing.Point(3, 23);
             this.layoutTimKiemNangCao.Name = "layoutTimKiemNangCao";
@@ -872,31 +872,13 @@
             this.txtGiaMin.Size = new System.Drawing.Size(109, 27);
             this.txtGiaMin.TabIndex = 2;
             // 
-            // cboLoaiSP
+            // txtTenBan
             // 
-            this.cboLoaiSP.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.cboLoaiSP.FormattingEnabled = true;
-            this.cboLoaiSP.Location = new System.Drawing.Point(11, 15);
-            this.cboLoaiSP.Name = "cboLoaiSP";
-            this.cboLoaiSP.Size = new System.Drawing.Size(109, 28);
-            this.cboLoaiSP.TabIndex = 0;
-            // 
-            // cboTrangThai
-            // 
-            this.cboTrangThai.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.cboTrangThai.FormattingEnabled = true;
-            this.cboTrangThai.Location = new System.Drawing.Point(142, 15);
-            this.cboTrangThai.Name = "cboTrangThai";
-            this.cboTrangThai.Size = new System.Drawing.Size(109, 28);
-            this.cboTrangThai.TabIndex = 1;
-            // 
-            // txtTenSPTK
-            // 
-            this.txtTenSPTK.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtTenSPTK.Location = new System.Drawing.Point(273, 14);
-            this.txtTenSPTK.Name = "txtTenSPTK";
-            this.txtTenSPTK.Size = new System.Drawing.Size(109, 27);
-            this.txtTenSPTK.TabIndex = 0;
+            this.txtTenBan.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtTenBan.Location = new System.Drawing.Point(273, 14);
+            this.txtTenBan.Name = "txtTenBan";
+            this.txtTenBan.Size = new System.Drawing.Size(109, 27);
+            this.txtTenBan.TabIndex = 0;
             // 
             // rdoTimNangCao
             // 
@@ -909,6 +891,7 @@
             this.rdoTimNangCao.TabIndex = 4;
             this.rdoTimNangCao.TabStop = true;
             this.rdoTimNangCao.UseVisualStyleBackColor = true;
+            this.rdoTimNangCao.CheckedChanged += new System.EventHandler(this.rdoTimNangCao_CheckedChanged);
             // 
             // groupBox4
             // 
@@ -929,8 +912,8 @@
             this.layoutTimKiemCoban.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38F));
             this.layoutTimKiemCoban.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7F));
             this.layoutTimKiemCoban.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.layoutTimKiemCoban.Controls.Add(this.cboTimKiemSP, 0, 0);
-            this.layoutTimKiemCoban.Controls.Add(this.txtTimKiemSP, 1, 0);
+            this.layoutTimKiemCoban.Controls.Add(this.cboTimKiemHD, 0, 0);
+            this.layoutTimKiemCoban.Controls.Add(this.txtTimKiemHD, 1, 0);
             this.layoutTimKiemCoban.Controls.Add(this.rdoTimCoBan, 2, 0);
             this.layoutTimKiemCoban.Controls.Add(this.btnThucHienTimKiem, 3, 0);
             this.layoutTimKiemCoban.Location = new System.Drawing.Point(3, 23);
@@ -940,30 +923,30 @@
             this.layoutTimKiemCoban.Size = new System.Drawing.Size(633, 45);
             this.layoutTimKiemCoban.TabIndex = 0;
             // 
-            // cboTimKiemSP
+            // cboTimKiemHD
             // 
-            this.cboTimKiemSP.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.cboTimKiemSP.FormattingEnabled = true;
-            this.cboTimKiemSP.Items.AddRange(new object[] {
+            this.cboTimKiemHD.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cboTimKiemHD.FormattingEnabled = true;
+            this.cboTimKiemHD.Items.AddRange(new object[] {
             "Mã SP",
             "Tên SP",
             "Tên loai",
             "Tên nhóm",
             "Giá min",
             "Giá max"});
-            this.cboTimKiemSP.Location = new System.Drawing.Point(10, 10);
-            this.cboTimKiemSP.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
-            this.cboTimKiemSP.Name = "cboTimKiemSP";
-            this.cboTimKiemSP.Size = new System.Drawing.Size(176, 28);
-            this.cboTimKiemSP.TabIndex = 0;
+            this.cboTimKiemHD.Location = new System.Drawing.Point(10, 8);
+            this.cboTimKiemHD.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
+            this.cboTimKiemHD.Name = "cboTimKiemHD";
+            this.cboTimKiemHD.Size = new System.Drawing.Size(176, 28);
+            this.cboTimKiemHD.TabIndex = 0;
             // 
-            // txtTimKiemSP
+            // txtTimKiemHD
             // 
-            this.txtTimKiemSP.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtTimKiemSP.Location = new System.Drawing.Point(199, 9);
-            this.txtTimKiemSP.Name = "txtTimKiemSP";
-            this.txtTimKiemSP.Size = new System.Drawing.Size(220, 27);
-            this.txtTimKiemSP.TabIndex = 1;
+            this.txtTimKiemHD.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtTimKiemHD.Location = new System.Drawing.Point(199, 9);
+            this.txtTimKiemHD.Name = "txtTimKiemHD";
+            this.txtTimKiemHD.Size = new System.Drawing.Size(220, 27);
+            this.txtTimKiemHD.TabIndex = 1;
             // 
             // rdoTimCoBan
             // 
@@ -976,6 +959,7 @@
             this.rdoTimCoBan.TabIndex = 2;
             this.rdoTimCoBan.TabStop = true;
             this.rdoTimCoBan.UseVisualStyleBackColor = true;
+            this.rdoTimCoBan.CheckedChanged += new System.EventHandler(this.rdoTimCoBan_CheckedChanged);
             // 
             // btnThucHienTimKiem
             // 
@@ -987,6 +971,7 @@
             this.btnThucHienTimKiem.TabIndex = 3;
             this.btnThucHienTimKiem.Text = "Tìm kiếm";
             this.btnThucHienTimKiem.UseVisualStyleBackColor = true;
+            this.btnThucHienTimKiem.Click += new System.EventHandler(this.btnThucHienTimKiem_Click);
             // 
             // xulycongthuc
             // 
@@ -1180,6 +1165,22 @@
             this.button9.Size = new System.Drawing.Size(75, 23);
             this.button9.TabIndex = 0;
             // 
+            // txtKH
+            // 
+            this.txtKH.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtKH.Location = new System.Drawing.Point(11, 14);
+            this.txtKH.Name = "txtKH";
+            this.txtKH.Size = new System.Drawing.Size(109, 27);
+            this.txtKH.TabIndex = 5;
+            // 
+            // txtNV
+            // 
+            this.txtNV.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtNV.Location = new System.Drawing.Point(142, 14);
+            this.txtNV.Name = "txtNV";
+            this.txtNV.Size = new System.Drawing.Size(109, 27);
+            this.txtNV.TabIndex = 6;
+            // 
             // banHangGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1243,14 +1244,12 @@
         private System.Windows.Forms.TableLayoutPanel layoutTimKiemNangCao;
         private System.Windows.Forms.TextBox txtGiaMax;
         private System.Windows.Forms.TextBox txtGiaMin;
-        private System.Windows.Forms.ComboBox cboLoaiSP;
-        private System.Windows.Forms.ComboBox cboTrangThai;
-        private System.Windows.Forms.TextBox txtTenSPTK;
+        private System.Windows.Forms.TextBox txtTenBan;
         private System.Windows.Forms.RadioButton rdoTimNangCao;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TableLayoutPanel layoutTimKiemCoban;
-        private System.Windows.Forms.ComboBox cboTimKiemSP;
-        private System.Windows.Forms.TextBox txtTimKiemSP;
+        private System.Windows.Forms.ComboBox cboTimKiemHD;
+        private System.Windows.Forms.TextBox txtTimKiemHD;
         private System.Windows.Forms.RadioButton rdoTimCoBan;
         private System.Windows.Forms.Button btnThucHienTimKiem;
         private System.Windows.Forms.GroupBox xulycongthuc;
@@ -1306,5 +1305,7 @@
         private System.Windows.Forms.PictureBox picSanPham;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox cbThanhToan;
+        private System.Windows.Forms.TextBox txtNV;
+        private System.Windows.Forms.TextBox txtKH;
     }
 }

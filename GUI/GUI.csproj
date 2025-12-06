@@ -601,6 +601,7 @@
     <Compile Include="GUI_UC\thongKeGUI.Designer.cs">
       <DependentUpon>thongKeGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="PDF\inPDFhoaDon.cs" />
     <Compile Include="PDF\inPDFphieuNhap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -110,6 +110,7 @@
             this.btnNhapHD.TabIndex = 0;
             this.btnNhapHD.Text = "Nhập";
             this.btnNhapHD.UseVisualStyleBackColor = true;
+            this.btnNhapHD.Click += new System.EventHandler(this.btnNhapHD_Click);
             // 
             // panel3
             // 

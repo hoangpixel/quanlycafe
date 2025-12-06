@@ -564,8 +564,6 @@ namespace GUI.GUI_UC
             {
                 try
                 {
-                    // 1. Chuyển đổi List giỏ hàng sang Dictionary<MaSP, SoLuong> để gửi cho DAO
-                    // Lý do: Hàm TruTonKhoKhiBanHang mình viết lúc nãy nhận Dictionary
                     Dictionary<int, int> dicGioHang = new Dictionary<int, int>();
                     foreach (var item in gioHang)
                     {
@@ -1091,22 +1089,223 @@ namespace GUI.GUI_UC
             }
         }
 
-        private void dgvHoaDon_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        private void rdoTimCoBan_CheckedChanged(object sender, EventArgs e)
         {
-            if (e.RowIndex < 0) return;
-            hoaDonDTO hd = dgvHoaDon.Rows[e.RowIndex].DataBoundItem as hoaDonDTO;
-
-            if (dgvHoaDon.Columns[e.ColumnIndex].HeaderText == "Tên nhân viên")
+            if (rdoTimCoBan.Checked == true)
             {
-                nhanVienDTO nv = dsNV.FirstOrDefault(x => x.MaNhanVien == hd.MaNhanVien);
-                e.Value = nv?.HoTen ?? "Không xác định";
+                rdoTimNangCao.Checked = false;
+                txtNV.Enabled = false;
+                txtTenBan.Enabled = false;
+                txtKH.Enabled = false;
+                txtGiaMax.Enabled = false;
+                txtGiaMin.Enabled = false;
+
+                txtKH.Clear();
+                txtNV.Clear();
+                txtTenBan.Clear();
+                txtGiaMax.Clear();
+                txtGiaMin.Clear();
+                hienThiPlaceHolderHoaDon();
+            }
+            else
+            {
+                txtTimKiemHD.Enabled = false;
+                cboTimKiemHD.Enabled = false;
+                txtTenBan.Enabled = true;
+                txtKH.Enabled = true;
+                txtNV.Enabled = true;
+                txtGiaMax.Enabled = true;
+                txtGiaMin.Enabled = true;
+            }
+        }
+
+        private void rdoTimNangCao_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdoTimNangCao.Checked == true)
+            {
+                rdoTimCoBan.Checked = false;
+                cboTimKiemHD.Enabled = false;
+                txtTimKiemHD.Enabled = false;
+
+                cboTimKiemHD.SelectedItem = -1;
+                txtTimKiemHD.Clear();
+                hienThiPlaceHolderCongThuc();
+            }
+            else
+            {
+                cboTimKiemHD.Enabled = true;
+                txtTimKiemHD.Enabled = true;
+            }
+        }
+        public void loadLaiDanhSachTimKiem()
+        {
+            BindingList<hoaDonDTO> ds = new hoaDonBUS().LayDanhSach();
+            LoadDanhSachHoaDon();
+            loadFontChuVaSize();
+            ResetInputTimKiem();
+        }
+        private void hienThiPlaceHolderCongThuc()
+        {
+            SetPlaceholder(txtTimKiemHD, "Nhập giá trị cần tìm");
+            SetPlaceholder(txtKH, "Tên Khách Hàng");
+            SetPlaceholder(txtNV, "Tên Nhân Viên");
+            SetPlaceholder(txtTenBan, "Bàn");
+            SetPlaceholder(txtGiaMax, "Max Tiền");
+            SetPlaceholder(txtGiaMin, "Min Tiền");
+            SetComboBoxPlaceholder(cboTimKiemHD, "Chọn giá trị TK");
+        }
+        // set placehover cho tìm kiếm nâng cao sản phẩm
+        private void SetPlaceholder(TextBox txt, string placeholder)
+        {
+            txt.ForeColor = Color.Gray;
+            txt.Text = placeholder;
+            txt.GotFocus += (s, e) =>
+            {
+                if (txt.Text == placeholder)
+                {
+                    txt.Text = "";
+                    txt.ForeColor = Color.Black;
+                }
+            };
+            txt.LostFocus += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(txt.Text))
+                {
+                    txt.ForeColor = Color.Gray;
+                    txt.Text = placeholder;
+                }
+            };
+        }
+
+
+        // set placehover cho tìm kiếm nâng cao sản phẩm
+        private void SetComboBoxPlaceholder(ComboBox cbo, string placeholder)
+        {
+
+            cbo.ForeColor = Color.Gray;
+            cbo.Text = placeholder;
+
+            cbo.GotFocus += (s, e) =>
+            {
+                if (cbo.Text == placeholder)
+                {
+                    cbo.Text = "";
+                    cbo.ForeColor = Color.Black;
+                }
+            };
+            cbo.LostFocus += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(cbo.Text))
+                {
+                    cbo.Text = placeholder;
+                    cbo.ForeColor = Color.Gray;
+                }
+            };
+        }
+        public void ResetInputTimKiem()
+        {
+            cboTimKiemHD.SelectedIndex = -1;
+            txtTimKiemHD.Clear();
+            txtKH.Clear();
+            txtNV.Clear();
+            txtTenBan.Clear();
+            txtGiaMin.Clear();
+            txtGiaMax.Clear();
+
+            hienThiPlaceHolderCongThuc();
+        }
+        public void timKiemCoBan()
+        {
+            string tim = txtTimKiemHD.Text.Trim();
+            int index = cboTimKiemHD.SelectedIndex;
+
+            if (index == -1 || string.IsNullOrWhiteSpace(tim))
+            {
+                MessageBox.Show("Vui lòng nhập giá trị tìm kiếm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
             }
 
-
-            if (dgvHoaDon.Columns[e.ColumnIndex].HeaderText == "Tên khách hàng")
+            BindingList<hoaDonDTO> dskq = bushoaDon.timKiemCoBan(tim, index);
+            if (dskq != null && dskq.Count > 0)
             {
-                khachHangDTO kh = dsKH.FirstOrDefault(x => x.MaKhachHang == hd.MaKhachHang);
-                e.Value = kh?.TenKhachHang ?? "Không xác định";
+                LoadDanhSachHoaDon(dskq);
+                loadFontChuVaSize();
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy kết quả tìm kiếm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                loadLaiDanhSachTimKiem();
+                return;
+            }
+        }
+        public void timKiemNangCao()
+        {
+            string tenSP = string.IsNullOrWhiteSpace(txtTenBan.Text) ? null : txtTenBan.Text.Trim();
+            string tenNL = string.IsNullOrWhiteSpace(txtTenNL.Text) ? null : txtTenNL.Text.Trim();
+            string tenDV = string.IsNullOrWhiteSpace(txtTenDV.Text) ? null : txtTenDV.Text.Trim();
+
+            if (tenSP == "Tên Bàn")
+            {
+                tenSP = null;
+            }
+            if (tenNL == "Tên NL")
+            {
+                tenNL = null;
+            }
+            if (tenDV == "Tên ĐV")
+            {
+                tenDV = null;
+            }
+
+            decimal slMin = -1;
+            string strMin = txtSoLuongMin.Text.Trim();
+            if (!string.IsNullOrWhiteSpace(strMin) && strMin != "SL min")
+            {
+                decimal.TryParse(strMin, out slMin);
+            }
+
+            decimal slMax = -1;
+            string strMax = txtSoLuongMax.Text.Trim();
+            if (!string.IsNullOrWhiteSpace(strMax) && strMax != "SL max")
+            {
+                decimal.TryParse(strMax, out slMax);
+            }
+
+            if (slMin != -1 && slMax != -1 && slMin > slMax)
+            {
+                MessageBox.Show("Số lượng tối thiểu không được lớn hơn tồn tối đa", "Lỗi nhập liệu",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (tenSP == null && tenNL == null && tenDV == null && slMin == -1 && slMax == -1)
+            {
+                MessageBox.Show("Vui lòng nhập ít nhất một điều kiện", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            BindingList<congThucDTO> dsTimKiemNangCao = busCongThuc.timKiemNangCao(tenSP, tenNL, tenDV, slMin, slMax);
+            if (dsTimKiemNangCao != null && dsTimKiemNangCao.Count > 0)
+            {
+                loadDanhSachCongThuc(dsTimKiemNangCao);
+                loadFontChuVaSize();
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy kết quả", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+        }
+
+        private void btnThucHienTimKiem_Click(object sender, EventArgs e)
+        {
+            if (rdoTimCoBan.Checked == true)
+            {
+                timKiemCoBan();
+            }
+            else
+            {
+                timKiemNangCao();
             }
         }
     }

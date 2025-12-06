@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using OfficeOpenXml;
 using LicenseContext = OfficeOpenXml.LicenseContext;
+using GUI.PDF;
 
 namespace GUI.GUI_CRUD
 {
@@ -22,6 +23,36 @@ namespace GUI.GUI_CRUD
         private BindingList<hoaDonDTO> dsHoaDon;
         private DataGridView dgvHoaDon;
         private int? maHDSelected = null;
+        private int SafeInt(object value)
+        {
+            if (value == null) return 0;
+            string s = value.ToString().Trim()
+                .Replace(".", "")  
+                .Replace(",", "")
+                .Replace("₫", "")
+                .Replace("đ", "")
+                .Replace(" ", "");
+            return int.TryParse(s, out int result) ? result : 0;
+        }
+
+        private decimal SafeDecimal(object value)
+        {
+            if (value == null) return 0;
+            string s = value.ToString().Trim()
+                .Replace(".", "")
+                .Replace(",", ".")
+                .Replace("₫", "")
+                .Replace("đ", "")
+                .Replace(" ", "");
+            return decimal.TryParse(s, System.Globalization.NumberStyles.Any,
+                                   System.Globalization.CultureInfo.InvariantCulture, out decimal result)
+                   ? result : 0;
+        }
+
+        private string SafeStr(object value)
+        {
+            return value?.ToString()?.Trim() ?? "";
+        }
         public selectExcelHoaDon(BindingList<hoaDonDTO> ds, DataGridView dgv)
         {
             InitializeComponent();
@@ -29,36 +60,36 @@ namespace GUI.GUI_CRUD
             this.dgvHoaDon= dgv;
             btnInPDF.Visible = false;
 
-            // Theo dõi sự thay đổi chọn dòng (dù chọn ở form nào cũng bắt được)
             dgvHoaDon.SelectionChanged += (s, e) =>
             {
-                btnInPDF.Visible = dgvHoaDon.SelectedRows.Count > 0;
-                maHDSelected = dgvHoaDon.SelectedRows.Count > 0
-                    ? Convert.ToInt32(dgvHoaDon.SelectedRows[0].Cells[0].Value)
-                    : (int?)null;
+                if (dgvHoaDon.SelectedRows.Count > 0)
+                {
+                    // DÙNG CHỈ SỐ CỘT (cột 0 luôn là MaHD vì bạn tạo đầu tiên)
+                    maHDSelected = Convert.ToInt32(dgvHoaDon.SelectedRows[0].Cells[0].Value);
+                    btnInPDF.Visible = true;
+                }
+                else
+                {
+                    maHDSelected = null;
+                    btnInPDF.Visible = false;
+                }
             };
-
-            // Gọi 1 lần để kiểm tra xem lúc mở có đang chọn dòng nào không
             if (dgvHoaDon.SelectedRows.Count > 0)
+            {
+                maHDSelected = Convert.ToInt32(dgvHoaDon.SelectedRows[0].Cells[0].Value);
                 btnInPDF.Visible = true;
-        }
-        
-        private void CapNhatNutInPDF()
-        {
-            if (dgvHoaDon.CurrentRow != null && dgvHoaDon.CurrentRow.Selected)
-            {
-                maHDSelected = Convert.ToInt32(dgvHoaDon.CurrentRow.Cells["MaHD"].Value);
-                btnInPDF.Enabled = true;
-            }
-            else
-            {
-                maHDSelected = null;
-                btnInPDF.Enabled = false;
-            }
+            }        
         }
 
         private void btnInPDF_Click(object sender, EventArgs e)
         {
+            if (!maHDSelected.HasValue)
+            {
+                MessageBox.Show("Vui lòng chọn hóa đơn để in!", "Thông báo");
+                return;
+            }
+            var inHD = new inPDFhoaDon();
+            inHD.In(maHDSelected.Value);
         }
 
         private void btnXuatHD_Click(object sender, EventArgs e)
@@ -178,6 +209,70 @@ namespace GUI.GUI_CRUD
                 catch (Exception ex)
                 {
                     MessageBox.Show("Lỗi khi xuất Excel:\n" + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnNhapHD_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Filter = "Excel Files|*.xlsx";
+                if (ofd.ShowDialog() != DialogResult.OK) return;
+
+                try
+                {
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                    using (var package = new ExcelPackage(new FileInfo(ofd.FileName)))
+                    {
+                        var wsHD = package.Workbook.Worksheets["Danh sách hóa đơn"] ?? package.Workbook.Worksheets[0];
+                        var wsCT = package.Workbook.Worksheets["Chi tiết hóa đơn"] ?? package.Workbook.Worksheets[1];
+
+                        var busHD = new hoaDonBUS();
+
+                        for (int rowHD = 2; rowHD <= wsHD.Dimension.End.Row; rowHD++)
+                        {
+                            // DÙNG HÀM SAFE ĐỂ TRÁNH LỖI DẤU CHẤM, ₫, KHOẢNG TRẮNG
+                            var hd = new hoaDonDTO
+                            {
+                                MaBan = SafeInt(wsHD.Cells[rowHD, 2].Value),           // Bàn
+                                ThoiGianTao = DateTime.Now,                                 // Lấy giờ hiện tại
+                                TongTien = SafeDecimal(wsHD.Cells[rowHD, 4].Value),      // 45.000 ₫ → 45000
+                                TenKhachHang = SafeStr(wsHD.Cells[rowHD, 5].Value),          // Khách lẻ
+                                HoTen = SafeStr(wsHD.Cells[rowHD, 6].Value),           // Nhân viên
+                                MaTT = SafeInt(wsHD.Cells[rowHD, 7].Value)            // Hình thức TT
+                            };
+
+                            // Đọc chi tiết
+                            var dsChiTiet = new BindingList<cthoaDonDTO>();
+                            for (int rowCT = 2; rowCT <= wsCT.Dimension.End.Row; rowCT++)
+                            {
+                                int maHD_CT = SafeInt(wsCT.Cells[rowCT, 1].Value);
+                                int maHD_HD = SafeInt(wsHD.Cells[rowHD, 1].Value);
+
+                                if (maHD_CT == maHD_HD)
+                                {
+                                    dsChiTiet.Add(new cthoaDonDTO
+                                    {
+                                        MaSP = SafeInt(wsCT.Cells[rowCT, 2].Value),
+                                        TenSP = SafeStr(wsCT.Cells[rowCT, 3].Value),
+                                        SoLuong = SafeInt(wsCT.Cells[rowCT, 4].Value),
+                                        DonGia = SafeDecimal(wsCT.Cells[rowCT, 5].Value),     // 15.000 ₫ → 15000
+                                        ThanhTien = SafeDecimal(wsCT.Cells[rowCT, 6].Value)      // 45.000 ₫ → 45000
+                                    });
+                                }
+                            }
+
+                            busHD.ThemHoaDon(hd, dsChiTiet); // Dùng hàm bạn đã có
+                        }
+                    }
+
+                    MessageBox.Show("Nhập Excel thành công!", "Thành công");
+                    // Refresh lại danh sách ở form chính nếu cần
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi: " + ex.Message);
                 }
             }
         }

@@ -17,7 +17,7 @@ namespace DTO
         public int MaKhachHang { get; set; }
         public int MaNhanVien { get; set; }
         public string TenKhachHang { get; set; } = "Khách lẻ";
-        public string HoTen { get; set; } = "Nhân viên";
+        public string HoTen { get; set; }
         public int KhoaSo { get; set; }
     }
 }
