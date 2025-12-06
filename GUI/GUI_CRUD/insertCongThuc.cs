@@ -176,7 +176,7 @@ namespace GUI.GUI_CRUD
                                                         "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (confirm == DialogResult.Yes)
                 {
-                    tonTai.SoLuongCoSo += (float)txtSoLuong.Value;
+                    tonTai.SoLuongCoSo += txtSoLuong.Value;
                     tonTai.MaDonViCoSo = maDonVi;
                     tonTai.TenDonViCoSo = tenDonVi;
                 }
@@ -187,7 +187,7 @@ namespace GUI.GUI_CRUD
                 congThucDTO ct = new congThucDTO();
                 ct.MaSanPham = maSP;
                 ct.MaNguyenLieu = maNL;
-                ct.SoLuongCoSo = (float)txtSoLuong.Value;
+                ct.SoLuongCoSo = txtSoLuong.Value;
                 ct.MaDonViCoSo = maDonVi;
                 dsTam.Add(ct);
             }
@@ -262,7 +262,7 @@ namespace GUI.GUI_CRUD
 
                     if (confirm == DialogResult.Yes)
                     {
-                        tonTai.SoLuongCoSo += (float)txtSoLuong.Value;
+                        tonTai.SoLuongCoSo += txtSoLuong.Value;
                         dsTam.RemoveAt(indexMaNL);
                         MessageBox.Show($"Đã cộng dồn vào nguyên liệu '{tonTai.TenNguyenLieu}' ({tenDonVi}).",
                                         "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -274,7 +274,7 @@ namespace GUI.GUI_CRUD
                     // Nếu khác đơn vị hoặc nguyên liệu hoàn toàn → cập nhật như bình thường
                     ctDangSua.MaNguyenLieu = maNL;
                     ctDangSua.TenNguyenLieu = txtTenNguyenLieu.Text;
-                    ctDangSua.SoLuongCoSo = (float)txtSoLuong.Value;
+                    ctDangSua.SoLuongCoSo = txtSoLuong.Value;
                     ctDangSua.MaDonViCoSo = maDonVi;
                     ctDangSua.TenDonViCoSo = tenDonVi;
                 }
@@ -282,7 +282,7 @@ namespace GUI.GUI_CRUD
             else
             {
                 // Không đổi nguyên liệu, chỉ chỉnh số lượng/đơn vị
-                ctDangSua.SoLuongCoSo = (float)txtSoLuong.Value;
+                ctDangSua.SoLuongCoSo = txtSoLuong.Value;
                 ctDangSua.MaDonViCoSo = maDonVi;
                 ctDangSua.TenDonViCoSo = tenDonVi;
             }

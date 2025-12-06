@@ -189,5 +189,33 @@ namespace DAO
             }
             return dskq;
         }
+
+        public decimal LayHeSo(int maNL, int maDV)
+        {
+            decimal heso = 0; 
+            string qry = "SELECT HESO FROM hesodonvi WHERE MANGUYENLIEU = @maNL AND MADONVI = @maDV";
+
+            using (MySqlConnection conn = DBConnect.GetConnection())
+            {
+                try
+                {
+                    MySqlCommand cmd = new MySqlCommand(qry, conn);
+                    cmd.Parameters.AddWithValue("@maNL", maNL);
+                    cmd.Parameters.AddWithValue("@maDV", maDV);
+
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        heso = Convert.ToDecimal(result);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Lỗi lấy hệ số: " + ex.Message);
+                }
+            }
+            return heso;
+        }
     }
 }

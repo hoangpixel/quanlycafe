@@ -32,7 +32,7 @@ namespace DAO
                         {
                             MaSanPham = reader.GetInt32("MASANPHAM"),
                             MaNguyenLieu = reader.GetInt32("MANGUYENLIEU"),
-                            SoLuongCoSo = reader.GetFloat("SOLUONGCOSO"),
+                            SoLuongCoSo = reader.GetDecimal("SOLUONGCOSO"),
                             MaDonViCoSo = reader.GetInt32("MADONVICOSO"),
                             TrangThai = reader.GetInt32("TRANGTHAI"),
                             TenNguyenLieu = reader.GetString("TENNGUYENLIEU"),
@@ -58,7 +58,7 @@ namespace DAO
                     congThucDTO ct = new congThucDTO();
                     ct.MaSanPham = rs.GetInt32("MASANPHAM");
                     ct.MaNguyenLieu = rs.GetInt32("MANGUYENLIEU");
-                    ct.SoLuongCoSo = rs.GetFloat("SOLUONGCOSO");
+                    ct.SoLuongCoSo = rs.GetDecimal("SOLUONGCOSO");
                     ct.MaDonViCoSo = rs.GetInt32("MADONVICOSO");
                     ds.Add(ct);
                 }

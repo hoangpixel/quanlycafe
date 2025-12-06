@@ -30,6 +30,7 @@ namespace GUI.GUI_UC
         private hoaDonBUS busHoaDon = new hoaDonBUS();
         private hoaDonDAO hoaDonDAO = new hoaDonDAO();
         private int maHDDangChon = -1;
+        private int maNV = -1;
         public banHangGUI()
         {
             InitializeComponent();
@@ -56,7 +57,18 @@ namespace GUI.GUI_UC
             cbThanhToan.DataSource = dsThanhToan;
             cbThanhToan.DisplayMember = "HinhThuc";
             cbThanhToan.ValueMember = "MaTT";
+            tuDongLoadTenNhanVien();
         }
+
+        private void tuDongLoadTenNhanVien()
+        {
+            if (DTO.Session.NhanVienHienTai != null)
+            {
+                txtNhanVien.Text = DTO.Session.NhanVienHienTai.HoTen;
+                maNV = DTO.Session.NhanVienHienTai.MaNhanVien;
+            }
+        }
+
         private void loadFontChuVaSize()
         {
             foreach (DataGridViewColumn col in dgvSanPham.Columns)
@@ -136,6 +148,7 @@ namespace GUI.GUI_UC
 
         private void LoadDanhSachSanPham()
         {
+            // 1. Lấy danh sách sản phẩm như bình thường
             danhSachSP = busSanPham.LayDanhSach();
 
             if (danhSachSP == null || danhSachSP.Count == 0)
@@ -144,22 +157,36 @@ namespace GUI.GUI_UC
                 return;
             }
 
+            foreach (var sp in danhSachSP)
+            {
+                sp.SoLuongToiDa = busSanPham.TinhSoLuongToiDa(sp.MaSP);
+            }
+
             dgvSanPham.AutoGenerateColumns = false;
             dgvSanPham.DataSource = null;
             dgvSanPham.DataSource = danhSachSP;
 
             dgvSanPham.Columns.Clear();
 
-            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaSP", HeaderText = "Mã SP" });
-            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TenSP", HeaderText = "Tên SP" });
-            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên loại" });   
-            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên nhóm" });   
+            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaSP", HeaderText = "Mã SP", Width = 70 });
+            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TenSP", HeaderText = "Tên SP", Width = 200 });
+
+            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên loại" });
+            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên nhóm" });
             dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "Gia",
                 HeaderText = "Giá",
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight }
             });
+
+            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "SoLuongToiDa",
+                HeaderText = "SL có thể bán",
+                DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter, Font = new Font(dgvSanPham.Font, FontStyle.Bold) } // Căn giữa và in đậm cho dễ nhìn
+            });
+
             btThemSP.Enabled = false;
             btnXoaSP.Enabled = false;
             button2.Enabled = false;
@@ -329,35 +356,48 @@ namespace GUI.GUI_UC
                 return;
             }
 
-            int soLuong = (int)numSoLuong.Value;
-            if (soLuong <= 0)
+            if (sp.SoLuongToiDa <= 0)
+            {
+                MessageBox.Show($"Sản phẩm '{sp.TenSP}' đã hết nguyên liệu!", "Hết hàng", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            int soLuongMuonThem = (int)numSoLuong.Value;
+            if (soLuongMuonThem <= 0)
             {
                 MessageBox.Show("Số lượng phải lớn hơn 0!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            var itemInCart = gioHang.FirstOrDefault(i => i.MaSP == sp.MaSP);
+            int soLuongDangCoTrongGio = (itemInCart != null) ? itemInCart.SoLuong : 0;
 
-            // Tìm trong giỏ theo MaSP
-            var item = gioHang.FirstOrDefault(i => i.MaSP == sp.MaSP);
-            if (item != null)
+            if (soLuongDangCoTrongGio + soLuongMuonThem > sp.SoLuongToiDa)
             {
-                item.SoLuong += soLuong;
-                item.ThanhTien = item.SoLuong * item.DonGia;
+                MessageBox.Show($"Không đủ nguyên liệu! \nKho chỉ còn đủ làm tối đa {sp.SoLuongToiDa} ly.\nTrong giỏ đã có: {soLuongDangCoTrongGio}.",
+                                "Cảnh báo tồn kho", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (itemInCart != null)
+            {
+                itemInCart.SoLuong += soLuongMuonThem;
+                itemInCart.ThanhTien = itemInCart.SoLuong * itemInCart.DonGia;
             }
             else
             {
                 gioHang.Add(new cthoaDonDTO
                 {
                     MaSP = sp.MaSP,
-                    SoLuong = soLuong,
+                    SoLuong = soLuongMuonThem,
                     DonGia = (decimal)sp.Gia,
-                    ThanhTien = soLuong * (decimal)sp.Gia
+                    ThanhTien = soLuongMuonThem * (decimal)sp.Gia
                 });
                 dgvSanPham.ClearSelection();
             }
-
+            sp.SoLuongToiDa -= soLuongMuonThem;
+            dgvSanPham.Refresh();
             CapNhatGioHang();
-            loadFontChuVaSizeGioHang();
             dgvGioHang.ClearSelection();
+            ResetInput();
         }
         private void CapNhatGioHang()
         {
@@ -388,21 +428,42 @@ namespace GUI.GUI_UC
             }
         }
 
+        private void ResetInput()
+        {
+            txtMaSP.Clear();
+            txtTenSP.Clear();
+            txtLoaiSP.Clear();
+            txtGia.Clear();
+            picSanPham.Image = null;
+            numSoLuong.Value = 1;
+            numSoLuong.Visible = false;
+            dgvGioHang.ClearSelection();
+            dgvSanPham.ClearSelection();
+        }
+
         private void btnXoaSP_Click(object sender, EventArgs e)
         {
-            if (dgvGioHang.CurrentRow == null || dgvGioHang.CurrentRow.Index < 0) return;
-
+            if (dgvGioHang.CurrentRow == null) return;
             int index = dgvGioHang.CurrentRow.Index;
-            if (index >= gioHang.Count) return;
+            if (index < 0 || index >= gioHang.Count) return;
 
-            if (MessageBox.Show("Xóa món này khỏi giỏ hàng?", "Xác nhận",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            var item = gioHang[index];
+
+            if (MessageBox.Show("Xóa món này khỏi giỏ hàng?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
+                var sp = danhSachSP.FirstOrDefault(s => s.MaSP == item.MaSP);
+                if (sp != null)
+                {
+                    sp.SoLuongToiDa += item.SoLuong;
+                    dgvSanPham.Refresh();
+                }
+
                 gioHang.RemoveAt(index);
                 CapNhatGioHang();
-                numSoLuong.Value = 0;
-                numSoLuong.Visible = false;
-                dgvGioHang.ClearSelection();
+                ResetInput();
+                btThemSP.Enabled = false;
+                button2.Enabled = false;
+                btnXoaSP.Enabled = false;
             }
         }
 
@@ -413,6 +474,7 @@ namespace GUI.GUI_UC
                 gioHang.Clear();
                 LoadDanhSachSanPham();
                 CapNhatGioHang();
+                ResetInput();
             }
         }
 
@@ -438,7 +500,7 @@ namespace GUI.GUI_UC
             if (txtKhachHang.Tag != null && int.TryParse(txtKhachHang.Tag.ToString(), out int kh))
                 maKH = kh;
 
-            if (txtNhanVien.Tag == null || !int.TryParse(txtNhanVien.Tag.ToString(), out int maNV))
+            if (maNV == -1)
             {
                 MessageBox.Show("Vui lòng chọn nhân viên phục vụ!", "Lỗi nhân viên",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -527,10 +589,10 @@ namespace GUI.GUI_UC
                 txtBan.Clear();
                 txtBan.Tag = null;
                 txtKhachHang.Clear(); txtKhachHang.Tag = null;
-                txtNhanVien.Clear(); txtNhanVien.Tag = null;
 
                 tabControl1.SelectedTab = tabHoaDon;
                 this.WindowState = FormWindowState.Maximized;
+                ResetInputControls();
             }
             else
             {
@@ -564,42 +626,38 @@ namespace GUI.GUI_UC
 
         private void dgvSanPham_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dgvSanPham.CurrentRow != null)
-            {
-                btThemSP.Enabled = true;
+            // 1. HỦY CHỌN BÊN GIỎ HÀNG NGAY LẬP TỨC
+            dgvGioHang.ClearSelection();
+            lastSelectedRowIndexGio = -1; // Reset biến lưu của giỏ hàng
 
-                numSoLuong.Enabled = true;
-                numSoLuong.Visible = true;
-                numSoLuong.Value = 0;
-            }
-            else
-            {
-                numSoLuong.Enabled = false;
-                numSoLuong.Visible = false;
+            // Tắt các nút chức năng của giỏ hàng
+            btnXoaSP.Enabled = false;
+            button2.Enabled = false; // Nút sửa
 
-                btThemSP.Enabled = false;
-                btnXoaSP.Enabled = false;
-                button2.Enabled = false;
-            }
+            // 2. KIỂM TRA CLICK HỢP LỆ
             if (e.RowIndex < 0 || e.RowIndex >= danhSachSP.Count)
                 return;
 
+            // 3. LOGIC TOGGLE (Bấm lại dòng đã chọn thì hủy)
             if (e.RowIndex == lastSelectedRowIndex)
             {
                 dgvSanPham.ClearSelection();
                 lastSelectedRowIndex = -1;
-
-                txtMaSP.Clear();
-                txtTenSP.Clear();
-                txtLoaiSP.Clear();
-                txtGia.Clear();
-                picSanPham.Image = null;
+                ResetInputControls(); // Hàm xóa trắng ô nhập (xem bên dưới)
                 return;
             }
 
-            lastSelectedRowIndex = e.RowIndex;
+            // 4. CHỌN DÒNG MỚI
+            lastSelectedRowIndex = e.RowIndex; // Cập nhật dòng mới
+
             var sp = danhSachSP[e.RowIndex];
-            HienThiChiTietSanPham(sp);
+            HienThiChiTietSanPham(sp); // Hiển thị thông tin lên textbox
+
+            // Cấu hình nút bấm cho chế độ THÊM
+            btThemSP.Enabled = true;
+            numSoLuong.Enabled = true;
+            numSoLuong.Visible = true;
+            numSoLuong.Value = 1; // Mặc định là 1 khi chọn món mới
         }
         private void HienThiChiTietSanPham(sanPhamDTO sp)
         {
@@ -655,34 +713,63 @@ namespace GUI.GUI_UC
             LoadDanhSachHoaDon();
         }
 
+        private int lastSelectedRowIndexGio = -1;
         private void dgvGioHang_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            // 1. HỦY CHỌN BÊN SẢN PHẨM NGAY LẬP TỨC
+            dgvSanPham.ClearSelection();
+            lastSelectedRowIndex = -1; // Reset biến lưu của sản phẩm
+
+            // Tắt nút Thêm (vì đang thao tác trong giỏ)
+            btThemSP.Enabled = false;
+
+            // 2. KIỂM TRA CLICK HỢP LỆ
             if (e.RowIndex < 0 || e.RowIndex >= gioHang.Count)
+                return;
+
+            // 3. LOGIC TOGGLE (Bấm lại dòng đã chọn thì hủy)
+            if (e.RowIndex == lastSelectedRowIndexGio)
             {
-                btThemSP.Enabled = false;
-                btnXoaSP.Enabled = false;
-                button2.Enabled = false;
-                numSoLuong.Visible = false;
+                dgvGioHang.ClearSelection();
+                lastSelectedRowIndexGio = -1;
+                ResetInputControls(); // Xóa trắng, tắt nút Sửa/Xóa
                 return;
             }
-            btnXoaSP.Enabled = true;
-            button2.Enabled = true;
-            numSoLuong.Enabled = true;
-            numSoLuong.Visible = true;
 
+            // 4. CHỌN DÒNG MỚI
+            lastSelectedRowIndexGio = e.RowIndex;
+
+            // Lấy thông tin sản phẩm từ giỏ để hiển thị lại
             var itemGioHang = gioHang[e.RowIndex];
             var spTrongGio = danhSachSP.FirstOrDefault(s => s.MaSP == itemGioHang.MaSP);
 
             if (spTrongGio != null)
             {
                 HienThiChiTietSanPham(spTrongGio);
-
-                numSoLuong.Value = itemGioHang.SoLuong;
+                numSoLuong.Value = itemGioHang.SoLuong; // Load số lượng đang có trong giỏ
             }
 
-            btThemSP.Enabled = false;
+            // Cấu hình nút bấm cho chế độ SỬA/XÓA
+            btnXoaSP.Enabled = true;
+            button2.Enabled = true; // Nút sửa
+            numSoLuong.Enabled = true;
+            numSoLuong.Visible = true;
         }
+        private void ResetInputControls()
+        {
+            txtMaSP.Clear();
+            txtTenSP.Clear();
+            txtLoaiSP.Clear();
+            txtGia.Clear();
+            if (picSanPham.Image != null) picSanPham.Image = null;
 
+            numSoLuong.Value = 1;
+            numSoLuong.Visible = false;
+
+            btThemSP.Enabled = false;
+            btnXoaSP.Enabled = false;
+            button2.Enabled = false;
+        }
         private void dgvHoaDon_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -732,18 +819,6 @@ namespace GUI.GUI_UC
                 {
                     txtKhachHang.Text = f.TenKHChon;
                     txtKhachHang.Tag = f.MaKHChon;
-                }
-            }
-        }
-
-        private void btnChonNV_Click(object sender, EventArgs e)
-        {
-            using (var f = new FormchonNV())
-            {
-                if (f.ShowDialog() == DialogResult.OK)
-                {
-                    txtNhanVien.Text = f.TenNVChon;
-                    txtNhanVien.Tag = f.MaNVChon;
                 }
             }
         }
@@ -833,24 +908,37 @@ namespace GUI.GUI_UC
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (dgvGioHang.CurrentRow == null || dgvGioHang.CurrentRow.Index < 0) return;
-
-            int rowIndex = dgvGioHang.CurrentRow.Index;
-            if (rowIndex >= gioHang.Count) return;
+            if (dgvGioHang.CurrentRow == null) return;
+            int index = dgvGioHang.CurrentRow.Index;
+            var item = gioHang[index];
+            var sp = danhSachSP.FirstOrDefault(s => s.MaSP == item.MaSP);
 
             int soLuongMoi = (int)numSoLuong.Value;
-            if (soLuongMoi <= 0)
+            int soLuongCu = item.SoLuong;
+            int chenhLech = soLuongMoi - soLuongCu; // Nếu tăng thì dương, giảm thì âm
+
+            // 1. Nếu tăng số lượng -> Check xem kho còn đủ phần chênh lệch không
+            if (chenhLech > 0 && chenhLech > sp.SoLuongToiDa)
             {
-                MessageBox.Show("Số lượng phải lớn hơn 0!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show($"Kho chỉ còn thêm được {sp.SoLuongToiDa} ly thôi!", "Thiếu hàng");
                 return;
             }
 
-            var item = gioHang[rowIndex];
+            // 2. Cập nhật giỏ hàng
             item.SoLuong = soLuongMoi;
             item.ThanhTien = item.SoLuong * item.DonGia;
 
+            // 3. Cập nhật hiển thị kho
+            // Nếu chênh lệch dương (mua thêm) -> Kho giảm (trừ số dương)
+            // Nếu chênh lệch âm (mua ít đi) -> Kho tăng (trừ số âm thành cộng)
+            sp.SoLuongToiDa -= chenhLech;
+
+            dgvSanPham.Refresh();
             CapNhatGioHang();
-            dgvGioHang.ClearSelection();
+            ResetInput();
+            btThemSP.Enabled = false;
+            button2.Enabled = false;
+            btnXoaSP.Enabled = false;
         }
 
         private void dgvGioHang_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)

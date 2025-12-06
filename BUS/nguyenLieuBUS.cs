@@ -266,5 +266,10 @@ namespace BUS
             }
             return dskq;
         }
+
+        public nguyenLieuDTO LayNguyenLieuTheoID(int maNL)
+        {
+            return data.LayNguyenLieuTheoID(maNL);
+        }
     }
 }

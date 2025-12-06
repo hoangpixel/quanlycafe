@@ -72,7 +72,7 @@ namespace GUI.GUI_CRUD
             MessageBoxButtons.YesNo,
             MessageBoxIcon.Question);
 
-            float soLuongMoi = (float)txtSoLuong.Value;
+            decimal soLuongMoi = txtSoLuong.Value;
 
             if (confirm == DialogResult.Yes)
             {

@@ -108,7 +108,7 @@ namespace BUS
                         data.Them(ctMoi);
                         soThem++;
                     }
-                    else if (Math.Abs(ctCu.SoLuongCoSo - ctMoi.SoLuongCoSo) > 0.0001f ||
+                    else if (Math.Abs(ctCu.SoLuongCoSo - ctMoi.SoLuongCoSo) > 0.0001m ||
                              ctCu.MaDonViCoSo != ctMoi.MaDonViCoSo)
                     {
                         data.Sua(ctMoi);
@@ -195,7 +195,7 @@ namespace BUS
                         }
                     case 5:
                         {
-                            float soLuong = float.Parse(tim);
+                            decimal soLuong = decimal.Parse(tim);
                             if(ct.SoLuongCoSo <= soLuong)
                             {
                                 dskq.Add(ct);
@@ -204,7 +204,7 @@ namespace BUS
                         }
                     case 6:
                         {
-                            float soLuong = float.Parse(tim);
+                            decimal soLuong = decimal.Parse(tim);
                             if(ct.SoLuongCoSo >= soLuong)
                             {
                                 dskq.Add(ct);
@@ -216,7 +216,7 @@ namespace BUS
             return dskq;
         }
 
-        public BindingList<congThucDTO> timKiemNangCao(string tenSP,string tenNL,string tenDV,float soLuongMin,float soLuongMax)
+        public BindingList<congThucDTO> timKiemNangCao(string tenSP,string tenNL,string tenDV, decimal soLuongMin, decimal soLuongMax)
         {
             BindingList<congThucDTO> dskq = new BindingList<congThucDTO>();
             BindingList<sanPhamDTO> dsSP = new sanPhamBUS().LayDanhSach();

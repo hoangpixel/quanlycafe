@@ -460,18 +460,18 @@ namespace GUI.GUI_UC
                 tenDV = null;
             }
 
-            float slMin = -1;
+            decimal slMin = -1;
             string strMin = txtSoLuongMin.Text.Trim();
             if (!string.IsNullOrWhiteSpace(strMin) && strMin != "SL min")
             {
-                float.TryParse(strMin, out slMin);
+                decimal.TryParse(strMin, out slMin);
             }
 
-            float slMax = -1;
+            decimal slMax = -1;
             string strMax = txtSoLuongMax.Text.Trim();
             if (!string.IsNullOrWhiteSpace(strMax) && strMax != "SL max")
             {
-                float.TryParse(strMax, out slMax);
+                decimal.TryParse(strMax, out slMax);
             }
 
             if(slMin != -1 && slMax != -1 && slMin > slMax)

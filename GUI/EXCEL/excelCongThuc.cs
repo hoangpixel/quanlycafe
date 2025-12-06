@@ -84,7 +84,7 @@ namespace GUI.EXCEL
                         {
                             MaSanPham = int.TryParse(ws.Cells[row, 1].Text, out int sp) ? sp : 0,
                             MaNguyenLieu = int.TryParse(ws.Cells[row, 2].Text, out int nl) ? nl : 0,
-                            SoLuongCoSo = float.TryParse(ws.Cells[row, 3].Text, out float sl) ? sl : 0,
+                            SoLuongCoSo = decimal.TryParse(ws.Cells[row, 3].Text, out decimal sl) ? sl : 0,
                             TrangThai = 1 // ✅ luôn bật trạng thái khi nhập
                         };
                         list.Add(ct);

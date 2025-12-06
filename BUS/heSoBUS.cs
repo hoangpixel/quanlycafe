@@ -79,5 +79,11 @@ namespace BUS
             }
             return false;
         }
+
+        public decimal LayHeSo(int maNL,int maDV)
+        {
+            heSoDAO data = new heSoDAO();
+            return data.LayHeSo(maNL, maDV);
+        }
     }
 }

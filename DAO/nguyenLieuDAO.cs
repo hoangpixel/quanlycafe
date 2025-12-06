@@ -164,7 +164,41 @@ namespace DAO
             }
         }
 
+            public nguyenLieuDTO LayNguyenLieuTheoID(int maNL)
+            {
+                nguyenLieuDTO nl = null;
+                string qry = "SELECT * FROM nguyenlieu WHERE MANGUYENLIEU = @maNL";
 
+                using (MySqlConnection conn = DBConnect.GetConnection())
+                {
+                    try
+                    {
+                        MySqlCommand cmd = new MySqlCommand(qry, conn);
+                        cmd.Parameters.AddWithValue("@maNL", maNL);
+
+                        MySqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            nl = new nguyenLieuDTO
+                            {
+                                MaNguyenLieu = reader.GetInt32("MANGUYENLIEU"),
+                                TenNguyenLieu = reader.GetString("TENNGUYENLIEU"),
+                                MaDonViCoSo = reader.GetInt32("MADONVICOSO"),
+                                TrangThai = reader.GetInt32("TRANGTHAI"),
+                                TonKho = reader.GetDecimal("TONKHO"),
+                                TrangThaiDV = reader.GetInt32("TRANGTHAIDV")
+                            };
+                        }
+                        reader.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Lỗi lấy nguyên liệu theo ID: " + ex.Message);
+                    }
+                }
+                return nl;
+            }
+        
 
         public nguyenLieuDTO TimTheoMa(int ma)
         {
@@ -190,6 +224,8 @@ namespace DAO
             }
             return nl;
         }
+
+
 
         public bool TruTonKhoKhiBanHang(Dictionary<int, int> gioHang)
         {
