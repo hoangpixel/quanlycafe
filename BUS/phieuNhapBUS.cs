@@ -2,8 +2,9 @@
 using DTO;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel; // Cần cho BindingList
-using System.Linq;           // Cần cho FirstOrDefault
+using System.ComponentModel;
+using System.Linq;
+using System.Security.Cryptography;
 
 namespace BUS
 {
@@ -11,11 +12,8 @@ namespace BUS
     {
         private phieuNhapDAO pnDAO = new phieuNhapDAO();
         private ctPhieuNhapDAO ctDAO = new ctPhieuNhapDAO();
-
-        // Danh sách lưu cache để binding lên DataGridView
         public static BindingList<phieuNhapDTO> ds;
 
-        // 1. LẤY DANH SÁCH
         public BindingList<phieuNhapDTO> LayDanhSach()
         {
             if (ds == null)
@@ -25,55 +23,38 @@ namespace BUS
             return ds;
         }
 
-        // 2. THÊM PHIẾU NHẬP (Chỉ lưu nháp, TrangThai = 0, Chưa cộng kho)
         public int ThemPhieuNhap(phieuNhapDTO header, List<ctPhieuNhapDTO> details)
         {
             if (header.MaNCC <= 0) throw new Exception("Vui lòng chọn Nhà cung cấp.");
             if (details == null || details.Count == 0) throw new Exception("Danh sách hàng nhập đang trống.");
 
-            // Gọi DAO (Transaction đã xử lý bên trong)
             int newPhieuID = pnDAO.ThemPhieuNhap(header, details);
-
-            // Nếu thêm thành công -> Cập nhật cache UI
             if (newPhieuID > 0)
             {
                 header.MaPN = newPhieuID;
-
-                // Tính tổng tiền để hiện lên lưới
                 header.TongTien = details.Sum(x => x.ThanhTien);
-
-                // Set trạng thái mặc định là 0
                 header.TrangThai = 0;
-
-                // Thêm vào danh sách -> UI tự cập nhật
                 LayDanhSach().Add(header);
             }
 
             return newPhieuID;
         }
 
-        // 3. DUYỆT PHIẾU (Mới thêm - Quan trọng)
         public bool DuyetPhieuNhap(int maPN)
         {
-            // Gọi DAO để cộng kho và đổi trạng thái DB
             bool result = pnDAO.DuyetPhieuNhap(maPN);
-
             if (result)
             {
-                // Tìm phiếu trong cache để đổi trạng thái hiển thị
                 var phieu = LayDanhSach().FirstOrDefault(x => x.MaPN == maPN);
                 if (phieu != null)
                 {
-                    phieu.TrangThai = 1; // Đổi sang đã duyệt
-
-                    // Báo hiệu cho DataGridView vẽ lại dòng này (để đổi màu chữ/nền)
+                    phieu.TrangThai = 1;
                     ds.ResetItem(ds.IndexOf(phieu));
                 }
             }
             return result;
         }
 
-        // 5. CẬP NHẬT THÔNG TIN CƠ BẢN (NCC, NV)
         public bool CapNhatThongTinPhieu(int maPN, int maNCC, int maNhanVien)
         {
             bool result = pnDAO.CapNhatThongTin(maPN, maNCC, maNhanVien);
@@ -84,7 +65,7 @@ namespace BUS
                 if (phieuCanSua != null)
                 {
                     phieuCanSua.MaNCC = maNCC;
-                    phieuCanSua.MaNhanVien = maNhanVien; // Lưu ý: Property DTO là MaNhanVien hay MANHANVIEN thì sửa cho khớp
+                    phieuCanSua.MaNhanVien = maNhanVien;
 
                     ds.ResetItem(ds.IndexOf(phieuCanSua));
                 }
@@ -92,13 +73,11 @@ namespace BUS
             return result;
         }
 
-        // 6. THÊM CHI TIẾT VÀO PHIẾU CŨ (Chỉ dùng cho phiếu chưa duyệt)
         public bool ThemChiTietVaoPhieuCu(int mapn, List<ctPhieuNhapDTO> details)
         {
             if (mapn <= 0) throw new Exception("Mã phiếu nhập không hợp lệ.");
             if (details == null || details.Count == 0) throw new Exception("Chưa chọn nguyên liệu để thêm.");
 
-            // Kiểm tra trạng thái trên cache trước
             var phieuHeader = LayDanhSach().FirstOrDefault(x => x.MaPN == mapn);
             if (phieuHeader != null && phieuHeader.TrangThai == 1)
             {
@@ -111,10 +90,9 @@ namespace BUS
             {
                 if (phieuHeader != null)
                 {
-                    // Cập nhật lại tổng tiền trên giao diện
                     decimal tienMoiThem = details.Sum(x => x.ThanhTien);
                     phieuHeader.TongTien += tienMoiThem;
-                    phieuHeader.ThoiGian = DateTime.Now; // DAO có update thời gian, nên BUS cũng update theo
+                    phieuHeader.ThoiGian = DateTime.Now;
 
                     ds.ResetItem(ds.IndexOf(phieuHeader));
                 }
@@ -123,30 +101,17 @@ namespace BUS
             return result;
         }
 
-        // --- CÁC HÀM PHỤ TRỢ ---
-
-        // Trong class phieuNhapBUS
         public bool CapNhatPhieuNhap(phieuNhapDTO header, List<ctPhieuNhapDTO> details)
         {
-            // Kiểm tra logic
             if (header.MaPN <= 0) throw new Exception("Mã phiếu không hợp lệ");
             if (details == null || details.Count == 0) throw new Exception("Danh sách chi tiết trống");
-
-            // Kiểm tra trạng thái: CHỈ CHO SỬA KHI CHƯA DUYỆT (TrangThai = 0)
-            // Nếu phiếu đã nhập kho rồi mà sửa số lượng thì kho sẽ bị lệch -> Rất nguy hiểm
             var phieuCu = LayDanhSach().FirstOrDefault(x => x.MaPN == header.MaPN);
             if (phieuCu != null && phieuCu.TrangThai == 1)
             {
                 throw new Exception("Phiếu này đã nhập kho, không thể chỉnh sửa!");
             }
-
-            // Tính lại tổng tiền
             header.TongTien = details.Sum(x => x.ThanhTien);
-
-            // Gọi DAO
             bool result = pnDAO.CapNhatPhieuNhap(header, details);
-
-            // Cập nhật lại Cache (UI)
             if (result && phieuCu != null)
             {
                 phieuCu.MaNCC = header.MaNCC;
@@ -186,9 +151,6 @@ namespace BUS
             }
             return kq;
         }
-
-
-        // Thêm đoạn này vào trong class phieuNhapBUS
 
         public void NhapExcelGop(List<DTO.PhieuNhapExcelRow> rawData)
         {
@@ -296,6 +258,104 @@ namespace BUS
                 msg += "\n\n--- CÁC LỖI BỎ QUA ---\n" + string.Join("\n", errors);
             }
             System.Windows.Forms.MessageBox.Show(msg, "Kết quả nhập Excel");
+        }
+
+        public BindingList<phieuNhapDTO> timKiemCoBan(string tim, int index)
+        {
+            BindingList<phieuNhapDTO> dskq = new BindingList<phieuNhapDTO>();
+            BindingList<nhaCungCapDTO> dsNCC = new nhaCungCapBUS().LayDanhSach();
+            BindingList<nhanVienDTO> dsNV = new nhanVienBUS().LayDanhSach();
+
+            foreach(phieuNhapDTO pn in ds)
+            {
+                switch(index)
+                {
+                    case 0:
+                        {
+                            if(pn.MaPN.ToString().Contains(tim))
+                            {
+                                dskq.Add(pn);
+                            }
+                            break;
+                        }
+                    case 1:
+                        {
+                            nhaCungCapDTO ncc = dsNCC.FirstOrDefault(x => x.MaNCC == pn.MaNCC);
+                            string tenNCC = ncc?.TenNCC ?? "";
+                            if(tenNCC.ToLower().IndexOf(tim,StringComparison.OrdinalIgnoreCase) > 0)
+                            {
+                                dskq.Add(pn);
+                            }
+                            break;
+                        }
+                    case 2:
+                        {
+                            nhanVienDTO nv = dsNV.FirstOrDefault(x => x.MaNhanVien == pn.MaNhanVien);
+                            string tenNV = nv?.HoTen ?? "";
+                            if(tenNV.ToLower().IndexOf(tim,StringComparison.OrdinalIgnoreCase) > 0)
+                            {
+                                dskq.Add(pn);
+                            }
+                            break;
+                        }
+                    case 3:
+                        {
+                            if(tim.ToLower().Equals("chưa"))
+                            {
+                                if(pn.TrangThai == 0)
+                                {
+                                    dskq.Add(pn);
+                                }
+                            }else if(tim.ToLower().Equals("rồi"))
+                            {
+                                if(pn.TrangThai == 1)
+                                {
+                                    dskq.Add(pn);
+                                }
+                            }
+                            break;
+                        }
+                }
+            }
+            return dskq;
+        }
+
+        public BindingList<phieuNhapDTO> timKiemNangCao(int trangThaiPN,string tenNV,string tenNCC,DateTime timeBD,DateTime timeKT)
+        {
+            BindingList<phieuNhapDTO> dsTim = new BindingList<phieuNhapDTO>();
+            BindingList<nhanVienDTO> dsNV = new nhanVienBUS().LayDanhSach();
+            BindingList<nhaCungCapDTO> dsNCC = new nhaCungCapBUS().LayDanhSach();
+
+            foreach(phieuNhapDTO pn in ds)
+            {
+                nhanVienDTO nv = dsNV.FirstOrDefault(x => x.MaNhanVien == pn.MaNhanVien);
+                nhaCungCapDTO ncc = dsNCC.FirstOrDefault(x => x.MaNCC == pn.MaNCC);
+                string tenNVtim = nv?.HoTen.ToLower() ?? "";
+                string tenNCCtim = ncc?.TenNCC.ToLower() ?? "";
+
+                bool kq = true;
+                if(trangThaiPN != -1 && pn.TrangThai != trangThaiPN)
+                {
+                    kq = false;
+                }
+                if(!string.IsNullOrEmpty(tenNV) && tenNVtim.IndexOf(tenNV, StringComparison.OrdinalIgnoreCase) < 0)
+                {
+                    kq = false;
+                }
+                if (!string.IsNullOrEmpty(tenNCC) && tenNCCtim.IndexOf(tenNCC, StringComparison.OrdinalIgnoreCase) < 0)
+                {
+                    kq = false;
+                }
+                if (pn.ThoiGian.Date < timeBD.Date || pn.ThoiGian.Date > timeKT.Date)
+                {
+                    kq = false;
+                }
+                if (kq == true)
+                {
+                    dsTim.Add(pn);
+                }
+            }
+            return dsTim;
         }
     }
     }

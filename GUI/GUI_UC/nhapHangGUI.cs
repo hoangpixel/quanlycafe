@@ -43,6 +43,9 @@ namespace GUI.GUI_UC
 
             CheckQuyen();
             tuDongLoadTenNhanVien();
+            hienThiPlaceHolderPhieuNhap();
+            rdoTimCoBan.Checked = true;
+            SetupComboBoxData(cboLoaiTrangThai);
         }
 
 
@@ -547,6 +550,7 @@ namespace GUI.GUI_UC
             btnXoaPN.Enabled = false;
             btnChiTietPN.Enabled = false;
             btnInPDF.Enabled = false;
+            dgvPhieuNhap.ClearSelection();
         }
 
         private void dgvPhieuNhap_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -789,6 +793,233 @@ namespace GUI.GUI_UC
                     }
                 }
             }
+        }
+
+        private void SetupComboBoxData(ComboBox cbo)
+        {
+            // Tạo danh sách dữ liệu có Giá trị đi kèm
+            var items = new List<dynamic>
+    {
+        new { Text = "Rồi", Value = 1 },
+        new { Text = "Chưa", Value = 0 }
+    };
+
+            cbo.DisplayMember = "Text";
+            cbo.ValueMember = "Value";
+            cbo.DataSource = items;
+
+            cbo.SelectedIndex = -1;
+        }
+
+        private void resetInputTim()
+        {
+            cboTimKiemPN.SelectedIndex = -1;
+            txtTimKiemPN.Clear();
+            cboLoaiTrangThai.SelectedIndex = -1;
+            txtNccTim.Clear();
+            txtNhanVienTim.Clear();
+            timeBD.Value = DateTime.Now.AddMonths(-1);
+            timeKT.Value = DateTime.Now;
+            hienThiPlaceHolderPhieuNhap();
+        }
+
+        private void rdoTimCoBan_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rdoTimCoBan.Checked == true)
+            {
+                cboTimKiemPN.Enabled = true;
+                txtTimKiemPN.Enabled = true;
+
+                cboLoaiTrangThai.Enabled = false;
+                txtNccTim.Enabled = false;
+                txtNhanVienTim.Enabled = false;
+                timeBD.Enabled = false;
+                timeKT.Enabled = false;
+
+                rdoTimNangCao.Checked = false;
+                resetInputTim();
+            }
+            else
+            {
+                cboTimKiemPN.Enabled = false;
+                txtTimKiemPN.Enabled = false;
+
+                cboLoaiTrangThai.Enabled = true;
+                txtNccTim.Enabled = true;
+                txtNhanVienTim.Enabled = true;
+                timeBD.Enabled = true;
+                timeKT.Enabled = true;
+                rdoTimCoBan.Checked = false;
+                resetInputTim();
+
+            }
+        }
+
+        private void rdoTimNangCao_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rdoTimNangCao.Checked == true)
+            {
+                cboLoaiTrangThai.Enabled = true;
+                txtNccTim.Enabled = true;
+                txtNhanVienTim.Enabled = true;
+                timeBD.Enabled = true;
+                timeKT.Enabled = true;
+
+                cboTimKiemPN.Enabled = false;
+                txtTimKiemPN.Enabled = false;
+                rdoTimCoBan.Checked = false;
+                resetInputTim();
+            }
+            else
+            {
+                cboTimKiemPN.Enabled = true;
+                txtTimKiemPN.Enabled = true;
+
+                cboLoaiTrangThai.Enabled = false;
+                txtNccTim.Enabled = false;
+                txtNhanVienTim.Enabled = false;
+                timeBD.Enabled = false;
+                timeKT.Enabled = false;
+                rdoTimNangCao.Checked = false;
+                resetInputTim();
+
+            }
+        }
+
+        private void btnThucHienTimKiem_Click(object sender, EventArgs e)
+        {
+            if(rdoTimCoBan.Checked == true)
+            {
+                timKiemCoban();
+            }else
+            {
+                timKiemNangCao();
+            }
+        }
+
+        private void timKiemCoban()
+        {
+            if(cboTimKiemPN.SelectedIndex == -1)
+            {
+                MessageBox.Show("Vui lòng chọn giá trị cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cboTimKiemPN.Focus();
+                return;
+            }
+            if(string.IsNullOrWhiteSpace(txtTimKiemPN.Text))
+            {
+                MessageBox.Show("Vui lòng nhập giá trị cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtTimKiemPN.Focus();
+                return;
+            }
+            string tim = txtTimKiemPN.Text.ToLower().Trim();
+            int index = cboTimKiemPN.SelectedIndex;
+
+            BindingList<phieuNhapDTO> dsTim = busPhieuNhap.timKiemCoBan(tim, index);
+            if(dsTim != null && dsTim.Count > 0)
+            {
+                loadDanhSachPhieuNhap(dsTim);
+            }else
+            {
+                MessageBox.Show("Không tìm thấy giá trị", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+        }
+
+        private void timKiemNangCao()
+        {
+            string tenNCC = txtTenNCC.Text.Trim();
+            if(tenNCC == "Tên NCC")
+            {
+                tenNCC = null;
+            }
+            string tenNV = txtTenNV.Text.Trim();
+            if(tenNV == "Tên NV")
+            {
+                tenNV = null;
+            }
+            int trangThaiPN = -1;
+            if (cboLoaiTrangThai.SelectedIndex != -1 && cboLoaiTrangThai.SelectedValue != null)
+            {
+                if (int.TryParse(cboLoaiTrangThai.SelectedValue.ToString(), out int val))
+                {
+                    trangThaiPN = val;
+                }
+            }
+            DateTime ngayBD = timeBD.Value.Date;
+            DateTime ngayKT = timeKT.Value.Date;
+
+            BindingList<phieuNhapDTO> dsTim = busPhieuNhap.timKiemNangCao(trangThaiPN,tenNV,tenNCC, ngayBD, ngayKT);
+
+            if(dsTim != null && dsTim.Count > 0)
+            {
+                loadDanhSachPhieuNhap(dsTim);
+            }else
+            {
+                MessageBox.Show("Không tim thấy kết quả", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+        }
+
+        private void btnRefreshPN_Click(object sender, EventArgs e)
+        {
+            BindingList<phieuNhapDTO> ds = busPhieuNhap.LayDanhSach();
+            loadDanhSachPhieuNhap(ds);
+            resetInputTim();
+        }
+
+        private void SetPlaceholder(TextBox txt, string placeholder)
+        {
+            txt.ForeColor = Color.Gray;
+            txt.Text = placeholder;
+            txt.GotFocus += (s, e) =>
+            {
+                if (txt.Text == placeholder)
+                {
+                    txt.Text = "";
+                    txt.ForeColor = Color.Black;
+                }
+            };
+            txt.LostFocus += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(txt.Text))
+                {
+                    txt.ForeColor = Color.Gray;
+                    txt.Text = placeholder;
+                }
+            };
+        }
+
+        private void SetComboBoxPlaceholder(ComboBox cbo, string placeholder)
+        {
+
+            cbo.ForeColor = Color.Gray;
+            cbo.Text = placeholder;
+
+            cbo.GotFocus += (s, e) =>
+            {
+                if (cbo.Text == placeholder)
+                {
+                    cbo.Text = "";
+                    cbo.ForeColor = Color.Black;
+                }
+            };
+            cbo.LostFocus += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(cbo.Text))
+                {
+                    cbo.Text = placeholder;
+                    cbo.ForeColor = Color.Gray;
+                }
+            };
+        }
+
+        private void hienThiPlaceHolderPhieuNhap()
+        {
+            SetPlaceholder(txtNccTim, "Tên NCC");
+            SetPlaceholder(txtNhanVienTim, "Tên NV");
+            SetPlaceholder(txtTimKiemPN, "Nhập giá trị cần tìm");
+            SetComboBoxPlaceholder(cboLoaiTrangThai, "Trạng thái CT");
+            SetComboBoxPlaceholder(cboTimKiemPN, "Chọn giá trị TK");
         }
     }
 }
