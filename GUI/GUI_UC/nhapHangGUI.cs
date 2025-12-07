@@ -45,7 +45,7 @@ namespace GUI.GUI_UC
             tuDongLoadTenNhanVien();
             hienThiPlaceHolderPhieuNhap();
             rdoTimCoBan.Checked = true;
-            SetupComboBoxData(cboLoaiTrangThai);
+
         }
 
 
@@ -84,6 +84,9 @@ namespace GUI.GUI_UC
                 btnSuaCTPN.Enabled = false;
                 btnXoaCTPN.Enabled = false;
                 btnChonDV.Enabled = false;
+                btnXoaPN.Enabled = false;
+                btnChotSo.Enabled = false;
+                btnChiTietPN.Enabled = false;
             }
             else
             {
@@ -225,7 +228,7 @@ namespace GUI.GUI_UC
 
             dgvChiTietPN.DataSource = ds;
             dgvChiTietPN.ReadOnly = true;
-            dgvNguyenLieu.ClearSelection();
+            dgvChiTietPN.ClearSelection();
             loadFontVaChu(dgvChiTietPN);
         }
         private void btThemCTPN_Click(object sender, EventArgs e)
@@ -522,6 +525,7 @@ namespace GUI.GUI_UC
                 {
                     MessageBox.Show($"Lưu phiếu thành công! Mã phiếu: {ketQuaId}\n(Trạng thái: Chưa duyệt)", "Thông báo");
                     LamMoiForm();
+                    tabControl1.SelectedTab = tabCTPN;
                 }
             }
             catch (Exception ex)
@@ -795,22 +799,6 @@ namespace GUI.GUI_UC
             }
         }
 
-        private void SetupComboBoxData(ComboBox cbo)
-        {
-            // Tạo danh sách dữ liệu có Giá trị đi kèm
-            var items = new List<dynamic>
-    {
-        new { Text = "Rồi", Value = 1 },
-        new { Text = "Chưa", Value = 0 }
-    };
-
-            cbo.DisplayMember = "Text";
-            cbo.ValueMember = "Value";
-            cbo.DataSource = items;
-
-            cbo.SelectedIndex = -1;
-        }
-
         private void resetInputTim()
         {
             cboTimKiemPN.SelectedIndex = -1;
@@ -927,36 +915,28 @@ namespace GUI.GUI_UC
 
         private void timKiemNangCao()
         {
-            string tenNCC = txtTenNCC.Text.Trim();
-            if(tenNCC == "Tên NCC")
-            {
-                tenNCC = null;
-            }
-            string tenNV = txtTenNV.Text.Trim();
-            if(tenNV == "Tên NV")
-            {
-                tenNV = null;
-            }
+            string tenNCC = txtNccTim.Text.Trim();
+            if (tenNCC == "Tên NCC") tenNCC = "";
+
+            string tenNV = txtNhanVienTim.Text.Trim();
+            if (tenNV == "Tên NV") tenNV = "";
+
             int trangThaiPN = -1;
-            if (cboLoaiTrangThai.SelectedIndex != -1 && cboLoaiTrangThai.SelectedValue != null)
+            if (cboLoaiTrangThai.SelectedIndex >= 0 && cboLoaiTrangThai.SelectedValue is int val)
             {
-                if (int.TryParse(cboLoaiTrangThai.SelectedValue.ToString(), out int val))
-                {
-                    trangThaiPN = val;
-                }
+                trangThaiPN = val;
             }
+
             DateTime ngayBD = timeBD.Value.Date;
-            DateTime ngayKT = timeKT.Value.Date;
+            DateTime ngayKT = timeKT.Value.Date.AddDays(1).AddSeconds(-1);
 
-            BindingList<phieuNhapDTO> dsTim = busPhieuNhap.timKiemNangCao(trangThaiPN,tenNV,tenNCC, ngayBD, ngayKT);
+            BindingList<phieuNhapDTO> dsTim = busPhieuNhap.timKiemNangCao(trangThaiPN, tenNV, tenNCC, ngayBD, ngayKT);
 
-            if(dsTim != null && dsTim.Count > 0)
+            loadDanhSachPhieuNhap(dsTim);
+
+            if (dsTim == null || dsTim.Count == 0)
             {
-                loadDanhSachPhieuNhap(dsTim);
-            }else
-            {
-                MessageBox.Show("Không tim thấy kết quả", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                MessageBox.Show("Không tìm thấy kết quả", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -1013,11 +993,30 @@ namespace GUI.GUI_UC
             };
         }
 
+        private void SetupComboBoxData(ComboBox cbo)
+        {
+            var items = new List<dynamic>
+    {
+        new { Text = "Tất cả", Value = -1 },
+        new { Text = "Chưa", Value = 0 },
+        new { Text = "Rồi", Value = 1 }
+
+    };
+
+            cbo.DisplayMember = "Text";
+            cbo.ValueMember = "Value";
+            cbo.DataSource = items;
+
+            cbo.SelectedIndex = -1;
+        }
+
         private void hienThiPlaceHolderPhieuNhap()
         {
             SetPlaceholder(txtNccTim, "Tên NCC");
             SetPlaceholder(txtNhanVienTim, "Tên NV");
             SetPlaceholder(txtTimKiemPN, "Nhập giá trị cần tìm");
+            SetupComboBoxData(cboLoaiTrangThai);
+
             SetComboBoxPlaceholder(cboLoaiTrangThai, "Trạng thái CT");
             SetComboBoxPlaceholder(cboTimKiemPN, "Chọn giá trị TK");
         }

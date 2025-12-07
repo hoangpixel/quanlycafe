@@ -37,7 +37,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabBanHang = new System.Windows.Forms.TabPage();
+            this.tabPN = new System.Windows.Forms.TabPage();
             this.panel6 = new System.Windows.Forms.Panel();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.txtTenNV = new System.Windows.Forms.TextBox();
@@ -70,7 +70,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dgvNguyenLieu = new System.Windows.Forms.DataGridView();
-            this.tabHoaDon = new System.Windows.Forms.TabPage();
+            this.tabCTPN = new System.Windows.Forms.TabPage();
             this.panelTable = new System.Windows.Forms.Panel();
             this.dgvPhieuNhap = new System.Windows.Forms.DataGridView();
             this.chucNangPanel = new System.Windows.Forms.Panel();
@@ -101,7 +101,7 @@
             this.btnRefreshPN = new System.Windows.Forms.Button();
             this.btnChiTietPN = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
-            this.tabBanHang.SuspendLayout();
+            this.tabPN.SuspendLayout();
             this.panel6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -112,7 +112,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numSoLuong)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvNguyenLieu)).BeginInit();
-            this.tabHoaDon.SuspendLayout();
+            this.tabCTPN.SuspendLayout();
             this.panelTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPhieuNhap)).BeginInit();
             this.chucNangPanel.SuspendLayout();
@@ -145,8 +145,8 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabBanHang);
-            this.tabControl1.Controls.Add(this.tabHoaDon);
+            this.tabControl1.Controls.Add(this.tabPN);
+            this.tabControl1.Controls.Add(this.tabCTPN);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabControl1.Location = new System.Drawing.Point(0, 60);
@@ -155,17 +155,17 @@
             this.tabControl1.Size = new System.Drawing.Size(1700, 880);
             this.tabControl1.TabIndex = 3;
             // 
-            // tabBanHang
+            // tabPN
             // 
-            this.tabBanHang.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.tabBanHang.Controls.Add(this.panel6);
-            this.tabBanHang.Location = new System.Drawing.Point(4, 27);
-            this.tabBanHang.Name = "tabBanHang";
-            this.tabBanHang.Padding = new System.Windows.Forms.Padding(3);
-            this.tabBanHang.Size = new System.Drawing.Size(1692, 849);
-            this.tabBanHang.TabIndex = 0;
-            this.tabBanHang.Text = "Nhập hàng";
-            this.tabBanHang.UseVisualStyleBackColor = true;
+            this.tabPN.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.tabPN.Controls.Add(this.panel6);
+            this.tabPN.Location = new System.Drawing.Point(4, 27);
+            this.tabPN.Name = "tabPN";
+            this.tabPN.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPN.Size = new System.Drawing.Size(1692, 849);
+            this.tabPN.TabIndex = 0;
+            this.tabPN.Text = "Nhập hàng";
+            this.tabPN.UseVisualStyleBackColor = true;
             // 
             // panel6
             // 
@@ -293,7 +293,7 @@
             "Mã nguyên liệu",
             "Tên nguyên liệu",
             "Tên đơn vị"});
-            this.cboTimKiemNL.Location = new System.Drawing.Point(10, 8);
+            this.cboTimKiemNL.Location = new System.Drawing.Point(10, 10);
             this.cboTimKiemNL.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemNL.Name = "cboTimKiemNL";
             this.cboTimKiemNL.Size = new System.Drawing.Size(176, 28);
@@ -595,18 +595,18 @@
             this.dgvNguyenLieu.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvNguyenLieu_CellFormatting);
             this.dgvNguyenLieu.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvNguyenLieu_DataBindingComplete);
             // 
-            // tabHoaDon
+            // tabCTPN
             // 
-            this.tabHoaDon.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.tabHoaDon.Controls.Add(this.panelTable);
-            this.tabHoaDon.Controls.Add(this.chucNangPanel);
-            this.tabHoaDon.Location = new System.Drawing.Point(4, 27);
-            this.tabHoaDon.Name = "tabHoaDon";
-            this.tabHoaDon.Padding = new System.Windows.Forms.Padding(3);
-            this.tabHoaDon.Size = new System.Drawing.Size(1692, 849);
-            this.tabHoaDon.TabIndex = 1;
-            this.tabHoaDon.Text = "Chi tiết nhập hàng";
-            this.tabHoaDon.UseVisualStyleBackColor = true;
+            this.tabCTPN.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.tabCTPN.Controls.Add(this.panelTable);
+            this.tabCTPN.Controls.Add(this.chucNangPanel);
+            this.tabCTPN.Location = new System.Drawing.Point(4, 27);
+            this.tabCTPN.Name = "tabCTPN";
+            this.tabCTPN.Padding = new System.Windows.Forms.Padding(3);
+            this.tabCTPN.Size = new System.Drawing.Size(1692, 849);
+            this.tabCTPN.TabIndex = 1;
+            this.tabCTPN.Text = "Chi tiết nhập hàng";
+            this.tabCTPN.UseVisualStyleBackColor = true;
             // 
             // panelTable
             // 
@@ -1060,7 +1060,7 @@
             this.Size = new System.Drawing.Size(1700, 1000);
             this.Load += new System.EventHandler(this.nhapHangrielGUI_Load);
             this.tabControl1.ResumeLayout(false);
-            this.tabBanHang.ResumeLayout(false);
+            this.tabPN.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
@@ -1074,7 +1074,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numSoLuong)).EndInit();
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvNguyenLieu)).EndInit();
-            this.tabHoaDon.ResumeLayout(false);
+            this.tabCTPN.ResumeLayout(false);
             this.panelTable.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPhieuNhap)).EndInit();
             this.chucNangPanel.ResumeLayout(false);
@@ -1098,7 +1098,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabBanHang;
+        private System.Windows.Forms.TabPage tabPN;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
@@ -1119,7 +1119,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView dgvNguyenLieu;
-        private System.Windows.Forms.TabPage tabHoaDon;
+        private System.Windows.Forms.TabPage tabCTPN;
         private System.Windows.Forms.Panel panelTable;
         private System.Windows.Forms.DataGridView dgvPhieuNhap;
         private System.Windows.Forms.Panel chucNangPanel;

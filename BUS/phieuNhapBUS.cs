@@ -34,7 +34,9 @@ namespace BUS
                 header.MaPN = newPhieuID;
                 header.TongTien = details.Sum(x => x.ThanhTien);
                 header.TrangThai = 0;
-                LayDanhSach().Add(header);
+                var ds = LayDanhSach();
+                ds.Insert(0, header);
+
             }
 
             return newPhieuID;
