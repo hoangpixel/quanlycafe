@@ -99,6 +99,166 @@ namespace BUS
         {
             return dao.LayChiTietHoaDon(maHD);
         }
+        public BindingList<cthoaDonDTO> LayTatCaChiTiet()
+        {
+            return dao.LayTatCaChiTiet();
+        }
+        public DateTime LayThoiGianTaoCuaBan(int maBan)
+        {
+            return dao.LayThoiGianTaoCuaBan(maBan);
+        }
 
+        public bool capNhatThongTinHoaDon(hoaDonDTO hd)
+        {
+            bool kq = dao.capNhatThongTinHoaDon(hd);
+            if (kq)
+            {
+                hoaDonDTO tontai = ds.FirstOrDefault(x => x.MaHD == hd.MaHD);
+                if (tontai != null)
+                {
+                    tontai.MaBan = hd.MaBan;
+                    tontai.MaTT = hd.MaTT;
+                    tontai.MaKhachHang = hd.MaKhachHang;
+                    tontai.MaNhanVien = hd.MaNhanVien;
+                }
+            }
+            return kq;
+        }
+
+        public bool KiemTraBanCoHoaDonMo(int maBan, int maHDDangSua)
+        {
+            return dao.KiemTraBanCoHoaDonMo(maBan, maHDDangSua);
+        }
+
+        public BindingList<hoaDonDTO> timKiemCoBan(string tim, int index)
+        {
+            BindingList<hoaDonDTO> dskq = new BindingList<hoaDonDTO>();
+            if (ds == null)
+            {
+                LayDanhSach();
+            }
+            BindingList<banDTO> dsSp = new banBUS().LayDanhSach();
+            BindingList<khachHangDTO> dsNl = new khachHangBUS().LayDanhSach();
+            BindingList<nhanVienDTO> dsDV = new nhanVienBUS().LayDanhSach();
+            foreach (hoaDonDTO ct in ds)
+            {
+                switch (index)
+                {
+                    case 0:
+                        {
+                            if (ct.MaHD.ToString().Contains(tim))
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 1:
+                        {
+                            banDTO sp = dsSp.FirstOrDefault(x => x.MaBan == ct.MaBan);
+                            string tenBan = sp != null ? sp.TenBan : "";
+                            if (tenBan.IndexOf(tim, StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 2:
+                        {
+                            if (ct.MaKhachHang.ToString().Contains(tim))
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 3:
+                        {
+                            khachHangDTO nl = dsNl.FirstOrDefault(x => x.MaKhachHang == ct.MaKhachHang);
+                            string tenNL = nl != null ? nl.TenKhachHang : "";
+                            if (tenNL.IndexOf(tim, StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 4:
+                        {
+                            nhanVienDTO dv = dsDV.FirstOrDefault(x => x.MaNhanVien == ct.MaNhanVien);
+                            string tendv = dv != null ? dv.HoTen : "";
+                            if (tendv.IndexOf(tim, StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 5:
+                        {
+                            decimal soLuong = decimal.Parse(tim);
+                            if (ct.TongTien <= soLuong)
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                    case 6:
+                        {
+                            decimal soLuong = decimal.Parse(tim);
+                            if (ct.TongTien >= soLuong)
+                            {
+                                dskq.Add(ct);
+                            }
+                            break;
+                        }
+                }
+            }
+            return dskq;
+        }
+
+        public BindingList<hoaDonDTO> timKiemNangCao(string tenBan, string tenKH, string tenNV, decimal slMin, decimal slMax)
+        {
+            BindingList<hoaDonDTO> dskq = new BindingList<hoaDonDTO>();
+            BindingList<banDTO> dsSP = new banBUS().LayDanhSach();
+            BindingList<khachHangDTO> dsNL = new khachHangBUS().LayDanhSach();
+            BindingList<nhanVienDTO> dsDV = new nhanVienBUS().LayDanhSach();
+
+            foreach (hoaDonDTO ct in ds)
+            {
+                bool dk = true;
+
+                banDTO sp = dsSP.FirstOrDefault(x => x.MaBan == ct.MaBan);
+                khachHangDTO nl = dsNL.FirstOrDefault(x => x.MaKhachHang == ct.MaKhachHang);
+                nhanVienDTO dv = dsDV.FirstOrDefault(x => x.MaNhanVien == ct.MaNhanVien);
+
+                string tenBangoc = sp?.TenBan ?? "";
+                string tenKHgoc = nl?.TenKhachHang ?? "";
+                string tenNVgoc = dv?.HoTen ?? "";
+
+                if (!string.IsNullOrEmpty(tenBan) && tenBangoc.IndexOf(tenBan, StringComparison.OrdinalIgnoreCase) < 0)
+                {
+                    dk = false;
+                }
+                if (!string.IsNullOrEmpty(tenKH) && tenKHgoc.IndexOf(tenKH, StringComparison.OrdinalIgnoreCase) < 0)
+                {
+                    dk = false;
+                }
+                if (!string.IsNullOrEmpty(tenNV) && tenNVgoc.IndexOf(tenNV, StringComparison.OrdinalIgnoreCase) < 0)
+                {
+                    dk = false;
+                }
+                if (slMin != -1 && ct.TongTien < slMin)
+                {
+                    dk = false;
+                }
+                if (slMax != -1 && ct.TongTien > slMax)
+                {
+                    dk = false;
+                }
+                if (dk)
+                {
+                    dskq.Add(ct);
+                }
+            }
+            return dskq;
+        }
+      
     }
 }

@@ -88,10 +88,12 @@
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.layoutTimKiemNangCao = new System.Windows.Forms.TableLayoutPanel();
-            this.txtGiaMax = new System.Windows.Forms.TextBox();
+            this.txtNV = new System.Windows.Forms.TextBox();
             this.txtGiaMin = new System.Windows.Forms.TextBox();
             this.txtTenBan = new System.Windows.Forms.TextBox();
             this.rdoTimNangCao = new System.Windows.Forms.RadioButton();
+            this.txtGiaMax = new System.Windows.Forms.TextBox();
+            this.txtKH = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.layoutTimKiemCoban = new System.Windows.Forms.TableLayoutPanel();
             this.cboTimKiemHD = new System.Windows.Forms.ComboBox();
@@ -113,8 +115,6 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.button10 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
-            this.txtKH = new System.Windows.Forms.TextBox();
-            this.txtNV = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -856,13 +856,13 @@
             this.layoutTimKiemNangCao.Size = new System.Drawing.Size(690, 55);
             this.layoutTimKiemNangCao.TabIndex = 0;
             // 
-            // txtGiaMax
+            // txtNV
             // 
-            this.txtGiaMax.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtGiaMax.Location = new System.Drawing.Point(535, 14);
-            this.txtGiaMax.Name = "txtGiaMax";
-            this.txtGiaMax.Size = new System.Drawing.Size(109, 27);
-            this.txtGiaMax.TabIndex = 3;
+            this.txtNV.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtNV.Location = new System.Drawing.Point(142, 14);
+            this.txtNV.Name = "txtNV";
+            this.txtNV.Size = new System.Drawing.Size(109, 27);
+            this.txtNV.TabIndex = 6;
             // 
             // txtGiaMin
             // 
@@ -892,6 +892,22 @@
             this.rdoTimNangCao.TabStop = true;
             this.rdoTimNangCao.UseVisualStyleBackColor = true;
             this.rdoTimNangCao.CheckedChanged += new System.EventHandler(this.rdoTimNangCao_CheckedChanged);
+            // 
+            // txtGiaMax
+            // 
+            this.txtGiaMax.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtGiaMax.Location = new System.Drawing.Point(535, 14);
+            this.txtGiaMax.Name = "txtGiaMax";
+            this.txtGiaMax.Size = new System.Drawing.Size(109, 27);
+            this.txtGiaMax.TabIndex = 3;
+            // 
+            // txtKH
+            // 
+            this.txtKH.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtKH.Location = new System.Drawing.Point(11, 14);
+            this.txtKH.Name = "txtKH";
+            this.txtKH.Size = new System.Drawing.Size(109, 27);
+            this.txtKH.TabIndex = 5;
             // 
             // groupBox4
             // 
@@ -1164,22 +1180,6 @@
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(75, 23);
             this.button9.TabIndex = 0;
-            // 
-            // txtKH
-            // 
-            this.txtKH.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtKH.Location = new System.Drawing.Point(11, 14);
-            this.txtKH.Name = "txtKH";
-            this.txtKH.Size = new System.Drawing.Size(109, 27);
-            this.txtKH.TabIndex = 5;
-            // 
-            // txtNV
-            // 
-            this.txtNV.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtNV.Location = new System.Drawing.Point(142, 14);
-            this.txtNV.Name = "txtNV";
-            this.txtNV.Size = new System.Drawing.Size(109, 27);
-            this.txtNV.TabIndex = 6;
             // 
             // banHangGUI
             // 
