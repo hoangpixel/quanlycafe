@@ -26,9 +26,16 @@ namespace GUI.GUI_UC
             setMacDinhDoanhThu();
             setMacDinhChiTieu();
             setMacDinhLuong();
+            resetFontHienThi(this);
 
             // đặt focus khi load
-            this.Load += (s, e) => this.BeginInvoke((MethodInvoker)delegate { if (btnThongKeDT != null) btnThongKeDT.Focus(); });
+            this.Load += (s, e) =>
+            {
+                this.BeginInvoke((MethodInvoker)delegate
+                {
+                    btnThongKeDT.PerformClick();
+                });
+            };
 
             // Focus đúng khi đổi tab
             if (tabControl1 != null) tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
@@ -36,11 +43,53 @@ namespace GUI.GUI_UC
             // Gán event handlers (nếu chưa gán trong designer)
             if (cboLoaiTKDT != null) cboLoaiTKDT.SelectedIndexChanged += cboLoaiTKDT_SelectedIndexChanged;
             if (btnThongKeDT != null) btnThongKeDT.Click += btnThongKeDT_Click;
-
-            if (cboLoaiTKCT != null) cboLoaiTKCT.SelectedIndexChanged += cboLoaiTKCT_SelectedIndexChanged;
-
-            if (cboLoaiTKNV != null) cboLoaiTKNV.SelectedIndexChanged += cboLoaiTKNV_SelectedIndexChanged;
         }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1 == null) return;
+
+            // Dùng BeginInvoke để mượt mà hơn
+            BeginInvoke((MethodInvoker)delegate
+            {
+                if (tabControl1.SelectedTab == tabPage1)
+                {
+                    // Tab Doanh thu -> Bấm nút Doanh thu
+                    btnThongKeDT.PerformClick();
+                }
+                else if (tabControl1.SelectedTab == tabPage2)
+                {
+                    // Tab Chi tiêu -> Bấm nút Chi tiêu
+                    btnThongKeCT.PerformClick();
+                }
+                else if (tabControl1.SelectedTab == tabPage3)
+                {
+                    // Tab Lương -> Bấm nút Lương
+                    // (Lưu ý tên nút của bạn là btnThongKenNV hay btnThongKeNV thì sửa cho đúng nhé)
+                    if (btnThongKenNV != null) btnThongKenNV.PerformClick();
+                }
+            });
+        }
+
+        private void resetFontHienThi(Control parent)
+        {
+            foreach (Control c in parent.Controls)
+            {
+                // Kiểm tra: Nếu là DateTimePicker HOẶC là ComboBox
+                if (c is DateTimePicker || c is ComboBox)
+                {
+                    // Ép về font chuẩn Segoe UI size 10 (Font này hiển thị số và dropdown rất chuẩn)
+                    c.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+                }
+
+                // Đệ quy: Nếu control này chứa control con (Ví dụ Panel, GroupBox)
+                if (c.HasChildren)
+                {
+                    resetFontHienThi(c);
+                }
+            }
+        }
+
         private void loadFontVaChu(DataGridView table)
         {
             table.EnableHeadersVisualStyles = false;
@@ -64,8 +113,20 @@ namespace GUI.GUI_UC
         }
         private void loadDanhSachDoanhThu(BindingList<hoaDonDTO> ds)
         {
-            tableDoanhThu.AutoGenerateColumns = false;
+            var dsNV = new nhanVienBUS().LayDanhSach();
+            var dsKH = new khachHangBUS().LayDanhSach();
+            var dataHienThi = ds.Select(hd => new
+            {
+                MaHD = hd.MaHD,
+                TenNhanVien = dsNV.FirstOrDefault(x => x.MaNhanVien == hd.MaNhanVien)?.HoTen ?? "NV đã xóa",
+                TenKhachHang = dsKH.FirstOrDefault(x => x.MaKhachHang == hd.MaKhachHang)?.TenKhachHang ?? "Khách lẻ",
 
+                ThoiGianTao = hd.ThoiGianTao,
+                TongTien = hd.TongTien
+            }).ToList();
+
+            tableDoanhThu.AutoGenerateColumns = false;
+            tableDoanhThu.DataSource = null;
             tableDoanhThu.Columns.Clear();
 
             tableDoanhThu.Columns.Add(new DataGridViewTextBoxColumn
@@ -73,35 +134,54 @@ namespace GUI.GUI_UC
                 DataPropertyName = "MaHD",
                 HeaderText = "Mã HĐ"
             });
+
             tableDoanhThu.Columns.Add(new DataGridViewTextBoxColumn
             {
-                DataPropertyName = "MaNhanVien",    
+                DataPropertyName = "TenNhanVien",
                 HeaderText = "Tên nhân viên"
             });
+
             tableDoanhThu.Columns.Add(new DataGridViewTextBoxColumn
             {
-                DataPropertyName = "MaKhachHang",
+                DataPropertyName = "TenKhachHang",
                 HeaderText = "Tên khách hàng"
             });
+
             tableDoanhThu.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "ThoiGianTao",
                 HeaderText = "Thời gian tạo"
             });
+
             tableDoanhThu.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "TongTien",
-                HeaderText = "Tổng tiền"
+                HeaderText = "Tổng tiền",
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" }
             });
-            tableDoanhThu.DataSource = ds;
+
+            tableDoanhThu.DataSource = dataHienThi;
             tableDoanhThu.ClearSelection();
             loadFontVaChu(tableDoanhThu);
         }
 
         private void loadDanhSachThongKe(BindingList<phieuNhapDTO> ds)
         {
-            tableChiTieu.AutoGenerateColumns = false;
+            var dsNV = new nhanVienBUS().LayDanhSach();
+            var dsNCC = new nhaCungCapBUS().LayDanhSach();
 
+            var dataHienThi = ds.Select(pn => new
+            {
+                MaPN = pn.MaPN,
+                TenNhanVien = dsNV.FirstOrDefault(x => x.MaNhanVien == pn.MaNhanVien)?.HoTen ?? "NV đã xóa",
+                TenNCC = dsNCC.FirstOrDefault(x => x.MaNCC == pn.MaNCC)?.TenNCC ?? "NCC đã xóa",
+
+                ThoiGian = pn.ThoiGian,
+                TongTien = pn.TongTien
+            }).ToList();
+
+            tableChiTieu.AutoGenerateColumns = false;
+            tableChiTieu.DataSource = null;
             tableChiTieu.Columns.Clear();
 
             tableChiTieu.Columns.Add(new DataGridViewTextBoxColumn
@@ -109,35 +189,39 @@ namespace GUI.GUI_UC
                 DataPropertyName = "MaPN",
                 HeaderText = "Mã PN"
             });
+
             tableChiTieu.Columns.Add(new DataGridViewTextBoxColumn
             {
-                DataPropertyName = "MaNhanVien",
+                DataPropertyName = "TenNhanVien",
                 HeaderText = "Tên nhân viên"
             });
+
             tableChiTieu.Columns.Add(new DataGridViewTextBoxColumn
             {
-                DataPropertyName = "MaNCC",
+                DataPropertyName = "TenNCC",
                 HeaderText = "Tên nhà cung cấp"
             });
+
             tableChiTieu.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "ThoiGian",
                 HeaderText = "Thời gian tạo"
             });
+
             tableChiTieu.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "TongTien",
-                HeaderText = "Tổng tiền"
+                HeaderText = "Tổng tiền",
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" }
             });
-            tableChiTieu.DataSource = ds;
+
+            tableChiTieu.DataSource = dataHienThi;
             tableChiTieu.ClearSelection();
             loadFontVaChu(tableChiTieu);
         }
 
-        // ===================== DOANH THU =====================
         public void setMacDinhDoanhThu()
         {
-            // Gán mặc định cho combobox loại
             if (cboLoaiTKDT != null)
             {
                 cboLoaiTKDT.Items.Clear();
@@ -150,7 +234,6 @@ namespace GUI.GUI_UC
                 cboLoaiTKDT.SelectedIndex = 0;
             }
 
-            // Datepickers default
             if (dtpBatDauDT != null) dtpBatDauDT.Value = DateTime.Now.AddMonths(-1);
             if (dtpKetThucDT != null) dtpKetThucDT.Value = DateTime.Now;
             if (cboQuyDT != null)
@@ -169,27 +252,35 @@ namespace GUI.GUI_UC
             {
                 dtpBatDauDT.CustomFormat = "dd/MM/yyyy";
                 dtpKetThucDT.CustomFormat = "dd/MM/yyyy";
-                dtpBatDauDT.Enabled = dtpKetThucDT.Enabled = true;
-                cboQuyDT.Enabled = false;
+                dtpBatDauDT.Visible = dtpKetThucDT.Visible = true;
+                cboQuyDT.Visible = false;
+                label4.Visible = false;
             }
             else if (chon.Contains("Theo tháng"))
             {
                 dtpBatDauDT.CustomFormat = dtpKetThucDT.CustomFormat = "MM/yyyy";
-                dtpBatDauDT.Enabled = dtpKetThucDT.Enabled = true;
-                cboQuyDT.Enabled = false;
+                dtpBatDauDT.Visible = dtpKetThucDT.Visible = true;
+                label3.Visible = true;
+                cboQuyDT.Visible = false;
+                label4.Visible = false;
             }
             else if (chon.Contains("Theo quý"))
             {
                 dtpBatDauDT.CustomFormat = "yyyy";
                 dtpBatDauDT.Enabled = true;
-                dtpKetThucDT.Enabled = false;
-                cboQuyDT.Enabled = true;
+                label3.Visible = false;
+                dtpKetThucDT.Visible = false;
+                label4.Visible = true;
+                cboQuyDT.Visible = true;
+                cboQuyCT.Enabled = true;
             }
             else if (chon.Contains("Theo năm"))
             {
                 dtpBatDauDT.CustomFormat = "yyyy";
                 dtpBatDauDT.Enabled = true;
-                dtpKetThucDT.Enabled = cboQuyDT.Enabled = false;
+                label4.Visible = false;
+                label3.Visible = false;
+                dtpKetThucDT.Visible = cboQuyDT.Visible = false;
             }
         }
 
@@ -204,20 +295,16 @@ namespace GUI.GUI_UC
                 DateTime den = dtpKetThucDT.Value;
                 thongKeBUS bus = new thongKeBUS();
 
-                List<thongKeDTO> dataChart = new List<thongKeDTO>(); // Dữ liệu cho Biểu đồ
-                List<hoaDonDTO> dataGrid = new List<hoaDonDTO>();    // Dữ liệu cho DataGridView
+                List<thongKeDTO> dataChart = new List<thongKeDTO>();
+                List<hoaDonDTO> dataGrid = new List<hoaDonDTO>();
 
                 string title = "THỐNG KÊ DOANH THU";
 
-                // --- BƯỚC 1: XỬ LÝ THỜI GIAN VÀ LẤY DỮ LIỆU BIỂU ĐỒ ---
                 if (loai.Contains("Theo năm"))
                 {
                     int nam = tu.Year;
-                    // 1. Chart
                     dataChart = bus.GetDoanhThuTheoThang(nam);
                     title += " NĂM " + nam;
-
-                    // 2. Chuẩn bị thời gian để lấy Grid (Cả năm)
                     tu = new DateTime(nam, 1, 1);
                     den = new DateTime(nam, 12, 31, 23, 59, 59);
                 }
@@ -226,12 +313,8 @@ namespace GUI.GUI_UC
                     tu = new DateTime(tu.Year, tu.Month, 1);
                     var cuoi = new DateTime(den.Year, den.Month, 1).AddMonths(1).AddDays(-1);
                     den = new DateTime(cuoi.Year, cuoi.Month, cuoi.Day, 23, 59, 59);
-
                     if (tu > den) { MessageBox.Show("Tháng bắt đầu không được lớn hơn tháng kết thúc!"); return; }
-
-                    // 1. Chart
                     dataChart = bus.GetDoanhThuTheoKhoang_GroupThang(tu, den);
-                    // Thời gian tu, den đã chuẩn để lấy Grid
                 }
                 else if (loai.Contains("Theo quý"))
                 {
@@ -239,32 +322,17 @@ namespace GUI.GUI_UC
                     int quy = cboQuyDT.SelectedIndex + 1;
                     tu = new DateTime(nam, (quy - 1) * 3 + 1, 1);
                     den = tu.AddMonths(3).AddDays(-1).AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                    // 1. Chart
                     dataChart = bus.GetDoanhThuTheoNgay(tu, den);
-                    // Thời gian tu, den đã chuẩn để lấy Grid
                 }
-                else // Theo ngày
+                else 
                 {
                     if (tu.Date > den.Date) { MessageBox.Show("Ngày bắt đầu không được lớn hơn ngày kết thúc!"); return; }
                     den = den.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
                     tu = tu.Date;
-
-                    // 1. Chart
                     dataChart = bus.GetDoanhThuTheoNgay(tu, den);
-                    // Thời gian tu, den đã chuẩn để lấy Grid
                 }
-
-                // --- BƯỚC 2: HIỂN THỊ LÊN GIAO DIỆN ---
-
-                // A. Vẽ biểu đồ
                 VeBieuDoMicrosoft(dataChart, title, chartDT);
-
-                // B. Đổ dữ liệu vào DataGridView (QUAN TRỌNG: ĐOẠN NÀY LÚC NÃY BẠN THIẾU)
-                // Gọi xuống BUS lấy danh sách chi tiết hóa đơn dựa vào thời gian đã tính toán ở trên
                 dataGrid = bus.GetListHoaDon(tu, den);
-
-                // Đổ vào Grid
                 loadDanhSachDoanhThu(new BindingList<hoaDonDTO>(dataGrid));
             }
             catch (Exception ex)
@@ -297,38 +365,6 @@ namespace GUI.GUI_UC
             }
         }
 
-        private void cboLoaiTKCT_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cboLoaiTKCT == null || dtpBatDauCT == null || dtpKetThucCT == null || cboQuyCT == null) return;
-            string chon = cboLoaiTKCT.SelectedItem.ToString();
-            if (chon.Contains("Theo ngày"))
-            {
-                dtpBatDauCT.CustomFormat = "dd/MM/yyyy";
-                dtpKetThucCT.CustomFormat = "dd/MM/yyyy";
-                dtpBatDauCT.Enabled = dtpKetThucCT.Enabled = true;
-                cboQuyCT.Enabled = false;
-            }
-            else if (chon.Contains("Theo tháng"))
-            {
-                dtpBatDauCT.CustomFormat = dtpKetThucCT.CustomFormat = "MM/yyyy";
-                dtpBatDauCT.Enabled = dtpKetThucCT.Enabled = true;
-                cboQuyCT.Enabled = false;
-            }
-            else if (chon.Contains("Theo quý"))
-            {
-                dtpBatDauCT.CustomFormat = "yyyy";
-                dtpBatDauCT.Enabled = true;
-                dtpKetThucCT.Enabled = false;
-                cboQuyCT.Enabled = true;
-            }
-            else if (chon.Contains("Theo năm"))
-            {
-                dtpBatDauCT.CustomFormat = "yyyy";
-                dtpBatDauCT.Enabled = true;
-                dtpKetThucCT.Enabled = cboQuyCT.Enabled = false;
-            }
-        }
-
         // ===================== LƯƠNG NHÂN VIÊN =====================
         public void setMacDinhLuong()
         {
@@ -351,78 +387,6 @@ namespace GUI.GUI_UC
                 cboQuyNV.Items.Clear();
                 cboQuyNV.Items.AddRange(new object[] { "Quý 1", "Quý 2", "Quý 3", "Quý 4" });
                 cboQuyNV.SelectedIndex = 0;
-            }
-        }
-
-        private void cboLoaiTKNV_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // Kiểm tra null (thêm label12 vào check)
-            if (cboLoaiTKNV == null || dtpBatDauNV == null || dtpKetThucNV == null || cboQuyNV == null || label12 == null) return;
-
-            string chon = cboLoaiTKNV.SelectedItem.ToString();
-
-            // Reset ComboBox chọn Tuần/Quý
-            cboQuyNV.Items.Clear();
-
-            if (chon.Contains("Theo tuần"))
-            {
-                // --- CẤU HÌNH CHO TUẦN ---
-                dtpBatDauNV.CustomFormat = "MM/yyyy";
-                dtpBatDauNV.Enabled = true;
-                dtpKetThucNV.Enabled = false;
-
-                // Hiện và đổi tên Label
-                label12.Visible = true;
-                label12.Text = "Tuần:";
-
-                cboQuyNV.Enabled = true;
-                cboQuyNV.Items.AddRange(new object[] {
-            "Tuần 1 (Ngày 1-7)",
-            "Tuần 2 (Ngày 8-14)",
-            "Tuần 3 (Ngày 15-21)",
-            "Tuần 4 (Ngày 22-Cuối tháng)"
-        });
-                cboQuyNV.SelectedIndex = 0;
-            }
-            else if (chon.Contains("Theo quý"))
-            {
-                // --- CẤU HÌNH CHO QUÝ ---
-                dtpBatDauNV.CustomFormat = "yyyy";
-                dtpBatDauNV.Enabled = true;
-                dtpKetThucNV.Enabled = false;
-
-                // Hiện và đổi tên Label
-                label12.Visible = true;
-                label12.Text = "Quý:";
-
-                cboQuyNV.Enabled = true;
-                cboQuyNV.Items.AddRange(new object[] { "Quý 1", "Quý 2", "Quý 3", "Quý 4" });
-                cboQuyNV.SelectedIndex = 0;
-            }
-            else
-            {
-                // --- CÁC TRƯỜNG HỢP KHÁC (Ngày, Tháng, Năm) ---
-                // Ẩn Label và ComboBox Tuần/Quý đi cho gọn
-                label12.Visible = true;
-                cboQuyNV.Enabled = false;
-
-                if (chon.Contains("Theo ngày"))
-                {
-                    dtpBatDauNV.CustomFormat = "dd/MM/yyyy";
-                    dtpKetThucNV.CustomFormat = "dd/MM/yyyy";
-                    dtpBatDauNV.Enabled = dtpKetThucNV.Enabled = true;
-                }
-                else if (chon.Contains("Theo tháng"))
-                {
-                    dtpBatDauNV.CustomFormat = dtpKetThucNV.CustomFormat = "MM/yyyy";
-                    dtpBatDauNV.Enabled = dtpKetThucNV.Enabled = true;
-                }
-                else if (chon.Contains("Theo năm"))
-                {
-                    dtpBatDauNV.CustomFormat = "yyyy";
-                    dtpBatDauNV.Enabled = true;
-                    dtpKetThucNV.Enabled = false;
-                }
             }
         }
 
@@ -489,86 +453,6 @@ namespace GUI.GUI_UC
                 return string.Format("{0:N0}", value) + " đ";
             }
             catch { return value.ToString(); }
-        }
-
-        // ===================== FOCUS KHI ĐỔI TAB =====================
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (tabControl1 == null) return;
-            if (tabControl1.SelectedTab == tabPage1) BeginInvoke((MethodInvoker)(() => { if (btnThongKeDT != null) btnThongKeDT.Focus(); }));
-            else if (tabControl1.SelectedTab == tabPage2) BeginInvoke((MethodInvoker)(() => { if (btnThongKeCT != null) btnThongKeCT.Focus(); }));
-            else if (tabControl1.SelectedTab == tabPage3) BeginInvoke((MethodInvoker)(() => { if (btnThongKenNV != null) btnThongKenNV.Focus(); }));
-        }
-
-        private void btnThongKeCT_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                if (cboLoaiTKCT == null || dtpBatDauCT == null || dtpKetThucCT == null || chartCT == null) return;
-
-                string loai = cboLoaiTKCT.SelectedItem.ToString();
-                DateTime tu = dtpBatDauCT.Value;
-                DateTime den = dtpKetThucCT.Value;
-                thongKeBUS bus = new thongKeBUS();
-
-                // Khai báo 2 list riêng biệt
-                List<thongKeDTO> dataChart = new List<thongKeDTO>(); // Cho biểu đồ
-                List<phieuNhapDTO> dataGrid = new List<phieuNhapDTO>(); // Cho bảng
-
-                string title = "THỐNG KÊ CHI TIÊU";
-
-                // --- XỬ LÝ THỜI GIAN ---
-                if (loai.Contains("Theo năm"))
-                {
-                    int nam = tu.Year;
-                    dataChart = bus.GetChiTieuTheoThang(nam);
-                    title += " NĂM " + nam;
-
-                    // Set ngày để lấy list phiếu nhập cả năm
-                    tu = new DateTime(nam, 1, 1);
-                    den = new DateTime(nam, 12, 31, 23, 59, 59);
-                }
-                else if (loai.Contains("Theo tháng"))
-                {
-                    tu = new DateTime(tu.Year, tu.Month, 1);
-                    var cuoi = new DateTime(den.Year, den.Month, 1).AddMonths(1).AddDays(-1);
-                    den = new DateTime(cuoi.Year, cuoi.Month, cuoi.Day, 23, 59, 59);
-                    if (tu > den) { MessageBox.Show("Tháng bắt đầu không được lớn hơn tháng kết thúc!"); return; }
-
-                    dataChart = bus.GetChiTieuTheoKhoang_GroupThang(tu, den);
-                    // tu và den đã chuẩn để lấy list
-                }
-                else if (loai.Contains("Theo quý"))
-                {
-                    int nam = tu.Year;
-                    int quy = cboQuyCT.SelectedIndex + 1;
-                    tu = new DateTime(nam, (quy - 1) * 3 + 1, 1);
-                    den = tu.AddMonths(3).AddDays(-1).AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                    dataChart = bus.GetChiTieuTheoNgay(tu, den);
-                }
-                else // Theo ngày
-                {
-                    if (tu.Date > den.Date) { MessageBox.Show("Ngày bắt đầu không được lớn hơn ngày kết thúc!"); return; }
-                    den = den.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-                    tu = tu.Date;
-
-                    dataChart = bus.GetChiTieuTheoNgay(tu, den);
-                }
-
-                // --- HIỂN THỊ ---
-
-                // 1. Vẽ biểu đồ
-                VeBieuDoMicrosoft(dataChart, title, chartCT);
-
-                // 2. Đổ dữ liệu vào bảng (ĐÂY LÀ PHẦN BẠN THIẾU)
-                dataGrid = bus.GetListPhieuNhap(tu, den);
-                loadDanhSachThongKe(new BindingList<phieuNhapDTO>(dataGrid));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi thống kê chi tiêu: " + ex.Message);
-            }
         }
 
         private void btnThongKenNV_Click_1(object sender, EventArgs e)
@@ -644,7 +528,7 @@ namespace GUI.GUI_UC
                 {
                     MessageBox.Show("Không có dữ liệu sản phẩm bán ra trong khoảng thời gian này!");
                     chartNV.Series.Clear();
-                    tableLuongNV.DataSource = null;
+                    tableSanPhamHOT.DataSource = null;
                     return;
                 }
 
@@ -672,62 +556,74 @@ namespace GUI.GUI_UC
 
             ChartArea ca = new ChartArea("ca");
             ca.AxisX.Interval = 1;
-            ca.AxisX.LabelStyle.Angle = -45; // Nghiêng chữ cho dễ đọc tên SP
+            ca.AxisX.LabelStyle.Angle = -45;
+            ca.AxisX.MajorGrid.Enabled = false;
+            ca.AxisY.MajorGrid.Enabled = false;
+
             chart.ChartAreas.Add(ca);
 
             Series s = new Series("Số lượng");
-            s.ChartType = SeriesChartType.Column; // Hoặc Bar để vẽ ngang nếu tên dài
+            s.ChartType = SeriesChartType.Column;
             s.IsValueShownAsLabel = true;
+
+            // --- CÁCH 1: Cài ToolTip chung cho cả Series (Nhanh gọn) ---
+            // #VALX: Lấy giá trị trục X (Tên SP)
+            // #VALY: Lấy giá trị trục Y (Số lượng)
+            s.ToolTip = "Sản phẩm: #VALX\nSố lượng: #VALY";
+
             chart.Series.Add(s);
             chart.Titles.Add(title);
 
-            // Chỉ vẽ top 10 món để biểu đồ không bị rối
             var topData = data.Take(10).ToList();
 
             foreach (var item in topData)
             {
-                s.Points.AddXY(item.TenSP, item.SoLuongBan);
+                // --- CÁCH 2: Cài ToolTip chi tiết cho từng cột (Nếu muốn tùy biến cao hơn) ---
+                int index = s.Points.AddXY(item.TenSP, item.SoLuongBan);
+
+                // Bạn có thể dùng chuỗi format tùy ý
+                s.Points[index].ToolTip = $"Tên: {item.TenSP}\nĐã bán: {item.SoLuongBan}";
             }
         }
 
         // Hàm load Grid cho sản phẩm
         private void loadDanhSachTopSP(BindingList<topSanPhamDTO> ds)
         {
-            tableLuongNV.AutoGenerateColumns = false;
-            tableLuongNV.DataSource = ds;
-            tableLuongNV.Columns.Clear();
+            tableSanPhamHOT.AutoGenerateColumns = false;
+            tableSanPhamHOT.DataSource = ds;
+            tableSanPhamHOT.Columns.Clear();
 
             // Cột 1: Mã SP
-            tableLuongNV.Columns.Add(new DataGridViewTextBoxColumn
+            tableSanPhamHOT.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "MaSP",
                 HeaderText = "Mã SP",
             });
 
             // Cột 2: Tên SP
-            tableLuongNV.Columns.Add(new DataGridViewTextBoxColumn
+            tableSanPhamHOT.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "TenSP",
                 HeaderText = "Tên Sản Phẩm",
             });
 
             // Cột 3: Số Lượng
-            tableLuongNV.Columns.Add(new DataGridViewTextBoxColumn
+            tableSanPhamHOT.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "SoLuongBan",
                 HeaderText = "Số Lượt Bán"
             });
 
             // Cột 4: Doanh Thu
-            tableLuongNV.Columns.Add(new DataGridViewTextBoxColumn
+            tableSanPhamHOT.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "DoanhThu",
                 HeaderText = "Doanh Thu",
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" }
             });
 
-            tableLuongNV.Refresh();
-            loadFontVaChu(tableLuongNV);
+            tableSanPhamHOT.Refresh();
+            loadFontVaChu(tableSanPhamHOT);
         }
 
         private void btnExcelDoanhThu_Click(object sender, EventArgs e)
@@ -780,7 +676,7 @@ namespace GUI.GUI_UC
 
                 // 5. Mở hộp thoại lưu file
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
-                saveFileDialog.FileName = tenFile + "_" + DateTime.Now.ToString("ddMMyyyy_HHmm");
+                saveFileDialog.FileName = tenFile;
                 saveFileDialog.Filter = "Excel Files|*.xlsx;*.xls";
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -805,6 +701,214 @@ namespace GUI.GUI_UC
                 Marshal.ReleaseComObject(xlWorkbook);
                 Marshal.ReleaseComObject(xlApp);
             }
+        }
+
+        private void btnExcelChiTieu_Click(object sender, EventArgs e)
+        {
+            XuatRaExcel(tableChiTieu, "BaoCaoChiTieu");
+        }
+
+        private void btnThongKeCT_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cboLoaiTKCT == null || dtpBatDauCT == null || dtpKetThucCT == null || chartCT == null) return;
+
+                string loai = cboLoaiTKCT.SelectedItem.ToString();
+                DateTime tu = dtpBatDauCT.Value;
+                DateTime den = dtpKetThucCT.Value;
+                thongKeBUS bus = new thongKeBUS();
+
+                // Khai báo 2 list riêng biệt
+                List<thongKeDTO> dataChart = new List<thongKeDTO>(); // Cho biểu đồ
+                List<phieuNhapDTO> dataGrid = new List<phieuNhapDTO>(); // Cho bảng
+
+                string title = "THỐNG KÊ CHI TIÊU";
+
+                // --- XỬ LÝ THỜI GIAN ---
+                if (loai.Contains("Theo năm"))
+                {
+                    int nam = tu.Year;
+                    dataChart = bus.GetChiTieuTheoThang(nam);
+                    title += " NĂM " + nam;
+
+                    // Set ngày để lấy list phiếu nhập cả năm
+                    tu = new DateTime(nam, 1, 1);
+                    den = new DateTime(nam, 12, 31, 23, 59, 59);
+                }
+                else if (loai.Contains("Theo tháng"))
+                {
+                    tu = new DateTime(tu.Year, tu.Month, 1);
+                    var cuoi = new DateTime(den.Year, den.Month, 1).AddMonths(1).AddDays(-1);
+                    den = new DateTime(cuoi.Year, cuoi.Month, cuoi.Day, 23, 59, 59);
+                    if (tu > den) { MessageBox.Show("Tháng bắt đầu không được lớn hơn tháng kết thúc!"); return; }
+
+                    dataChart = bus.GetChiTieuTheoKhoang_GroupThang(tu, den);
+                    // tu và den đã chuẩn để lấy list
+                }
+                else if (loai.Contains("Theo quý"))
+                {
+                    int nam = tu.Year;
+                    int quy = cboQuyCT.SelectedIndex + 1;
+                    tu = new DateTime(nam, (quy - 1) * 3 + 1, 1);
+                    den = tu.AddMonths(3).AddDays(-1).AddHours(23).AddMinutes(59).AddSeconds(59);
+
+                    dataChart = bus.GetChiTieuTheoNgay(tu, den);
+                }
+                else // Theo ngày
+                {
+                    if (tu.Date > den.Date) { MessageBox.Show("Ngày bắt đầu không được lớn hơn ngày kết thúc!"); return; }
+                    den = den.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                    tu = tu.Date;
+
+                    dataChart = bus.GetChiTieuTheoNgay(tu, den);
+                }
+
+                // --- HIỂN THỊ ---
+
+                // 1. Vẽ biểu đồ
+                VeBieuDoMicrosoft(dataChart, title, chartCT);
+
+                // 2. Đổ dữ liệu vào bảng (ĐÂY LÀ PHẦN BẠN THIẾU)
+                dataGrid = bus.GetListPhieuNhap(tu, den);
+                loadDanhSachThongKe(new BindingList<phieuNhapDTO>(dataGrid));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi thống kê chi tiêu: " + ex.Message);
+            }
+        }
+
+        private void btnExcelSanPhamHot_Click(object sender, EventArgs e)
+        {
+            XuatRaExcel(tableSanPhamHOT, "BaoCaoSanPhamHot");
+        }
+
+        private void cboLoaiTKCT_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            if (cboLoaiTKCT == null || dtpBatDauCT == null || dtpKetThucCT == null || cboQuyCT == null) return;
+            string chon = cboLoaiTKCT.SelectedItem.ToString();
+            if (chon.Contains("Theo ngày"))
+            {
+                dtpBatDauCT.CustomFormat = "dd/MM/yyyy";
+                dtpKetThucCT.CustomFormat = "dd/MM/yyyy";
+                dtpBatDauCT.Visible = dtpKetThucCT.Visible = true;
+                label8.Visible = false;
+                cboQuyCT.Visible = false;
+                label6.Visible = true;
+            }
+            else if (chon.Contains("Theo tháng"))
+            {
+                dtpBatDauCT.CustomFormat = dtpKetThucCT.CustomFormat = "MM/yyyy";
+                dtpBatDauCT.Visible = dtpKetThucCT.Visible = true;
+                label8.Visible = false;
+                cboQuyCT.Visible = false;
+                label6.Visible = true;
+            }
+            else if (chon.Contains("Theo quý"))
+            {
+                dtpBatDauCT.CustomFormat = "yyyy";
+                dtpBatDauCT.Enabled = true;
+                label6.Visible = false;
+                dtpKetThucCT.Visible = false;
+                label8.Visible = true;
+                cboQuyCT.Visible = true;
+            }
+            else if (chon.Contains("Theo năm"))
+            {
+                dtpBatDauCT.CustomFormat = "yyyy";
+                dtpBatDauCT.Enabled = true;
+                label6.Visible = false;
+                label8.Visible = false;
+                dtpKetThucCT.Visible = cboQuyCT.Visible = false;
+            }
+        }
+
+        private void cboLoaiTKNV_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            // Kiểm tra null (thêm label12 vào check)
+            if (cboLoaiTKNV == null || dtpBatDauNV == null || dtpKetThucNV == null || cboQuyNV == null || label12 == null) return;
+
+            string chon = cboLoaiTKNV.SelectedItem.ToString();
+
+            // Reset ComboBox chọn Tuần/Quý
+            cboQuyNV.Items.Clear();
+
+            if (chon.Contains("Theo tuần"))
+            {
+                // --- CẤU HÌNH CHO TUẦN ---
+                dtpBatDauNV.CustomFormat = "MM/yyyy";
+                dtpBatDauNV.Enabled = true;
+                dtpKetThucNV.Visible = false;
+                cboQuyNV.Visible = true;
+                label10.Visible = false;
+                // Hiện và đổi tên Label
+                label12.Visible = true;
+                label12.Text = "Tuần:";
+
+                cboQuyNV.Items.AddRange(new object[] {
+            "Tuần 1 (Ngày 1-7)",
+            "Tuần 2 (Ngày 8-14)",
+            "Tuần 3 (Ngày 15-21)",
+            "Tuần 4 (Ngày 22-Cuối tháng)"
+        });
+                cboQuyNV.SelectedIndex = 0;
+            }
+            else if (chon.Contains("Theo quý"))
+            {
+                // --- CẤU HÌNH CHO QUÝ ---
+                dtpBatDauNV.CustomFormat = "yyyy";
+                dtpBatDauNV.Enabled = true;
+                dtpKetThucNV.Visible = false;
+
+                label10.Visible = false;
+
+                // Hiện và đổi tên Label
+                label12.Visible = true;
+                label12.Text = "Quý:";
+
+                cboQuyNV.Visible = true;
+                cboQuyNV.Items.AddRange(new object[] { "Quý 1", "Quý 2", "Quý 3", "Quý 4" });
+                cboQuyNV.SelectedIndex = 0;
+            }
+            else
+            {
+                // --- CÁC TRƯỜNG HỢP KHÁC (Ngày, Tháng, Năm) ---
+                // Ẩn Label và ComboBox Tuần/Quý đi cho gọn
+                label12.Visible = true;
+
+                if (chon.Contains("Theo ngày"))
+                {
+                    dtpBatDauNV.CustomFormat = "dd/MM/yyyy";
+                    dtpKetThucNV.CustomFormat = "dd/MM/yyyy";
+                    dtpBatDauNV.Visible = dtpKetThucNV.Visible = true;
+                    label12.Visible = false;
+                    label10.Visible = true;
+                    cboQuyNV.Visible = false;
+                }
+                else if (chon.Contains("Theo tháng"))
+                {
+                    dtpBatDauNV.CustomFormat = dtpKetThucNV.CustomFormat = "MM/yyyy";
+                    dtpBatDauNV.Visible = dtpKetThucNV.Visible = true;
+                    label12.Visible = false;
+                    cboQuyNV.Visible = false;
+                    label10.Visible = true;
+                }
+                else if (chon.Contains("Theo năm"))
+                {
+                    dtpBatDauNV.CustomFormat = "yyyy";
+                    dtpBatDauNV.Enabled = true;
+                    dtpKetThucNV.Visible = false;
+                    label10.Visible = false;
+                    label12.Visible = false;
+                    cboQuyNV.Visible = false;
+                }
+            }
+        }
+
+        private void chartCT_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

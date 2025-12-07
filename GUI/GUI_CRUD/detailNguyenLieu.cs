@@ -181,7 +181,7 @@ namespace GUI.GUI_CRUD
             tableHeSo.Columns.Clear();
 
             tableHeSo.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaDonVi", HeaderText = "Mã ĐV" });
-            tableHeSo.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaDonVi", HeaderText = "Tên ĐV" });
+            tableHeSo.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaDonVi", HeaderText = "Tên đơn vị" });
             tableHeSo.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "HeSo", HeaderText = "Hệ số" });
 
             tableHeSo.DefaultCellStyle.SelectionBackColor = tableNguyenLieu.DefaultCellStyle.BackColor;
@@ -211,10 +211,26 @@ namespace GUI.GUI_CRUD
         {
             if (e.RowIndex < 0) return;
             heSoDTO hs = tableHeSo.Rows[e.RowIndex].DataBoundItem as heSoDTO;
-            if (tableHeSo.Columns[e.ColumnIndex].HeaderText == "Tên ĐV")
+            if (tableHeSo.Columns[e.ColumnIndex].HeaderText == "Tên đơn vị")
             {
                 donViDTO dv = dsDV.FirstOrDefault(x => x.MaDonVi == hs.MaDonVi);
                 e.Value = dv?.TenDonVi ?? "Không xác định";
+            }
+
+            if (tableHeSo.Columns[e.ColumnIndex].HeaderText == "Hệ số" && e.Value != null)
+            {
+                if (double.TryParse(e.Value.ToString(), out double tonKho))
+                {
+                    if (tonKho % 1 == 0)
+                    {
+                        e.Value = tonKho.ToString("N0");
+                    }
+                    else
+                    {
+                        e.Value = tonKho.ToString("0.000");
+                    }
+                    e.FormattingApplied = true;
+                }
             }
         }
         private void btnThoat_Click(object sender, EventArgs e)

@@ -112,7 +112,7 @@ namespace GUI.GUI_UC
             CheckAndAddButton("☕ Sản phẩm", "sanpham", 1);
 
             // Tài khoản & Nhân viên (Giả sử Mã Quyền = 4 - Quản lý nhân sự)
-            CheckAndAddButton("🧑‍🍳 Tài khoản", "taikhoan", 5);
+            CheckAndAddButton("🛡️ Tài khoản", "taikhoan", 5);
             CheckAndAddButton("🧑‍🍳 Nhân viên", "nhanvien", 4);
 
             AddNavButton("📈 Báo cáo", "thongke"); // Giả sử ai cũng xem được báo cáo

@@ -143,6 +143,22 @@ namespace GUI.GUI_CRUD
                 donViDTO dv = dsDonVi.FirstOrDefault(x => x.MaDonVi == hs.MaDonVi);
                 e.Value = dv?.TenDonVi ?? "Không xác định";
             }
+
+            if (tableHeSo.Columns[e.ColumnIndex].HeaderText == "Hệ số" && e.Value != null)
+            {
+                if (double.TryParse(e.Value.ToString(), out double tonKho))
+                {
+                    if (tonKho % 1 == 0)
+                    {
+                        e.Value = tonKho.ToString("N0");
+                    }
+                    else
+                    {
+                        e.Value = tonKho.ToString("0.000");
+                    }
+                    e.FormattingApplied = true;
+                }
+            }
         }
 
         private void btnThemDonVI_Click(object sender, EventArgs e)
