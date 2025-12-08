@@ -43,9 +43,9 @@
             this.panel6 = new System.Windows.Forms.Panel();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.button12 = new System.Windows.Forms.Button();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.btnTimKiem = new System.Windows.Forms.Button();
+            this.cboSanPham = new System.Windows.Forms.ComboBox();
+            this.txtTKSanPham = new System.Windows.Forms.TextBox();
             this.button11 = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.btnChonKH = new System.Windows.Forms.Button();
@@ -88,11 +88,10 @@
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.layoutTimKiemNangCao = new System.Windows.Forms.TableLayoutPanel();
-            this.txtNV = new System.Windows.Forms.TextBox();
             this.txtGiaMin = new System.Windows.Forms.TextBox();
-            this.txtTenBan = new System.Windows.Forms.TextBox();
             this.rdoTimNangCao = new System.Windows.Forms.RadioButton();
             this.txtGiaMax = new System.Windows.Forms.TextBox();
+            this.txtNV = new System.Windows.Forms.TextBox();
             this.txtKH = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.layoutTimKiemCoban = new System.Windows.Forms.TableLayoutPanel();
@@ -115,6 +114,7 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.button10 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
+            this.txtTenBan = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -228,9 +228,9 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel3.Controls.Add(this.button12, 2, 0);
-            this.tableLayoutPanel3.Controls.Add(this.comboBox2, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.textBox9, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btnTimKiem, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.cboSanPham, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.txtTKSanPham, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.button11, 3, 0);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 23);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -240,40 +240,41 @@
             this.tableLayoutPanel3.TabIndex = 1;
             this.tableLayoutPanel3.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel3_Paint);
             // 
-            // button12
+            // btnTimKiem
             // 
-            this.button12.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button12.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button12.Location = new System.Drawing.Point(612, 3);
-            this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(115, 39);
-            this.button12.TabIndex = 4;
-            this.button12.Text = "Tìm kiếm";
-            this.button12.UseVisualStyleBackColor = true;
+            this.btnTimKiem.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnTimKiem.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTimKiem.Location = new System.Drawing.Point(612, 3);
+            this.btnTimKiem.Name = "btnTimKiem";
+            this.btnTimKiem.Size = new System.Drawing.Size(115, 39);
+            this.btnTimKiem.TabIndex = 4;
+            this.btnTimKiem.Text = "Tìm kiếm";
+            this.btnTimKiem.UseVisualStyleBackColor = true;
+            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
             // 
-            // comboBox2
+            // cboSanPham
             // 
-            this.comboBox2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
+            this.cboSanPham.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cboSanPham.FormattingEnabled = true;
+            this.cboSanPham.Items.AddRange(new object[] {
             "Mã SP",
-            "Tên loai",
             "Tên SP",
+            "Tên Loại",
             "Giá min",
             "Giá max"});
-            this.comboBox2.Location = new System.Drawing.Point(10, 10);
-            this.comboBox2.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(176, 28);
-            this.comboBox2.TabIndex = 0;
+            this.cboSanPham.Location = new System.Drawing.Point(10, 10);
+            this.cboSanPham.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
+            this.cboSanPham.Name = "cboSanPham";
+            this.cboSanPham.Size = new System.Drawing.Size(176, 28);
+            this.cboSanPham.TabIndex = 0;
             // 
-            // textBox9
+            // txtTKSanPham
             // 
-            this.textBox9.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox9.Location = new System.Drawing.Point(309, 9);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(243, 27);
-            this.textBox9.TabIndex = 1;
+            this.txtTKSanPham.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtTKSanPham.Location = new System.Drawing.Point(309, 9);
+            this.txtTKSanPham.Name = "txtTKSanPham";
+            this.txtTKSanPham.Size = new System.Drawing.Size(243, 27);
+            this.txtTKSanPham.TabIndex = 1;
             // 
             // button11
             // 
@@ -842,12 +843,12 @@
             this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.09496F));
             this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.09496F));
             this.layoutTimKiemNangCao.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 4.525194F));
-            this.layoutTimKiemNangCao.Controls.Add(this.txtNV, 1, 0);
+            this.layoutTimKiemNangCao.Controls.Add(this.txtTenBan, 0, 0);
             this.layoutTimKiemNangCao.Controls.Add(this.txtGiaMin, 3, 0);
-            this.layoutTimKiemNangCao.Controls.Add(this.txtTenBan, 2, 0);
             this.layoutTimKiemNangCao.Controls.Add(this.rdoTimNangCao, 5, 0);
             this.layoutTimKiemNangCao.Controls.Add(this.txtGiaMax, 4, 0);
-            this.layoutTimKiemNangCao.Controls.Add(this.txtKH, 0, 0);
+            this.layoutTimKiemNangCao.Controls.Add(this.txtNV, 2, 0);
+            this.layoutTimKiemNangCao.Controls.Add(this.txtKH, 1, 0);
             this.layoutTimKiemNangCao.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutTimKiemNangCao.Location = new System.Drawing.Point(3, 23);
             this.layoutTimKiemNangCao.Name = "layoutTimKiemNangCao";
@@ -856,14 +857,6 @@
             this.layoutTimKiemNangCao.Size = new System.Drawing.Size(690, 55);
             this.layoutTimKiemNangCao.TabIndex = 0;
             // 
-            // txtNV
-            // 
-            this.txtNV.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtNV.Location = new System.Drawing.Point(142, 14);
-            this.txtNV.Name = "txtNV";
-            this.txtNV.Size = new System.Drawing.Size(109, 27);
-            this.txtNV.TabIndex = 6;
-            // 
             // txtGiaMin
             // 
             this.txtGiaMin.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -871,14 +864,6 @@
             this.txtGiaMin.Name = "txtGiaMin";
             this.txtGiaMin.Size = new System.Drawing.Size(109, 27);
             this.txtGiaMin.TabIndex = 2;
-            // 
-            // txtTenBan
-            // 
-            this.txtTenBan.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtTenBan.Location = new System.Drawing.Point(273, 14);
-            this.txtTenBan.Name = "txtTenBan";
-            this.txtTenBan.Size = new System.Drawing.Size(109, 27);
-            this.txtTenBan.TabIndex = 0;
             // 
             // rdoTimNangCao
             // 
@@ -901,10 +886,18 @@
             this.txtGiaMax.Size = new System.Drawing.Size(109, 27);
             this.txtGiaMax.TabIndex = 3;
             // 
+            // txtNV
+            // 
+            this.txtNV.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtNV.Location = new System.Drawing.Point(273, 14);
+            this.txtNV.Name = "txtNV";
+            this.txtNV.Size = new System.Drawing.Size(109, 27);
+            this.txtNV.TabIndex = 6;
+            // 
             // txtKH
             // 
             this.txtKH.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtKH.Location = new System.Drawing.Point(11, 14);
+            this.txtKH.Location = new System.Drawing.Point(142, 14);
             this.txtKH.Name = "txtKH";
             this.txtKH.Size = new System.Drawing.Size(109, 27);
             this.txtKH.TabIndex = 5;
@@ -944,12 +937,10 @@
             this.cboTimKiemHD.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.cboTimKiemHD.FormattingEnabled = true;
             this.cboTimKiemHD.Items.AddRange(new object[] {
-            "Mã SP",
-            "Tên SP",
-            "Tên loai",
-            "Tên nhóm",
-            "Giá min",
-            "Giá max"});
+            "Mã Hóa Đơn",
+            "Tên Bàn",
+            "Tên Khách Hàng",
+            "Tên Nhân Viên"});
             this.cboTimKiemHD.Location = new System.Drawing.Point(10, 8);
             this.cboTimKiemHD.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemHD.Name = "cboTimKiemHD";
@@ -1181,6 +1172,14 @@
             this.button9.Size = new System.Drawing.Size(75, 23);
             this.button9.TabIndex = 0;
             // 
+            // txtTenBan
+            // 
+            this.txtTenBan.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtTenBan.Location = new System.Drawing.Point(11, 14);
+            this.txtTenBan.Name = "txtTenBan";
+            this.txtTenBan.Size = new System.Drawing.Size(109, 27);
+            this.txtTenBan.TabIndex = 7;
+            // 
             // banHangGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1244,7 +1243,6 @@
         private System.Windows.Forms.TableLayoutPanel layoutTimKiemNangCao;
         private System.Windows.Forms.TextBox txtGiaMax;
         private System.Windows.Forms.TextBox txtGiaMin;
-        private System.Windows.Forms.TextBox txtTenBan;
         private System.Windows.Forms.RadioButton rdoTimNangCao;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TableLayoutPanel layoutTimKiemCoban;
@@ -1298,14 +1296,15 @@
         private System.Windows.Forms.Button btnChonKH;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.ComboBox cboSanPham;
+        private System.Windows.Forms.TextBox txtTKSanPham;
         private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button btnTimKiem;
         private System.Windows.Forms.PictureBox picSanPham;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox cbThanhToan;
         private System.Windows.Forms.TextBox txtNV;
         private System.Windows.Forms.TextBox txtKH;
+        private System.Windows.Forms.TextBox txtTenBan;
     }
 }

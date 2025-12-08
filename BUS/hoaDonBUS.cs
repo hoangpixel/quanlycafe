@@ -164,14 +164,6 @@ namespace BUS
                         }
                     case 2:
                         {
-                            if (ct.MaKhachHang.ToString().Contains(tim))
-                            {
-                                dskq.Add(ct);
-                            }
-                            break;
-                        }
-                    case 3:
-                        {
                             khachHangDTO nl = dsNl.FirstOrDefault(x => x.MaKhachHang == ct.MaKhachHang);
                             string tenNL = nl != null ? nl.TenKhachHang : "";
                             if (tenNL.IndexOf(tim, StringComparison.OrdinalIgnoreCase) >= 0)
@@ -180,7 +172,7 @@ namespace BUS
                             }
                             break;
                         }
-                    case 4:
+                    case 3:
                         {
                             nhanVienDTO dv = dsDV.FirstOrDefault(x => x.MaNhanVien == ct.MaNhanVien);
                             string tendv = dv != null ? dv.HoTen : "";
@@ -190,25 +182,7 @@ namespace BUS
                             }
                             break;
                         }
-                    case 5:
-                        {
-                            decimal soLuong = decimal.Parse(tim);
-                            if (ct.TongTien <= soLuong)
-                            {
-                                dskq.Add(ct);
-                            }
-                            break;
-                        }
-                    case 6:
-                        {
-                            decimal soLuong = decimal.Parse(tim);
-                            if (ct.TongTien >= soLuong)
-                            {
-                                dskq.Add(ct);
-                            }
-                            break;
-                        }
-                }
+                    }
             }
             return dskq;
         }

@@ -65,6 +65,9 @@ namespace GUI.GUI_UC
             cbThanhToan.DisplayMember = "HinhThuc";
             cbThanhToan.ValueMember = "MaTT";
             tuDongLoadTenNhanVien();
+            hienThiPlaceHolderHoaDon();
+            hienThiPlaceHolderSanPham();
+            rdoTimCoBan.Checked = true;
         }
 
         private void tuDongLoadTenNhanVien()
@@ -721,7 +724,6 @@ namespace GUI.GUI_UC
 
         private void btnRefreshSP_Click(object sender, EventArgs e)
         {
-            BindingList<hoaDonDTO> dshd = busHoaDon.LayDanhSach();
             LoadDanhSachHoaDon();
         }
 
@@ -927,22 +929,14 @@ namespace GUI.GUI_UC
 
             int soLuongMoi = (int)numSoLuong.Value;
             int soLuongCu = item.SoLuong;
-            int chenhLech = soLuongMoi - soLuongCu; // Nếu tăng thì dương, giảm thì âm
-
-            // 1. Nếu tăng số lượng -> Check xem kho còn đủ phần chênh lệch không
+            int chenhLech = soLuongMoi - soLuongCu;
             if (chenhLech > 0 && chenhLech > sp.SoLuongToiDa)
             {
                 MessageBox.Show($"Kho chỉ còn thêm được {sp.SoLuongToiDa} ly thôi!", "Thiếu hàng");
                 return;
             }
-
-            // 2. Cập nhật giỏ hàng
             item.SoLuong = soLuongMoi;
             item.ThanhTien = item.SoLuong * item.DonGia;
-
-            // 3. Cập nhật hiển thị kho
-            // Nếu chênh lệch dương (mua thêm) -> Kho giảm (trừ số dương)
-            // Nếu chênh lệch âm (mua ít đi) -> Kho tăng (trừ số âm thành cộng)
             sp.SoLuongToiDa -= chenhLech;
 
             dgvSanPham.Refresh();
@@ -1099,13 +1093,9 @@ namespace GUI.GUI_UC
                 txtKH.Enabled = false;
                 txtGiaMax.Enabled = false;
                 txtGiaMin.Enabled = false;
-
-                txtKH.Clear();
-                txtNV.Clear();
-                txtTenBan.Clear();
-                txtGiaMax.Clear();
-                txtGiaMin.Clear();
+                rdoTimNangCao.Checked = false;
                 hienThiPlaceHolderHoaDon();
+                ResetInputTimKiem();
             }
             else
             {
@@ -1116,6 +1106,8 @@ namespace GUI.GUI_UC
                 txtNV.Enabled = true;
                 txtGiaMax.Enabled = true;
                 txtGiaMin.Enabled = true;
+                rdoTimCoBan.Checked = false;
+                ResetInputTimKiem();
             }
         }
 
@@ -1128,13 +1120,15 @@ namespace GUI.GUI_UC
                 txtTimKiemHD.Enabled = false;
 
                 cboTimKiemHD.SelectedItem = -1;
-                txtTimKiemHD.Clear();
                 hienThiPlaceHolderHoaDon();
+                ResetInputTimKiem();
             }
             else
             {
                 cboTimKiemHD.Enabled = true;
                 txtTimKiemHD.Enabled = true;
+                rdoTimCoBan.Checked = true;
+                ResetInputTimKiem();
             }
         }
         public void loadLaiDanhSachTimKiem()
@@ -1227,8 +1221,7 @@ namespace GUI.GUI_UC
             BindingList<hoaDonDTO> dskq = busHoaDon.timKiemCoBan(tim, index);
             if (dskq != null && dskq.Count > 0)
             {
-                LoadDanhSachHoaDon();
-                loadFontChuVaSize();
+                dgvHoaDon.DataSource = dskq;                //loadFontChuVaSize();
             }
             else
             {
@@ -1243,29 +1236,29 @@ namespace GUI.GUI_UC
             string tenKH = string.IsNullOrWhiteSpace(txtKH.Text) ? null : txtKH.Text.Trim();
             string tenNV = string.IsNullOrWhiteSpace(txtNV.Text) ? null : txtNV.Text.Trim();
 
-            if (tenBan == "Tên Bàn")
+            if (tenBan == "Bàn")
             {
                 tenBan = null;
             }
-            if (tenKH == "Tên NL")
+            if (tenKH == "Tên Khách Hàng")
             {
                 tenKH = null;
             }
-            if (tenNV == "Tên ĐV")
+            if (tenNV == "Tên Nhân Viên")
             {
                 tenNV = null;
             }
 
             decimal slMin = -1;
             string strMin = txtGiaMin.Text.Trim();
-            if (!string.IsNullOrWhiteSpace(strMin) && strMin != "SL min")
+            if (!string.IsNullOrWhiteSpace(strMin) && strMin != "Min Tiền")
             {
                 decimal.TryParse(strMin, out slMin);
             }
 
             decimal slMax = -1;
             string strMax = txtGiaMax.Text.Trim();
-            if (!string.IsNullOrWhiteSpace(strMax) && strMax != "SL max")
+            if (!string.IsNullOrWhiteSpace(strMax) && strMax != "Max Tiền")
             {
                 decimal.TryParse(strMax, out slMax);
             }
@@ -1286,8 +1279,7 @@ namespace GUI.GUI_UC
             BindingList<hoaDonDTO> dsTimKiemNangCao = busHoaDon.timKiemNangCao(tenBan, tenKH, tenNV, slMin, slMax);
             if (dsTimKiemNangCao != null && dsTimKiemNangCao.Count > 0)
             {
-                LoadDanhSachHoaDon();
-                loadFontChuVaSize();
+                dgvHoaDon.DataSource = dsTimKiemNangCao;
             }
             else
             {
@@ -1324,6 +1316,45 @@ namespace GUI.GUI_UC
                 khachHangDTO kh = dsKH.FirstOrDefault(x => x.MaKhachHang == hd.MaKhachHang);
                 e.Value = kh?.TenKhachHang ?? "Không xác định";
             }
+        }
+
+        private void hienThiPlaceHolderSanPham()
+        {
+            SetPlaceholder(txtTKSanPham, "Nhập giá trị cần tìm");
+            SetComboBoxPlaceholder(cboSanPham, "Chọn giá trị TK");
+        }
+        private void timKiemBaseSP()
+        {
+            string tim = txtTKSanPham.Text.Trim();
+            int index = cboSanPham.SelectedIndex;
+
+            if (index < 0 || string.IsNullOrWhiteSpace(tim))
+            {
+                MessageBox.Show("Vui lòng nhập thông tin tìm kiếm!", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            BindingList<sanPhamDTO> kq = busSanPham.timKiemBaseSP(tim, index);
+
+            if (kq != null && kq.Count > 0)
+            {
+                dgvSanPham.Columns.Clear();
+                dgvSanPham.DataSource = null;
+                LoadDanhSachSanPham(kq);
+                loadFontChuVaSize();
+            }
+            else
+            {
+                MessageBox.Show("Không có kết quả tìm kiếm!", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            timKiemBaseSP();
         }
     }
  }
