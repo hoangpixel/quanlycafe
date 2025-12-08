@@ -1323,38 +1323,57 @@ namespace GUI.GUI_UC
             SetPlaceholder(txtTKSanPham, "Nhập giá trị cần tìm");
             SetComboBoxPlaceholder(cboSanPham, "Chọn giá trị TK");
         }
-        private void timKiemBaseSP()
-        {
-            string tim = txtTKSanPham.Text.Trim();
-            int index = cboSanPham.SelectedIndex;
-
-            if (index < 0 || string.IsNullOrWhiteSpace(tim))
-            {
-                MessageBox.Show("Vui lòng nhập thông tin tìm kiếm!", "Thông báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            BindingList<sanPhamDTO> kq = busSanPham.timKiemBaseSP(tim, index);
-
-            if (kq != null && kq.Count > 0)
-            {
-                dgvSanPham.Columns.Clear();
-                dgvSanPham.DataSource = null;
-                LoadDanhSachSanPham(kq);
-                loadFontChuVaSize();
-            }
-            else
-            {
-                MessageBox.Show("Không có kết quả tìm kiếm!", "Thông báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-        }
 
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
-            timKiemBaseSP();
+            if (cboSanPham.SelectedIndex == -1)
+            {
+                MessageBox.Show("Vui lòng chọn giá trị tìm kiếm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cboSanPham.Focus();
+                return;
+            }
+            if (busSanPham.kiemTraChuoiRong(txtTKSanPham.Text))
+            {
+                MessageBox.Show("Vui lòng nhập giá trị tìm kiếm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtTKSanPham.Focus();
+                return;
+            }
+            List<sanPhamDTO> dsTim = new List<sanPhamDTO>();
+            string tim = txtTKSanPham.Text.ToLower().Trim();
+            string giaTriTim = cboSanPham.SelectedItem.ToString();
+
+            if (giaTriTim == "Mã SP")
+            {
+                dsTim = (from sp in danhSachSP
+                         where sp.MaSP.ToString().Contains(tim)
+                         orderby sp.MaSP
+                         select sp).ToList();
+            }
+            if (giaTriTim == "Tên SP")
+            {
+                dsTim = (from sp in danhSachSP
+                         where sp.TenSP.ToLower().Contains(tim)
+                         orderby sp.MaSP
+                         select sp).ToList();
+            }
+            if (giaTriTim == "Tên Loại")
+            {
+                dsTim = (from nl in danhSachSP
+                         join dv in dsLoai on nl.MaLoai equals dv.MaLoai
+                         where dv.TenLoai.ToLower().Contains(tim)
+                         orderby dv.MaLoai
+                         select nl).ToList();
+            }
+            if (dsTim != null && dsTim.Count > 0)
+            {
+                BindingList<sanPhamDTO> dsBinding = new BindingList<sanPhamDTO>(dsTim);
+                LoadDanhSachSanPham(dsBinding);
+            }
+            else
+            {
+                MessageBox.Show("Không tim thấy kết quả", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
         }
     }
  }
