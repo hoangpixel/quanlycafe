@@ -162,7 +162,7 @@ namespace GUI.EXCEL
                                 HoTen = hoTen,
                                 SoDienThoai = soDienThoai,
                                 Email = email,
-                                Luong = float.TryParse(ws.Cells[row, 5].Text, out float luong) ? luong : 0,
+                                Luong = Convert.ToSingle(ws.Cells[row, 5].Value ?? 0),
                                 NgayTao = DateTime.Now
                             };
 

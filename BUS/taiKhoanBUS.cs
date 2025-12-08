@@ -188,122 +188,84 @@ namespace BUS
                 && a.TRANGTHAI == b.TRANGTHAI;
         }
 
-        // 🟢 NHẬP EXCEL THÔNG MINH
         public string NhapExcelThongMinh(BindingList<taikhoanDTO> dsExcel)
         {
-            nhanVienDAO dataNV = new nhanVienDAO();
-            vaitroDAO dataVT = new vaitroDAO();
-            // 1. Lấy dữ liệu tham chiếu để kiểm tra
-            var listMaNV = data.LayDanhSach().Select(x => x.MANHANVIEN).ToList(); // Lấy list Mã NV
-            var listMaVT = dataVT.LayDanhSachVaiTro().Select(x => x.MaVaiTro).ToList();   // Lấy list Mã Vai Trò
+            nhanVienBUS busNV = new nhanVienBUS();
+            vaitroBUS busVT = new vaitroBUS();
 
-            // Lấy danh sách tài khoản hiện tại trong DB để so sánh
-            var dsDB = data.LayDanhSach();
+            var listMaNV = busNV.LayDanhSach().Select(x => x.MaNhanVien).ToList();
+            var listMaVT = busVT.LayDanhSach().Select(x => x.MaVaiTro).ToList();
+
+            var dsDB = LayDanhSach();
 
             BindingList<string> danhSachLoi = new BindingList<string>();
             HashSet<string> tenDangNhapDaGap = new HashSet<string>();
 
-            // 2. CHECK LỖI TRƯỚC KHI NHẬP
             foreach (var tk in dsExcel)
             {
-                // Kiểm tra trùng lặp trong file Excel
-                if (!tenDangNhapDaGap.Add(tk.TENDANGNHAP))
-                {
-                    danhSachLoi.Add($"Tên đăng nhập '{tk.TENDANGNHAP}' bị lặp lại trong file Excel.");
-                }
+                tk.TENDANGNHAP = tk.TENDANGNHAP?.Trim();
+                tk.MATKHAU = tk.MATKHAU?.Trim();
 
-                // Kiểm tra Mã Nhân Viên có tồn tại không
-                if (!listMaNV.Contains(tk.MANHANVIEN))
-                {
-                    danhSachLoi.Add($"Nhân viên mã {tk.MANHANVIEN} (User: {tk.TENDANGNHAP}) không tồn tại trong hệ thống.");
-                }
-
-                // Kiểm tra Mã Vai Trò có tồn tại không
-                if (!listMaVT.Contains(tk.MAVAITRO))
-                {
-                    danhSachLoi.Add($"Vai trò mã {tk.MAVAITRO} (User: {tk.TENDANGNHAP}) không tồn tại.");
-                }
+                if (string.IsNullOrEmpty(tk.TENDANGNHAP)) continue;
+                if (!tenDangNhapDaGap.Add(tk.TENDANGNHAP)) danhSachLoi.Add($"Trùng user trong file: {tk.TENDANGNHAP}");
             }
 
-            if (danhSachLoi.Count > 0)
-            {
-                return "Phát hiện lỗi dữ liệu:\n• " + string.Join("\n• ", danhSachLoi);
-            }
+            if (danhSachLoi.Count > 0) return "Lỗi:\n• " + string.Join("\n• ", danhSachLoi);
 
-            // 3. BẮT ĐẦU NHẬP
             int soThem = 0, soCapNhat = 0, soBoQua = 0;
 
             foreach (var tkMoi in dsExcel)
             {
-                // Tìm xem tài khoản đã tồn tại chưa (Tìm theo Tên Đăng Nhập hoặc Mã TK)
-                var tkCu = dsDB.FirstOrDefault(x => x.TENDANGNHAP == tkMoi.TENDANGNHAP);
+                if (string.IsNullOrEmpty(tkMoi.TENDANGNHAP)) continue;
 
-                // Nếu tìm theo Mã TK trong Excel (nếu người dùng có nhập Mã TK)
-                if (tkCu == null && tkMoi.MATAIKHOAN != 0)
-                {
-                    tkCu = dsDB.FirstOrDefault(x => x.MATAIKHOAN == tkMoi.MATAIKHOAN);
-                }
+                var tkCu = dsDB.FirstOrDefault(x => x.TENDANGNHAP == tkMoi.TENDANGNHAP);
+                if (tkCu == null && tkMoi.MATAIKHOAN != 0) tkCu = dsDB.FirstOrDefault(x => x.MATAIKHOAN == tkMoi.MATAIKHOAN);
+                if (tkCu == null && tkMoi.MANHANVIEN != 0) tkCu = dsDB.FirstOrDefault(x => x.MANHANVIEN == tkMoi.MANHANVIEN);
 
                 if (tkCu == null)
                 {
-                    // === TRƯỜNG HỢP THÊM MỚI ===
-                    // Mật khẩu trong Excel là pass thô -> Cần Hash
-                    if (string.IsNullOrEmpty(tkMoi.MATKHAU))
-                    {
-                        tkMoi.MATKHAU = "123456"; // Mặc định nếu Excel để trống
-                    }
-                    tkMoi.MATKHAU = MaHoaMatKhau.ToSHA256(tkMoi.MATKHAU);
+                    if (string.IsNullOrEmpty(tkMoi.MATKHAU)) tkMoi.MATKHAU = "123456";
 
-                    if (data.Them(tkMoi))
-                    {
-                        ds.Add(tkMoi);
-                        soThem++;
-                    }
+                    if (this.Them(tkMoi)) soThem++;
                 }
                 else
                 {
-                    // === TRƯỜNG HỢP CẬP NHẬT ===
                     bool canCapNhat = false;
-                    bool coDoiMatKhau = false;
-
-                    // 1. Kiểm tra thông tin cơ bản có khác không
-                    if (!LaTaiKhoanGiongNhau(tkCu, tkMoi))
-                    {
-                        canCapNhat = true;
-                    }
-
-                    // 2. Kiểm tra mật khẩu trong Excel
-                    // - Nếu Excel có nhập mật khẩu -> Hash và cập nhật
-                    // - Nếu Excel để trống -> Giữ nguyên mật khẩu cũ
+                    bool isNewPass = false;
+                    if (!LaTaiKhoanGiongNhau(tkCu, tkMoi)) canCapNhat = true;
                     if (!string.IsNullOrEmpty(tkMoi.MATKHAU))
                     {
-                        string hashMoi = MaHoaMatKhau.ToSHA256(tkMoi.MATKHAU);
-                        // So sánh hash mới với hash trong DB
-                        if (hashMoi != tkCu.MATKHAU)
+                        if (tkMoi.MATKHAU == tkCu.MATKHAU)
                         {
-                            tkMoi.MATKHAU = hashMoi; // Gán hash mới vào
-                            canCapNhat = true;
-                            coDoiMatKhau = true;
+                            isNewPass = false;
+                        }
+                        else
+                        {
+                            string thuHash = MaHoaMatKhau.ToSHA256(tkMoi.MATKHAU);
+
+                            if (thuHash != tkCu.MATKHAU)
+                            {
+                                isNewPass = true;
+                                canCapNhat = true;
+                            }
+                            else
+                            {
+                                isNewPass = false;
+                                tkMoi.MATKHAU = tkCu.MATKHAU;
+                            }
                         }
                     }
                     else
                     {
-                        tkMoi.MATKHAU = tkCu.MATKHAU; // Giữ nguyên hash cũ
+                        isNewPass = false;
+                        tkMoi.MATKHAU = tkCu.MATKHAU;
                     }
 
                     if (canCapNhat)
                     {
-                        tkMoi.MATAIKHOAN = tkCu.MATAIKHOAN; // Đảm bảo đúng ID để update
-                        // Gọi hàm Sua nhưng không cần hash lại nữa vì đã xử lý ở trên
-                        // Lưu ý: data.Sua nhận vào object đã có mật khẩu chuẩn
-                        if (data.Sua(tkMoi))
+                        tkMoi.MATAIKHOAN = tkCu.MATAIKHOAN;
+                        if (this.Sua(tkMoi, isNewPass))
                         {
-                            // Cập nhật lại vào Cache list ds (để GridView tự nhảy)
-                            tkCu.MANHANVIEN = tkMoi.MANHANVIEN;
-                            tkCu.MAVAITRO = tkMoi.MAVAITRO;
-                            tkCu.TRANGTHAI = tkMoi.TRANGTHAI;
-                            if (coDoiMatKhau) tkCu.MATKHAU = tkMoi.MATKHAU;
-
                             soCapNhat++;
                         }
                     }
@@ -314,7 +276,9 @@ namespace BUS
                 }
             }
 
-            return $"Hoàn tất nhập liệu!\n\n- Thêm mới: {soThem}\n- Cập nhật: {soCapNhat}\n- Bỏ qua: {soBoQua}";
+            // Reload lần cuối để đồng bộ GridView
+            LayDanhSach();
+            return $"Xong!\n- Thêm: {soThem}\n- Sửa: {soCapNhat}\n- Bỏ qua: {soBoQua}";
         }
 
         public bool kiemTraTrungNhanVien(int maNV)

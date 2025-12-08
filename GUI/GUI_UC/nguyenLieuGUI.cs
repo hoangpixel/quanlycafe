@@ -1,6 +1,7 @@
 ﻿using BUS;
 using DTO;
 using FONTS;
+using GUI.EXCEL;
 using GUI.GUI_CRUD;
 using System;
 using System.Collections.Generic;
@@ -366,13 +367,23 @@ namespace GUI.GUI_UC
 
         private void btnExcelNL_Click(object sender, EventArgs e)
         {
-            using (selectExcelNguyenLieu form = new selectExcelNguyenLieu())
+            SaveFileDialog save = new SaveFileDialog();
+            save.Filter = "Excel file (*.xlsx)|*.xlsx";
+            save.FileName = "DanhSachNguyenLieu.xlsx";
+
+            if (save.ShowDialog() == DialogResult.OK)
             {
-                form.StartPosition = FormStartPosition.CenterParent;
-                form.ShowDialog(this);
+                try
+                {
+                    nguyenLieuBUS bus = new nguyenLieuBUS();
+                    BindingList<nguyenLieuDTO> ds = bus.LayDanhSach();
+                    excelNguyenLieu.Export(ds, save.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi xuất Excel: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            busNguyenLieu.LayDanhSach();
-            loadDanhSachNguyenLieu(nguyenLieuBUS.ds);
         }
 
         private void timKiemCoBanNL()

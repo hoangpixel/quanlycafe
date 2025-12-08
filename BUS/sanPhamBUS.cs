@@ -141,12 +141,12 @@ namespace BUS
 
                 if (spCu == null)
                 {
-                    data.Them(spMoi);
+                    them(spMoi);
                     soThem++;
                 }
                 else if (!LaSanPhamGiongNhau(spCu, spMoi))
                 {
-                    data.Sua(spMoi);
+                    Sua(spMoi);
                     soCapNhat++;
                 }
                 else

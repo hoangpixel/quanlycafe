@@ -283,11 +283,13 @@ namespace GUI.GUI_UC
             using (selectExcelCongThuc form = new selectExcelCongThuc())
             {
                 form.StartPosition = FormStartPosition.CenterParent;
-                form.ShowDialog(this);
+                if(form.ShowDialog() == DialogResult.OK)
+                {
+                    congThucBUS bus = new congThucBUS();
+                    BindingList<congThucDTO> ds = bus.LayDanhSach();
+                    loadDanhSachCongThuc(ds);
+                }
             }
-            congThucBUS bus = new congThucBUS();
-            BindingList<congThucDTO> ds = bus.LayDanhSach();
-            loadDanhSachCongThuc(ds);
         }
 
         // dòng này là để cho khi mà mình load trang nó kh chọn dòng đầu nha

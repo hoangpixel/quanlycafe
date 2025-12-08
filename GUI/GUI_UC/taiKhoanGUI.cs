@@ -35,6 +35,7 @@ namespace GUI.GUI_UC
             loadDanhSachTaiKhoan(ds);
             loadChuVoTxtVaCb();
             CheckQuyen();
+            rdoTimCoBan.Checked = true;
         }
 
         private void CheckQuyen()
@@ -490,7 +491,19 @@ namespace GUI.GUI_UC
             using (selectExcelTaiKhoan form = new selectExcelTaiKhoan())
             {
                 form.StartPosition = FormStartPosition.CenterParent;
-                form.ShowDialog();
+
+                // Khi form nhập liệu đóng lại và trả về OK (tức là đã nhập xong)
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    // 🔥 BƯỚC QUAN TRỌNG: Xóa danh sách cũ đi để ép BUS tải lại
+                    busTaiKhoan.ds.Clear();
+
+                    // Lúc này ds trống -> LayDanhSach() sẽ gọi xuống Database lấy dữ liệu mới nhất
+                    BindingList<taikhoanDTO> ds = busTaiKhoan.LayDanhSach();
+
+                    // Hiển thị lên GridView
+                    loadDanhSachTaiKhoan(ds);
+                }
             }
         }
     }

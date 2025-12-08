@@ -30,7 +30,6 @@
         {
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnXuatExcel = new System.Windows.Forms.Button();
-            this.btnNhapExcel = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
             this.panel2.SuspendLayout();
@@ -40,7 +39,6 @@
             // panel2
             // 
             this.panel2.Controls.Add(this.btnXuatExcel);
-            this.panel2.Controls.Add(this.btnNhapExcel);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 100);
             this.panel2.Name = "panel2";
@@ -58,19 +56,6 @@
             this.btnXuatExcel.Text = "Xuất Excel";
             this.btnXuatExcel.UseVisualStyleBackColor = true;
             this.btnXuatExcel.Click += new System.EventHandler(this.btnXuatExcel_Click);
-            // 
-            // btnNhapExcel
-            // 
-            this.btnNhapExcel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnNhapExcel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnNhapExcel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNhapExcel.Location = new System.Drawing.Point(62, 34);
-            this.btnNhapExcel.Name = "btnNhapExcel";
-            this.btnNhapExcel.Size = new System.Drawing.Size(119, 59);
-            this.btnNhapExcel.TabIndex = 0;
-            this.btnNhapExcel.Text = "Nhập Excel";
-            this.btnNhapExcel.UseVisualStyleBackColor = true;
-            this.btnNhapExcel.Click += new System.EventHandler(this.btnNhapExcel_Click);
             // 
             // panel1
             // 
@@ -116,7 +101,6 @@
 
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnXuatExcel;
-        private System.Windows.Forms.Button btnNhapExcel;
         private System.Windows.Forms.Panel panel1;
         private ReaLTaiizor.Controls.BigLabel bigLabel1;
     }

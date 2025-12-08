@@ -16,7 +16,7 @@ namespace DAO
 
             try
             {
-                string query = "SELECT * FROM khachhang WHERE TRANGTHAI = 1 ORDER BY khachhang.MAKHACHHANG DESC";
+                string query = "SELECT * FROM khachhang WHERE TRANGTHAI = 1";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 MySqlDataReader reader = cmd.ExecuteReader();
 

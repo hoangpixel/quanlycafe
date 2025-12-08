@@ -123,7 +123,7 @@
     <Compile Include="EXCEL\excelKhachHang.cs" />
     <Compile Include="EXCEL\excelNguyenLieu.cs" />
     <Compile Include="EXCEL\excelNhaCungCap.cs" />
-    <Compile Include="EXCEL\excelNhanVien.cs.cs" />
+    <Compile Include="EXCEL\excelNhanVien.cs" />
     <Compile Include="EXCEL\excelPhanQuyen.cs" />
     <Compile Include="EXCEL\excelPhieuNhap.cs" />
     <Compile Include="EXCEL\excelSanPham.cs" />

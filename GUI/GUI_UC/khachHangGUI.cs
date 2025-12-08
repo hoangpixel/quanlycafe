@@ -251,7 +251,12 @@ namespace GUI.GUI_UC
             using(selectExcelKhachHangGUI form = new selectExcelKhachHangGUI())
             {
                 form.StartPosition = FormStartPosition.CenterParent;
-                form.ShowDialog();
+                if(form.ShowDialog() == DialogResult.OK)
+                {
+                    BindingList<khachHangDTO> dsKH = busKhachHang.LayDanhSach();
+                    loadDanhSachKhachHang(dsKH);
+                    loadFontChuVaSize();
+                }
             }
         }
 

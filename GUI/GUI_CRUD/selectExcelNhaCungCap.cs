@@ -36,7 +36,7 @@ namespace GUI.GUI_CRUD
                     nhaCungCapBUS bus = new nhaCungCapBUS();
                     bus.NhapExcelThongMinh(ds);
                     MessageBox.Show("Nhập Excel thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                    this.DialogResult = DialogResult.OK;
                 }
                 catch (Exception ex)
                 {

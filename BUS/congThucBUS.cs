@@ -79,12 +79,11 @@ namespace BUS
             return result;
         }
 
-        public void NhapExcelThongMinh(BindingList<congThucDTO> dsExcel)
+        // Đổi từ void sang string để trả về kết quả hiển thị MessageBox
+        public string NhapExcelThongMinh(BindingList<congThucDTO> dsExcel)
         {
             int soThem = 0, soCapNhat = 0, soBoQua = 0, soLoi = 0;
-            congThucDAO data = new congThucDAO();
-
-            var dsHienTai = data.layDanhSach();
+            var dsHienTai = LayDanhSach();
 
             foreach (var ctMoi in dsExcel)
             {
@@ -92,6 +91,7 @@ namespace BUS
                 {
                     if (ctMoi.MaSanPham == 0 || ctMoi.MaNguyenLieu == 0)
                     {
+                        Console.WriteLine($"Bỏ qua dòng: SP {ctMoi.MaSanPham} - NL {ctMoi.MaNguyenLieu} (Thiếu Mã)");
                         soLoi++;
                         continue;
                     }
@@ -104,23 +104,33 @@ namespace BUS
 
                     if (ctCu == null)
                     {
-                        data.Them(ctMoi);
-                        soThem++;
+                        if (themCongThuc(ctMoi)) soThem++;
                     }
-                    else if (Math.Abs(ctCu.SoLuongCoSo - ctMoi.SoLuongCoSo) > 0.0001m ||
-                             ctCu.MaDonViCoSo != ctMoi.MaDonViCoSo)
+                    else
                     {
-                        data.Sua(ctMoi);
-                        soCapNhat++;
+                        if (Math.Abs(ctCu.SoLuongCoSo - ctMoi.SoLuongCoSo) > 0.0001m ||
+                            ctCu.MaDonViCoSo != ctMoi.MaDonViCoSo)
+                        {
+                            if (suaCongThuc(ctMoi)) soCapNhat++;
+                        }
+                        else
+                        {
+                            soBoQua++;
+                        }
                     }
-                    else soBoQua++;
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Lỗi khi xử lý công thức Excel: " + ex.Message);
+                    Console.WriteLine("Lỗi khi xử lý công thức: " + ex.Message);
                     soLoi++;
                 }
             }
+
+            // 🔥 QUAN TRỌNG NHẤT: CẬP NHẬT LẠI DANH SÁCH HIỂN THỊ
+            // Giả sử bạn có hàm LayDanhSach() trong class này để load lại dữ liệu từ DB
+            LayDanhSach();
+
+            return $"Hoàn tất nhập liệu!\n- Thêm mới: {soThem}\n- Cập nhật: {soCapNhat}\n- Bỏ qua: {soBoQua}\n- Lỗi/Thiếu mã: {soLoi}";
         }
 
         public bool kiemTraChuoiRong(string item)

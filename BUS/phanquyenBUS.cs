@@ -249,77 +249,102 @@ namespace BUS
         {
             return val == 0 || val == 1;
         }
-
-        // 🟢 Logic nhập Excel thông minh
+        public bool ThemPhanQuyenDonLe(phanquyenDTO pq)
+        {
+            return data.ThemPhanQuyen(pq);
+        }
+        public bool CapNhatPhanQuyenDonLe(phanquyenDTO pq)
+        {
+            // Gọi xuống DAO cập nhật 4 quyền (R, C, U, D)
+            return data.CapNhatQuyen(pq.MaVaiTro, pq.MaQuyen, pq.CAN_READ, pq.CAN_CREATE, pq.CAN_UPDATE, pq.CAN_DELETE);
+        }
         public string NhapExcelThongMinh(BindingList<phanquyenDTO> dsExcel)
         {
-            var dsDB = data.LayDanhSach(); // Lấy dữ liệu hiện tại từ DB
-            vaitroDAO vaitroData = new vaitroDAO();
-        quyenDAO quyenData = new quyenDAO();
-        // ⚠️ LƯU Ý: Đảm bảo bên vaitroDAO và quyenDAO có hàm LayDanhSach()
-        // Nếu tên hàm bên đó khác (vd: LayDanhSachVaiTro) thì bạn sửa lại cho khớp nhé
-        var dsMaVaiTroDB = vaitroData.LayDanhSachVaiTro().Select(x => x.MaVaiTro).ToHashSet();
-            var dsMaQuyenDB = quyenData.LayDanhSachQuyen().Select(x => x.MaQuyen).ToHashSet();
+            // 1. Sử dụng BUS phụ để lấy dữ liệu tham chiếu
+            vaitroBUS busVaiTro = new vaitroBUS();
+            quyenBUS busQuyen = new quyenBUS();
+
+            // Lấy Hashset ID để tra cứu cho nhanh
+            var dsMaVaiTroDB = busVaiTro.LayDanhSach().Select(x => x.MaVaiTro).ToHashSet();
+            var dsMaQuyenDB = busQuyen.LayDanhSach().Select(x => x.MaQuyen).ToHashSet();
+
+            // Lấy danh sách phân quyền hiện tại từ DB để so sánh
+            var dsDB = LayDanhSach();
 
             BindingList<string> danhSachLoi = new BindingList<string>();
             HashSet<string> khoaChinhExcel = new HashSet<string>();
 
-            // 1. Check lỗi dữ liệu
+            // 2. CHECK LỖI DỮ LIỆU
             foreach (var pq in dsExcel)
             {
+                // Check tồn tại Mã Vai Trò
                 if (!dsMaVaiTroDB.Contains(pq.MaVaiTro))
-                {
                     danhSachLoi.Add($"Dòng Excel: Mã vai trò {pq.MaVaiTro} không tồn tại.");
-                }
 
+                // Check tồn tại Mã Quyền
                 if (!dsMaQuyenDB.Contains(pq.MaQuyen))
-                {
                     danhSachLoi.Add($"Dòng Excel: Mã quyền {pq.MaQuyen} không tồn tại.");
-                }
 
+                // Check trùng lặp cặp khóa chính (VaiTro + Quyen) trong file Excel
                 string key = $"{pq.MaVaiTro}-{pq.MaQuyen}";
                 if (!khoaChinhExcel.Add(key))
-                {
                     danhSachLoi.Add($"Cặp (Vai trò: {pq.MaVaiTro}, Quyền: {pq.MaQuyen}) bị lặp lại.");
-                }
 
+                // Check giá trị hợp lệ (chỉ 0 hoặc 1)
                 if (!LaGiaTriHopLe(pq.CAN_READ) || !LaGiaTriHopLe(pq.CAN_CREATE) ||
                     !LaGiaTriHopLe(pq.CAN_UPDATE) || !LaGiaTriHopLe(pq.CAN_DELETE))
                 {
-                    danhSachLoi.Add($"Dòng (VT: {pq.MaVaiTro}, Q: {pq.MaQuyen}): Giá trị chỉ được là 0 hoặc 1.");
+                    danhSachLoi.Add($"Dòng (VT: {pq.MaVaiTro}, Q: {pq.MaQuyen}): Giá trị phân quyền chỉ được là 0 hoặc 1.");
                 }
             }
 
             if (danhSachLoi.Count > 0)
-            {
                 return "Phát hiện lỗi dữ liệu:\n• " + string.Join("\n• ", danhSachLoi);
-            }
 
-            // 2. Thực hiện Thêm / Sửa / Bỏ qua
+            // 3. THỰC HIỆN NHẬP (Thêm / Sửa)
             int soThem = 0, soCapNhat = 0, soBoQua = 0;
 
             foreach (var pqMoi in dsExcel)
             {
+                // Tìm xem cặp quyền này đã có trong DB chưa
                 var pqCu = dsDB.FirstOrDefault(x => x.MaVaiTro == pqMoi.MaVaiTro && x.MaQuyen == pqMoi.MaQuyen);
 
                 if (pqCu == null)
                 {
-                    data.ThemPhanQuyen(pqMoi);
-                    soThem++;
-                }
-                else if (!LaPhanQuyenGiongNhau(pqCu, pqMoi))
-                {
-                    // Gọi hàm Update đã viết bên DAO
-                    data.CapNhatQuyen(pqMoi.MaVaiTro, pqMoi.MaQuyen, pqMoi.CAN_READ, pqMoi.CAN_CREATE, pqMoi.CAN_UPDATE, pqMoi.CAN_DELETE);
-                    soCapNhat++;
+                    // === THÊM MỚI ===
+                    if (ThemPhanQuyenDonLe(pqMoi))
+                    {
+                        // Thêm vào cache hiển thị
+                        dsHienThi.Add(pqMoi);
+                        soThem++;
+                    }
                 }
                 else
                 {
-                    soBoQua++;
+                    // === CẬP NHẬT ===
+                    if (!LaPhanQuyenGiongNhau(pqCu, pqMoi))
+                    {
+                        if (CapNhatPhanQuyenDonLe(pqMoi))
+                        {
+                            // Cập nhật cache hiển thị
+                            pqCu.CAN_READ = pqMoi.CAN_READ;
+                            pqCu.CAN_CREATE = pqMoi.CAN_CREATE;
+                            pqCu.CAN_UPDATE = pqMoi.CAN_UPDATE;
+                            pqCu.CAN_DELETE = pqMoi.CAN_DELETE;
+
+                            soCapNhat++;
+                        }
+                    }
+                    else
+                    {
+                        soBoQua++;
+                    }
                 }
             }
 
-            LayDanhSach(); // Refresh lại list hiển thị
+            // Refresh lại danh sách tổng lần cuối cho chắc chắn
+            LayDanhSach();
+
             return $"Hoàn tất!\n- Thêm mới: {soThem}\n- Cập nhật: {soCapNhat}\n- Bỏ qua: {soBoQua}";
         }
 

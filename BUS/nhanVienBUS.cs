@@ -177,92 +177,104 @@ namespace BUS
         public string NhapExcelThongMinh(BindingList<nhanVienDTO> dsExcel)
         {
             // Lấy dữ liệu mới nhất từ DB lên để so sánh
-            var dsDB = data.LayDanhSach();
+            // Reload lại để đảm bảo cache không bị cũ
+            LayDanhSach(true);
+            var dsDB = ds;
+
             BindingList<string> danhSachLoi = new BindingList<string>();
 
-            // Hashset để kiểm tra trùng lặp nội bộ trong file Excel ngay lập tức
+            // Hashset để kiểm tra trùng lặp nội bộ trong file Excel
             HashSet<string> sdtTrongExcel = new HashSet<string>();
             HashSet<string> emailTrongExcel = new HashSet<string>();
 
-            // --- BƯỚC 1: KIỂM TRA LỖI DỮ LIỆU TRONG FILE EXCEL ---
+            // --- BƯỚC 1: KIỂM TRA LỖI DỮ LIỆU (VALIDATION) ---
             foreach (var nv in dsExcel)
             {
-                // 1.1 Kiểm tra tên rỗng
+                // Chuẩn hóa dữ liệu đầu vào (Xóa khoảng trắng thừa)
+                nv.HoTen = nv.HoTen?.Trim();
+                nv.SoDienThoai = nv.SoDienThoai?.Trim();
+                nv.Email = nv.Email?.Trim();
+
                 if (string.IsNullOrEmpty(nv.HoTen))
                 {
                     danhSachLoi.Add($"Có dòng bị thiếu Tên nhân viên.");
                     continue;
                 }
 
-                // 1.2 Kiểm tra trùng SĐT trong chính file Excel
-                if (!string.IsNullOrEmpty(nv.SoDienThoai) && !sdtTrongExcel.Add(nv.SoDienThoai))
+                // Check trùng SĐT trong file Excel
+                if (!string.IsNullOrEmpty(nv.SoDienThoai))
                 {
-                    danhSachLoi.Add($"SĐT {nv.SoDienThoai} bị lặp lại nhiều lần trong file Excel.");
+                    if (!sdtTrongExcel.Add(nv.SoDienThoai))
+                        danhSachLoi.Add($"SĐT {nv.SoDienThoai} bị lặp lại nhiều lần trong file Excel.");
                 }
 
-                // 1.3 Kiểm tra trùng Email trong chính file Excel
-                if (!string.IsNullOrEmpty(nv.Email) && !emailTrongExcel.Add(nv.Email))
+                // Check trùng Email trong file Excel
+                if (!string.IsNullOrEmpty(nv.Email))
                 {
-                    danhSachLoi.Add($"Email {nv.Email} bị lặp lại nhiều lần trong file Excel.");
+                    if (!emailTrongExcel.Add(nv.Email))
+                        danhSachLoi.Add($"Email {nv.Email} bị lặp lại nhiều lần trong file Excel.");
                 }
             }
 
-            // --- BƯỚC 2: KIỂM TRA XUNG ĐỘT VỚI DATABASE ---
+            // --- BƯỚC 2: CHECK XUNG ĐỘT DATABASE ---
+            // (Kiểm tra xem Email trong Excel có bị trùng với người KHÁC trong DB không)
             foreach (var nvMoi in dsExcel)
             {
-                // Kiểm tra Email có thuộc về người KHÁC không?
-                // Logic: Tìm người trong DB có cùng Email nhưng KHÁC SĐT (vì ta dùng SĐT làm định danh chính)
                 if (!string.IsNullOrEmpty(nvMoi.Email))
                 {
-                    var trungEmail = dsDB.FirstOrDefault(x => x.Email == nvMoi.Email && x.SoDienThoai != nvMoi.SoDienThoai);
+                    // Tìm người có cùng Email nhưng KHÁC SĐT (nghĩa là người khác)
+                    var trungEmail = dsDB.FirstOrDefault(x =>
+                        x.Email != null &&
+                        x.Email.Trim().Equals(nvMoi.Email, StringComparison.OrdinalIgnoreCase) &&
+                        (x.SoDienThoai ?? "").Trim() != (nvMoi.SoDienThoai ?? "").Trim());
+
                     if (trungEmail != null)
                     {
-                        danhSachLoi.Add($"Nhân viên '{nvMoi.HoTen}': Email {nvMoi.Email} đã thuộc về NV khác (Mã: {trungEmail.MaNhanVien}).");
+                        danhSachLoi.Add($"NV '{nvMoi.HoTen}': Email {nvMoi.Email} đã thuộc về người khác (Mã: {trungEmail.MaNhanVien}).");
                     }
                 }
             }
 
-            // Nếu có lỗi thì trả về ngay danh sách lỗi
             if (danhSachLoi.Count > 0)
             {
                 return "Phát hiện lỗi dữ liệu:\n• " + string.Join("\n• ", danhSachLoi);
             }
 
-            // --- BƯỚC 3: THỰC HIỆN THÊM / SỬA ---
+            // --- BƯỚC 3: THỰC HIỆN LƯU ---
             int soThem = 0, soCapNhat = 0, soBoQua = 0;
 
             foreach (var nvMoi in dsExcel)
             {
-                // Vì file Import không có Mã NV, ta tìm nhân viên cũ bằng SỐ ĐIỆN THOẠI
-                var nvCu = dsDB.FirstOrDefault(x => x.SoDienThoai == nvMoi.SoDienThoai);
+                // Tìm nhân viên cũ dựa trên SĐT (đã Trim sạch sẽ)
+                var nvCu = dsDB.FirstOrDefault(x =>
+                    x.SoDienThoai != null &&
+                    x.SoDienThoai.Trim() == nvMoi.SoDienThoai
+                );
 
                 if (nvCu == null)
                 {
-                    // === TRƯỜNG HỢP THÊM MỚI ===
-                    nvMoi.TrangThai = 1; // Mặc định nhân viên mới là Hoạt động (1)
+                    // === THÊM MỚI ===
+                    nvMoi.TrangThai = 1;
                     nvMoi.NgayTao = DateTime.Now;
 
-                    // Gọi hàm DAO để thêm (bạn cần đảm bảo DAO có hàm Them)
-                    data.ThemNhanVien(nvMoi);
-                    soThem++;
+                    if (data.ThemNhanVien(nvMoi)) // Lưu xuống SQL
+                    {
+                        soThem++;
+                    }
                 }
                 else
                 {
-                    // === TRƯỜNG HỢP CẬP NHẬT ===
-                    // Nếu thông tin khác nhau thì mới update để tối ưu
+                    // === CẬP NHẬT ===
                     if (!LaNhanVienGiongNhau(nvCu, nvMoi))
                     {
-                        // Gán Mã NV cũ vào đối tượng mới để biết đường mà sửa
-                        nvMoi.MaNhanVien = nvCu.MaNhanVien;
-
-                        // Giữ nguyên trạng thái cũ hoặc cập nhật theo ý bạn
-                        // Ở đây mình giữ nguyên trạng thái cũ trong DB (để tránh Excel ghi đè làm nhân viên bị khóa/mở khóa nhầm)
+                        nvMoi.MaNhanVien = nvCu.MaNhanVien; // Lấy ID cũ ốp vào
                         nvMoi.TrangThai = nvCu.TrangThai;
-                        nvMoi.NgayTao = nvCu.NgayTao; // Giữ ngày tạo gốc
+                        nvMoi.NgayTao = nvCu.NgayTao;
 
-                        // Gọi hàm DAO để sửa (bạn cần đảm bảo DAO có hàm Sua)
-                        data.CapNhatNhanVien(nvMoi);
-                        soCapNhat++;
+                        if (data.CapNhatNhanVien(nvMoi)) // Lưu xuống SQL
+                        {
+                            soCapNhat++;
+                        }
                     }
                     else
                     {
@@ -270,7 +282,13 @@ namespace BUS
                     }
                 }
             }
-            return $"Hoàn tất nhập liệu!\n\n- Thêm mới: {soThem}\n- Cập nhật: {soCapNhat}\n- Bỏ qua (không đổi): {soBoQua}";
+
+            // --- QUAN TRỌNG NHẤT: RELOAD LẠI DANH SÁCH HIỂN THỊ ---
+            // Sau khi vòng lặp xong, Database đã đổi, nhưng List ds thì chưa.
+            // Phải gọi hàm này để nó load lại từ DB lên GridView.
+            LayDanhSach(true);
+
+            return $"Hoàn tất nhập liệu!\n\n- Thêm mới: {soThem}\n- Cập nhật: {soCapNhat}\n- Bỏ qua: {soBoQua}";
         }
 
         public nhanVienDTO LayThongTinNhanVien(int maNV)

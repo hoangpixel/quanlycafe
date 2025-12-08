@@ -452,11 +452,13 @@ namespace GUI.GUI_UC
             using (excelPhanQuyen form = new excelPhanQuyen())
             {
                 form.StartPosition = FormStartPosition.CenterParent;
-                form.ShowDialog();
-
-                tbPhanQuyen.Refresh();
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    BindingList<phanquyenDTO> dsMoi = bus.LayDanhSach();
+                    loadDanhSachPhanQuyen(dsMoi);
+                    loadFontChuVaSize();
+                }
             }
-            
         }
     }
 }

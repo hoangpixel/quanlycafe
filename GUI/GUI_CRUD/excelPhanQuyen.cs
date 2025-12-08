@@ -44,6 +44,7 @@ namespace GUI.GUI_CRUD
 
                     // 4. Hiển thị kết quả
                     MessageBox.Show(ketQua, "Kết quả nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = DialogResult.OK;
                 }
                 catch (Exception ex)
                 {

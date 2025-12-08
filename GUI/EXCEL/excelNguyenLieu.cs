@@ -1,11 +1,12 @@
-﻿using OfficeOpenXml;
+﻿using DTO;
+using OfficeOpenXml;
 using OfficeOpenXml.Style;
-using DTO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace GUI.EXCEL
 {
@@ -19,92 +20,86 @@ namespace GUI.EXCEL
         // 🟢 Xuất danh sách nguyên liệu ra Excel
         public static void Export(BindingList<nguyenLieuDTO> dsNguyenLieu, string path)
         {
-            if (File.Exists(path))
-                File.Delete(path);
+            // Kiểm tra đường dẫn rỗng
+            if (string.IsNullOrEmpty(path)) return;
 
-            using (ExcelPackage package = new ExcelPackage())
+            try
             {
-                var ws = package.Workbook.Worksheets.Add("Danh sách nguyên liệu");
+                // Xóa file cũ nếu tồn tại (để ghi đè)
+                if (File.Exists(path))
+                    File.Delete(path);
 
-                // ==== Header ====
-                string[] headers = { "Mã NL", "Tên nguyên liệu", "Mã đơn vị cơ sở", "Tồn kho" };
-                for (int i = 0; i < headers.Length; i++)
+                using (ExcelPackage package = new ExcelPackage())
                 {
-                    ws.Cells[1, i + 1].Value = headers[i];
-                }
+                    var ws = package.Workbook.Worksheets.Add("Danh sách nguyên liệu");
 
-                // ==== Ghi dữ liệu ====
-                for (int i = 0; i < dsNguyenLieu.Count; i++)
-                {
-                    var nl = dsNguyenLieu[i];
-                    int row = i + 2;
-                    ws.Cells[row, 1].Value = nl.MaNguyenLieu;
-                    ws.Cells[row, 2].Value = nl.TenNguyenLieu;
-                    ws.Cells[row, 3].Value = nl.MaDonViCoSo; // 🔹 mã đơn vị (int)
-                    ws.Cells[row, 4].Value = nl.TonKho;
-                }
-
-                // ==== Style ====
-                int totalRows = dsNguyenLieu.Count + 1;
-                int totalCols = headers.Length;
-
-                var headerRange = ws.Cells[1, 1, 1, totalCols];
-                headerRange.Style.Font.Bold = true;
-                headerRange.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                headerRange.Style.Fill.BackgroundColor.SetColor(Color.SteelBlue);
-                headerRange.Style.Font.Color.SetColor(Color.White);
-                headerRange.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-
-                var dataRange = ws.Cells[1, 1, totalRows, totalCols];
-                dataRange.Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                dataRange.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                dataRange.Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                dataRange.Style.Border.Right.Style = ExcelBorderStyle.Thin;
-
-                ws.Cells[ws.Dimension.Address].AutoFitColumns();
-                ws.View.FreezePanes(2, 1);
-
-                package.SaveAs(new FileInfo(path));
-            }
-        }
-
-        // 🟢 Nhập từ Excel (dạng MÃ đơn vị)
-        public static BindingList<nguyenLieuDTO> Import(string filePath)
-        {
-            BindingList<nguyenLieuDTO> list = new BindingList<nguyenLieuDTO>();
-
-            if (!File.Exists(filePath))
-                throw new FileNotFoundException("Không tìm thấy file Excel: " + filePath);
-
-            using (var package = new ExcelPackage(new FileInfo(filePath)))
-            {
-                ExcelWorksheet ws = package.Workbook.Worksheets[0];
-                if (ws.Dimension == null)
-                    throw new Exception("File Excel không có dữ liệu!");
-
-                int rowCount = ws.Dimension.End.Row;
-
-                for (int row = 2; row <= rowCount; row++)
-                {
-                    try
+                    // ==== Header ====
+                    string[] headers = { "Mã NL", "Tên nguyên liệu", "Mã đơn vị cơ sở", "Tồn kho" };
+                    for (int i = 0; i < headers.Length; i++)
                     {
-                        nguyenLieuDTO nl = new nguyenLieuDTO
-                        {
-                            MaNguyenLieu = int.TryParse(ws.Cells[row, 1].Text, out int ma) ? ma : 0,
-                            TenNguyenLieu = ws.Cells[row, 2].Text,
-                            MaDonViCoSo = int.TryParse(ws.Cells[row, 3].Text, out int madv) ? madv : 0,
-                            TonKho = decimal.TryParse(ws.Cells[row, 4].Text, out decimal ton) ? ton : 0
-                        };
-                        list.Add(nl);
+                        ws.Cells[1, i + 1].Value = headers[i];
                     }
-                    catch (Exception ex)
+
+                    // ==== Ghi dữ liệu ====
+                    for (int i = 0; i < dsNguyenLieu.Count; i++)
                     {
-                        Console.WriteLine($"⚠️ Lỗi dòng {row}: {ex.Message}");
+                        var nl = dsNguyenLieu[i];
+                        int row = i + 2;
+                        ws.Cells[row, 1].Value = nl.MaNguyenLieu;
+                        ws.Cells[row, 2].Value = nl.TenNguyenLieu;
+                        ws.Cells[row, 3].Value = nl.MaDonViCoSo;
+                        ws.Cells[row, 4].Value = nl.TonKho;
+                    }
+
+                    // ==== Style ====
+                    int totalRows = dsNguyenLieu.Count + 1;
+                    int totalCols = headers.Length;
+
+                    var headerRange = ws.Cells[1, 1, 1, totalCols];
+                    headerRange.Style.Font.Bold = true;
+                    headerRange.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    headerRange.Style.Fill.BackgroundColor.SetColor(Color.SteelBlue);
+                    headerRange.Style.Font.Color.SetColor(Color.White);
+                    headerRange.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+                    var dataRange = ws.Cells[1, 1, totalRows, totalCols];
+                    dataRange.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    dataRange.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    dataRange.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    dataRange.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+                    ws.Cells[ws.Dimension.Address].AutoFitColumns();
+                    ws.View.FreezePanes(2, 1);
+
+                    // ⚠️ QUAN TRỌNG: PHẢI LƯU FILE TRƯỚC!
+                    package.SaveAs(new FileInfo(path));
+                } // Kết thúc using -> File đã chắc chắn nằm trên ổ cứng
+
+                // ==== Giờ mới hỏi người dùng mở file ====
+                DialogResult result = MessageBox.Show(
+                    "Xuất file thành công!\nBạn có muốn mở file Excel vừa xuất không?",
+                    "Xác nhận",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (result == DialogResult.Yes)
+                {
+                    // Kiểm tra chắc chắn file có tồn tại không trước khi mở
+                    if (File.Exists(path))
+                    {
+                        System.Diagnostics.Process.Start(path);
+                    }
+                    else
+                    {
+                        MessageBox.Show("File không tồn tại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
-
-            return list;
+            catch (Exception ex)
+            {
+                MessageBox.Show("Có lỗi khi xuất file: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

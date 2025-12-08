@@ -25,24 +25,7 @@ namespace GUI.GUI_CRUD
 
         private void btnNhapExcel_Click(object sender, EventArgs e)
         {
-            OpenFileDialog open = new OpenFileDialog();
-            open.Filter = "Excel Files|*.xlsx;*.xls";
 
-            if (open.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    BindingList<nguyenLieuDTO> ds = excelNguyenLieu.Import(open.FileName);
-                    nguyenLieuBUS bus = new nguyenLieuBUS();
-                    bus.NhapExcelThongMinh(ds);
-
-                    MessageBox.Show("Nhập Excel thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Lỗi khi nhập Excel: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
         }
 
         private void btnXuatExcel_Click(object sender, EventArgs e)
