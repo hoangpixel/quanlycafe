@@ -181,7 +181,7 @@ namespace DAO
                 cmdHD.Parameters.AddWithValue("@MaTT", hd.MaTT);
                 if (hd.MaKhachHang <= 0)
                 {
-                    cmdHD.Parameters.AddWithValue("@MaKH", DBNull.Value);
+                    cmdHD.Parameters.AddWithValue("@MaKH", 0);
                 }
                 else
                 {

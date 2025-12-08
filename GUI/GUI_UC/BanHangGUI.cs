@@ -30,7 +30,7 @@ namespace GUI.GUI_UC
         private hoaDonBUS busHoaDon = new hoaDonBUS();
         private hoaDonDAO hoaDonDAO = new hoaDonDAO();
         private int maHDDangChon = -1;
-        private int maNV = -1;
+        private int maNV = -1, maKH = 0;
         BindingList<nhanVienDTO> dsNV;
         BindingList<khachHangDTO> dsKH;
         public banHangGUI()
@@ -68,6 +68,7 @@ namespace GUI.GUI_UC
             hienThiPlaceHolderHoaDon();
             hienThiPlaceHolderSanPham();
             rdoTimCoBan.Checked = true;
+            txtKhachHang.Text = "Khách lẻ";
         }
 
         private void tuDongLoadTenNhanVien()
@@ -207,7 +208,9 @@ namespace GUI.GUI_UC
 
         private void LoadDanhSachHoaDon()
         {
-                dsHoaDon = busHoaDon.LayDanhSach();
+            dsKH = new khachHangBUS().LayDanhSach();
+            dsNV = new nhanVienBUS().LayDanhSach();
+            dsHoaDon = busHoaDon.LayDanhSach();
                 dgvHoaDon.AutoGenerateColumns = false;
                 dgvHoaDon.DataSource = null; // reset
                 dgvHoaDon.DataSource = dsHoaDon;
@@ -440,6 +443,7 @@ namespace GUI.GUI_UC
                 c[3].Name = c[3].HeaderText = "Đơn giá"; c[3].DefaultCellStyle.Format = "N0";
                 c[4].Name = c[4].HeaderText = "Thành tiền"; c[4].DefaultCellStyle.Format = "N0";
             }
+            loadFontChuVaSizeGioHang();
         }
 
         private void ResetInput()
@@ -511,10 +515,6 @@ namespace GUI.GUI_UC
                 return;
             }
 
-            int? maKH = null;
-            if (txtKhachHang.Tag != null && int.TryParse(txtKhachHang.Tag.ToString(), out int kh))
-                maKH = kh;
-
             if (maNV == -1)
             {
                 MessageBox.Show("Vui lòng chọn nhân viên phục vụ!", "Lỗi nhân viên",
@@ -527,7 +527,7 @@ namespace GUI.GUI_UC
             string message = $@"XÁC NHẬN TẠO HÓA ĐƠN
             ────────────────────────────
             Bàn số: {maBan}
-            Khách hàng: {(maKH.HasValue ? txtKhachHang.Text : "Khách lẻ")}
+            Khách hàng: {txtKhachHang.Text}
             Nhân viên: {txtNhanVien.Text}
             Số món: {gioHang.Count}
             PPTT: {maTT}
@@ -549,7 +549,7 @@ namespace GUI.GUI_UC
             var hd = new hoaDonDTO
             {
                 MaBan = maBan,
-                MaKhachHang = maKH ??0,   
+                MaKhachHang = maKH,   
                 MaNhanVien = maNV,
                 MaTT = maTT,       
                 ThoiGianTao = DateTime.Now,
@@ -633,6 +633,7 @@ namespace GUI.GUI_UC
             LoadDanhSachSanPham(ds);
             LoadDanhSachLoaiVaNhom();
             CapNhatGioHang();
+            ResetInput();
         }
 
         private int lastSelectedRowIndex = -1;
@@ -832,7 +833,7 @@ namespace GUI.GUI_UC
                 if (f.ShowDialog() == DialogResult.OK)
                 {
                     txtKhachHang.Text = f.TenKHChon;
-                    txtKhachHang.Tag = f.MaKHChon;
+                    maKH = f.MaKHChon;
                 }
             }
         }
@@ -1019,7 +1020,11 @@ namespace GUI.GUI_UC
                             using (updateHoaDon form = new updateHoaDon(hd))
                             {
                                 form.StartPosition = FormStartPosition.CenterParent;
-                                form.ShowDialog();
+                                if(form.ShowDialog() == DialogResult.OK)
+                                {
+                                    BindingList<sanPhamDTO> dsMoi = busSanPham.LayDanhSachCoCongThuc();
+                                    LoadDanhSachSanPham(dsMoi);
+                                }
                             }
                         }
                     }
@@ -1302,7 +1307,10 @@ namespace GUI.GUI_UC
         private void dgvHoaDon_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0) return;
+            if (dsNV == null || dsKH == null) return;
+
             hoaDonDTO hd = dgvHoaDon.Rows[e.RowIndex].DataBoundItem as hoaDonDTO;
+            if (hd == null) return;
 
             if (dgvHoaDon.Columns[e.ColumnIndex].HeaderText == "Tên nhân viên")
             {
@@ -1310,11 +1318,17 @@ namespace GUI.GUI_UC
                 e.Value = nv?.HoTen ?? "Không xác định";
             }
 
-
             if (dgvHoaDon.Columns[e.ColumnIndex].HeaderText == "Tên khách hàng")
             {
-                khachHangDTO kh = dsKH.FirstOrDefault(x => x.MaKhachHang == hd.MaKhachHang);
-                e.Value = kh?.TenKhachHang ?? "Không xác định";
+                if (hd.MaKhachHang == 0)
+                {
+                    e.Value = "Khách lẻ";
+                }
+                else
+                {
+                    khachHangDTO kh = dsKH.FirstOrDefault(x => x.MaKhachHang == hd.MaKhachHang);
+                    e.Value = kh?.TenKhachHang ?? "Không xác định";
+                }
             }
         }
 
@@ -1364,6 +1378,21 @@ namespace GUI.GUI_UC
                          orderby dv.MaLoai
                          select nl).ToList();
             }
+            if (giaTriTim == "Tên nhóm")
+            {
+                string timBoDau = RemoveDiacritics(tim);
+
+                dsTim = (
+                    from sp in danhSachSP
+                    join loai in dsLoai on sp.MaLoai equals loai.MaLoai
+                    join nhom in dsNhom on loai.MaNhom equals nhom.MaNhom
+                    let tenNhomBoDau = RemoveDiacritics(nhom.TenNhom.ToLower())
+                    where tenNhomBoDau.Contains(timBoDau)
+                    orderby nhom.MaNhom
+                    select sp
+                ).ToList();
+            }
+
             if (dsTim != null && dsTim.Count > 0)
             {
                 BindingList<sanPhamDTO> dsBinding = new BindingList<sanPhamDTO>(dsTim);
@@ -1375,6 +1404,24 @@ namespace GUI.GUI_UC
                 return;
             }
         }
+        public static string RemoveDiacritics(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return text;
+
+            var normalized = text.Normalize(System.Text.NormalizationForm.FormD);
+            var sb = new StringBuilder();
+
+            foreach (var c in normalized)
+            {
+                var unicodeCategory = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c);
+                if (unicodeCategory != System.Globalization.UnicodeCategory.NonSpacingMark)
+                    sb.Append(c);
+            }
+
+            return sb.ToString().Normalize(System.Text.NormalizationForm.FormC);
+        }
+
     }
- }
+}
 

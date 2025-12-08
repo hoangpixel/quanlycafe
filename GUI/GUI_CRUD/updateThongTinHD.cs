@@ -73,8 +73,8 @@ namespace GUI.GUI_CRUD
             var dsKh = new khachHangBUS().LayDanhSach();
             var kh = dsKh.FirstOrDefault(x => x.MaKhachHang == hd.MaKhachHang);
 
-            txtKhacHang.Text = kh?.TenKhachHang ?? "Không xác định";
-            maKH = hd.MaKhachHang;
+            txtKhacHang.Text = kh?.TenKhachHang ?? "Khách lẻ";
+            maKH = hd.MaKhachHang ?? 0;
 
             BindingList<banDTO> dsBan = new banBUS().LayDanhSach();
             BindingList<khuVucDTO> dsKhuVuc = new khuvucBUS().LayDanhSach();
@@ -86,7 +86,7 @@ namespace GUI.GUI_CRUD
             txtban.Text = tenBanKhuVuc;
 
             maBan = hd.MaBan;
-            maKH = hd.MaKhachHang;
+            maKH = hd.MaKhachHang ?? 0;
 
             cboPPThanhToan.SelectedValue = hd.MaTT;
 

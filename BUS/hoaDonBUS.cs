@@ -45,12 +45,21 @@ namespace BUS
 
                 if (hoaDonMoi != null)
                 {
+                    if (hoaDonMoi.MaNhanVien == 0 || hoaDonMoi.MaNhanVien == null)
+                        hoaDonMoi.MaNhanVien = hd.MaNhanVien;
+
+                    if (hoaDonMoi.MaKhachHang == 0 || hoaDonMoi.MaKhachHang == null)
+                        hoaDonMoi.MaKhachHang = hd.MaKhachHang;
+
+                    if (hoaDonMoi.MaBan == 0)
+                        hoaDonMoi.MaBan = hd.MaBan;
                     ds.Insert(0, hoaDonMoi);
                 }
             }
 
             return newID;
         }
+
         public int SuaHoaDon(hoaDonDTO hd, BindingList<cthoaDonDTO> dsChiTiet)
         {
             int newID = dao.SuaHD(hd, dsChiTiet);
@@ -61,6 +70,14 @@ namespace BUS
 
                 if (hoaDonMoi != null)
                 {
+                    if (hoaDonMoi.MaNhanVien == 0 || hoaDonMoi.MaNhanVien == null)
+                        hoaDonMoi.MaNhanVien = hd.MaNhanVien;
+
+                    if (hoaDonMoi.MaKhachHang == 0 || hoaDonMoi.MaKhachHang == null)
+                        hoaDonMoi.MaKhachHang = hd.MaKhachHang;
+
+                    if (hoaDonMoi.MaBan == 0)
+                        hoaDonMoi.MaBan = hd.MaBan;
                     ds.Insert(0, hoaDonMoi);
                 }
             }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2025 at 10:46 AM
+-- Generation Time: Dec 08, 2025 at 01:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -232,6 +232,7 @@ INSERT INTO `hesodonvi` (`MANGUYENLIEU`, `MADONVI`, `HESO`) VALUES
 (2, 2, 1.000),
 (3, 9, 1.000),
 (4, 9, 1.000),
+(5, 5, 1.000),
 (5, 7, 6.000),
 (5, 8, 24.000);
 
@@ -288,7 +289,8 @@ CREATE TABLE `khachhang` (
 --
 
 INSERT INTO `khachhang` (`MAKHACHHANG`, `TENKHACHHANG`, `SODIENTHOAI`, `EMAIL`, `TRANGTHAI`, `NGAYTAO`) VALUES
-(1, 'abc', '113', 'm@gmail.com', 1, '2025-11-14 13:17:26');
+(0, 'Khách lẻ', NULL, NULL, 0, '2025-12-08 19:13:16'),
+(1, 'Nguyễn Văn A', '0333333333', 'm@gmail.com', 1, '2025-11-14 13:17:26');
 
 -- --------------------------------------------------------
 
@@ -870,7 +872,7 @@ ALTER TABLE `phieunhap`
 -- AUTO_INCREMENT for table `quyen`
 --
 ALTER TABLE `quyen`
-  MODIFY `MAQUYEN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `MAQUYEN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `sanpham`

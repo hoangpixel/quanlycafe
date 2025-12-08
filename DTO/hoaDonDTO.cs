@@ -14,9 +14,9 @@ namespace DTO
         public bool TrangThai { get; set; }
         public decimal TongTien { get; set; }
         public int MaTT { get; set; }
-        public int MaKhachHang { get; set; }
+        public int? MaKhachHang { get; set; }
         public int MaNhanVien { get; set; }
-        public string TenKhachHang { get; set; } = "Khách lẻ";
+        public string TenKhachHang { get; set;}
         public string HoTen { get; set; }
         public int KhoaSo { get; set; }
     }
