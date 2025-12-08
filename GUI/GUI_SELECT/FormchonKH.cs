@@ -24,6 +24,10 @@ namespace GUI.GUI_SELECT
             InitializeComponent();
             this.Text = "Chọn Khách Hàng";
             this.StartPosition = FormStartPosition.CenterParent;
+            
+        }
+        private void FormchonKH_Load(object sender, EventArgs e)
+        {
             LoadDanhSachKhachHang();
             txtTimKiem.Focus();
             loadFontChuVaSizeKH();
@@ -82,6 +86,7 @@ namespace GUI.GUI_SELECT
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
+            
         }
         private void btnChon_Click(object sender, EventArgs e)
         {
@@ -138,6 +143,40 @@ namespace GUI.GUI_SELECT
             {
                 ChonKhachHang();
             }
+        }
+
+        private void SetPlaceholder(TextBox txt, string placeholder)
+        {
+            txt.ForeColor = Color.Gray;
+            txt.Text = placeholder;
+            txt.GotFocus += (s, e) =>
+            {
+                if (txt.Text == placeholder)
+                {
+                    txt.Text = "";
+                    txt.ForeColor = Color.Black;
+                }
+            };
+            txt.LostFocus += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(txt.Text))
+                {
+                    txt.ForeColor = Color.Gray;
+                    txt.Text = placeholder;
+                }
+            };
+        }
+        public void hienthiPlaceHolderKH()
+        {
+            SetPlaceholder(txtTimKiem, "Tìm kiếm khách hàng...");
+        }
+
+        private void btnKL_Click(object sender, EventArgs e)
+        {
+            MaKHChon = 0;
+            TenKHChon = "Khách Lẻ";
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }
