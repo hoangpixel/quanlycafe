@@ -40,29 +40,16 @@ namespace GUI.GUI_UC
 
         private void CheckQuyen()
         {
-            var quyenTK = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 5);
+            var quyenSP = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 5);
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
+            bool coQuyenThem = isAdmin || (quyenSP != null && quyenSP.CAN_CREATE == 1);
 
-            if (quyenTK != null)
-            {
-                btnThemTK.Enabled = (quyenTK.CAN_CREATE == 1);
+            btnThemTK.Enabled = coQuyenThem;
+            btnExcelTK.Enabled = coQuyenThem;
 
-                btnSuaTK.Enabled = (quyenTK.CAN_UPDATE) == 1;
-
-                btnXoaTK.Enabled = (quyenTK.CAN_DELETE) == 1;
-
-                btnExcelTK.Enabled = (quyenTK.CAN_CREATE) == 1;
-
-                btnSuaTK.Enabled = false;
-                btnXoaTK.Enabled = false;
-            }
-            else
-            {
-                btnThemTK.Enabled = false;
-                btnSuaTK.Enabled = false;
-                btnXoaTK.Enabled = false;
-                btnChiTietTK.Enabled = false;
-                btnExcelTK.Enabled = false;
-            }
+            btnSuaTK.Enabled = false;
+            btnXoaTK.Enabled = false;
+            btnChiTietTK.Enabled = false;
         }
         private void loadDanhSachTaiKhoan(BindingList<taikhoanDTO> ds)
         {

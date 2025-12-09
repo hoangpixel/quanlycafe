@@ -38,29 +38,16 @@ namespace GUI.GUI_UC
 
         private void CheckQuyen()
         {
-            var quyenNV = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 4);
+            var quyenSP = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 4);
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
+            bool coQuyenThem = isAdmin || (quyenSP != null && quyenSP.CAN_CREATE == 1);
 
-            if (quyenNV != null)
-            {
-                btnThemNV.Enabled = (quyenNV.CAN_CREATE == 1);
+            btnThemNV.Enabled = coQuyenThem;
+            btnExcelNV.Enabled = coQuyenThem;
 
-                btnSuaNV.Enabled = (quyenNV.CAN_UPDATE) == 1;
-
-                btnXoaNV.Enabled = (quyenNV.CAN_DELETE) == 1;
-
-                btnExcelNV.Enabled = (quyenNV.CAN_CREATE) == 1;
-
-                btnSuaNV.Enabled = false;
-                btnXoaNV.Enabled = false;
-            }
-            else
-            {
-                btnThemNV.Enabled = false;
-                btnSuaNV.Enabled = false;
-                btnXoaNV.Enabled = false;
-                btnChiTietNV.Enabled = false;
-                btnExcelNV.Enabled = false;
-            }
+            btnSuaNV.Enabled = false;
+            btnXoaNV.Enabled = false;
+            btnChiTietNV.Enabled = false;
         }
 
         private void loadDanhSachNhanVien(BindingList<nhanVienDTO> ds)

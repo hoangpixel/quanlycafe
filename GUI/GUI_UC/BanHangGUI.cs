@@ -69,6 +69,7 @@ namespace GUI.GUI_UC
             hienThiPlaceHolderSanPham();
             rdoTimCoBan.Checked = true;
             txtKhachHang.Text = "Khách lẻ";
+            CheckQuyen();
         }
 
         private void tuDongLoadTenNhanVien()
@@ -79,7 +80,26 @@ namespace GUI.GUI_UC
                 maNV = DTO.Session.NhanVienHienTai.MaNhanVien;
             }
         }
+        private void CheckQuyen()
+        {
+            var quyenNX = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 3);
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
+            bool coQuyenThem = isAdmin || (quyenNX != null && quyenNX.CAN_CREATE == 1);
+            btThemSP.Enabled = false;
+            btnXacNhan.Enabled = coQuyenThem;
+            btnExcelSP.Enabled = coQuyenThem;
+            btnChonBan.Enabled = coQuyenThem;
+            btnChonKH.Enabled = coQuyenThem;
+            numSoLuong.Enabled = coQuyenThem;
 
+            button2.Enabled = false;
+            button5.Enabled = coQuyenThem;
+            btnXoaSP.Enabled = false;
+            btnSuaHD.Enabled = false;
+            btnXoaHD.Enabled = false;
+            btnDonBan.Enabled = false;
+            btnChiTietHD.Enabled = false;
+        }
         private void loadFontChuVaSize()
         {
             foreach (DataGridViewColumn col in dgvSanPham.Columns)
@@ -641,7 +661,14 @@ namespace GUI.GUI_UC
 
         private void dgvSanPham_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // 1. HỦY CHỌN BÊN GIỎ HÀNG NGAY LẬP TỨC
+            var quyenNX = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 3);
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
+
+            bool coQuyenThem = isAdmin || (quyenNX != null && quyenNX.CAN_CREATE == 1);
+            bool coQuyenSua = isAdmin || (quyenNX != null && quyenNX.CAN_UPDATE == 1);
+            bool coQuyenXoa = isAdmin || (quyenNX != null && quyenNX.CAN_DELETE == 1);
+
+
             dgvGioHang.ClearSelection();
             lastSelectedRowIndexGio = -1; // Reset biến lưu của giỏ hàng
 
@@ -669,7 +696,7 @@ namespace GUI.GUI_UC
             HienThiChiTietSanPham(sp); // Hiển thị thông tin lên textbox
 
             // Cấu hình nút bấm cho chế độ THÊM
-            btThemSP.Enabled = true;
+            btThemSP.Enabled = coQuyenThem;
             numSoLuong.Enabled = true;
             numSoLuong.Visible = true;
             numSoLuong.Value = 1; // Mặc định là 1 khi chọn món mới
@@ -731,42 +758,31 @@ namespace GUI.GUI_UC
         private int lastSelectedRowIndexGio = -1;
         private void dgvGioHang_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // 1. HỦY CHỌN BÊN SẢN PHẨM NGAY LẬP TỨC
             dgvSanPham.ClearSelection();
-            lastSelectedRowIndex = -1; // Reset biến lưu của sản phẩm
-
-            // Tắt nút Thêm (vì đang thao tác trong giỏ)
+            lastSelectedRowIndex = -1;
             btThemSP.Enabled = false;
-
-            // 2. KIỂM TRA CLICK HỢP LỆ
             if (e.RowIndex < 0 || e.RowIndex >= gioHang.Count)
                 return;
-
-            // 3. LOGIC TOGGLE (Bấm lại dòng đã chọn thì hủy)
             if (e.RowIndex == lastSelectedRowIndexGio)
             {
                 dgvGioHang.ClearSelection();
                 lastSelectedRowIndexGio = -1;
-                ResetInputControls(); // Xóa trắng, tắt nút Sửa/Xóa
+                ResetInputControls();
                 return;
             }
 
-            // 4. CHỌN DÒNG MỚI
             lastSelectedRowIndexGio = e.RowIndex;
 
-            // Lấy thông tin sản phẩm từ giỏ để hiển thị lại
             var itemGioHang = gioHang[e.RowIndex];
             var spTrongGio = danhSachSP.FirstOrDefault(s => s.MaSP == itemGioHang.MaSP);
 
             if (spTrongGio != null)
             {
                 HienThiChiTietSanPham(spTrongGio);
-                numSoLuong.Value = itemGioHang.SoLuong; // Load số lượng đang có trong giỏ
+                numSoLuong.Value = itemGioHang.SoLuong;
             }
-
-            // Cấu hình nút bấm cho chế độ SỬA/XÓA
             btnXoaSP.Enabled = true;
-            button2.Enabled = true; // Nút sửa
+            button2.Enabled = true;
             numSoLuong.Enabled = true;
             numSoLuong.Visible = true;
         }
@@ -788,20 +804,24 @@ namespace GUI.GUI_UC
         private void dgvHoaDon_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
-            
+
+            var quyenNX = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 3);
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
+
+             bool coQuyenThem = isAdmin || (quyenNX != null && quyenNX.CAN_CREATE == 1);
+            bool coQuyenSua = isAdmin || (quyenNX != null && quyenNX.CAN_UPDATE == 1);
+            bool coQuyenXoa = isAdmin || (quyenNX != null && quyenNX.CAN_DELETE == 1);
+
             if (e.RowIndex == lastSelectedRowIndex)
             {
                 dgvHoaDon.ClearSelection();
                 lastSelectedRowIndex = -1;
-
                 btnChiTietHD.Enabled = false;
                 btnDonBan.Enabled = false;
                 btnXoaHD.Enabled = false;
                 btnSuaHD.Enabled = false;
-                
                 return;
             }
-
             lastSelectedRowIndex = e.RowIndex;
 
             var row = dgvHoaDon.Rows[e.RowIndex];
@@ -810,19 +830,19 @@ namespace GUI.GUI_UC
             if (hd == null) return;
             if (hd.KhoaSo == 1)
             {
-                btnChiTietHD.Enabled = true; 
+                btnChiTietHD.Enabled = true;
+
                 btnDonBan.Enabled = false;
                 btnXoaHD.Enabled = false;
                 btnSuaHD.Enabled = false;
-                
             }
             else
             {
                 btnChiTietHD.Enabled = true;
-                btnDonBan.Enabled = true;
-                btnXoaHD.Enabled = true;
-                btnSuaHD.Enabled = true;
-                
+                btnDonBan.Enabled = coQuyenSua;
+                btnXoaHD.Enabled = coQuyenXoa;
+                btnSuaHD.Enabled = coQuyenThem;
+                btnExcelSP.Enabled = coQuyenThem;
             }
         }
 
@@ -1013,6 +1033,8 @@ namespace GUI.GUI_UC
                                     hoaDonDTO hdsua = formSua.hd;
                                     busHoaDon.capNhatThongTinHoaDon(hdsua);
                                     dgvHoaDon.Refresh();
+                                    BindingList<sanPhamDTO> dsMoi = busSanPham.LayDanhSachCoCongThuc();
+                                    LoadDanhSachSanPham(dsMoi);
                                 }
                             }
                         }else
@@ -1072,6 +1094,8 @@ namespace GUI.GUI_UC
                 }
             }
             dgvHoaDon.Refresh();
+            dgvHoaDon.ClearSelection();
+            btnChiTietHD.Enabled = false;
         }
 
         private void btnExcelSP_Click(object sender, EventArgs e)

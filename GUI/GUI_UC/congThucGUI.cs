@@ -49,28 +49,15 @@ namespace GUI.GUI_UC
         private void CheckQuyen()
         {
             var quyenSP = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 1);
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
+            bool coQuyenThem = isAdmin || (quyenSP != null && quyenSP.CAN_CREATE == 1);
 
-            if (quyenSP != null)
-            {
-                btnThemCT.Enabled = (quyenSP.CAN_CREATE == 1);
+            btnThemCT.Enabled = coQuyenThem;
+            btnExcelCT.Enabled = coQuyenThem;
 
-                btnSuaCT.Enabled = (quyenSP.CAN_UPDATE) == 1;
-
-                btnXoaCT.Enabled = (quyenSP.CAN_DELETE) == 1;
-
-                btnExcelCT.Enabled = (quyenSP.CAN_CREATE) == 1;
-
-                btnSuaCT.Enabled = false;
-                btnXoaCT.Enabled = false;
-            }
-            else
-            {
-                btnThemCT.Enabled = false;
-                btnSuaCT.Enabled = false;
-                btnXoaCT.Enabled = false;
-                btnChiTietCT.Enabled = false;
-                btnExcelCT.Enabled = false;
-            }
+            btnSuaCT.Enabled = false;
+            btnXoaCT.Enabled = false;
+            btnChiTietCT.Enabled = false;
         }
         private void loadDanhSachCongThuc(BindingList<congThucDTO> ds)
         {

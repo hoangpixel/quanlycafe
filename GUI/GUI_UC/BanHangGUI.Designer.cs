@@ -261,7 +261,7 @@
             "Tên SP",
             "Tên Loại",
             "Tên nhóm"});
-            this.cboSanPham.Location = new System.Drawing.Point(10, 10);
+            this.cboSanPham.Location = new System.Drawing.Point(10, 8);
             this.cboSanPham.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboSanPham.Name = "cboSanPham";
             this.cboSanPham.Size = new System.Drawing.Size(176, 28);
@@ -948,7 +948,7 @@
             "Tên Bàn",
             "Tên Khách Hàng",
             "Tên Nhân Viên"});
-            this.cboTimKiemHD.Location = new System.Drawing.Point(10, 8);
+            this.cboTimKiemHD.Location = new System.Drawing.Point(10, 10);
             this.cboTimKiemHD.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemHD.Name = "cboTimKiemHD";
             this.cboTimKiemHD.Size = new System.Drawing.Size(176, 28);

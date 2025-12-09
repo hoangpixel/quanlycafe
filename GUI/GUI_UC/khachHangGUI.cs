@@ -39,29 +39,16 @@ namespace GUI.GUI_UC
 
         private void CheckQuyen()
         {
-            var quyenKH = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 6);
+            var quyenSP = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 6);
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
+            bool coQuyenThem = isAdmin || (quyenSP != null && quyenSP.CAN_CREATE == 1);
 
-            if (quyenKH != null)
-            {
-                btnThemKH.Enabled = (quyenKH.CAN_CREATE == 1);
+            btnThemKH.Enabled = coQuyenThem;
+            btnExcelKH.Enabled = coQuyenThem;
 
-                btnSuaKH.Enabled = (quyenKH.CAN_UPDATE) == 1;
-
-                btnXoaKH.Enabled = (quyenKH.CAN_DELETE) == 1;
-
-                btnExcelKH.Enabled = (quyenKH.CAN_CREATE) == 1;
-
-                btnSuaKH.Enabled = false;
-                btnXoaKH.Enabled = false;
-            }
-            else
-            {
-                btnThemKH.Enabled = false;
-                btnSuaKH.Enabled = false;
-                btnXoaKH.Enabled = false;
-                btnChiTietKH.Enabled = false;
-                btnExcelKH.Enabled = false;
-            }
+            btnSuaKH.Enabled = false;
+            btnXoaKH.Enabled = false;
+            btnChiTietKH.Enabled = false;
         }
         private void loadDanhSachKhachHang(BindingList<khachHangDTO> ds)
         {

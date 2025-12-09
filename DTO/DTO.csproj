@@ -67,6 +67,7 @@
     <Compile Include="nhanVienDTO.cs" />
     <Compile Include="nhomDTO.cs" />
     <Compile Include="phanquyenDTO.cs" />
+    <Compile Include="phieuHuyDTO.cs" />
     <Compile Include="phieuNhapDTO.cs" />
     <Compile Include="PhieuNhapExcelRow.cs" />
     <Compile Include="ppThanhToanDTO.cs" />

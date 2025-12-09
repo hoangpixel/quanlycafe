@@ -61,50 +61,26 @@ namespace GUI.GUI_UC
         private void CheckQuyen()
         {
             var quyenNX = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 2);
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
 
-            if (quyenNX != null)
-            {
-                btThemCTPN.Enabled = (quyenNX.CAN_CREATE == 1);
-                btnSuaPN.Enabled = (quyenNX.CAN_CREATE == 1);
-                btnXacNhan.Enabled = (quyenNX.CAN_CREATE == 1);
-                btnExcelPN.Enabled = (quyenNX.CAN_CREATE == 1);
-                btnChonNCC.Enabled = (quyenNX.CAN_CREATE == 1);
-                btnChonDV.Enabled = (quyenNX.CAN_CREATE == 1);
-                numSoLuong.Enabled = (quyenNX.CAN_CREATE == 1);
+            bool coQuyenThem = isAdmin || (quyenNX != null && quyenNX.CAN_CREATE == 1);
 
-                btnSuaCTPN.Enabled = (quyenNX.CAN_CREATE == 1);
-                btnChotSo.Enabled = (quyenNX.CAN_UPDATE == 1);
+            numSoLuong.Enabled = coQuyenThem;
+            btnChonNCC.Enabled = coQuyenThem;
+            btnChonDV.Enabled = coQuyenThem;
 
-                btnXoaCTPN.Enabled = (quyenNX.CAN_CREATE == 1);
-                button5.Enabled = (quyenNX.CAN_CREATE == 1);
-                btnXoaPN.Enabled = (quyenNX.CAN_DELETE == 1);
+            btThemCTPN.Enabled = false;
+            btnSuaCTPN.Enabled = coQuyenThem;
+            btnXoaCTPN.Enabled = coQuyenThem;
 
-                btnSuaPN.Enabled = false;
-                btThemCTPN.Enabled = false;
-                btnSuaCTPN.Enabled = false;
-                btnXoaCTPN.Enabled = false;
-                btnChonDV.Enabled = false;
-                btnXoaPN.Enabled = false;
-                btnChotSo.Enabled = false;
-                btnChiTietPN.Enabled = false;
-            }
-            else
-            {
-                btThemCTPN.Enabled = false;
-                btnSuaPN.Enabled = false;
-                btnXacNhan.Enabled = false;
-                btnExcelPN.Enabled = false;
-                btnChonNCC.Enabled = false;
-                btnChonDV.Enabled = false;
-                numSoLuong.Enabled = false;
+            btnXacNhan.Enabled = coQuyenThem;
+            btnExcelPN.Enabled = coQuyenThem;
+            button5.Enabled = coQuyenThem;
 
-                btnSuaCTPN.Enabled = false;
-                btnChotSo.Enabled = false;
-
-                btnXoaCTPN.Enabled = false;
-                button5.Enabled = false;
-                btnXoaPN.Enabled = false;
-            }
+            btnSuaPN.Enabled = false;
+            btnXoaPN.Enabled = false;
+            btnChotSo.Enabled = false;
+            btnChiTietPN.Enabled = false;
         }
         private void loadFontVaChu(DataGridView table)
         {

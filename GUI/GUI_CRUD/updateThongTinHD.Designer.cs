@@ -50,6 +50,8 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -69,7 +71,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(10);
-            this.panel1.Size = new System.Drawing.Size(546, 593);
+            this.panel1.Size = new System.Drawing.Size(546, 638);
             this.panel1.TabIndex = 0;
             // 
             // panel4
@@ -82,14 +84,14 @@
             this.panel4.Location = new System.Drawing.Point(10, 120);
             this.panel4.Name = "panel4";
             this.panel4.Padding = new System.Windows.Forms.Padding(10);
-            this.panel4.Size = new System.Drawing.Size(526, 463);
+            this.panel4.Size = new System.Drawing.Size(526, 508);
             this.panel4.TabIndex = 2;
             // 
             // panel6
             // 
             this.panel6.Controls.Add(this.groupBox2);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel6.Location = new System.Drawing.Point(10, 339);
+            this.panel6.Location = new System.Drawing.Point(10, 384);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(504, 112);
             this.panel6.TabIndex = 1;
@@ -152,11 +154,13 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel5.Location = new System.Drawing.Point(10, 10);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(504, 297);
+            this.panel5.Size = new System.Drawing.Size(504, 361);
             this.panel5.TabIndex = 0;
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.cboPPThanhToan);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.btnChonKH);
@@ -171,7 +175,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(504, 297);
+            this.groupBox1.Size = new System.Drawing.Size(504, 361);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin hóa đơn";
@@ -179,7 +183,7 @@
             // cboPPThanhToan
             // 
             this.cboPPThanhToan.FormattingEnabled = true;
-            this.cboPPThanhToan.Location = new System.Drawing.Point(220, 240);
+            this.cboPPThanhToan.Location = new System.Drawing.Point(239, 240);
             this.cboPPThanhToan.Name = "cboPPThanhToan";
             this.cboPPThanhToan.Size = new System.Drawing.Size(175, 28);
             this.cboPPThanhToan.TabIndex = 9;
@@ -195,7 +199,7 @@
             // 
             // btnChonKH
             // 
-            this.btnChonKH.Location = new System.Drawing.Point(411, 106);
+            this.btnChonKH.Location = new System.Drawing.Point(430, 106);
             this.btnChonKH.Name = "btnChonKH";
             this.btnChonKH.Size = new System.Drawing.Size(53, 38);
             this.btnChonKH.TabIndex = 7;
@@ -205,7 +209,7 @@
             // 
             // btnBan
             // 
-            this.btnBan.Location = new System.Drawing.Point(411, 173);
+            this.btnBan.Location = new System.Drawing.Point(430, 173);
             this.btnBan.Name = "btnBan";
             this.btnBan.Size = new System.Drawing.Size(53, 38);
             this.btnBan.TabIndex = 6;
@@ -216,7 +220,7 @@
             // txtban
             // 
             this.txtban.Enabled = false;
-            this.txtban.Location = new System.Drawing.Point(220, 173);
+            this.txtban.Location = new System.Drawing.Point(239, 173);
             this.txtban.Name = "txtban";
             this.txtban.Size = new System.Drawing.Size(175, 27);
             this.txtban.TabIndex = 5;
@@ -224,7 +228,7 @@
             // txtKhacHang
             // 
             this.txtKhacHang.Enabled = false;
-            this.txtKhacHang.Location = new System.Drawing.Point(220, 106);
+            this.txtKhacHang.Location = new System.Drawing.Point(239, 106);
             this.txtKhacHang.Name = "txtKhacHang";
             this.txtKhacHang.Size = new System.Drawing.Size(175, 27);
             this.txtKhacHang.TabIndex = 4;
@@ -232,7 +236,7 @@
             // txtTenNhanVien
             // 
             this.txtTenNhanVien.Enabled = false;
-            this.txtTenNhanVien.Location = new System.Drawing.Point(220, 46);
+            this.txtTenNhanVien.Location = new System.Drawing.Point(239, 46);
             this.txtTenNhanVien.Name = "txtTenNhanVien";
             this.txtTenNhanVien.Size = new System.Drawing.Size(244, 27);
             this.txtTenNhanVien.TabIndex = 3;
@@ -295,11 +299,31 @@
             this.bigLabel1.TabIndex = 0;
             this.bigLabel1.Text = "Sửa thông tin hóa đơn";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(35, 298);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(195, 20);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "Phát sinh nguyên liệu:";
+            // 
+            // button1
+            // 
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.Location = new System.Drawing.Point(239, 298);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(175, 43);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "Phát sinh";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // updateThongTinHD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(546, 593);
+            this.ClientSize = new System.Drawing.Size(546, 638);
             this.Controls.Add(this.panel1);
             this.Name = "updateThongTinHD";
             this.Text = "updateThongTinHD";
@@ -342,5 +366,7 @@
         private System.Windows.Forms.Button btnChonKH;
         private System.Windows.Forms.ComboBox cboPPThanhToan;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button button1;
     }
 }

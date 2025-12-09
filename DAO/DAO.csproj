@@ -131,6 +131,7 @@
     <Compile Include="nhanVienDAO.cs" />
     <Compile Include="nhomDAO.cs" />
     <Compile Include="phanquyenDAO.cs" />
+    <Compile Include="phieuHuyDAO.cs" />
     <Compile Include="phieuNhapDAO.cs" />
     <Compile Include="ppThanhToanDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

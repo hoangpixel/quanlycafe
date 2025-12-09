@@ -56,6 +56,15 @@ namespace GUI.GUI_CRUD
             }
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using(insertPhieuHuy form = new insertPhieuHuy(hd))
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.ShowDialog();
+            }
+        }
+
         private void btnBan_Click(object sender, EventArgs e)
         {
             using (var f = new FormChonBan())

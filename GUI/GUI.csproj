@@ -247,6 +247,12 @@
     <Compile Include="GUI_CRUD\insertPhanQuyen.Designer.cs">
       <DependentUpon>insertPhanQuyen.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_CRUD\insertPhieuHuy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\insertPhieuHuy.Designer.cs">
+      <DependentUpon>insertPhieuHuy.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_CRUD\insertTaiKhoan.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -661,6 +667,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\insertPhanQuyen.resx">
       <DependentUpon>insertPhanQuyen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\insertPhieuHuy.resx">
+      <DependentUpon>insertPhieuHuy.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\insertTaiKhoan.resx">
       <DependentUpon>insertTaiKhoan.cs</DependentUpon>

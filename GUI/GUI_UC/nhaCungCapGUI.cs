@@ -36,29 +36,16 @@ namespace GUI.GUI_UC
 
         private void CheckQuyen()
         {
-            var quyenNCC = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 7);
+            var quyenSP = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 7);
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
+            bool coQuyenThem = isAdmin || (quyenSP != null && quyenSP.CAN_CREATE == 1);
 
-            if (quyenNCC != null)
-            {
-                btnThemNCC.Enabled = (quyenNCC.CAN_CREATE == 1);
+            btnThemNCC.Enabled = coQuyenThem;
+            btnExcelNCC.Enabled = coQuyenThem;
 
-                btnSuaNCC.Enabled = (quyenNCC.CAN_UPDATE) == 1;
-
-                btnXoaNCC.Enabled = (quyenNCC.CAN_DELETE) == 1;
-
-                btnExcelNCC.Enabled = (quyenNCC.CAN_CREATE) == 1;
-
-                btnSuaNCC.Enabled = false;
-                btnXoaNCC.Enabled = false;
-            }
-            else
-            {
-                btnThemNCC.Enabled = false;
-                btnSuaNCC.Enabled = false;
-                btnXoaNCC.Enabled = false;
-                btnChiTietNCC.Enabled = false;
-                btnExcelNCC.Enabled = false;
-            }
+            btnSuaNCC.Enabled = false;
+            btnXoaNCC.Enabled = false;
+            btnChiTietNCC.Enabled = false;
         }
 
         private void loadDanhSachNhaCungCap(BindingList<nhaCungCapDTO> ds)

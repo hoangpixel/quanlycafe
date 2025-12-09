@@ -50,31 +50,16 @@ namespace GUI.GUI_UC
         private void CheckQuyen()
         {
             var quyenSP = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 1);
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
+            bool coQuyenThem = isAdmin || (quyenSP != null && quyenSP.CAN_CREATE == 1);
 
-            if (quyenSP != null)
-            {
-                btnThemNL.Enabled = (quyenSP.CAN_CREATE == 1);
+            btnThemNL.Enabled = coQuyenThem;
+            btnDonVi.Enabled = coQuyenThem;
+            btnExcelNL.Enabled = coQuyenThem;
 
-                btnSuaNL.Enabled = (quyenSP.CAN_UPDATE) == 1;
-
-                btnXoaNL.Enabled = (quyenSP.CAN_DELETE) == 1;
-
-                btnDonVi.Enabled = (quyenSP.CAN_CREATE) == 1;
-
-                btnExcelNL.Enabled = (quyenSP.CAN_CREATE) == 1;
-
-                btnSuaNL.Enabled = false;
-                btnXoaNL.Enabled = false;
-            }
-            else
-            {
-                btnThemNL.Enabled = false;
-                btnSuaNL.Enabled = false;
-                btnXoaNL.Enabled = false;
-                btnChiTietNL.Enabled = false;
-                btnDonVi.Enabled = false;
-                btnExcelNL.Enabled = false;
-            }
+            btnSuaNL.Enabled = false;
+            btnXoaNL.Enabled = false;
+            btnChiTietNL.Enabled = false;
         }
         private void hienThiPlaceHolderNguyenLieu()
         {

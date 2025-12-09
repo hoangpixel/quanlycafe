@@ -51,31 +51,16 @@ namespace GUI.GUI_UC
         private void CheckQuyen()
         {
             var quyenSP = Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == 1);
+            bool isAdmin = (Session.TaiKhoanHienTai.MAVAITRO == 1);
+            bool coQuyenThem = isAdmin || (quyenSP != null && quyenSP.CAN_CREATE == 1);
 
-            if (quyenSP != null)
-            {
-                btnThemSP.Enabled = (quyenSP.CAN_CREATE == 1);
+            btnThemSP.Enabled = coQuyenThem;
+            btnLoaiSP.Enabled = coQuyenThem;
+            btnExcelSP.Enabled = coQuyenThem;
 
-                btnSuaSP.Enabled = (quyenSP.CAN_UPDATE) == 1;
-
-                btnXoaSP.Enabled = (quyenSP.CAN_DELETE) == 1;
-
-                btnLoaiSP.Enabled = (quyenSP.CAN_CREATE) == 1;
-
-                btnExcelSP.Enabled = (quyenSP.CAN_CREATE) == 1;
-
-                btnSuaSP.Enabled = false;
-                btnXoaSP.Enabled = false;
-            }
-            else
-            {
-                btnThemSP.Enabled = false;
-                btnSuaSP.Enabled = false;
-                btnXoaSP.Enabled = false;
-                btnChiTiet.Enabled = false;
-                btnLoaiSP.Enabled = false;
-                btnExcelSP.Enabled = false;
-            }
+            btnSuaSP.Enabled = false;
+            btnXoaSP.Enabled = false;
+            btnChiTiet.Enabled = false;
         }
         private void loadFontChuVaSize()
         {
