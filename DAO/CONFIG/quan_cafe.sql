@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2025 at 01:52 PM
+-- Generation Time: Dec 09, 2025 at 07:22 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,7 +42,7 @@ CREATE TABLE `ban` (
 
 INSERT INTO `ban` (`MABAN`, `TENBAN`, `DANGSUDUNG`, `MAKHUVUC`, `TRANGTHAIXOA`, `MADONHIENTAI`) VALUES
 (1, 'Ban1', 0, 1, 1, 6),
-(2, 'Ban2', 1, 1, 1, NULL),
+(2, 'Ban2', 0, 1, 1, NULL),
 (3, 'Ban3', 1, 1, 1, NULL),
 (4, 'Ban4', 1, 1, 1, NULL),
 (5, 'Ban5', 1, 1, 1, NULL),
@@ -158,7 +158,10 @@ INSERT INTO `cthd` (`MAHOADON`, `MASANPHAM`, `SOLUONG`, `DONGIA`, `THANHTIEN`) V
 (20, 4, 1, 15000.00, 15000.00),
 (21, 1, 1, 17000.00, 17000.00),
 (22, 1, 1, 17000.00, 17000.00),
-(22, 4, 1, 15000.00, 15000.00);
+(22, 4, 1, 15000.00, 15000.00),
+(23, 4, 4, 15000.00, 60000.00),
+(24, 4, 6, 15000.00, 90000.00),
+(25, 4, 1, 15000.00, 15000.00);
 
 -- --------------------------------------------------------
 
@@ -264,10 +267,13 @@ INSERT INTO `hoadon` (`MAHOADON`, `MABAN`, `MATT`, `THOIGIANTAO`, `TRANGTHAI`, `
 (15, 1, 1, '2025-11-14 14:44:44', 1, 17000.00, 1, 1, 1, 0),
 (17, 40, 1, '2025-11-14 15:07:45', 1, 17000.00, 1, 1, 1, 0),
 (18, 8, 1, '2025-11-14 15:24:58', 1, 100000.00, 1, 1, 1, 0),
-(19, 8, 1, '2025-11-14 15:38:52', 1, 2176000.00, 1, 1, 1, 0),
-(20, 2, 1, '2025-12-01 12:10:25', 1, 57000.00, 1, 1, 1, 0),
+(19, 8, 1, '2025-11-14 15:38:52', 1, 2176000.00, 1, 1, 0, 0),
+(20, 2, 1, '2025-12-01 12:10:25', 1, 57000.00, 1, 1, 1, 1),
 (21, 3, 1, '2025-12-01 12:18:03', 1, 17000.00, 1, 1, 1, 0),
-(22, 20, 1, '2025-12-01 13:46:41', 1, 32000.00, 1, 1, 1, 1);
+(22, 20, 1, '2025-12-01 13:46:41', 1, 32000.00, 1, 1, 1, 1),
+(23, 2, 1, '2025-12-08 19:56:59', 1, 60000.00, 0, 1, 1, 1),
+(24, 2, 1, '2025-12-08 19:59:28', 1, 90000.00, 0, 1, 1, 1),
+(25, 2, 1, '2025-12-09 07:42:49', 1, 15000.00, 0, 2, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -343,7 +349,8 @@ CREATE TABLE `loai` (
 
 INSERT INTO `loai` (`MALOAI`, `MANHOM`, `TENLOAI`, `TRANGTHAI`) VALUES
 (1, 1, 'Cà phê', 1),
-(2, 1, 'Nước ngọt', 1);
+(2, 1, 'Nước ngọt', 1),
+(3, 2, 'Cơm chiên', 1);
 
 -- --------------------------------------------------------
 
@@ -369,7 +376,7 @@ INSERT INTO `nguyenlieu` (`MANGUYENLIEU`, `TENNGUYENLIEU`, `TRANGTHAI`, `TONKHO`
 (2, 'Đường trắng', 1, 0.000, 1, 2),
 (3, 'Sữa đặc', 1, 0.000, 1, 2),
 (4, 'Sữa tươi không đường', 1, 0.000, 1, 4),
-(5, 'Coca cola', 1, 60.000, 1, 5);
+(5, 'Coca cola', 1, 49.000, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -459,25 +466,44 @@ CREATE TABLE `phanquyen` (
 --
 
 INSERT INTO `phanquyen` (`MAVAITRO`, `MAQUYEN`, `CAN_READ`, `CAN_CREATE`, `CAN_UPDATE`, `CAN_DELETE`) VALUES
-(1, 1, 1, 1, 1, 1),
-(1, 2, 1, 1, 1, 1),
-(1, 3, 1, 1, 1, 1),
-(1, 4, 1, 1, 1, 1),
-(1, 5, 1, 1, 1, 1),
-(1, 6, 1, 1, 1, 1),
-(1, 7, 1, 1, 1, 1),
+(1, 1, 0, 0, 0, 0),
+(1, 2, 0, 0, 0, 0),
+(1, 3, 0, 0, 0, 0),
+(1, 4, 0, 0, 0, 0),
+(1, 5, 0, 0, 0, 0),
+(1, 6, 0, 0, 0, 0),
+(1, 7, 0, 0, 0, 0),
+(1, 8, 0, 0, 0, 0),
 (2, 1, 1, 1, 1, 1),
-(2, 2, 1, 1, 0, 0),
-(2, 3, 0, 0, 0, 0),
+(2, 2, 1, 0, 0, 0),
+(2, 3, 1, 0, 0, 0),
 (2, 4, 0, 0, 0, 0),
 (2, 5, 0, 0, 0, 0),
-(2, 6, 0, 0, 0, 0),
+(2, 6, 1, 1, 1, 1),
+(2, 7, 0, 0, 0, 0),
+(2, 8, 0, 0, 0, 0),
 (3, 1, 0, 0, 0, 0),
 (3, 2, 0, 1, 1, 1),
 (3, 3, 0, 1, 1, 1),
 (3, 4, 1, 1, 1, 1),
 (3, 5, 1, 1, 1, 1),
 (3, 6, 1, 1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `phieuhuy`
+--
+
+CREATE TABLE `phieuhuy` (
+  `MAPHIEUHUY` int(11) NOT NULL,
+  `MANHANVIEN` int(11) NOT NULL COMMENT 'Nhân viên báo hủy',
+  `MANGUYENLIEU` int(11) NOT NULL COMMENT 'Nguyên liệu bị hủy',
+  `SOLUONG` decimal(10,3) NOT NULL COMMENT 'Số lượng đã quy đổi ra Đơn vị cơ sở',
+  `LYDO` varchar(255) DEFAULT NULL COMMENT 'Ví dụ: Làm đổ, Hết hạn, Pha sai',
+  `NGAYTAO` datetime NOT NULL DEFAULT current_timestamp(),
+  `MAHOADON` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -553,7 +579,7 @@ INSERT INTO `sanpham` (`MASANPHAM`, `MALOAI`, `HINH`, `TENSANPHAM`, `TRANGTHAI`,
 (1, 1, 'cafe-den-da-8801.png', 'Cà phê đen', 1, 1, 17000.00),
 (2, 1, 'pngtree-ice-milk-coffee-png-image_9162395.png', 'Cà phê sữa', 1, 1, 25000.00),
 (3, 1, 'pngtree-cute-iced-coffee-takeaway-png-image_11477425.png', 'Cà phê sữa tươi', 1, 1, 25000.00),
-(4, 2, 's-1-lon-cocacola.png', 'Coca cola lon', 1, 1, 15000.00),
+(4, 3, 's-1-lon-cocacola.png', 'Coca cola lon', 1, 1, 15000.00),
 (5, 1, 'sp_20251114153830_4b348a.jpg', 'abc', 0, 0, 2000000.00);
 
 -- --------------------------------------------------------
@@ -749,6 +775,14 @@ ALTER TABLE `phanquyen`
   ADD KEY `MAQUYEN` (`MAQUYEN`);
 
 --
+-- Indexes for table `phieuhuy`
+--
+ALTER TABLE `phieuhuy`
+  ADD PRIMARY KEY (`MAPHIEUHUY`),
+  ADD KEY `FK_PHIEUHUY_NV` (`MANHANVIEN`),
+  ADD KEY `FK_PHIEUHUY_NL` (`MANGUYENLIEU`);
+
+--
 -- Indexes for table `phieunhap`
 --
 ALTER TABLE `phieunhap`
@@ -818,7 +852,7 @@ ALTER TABLE `donvi`
 -- AUTO_INCREMENT for table `hoadon`
 --
 ALTER TABLE `hoadon`
-  MODIFY `MAHOADON` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `MAHOADON` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `khachhang`
@@ -836,7 +870,7 @@ ALTER TABLE `khuvuc`
 -- AUTO_INCREMENT for table `loai`
 --
 ALTER TABLE `loai`
-  MODIFY `MALOAI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `MALOAI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `nguyenlieu`
@@ -861,6 +895,12 @@ ALTER TABLE `nhanvien`
 --
 ALTER TABLE `nhom`
   MODIFY `MANHOM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `phieuhuy`
+--
+ALTER TABLE `phieuhuy`
+  MODIFY `MAPHIEUHUY` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `phieunhap`
@@ -972,6 +1012,13 @@ ALTER TABLE `nguyenlieu`
 ALTER TABLE `phanquyen`
   ADD CONSTRAINT `phanquyen_ibfk_1` FOREIGN KEY (`MAVAITRO`) REFERENCES `vaitro` (`MAVAITRO`) ON DELETE CASCADE,
   ADD CONSTRAINT `phanquyen_ibfk_2` FOREIGN KEY (`MAQUYEN`) REFERENCES `quyen` (`MAQUYEN`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `phieuhuy`
+--
+ALTER TABLE `phieuhuy`
+  ADD CONSTRAINT `FK_PHIEUHUY_NL` FOREIGN KEY (`MANGUYENLIEU`) REFERENCES `nguyenlieu` (`MANGUYENLIEU`),
+  ADD CONSTRAINT `FK_PHIEUHUY_NV` FOREIGN KEY (`MANHANVIEN`) REFERENCES `nhanvien` (`MANHANVIEN`);
 
 --
 -- Constraints for table `phieunhap`
