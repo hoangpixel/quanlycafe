@@ -237,6 +237,17 @@ namespace GUI.GUI_CRUD
 
         private void loadDanhSachCTPN(BindingList<ctPhieuNhapDTO> ds)
         {
+            BindingList<heSoDTO> dsHeSo = new heSoBUS().LayDanhSach();
+
+            foreach (var item in ds)
+            {
+                if (item.HeSo <= 0)
+                {
+                    var heSoObj = dsHeSo.FirstOrDefault(x => x.MaDonVi == item.MaDonVi && x.MaNguyenLieu == item.MaNguyenLieu);
+                    item.HeSo = heSoObj?.HeSo ?? 1;
+                }
+            }
+
             dgvChiTietPN.AutoGenerateColumns = false;
             dgvChiTietPN.Columns.Clear();
 
@@ -283,7 +294,7 @@ namespace GUI.GUI_CRUD
                 if (dsDV != null)
                 {
                     donViDTO dv = dsDV.FirstOrDefault(x => x.MaDonVi == ctpn.MaDonVi);
-                    e.Value = dv?.TenDonVi ?? "Unknown";
+                    e.Value = dv?.TenDonVi ?? "Không tìm thấy";
                 }
             }
         }

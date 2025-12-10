@@ -285,6 +285,11 @@
             // numSoLuong
             // 
             this.numSoLuong.Location = new System.Drawing.Point(185, 135);
+            this.numSoLuong.Maximum = new decimal(new int[] {
+            99999,
+            0,
+            0,
+            0});
             this.numSoLuong.Name = "numSoLuong";
             this.numSoLuong.Size = new System.Drawing.Size(177, 28);
             this.numSoLuong.TabIndex = 17;
@@ -520,7 +525,7 @@
             "Mã nguyên liệu",
             "Tên nguyên liệu",
             "Tên đơn vị"});
-            this.cboTimKiemNL.Location = new System.Drawing.Point(10, 14);
+            this.cboTimKiemNL.Location = new System.Drawing.Point(10, 12);
             this.cboTimKiemNL.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemNL.Name = "cboTimKiemNL";
             this.cboTimKiemNL.Size = new System.Drawing.Size(164, 28);

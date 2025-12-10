@@ -93,6 +93,16 @@ namespace GUI.GUI_CRUD
 
         private void tbChiTIetPhieuNhap_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void tbChiTIetPhieuNhap_CellFormatting_1(object sender, DataGridViewCellFormattingEventArgs e)
+        {
             if (e.RowIndex < 0) return;
             ctPhieuNhapDTO ctpn = tbChiTIetPhieuNhap.Rows[e.RowIndex].DataBoundItem as ctPhieuNhapDTO;
             if (tbChiTIetPhieuNhap.Columns[e.ColumnIndex].HeaderText == "Tên NL")
@@ -120,11 +130,6 @@ namespace GUI.GUI_CRUD
                     e.FormattingApplied = true;
                 }
             }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
     }
 }

@@ -38,6 +38,7 @@ namespace GUI.EXCEL
             {
                 using (ExcelPackage package = new ExcelPackage())
                 {
+                    // --- SHEET 1: PHIẾU NHẬP ---
                     var ws1 = package.Workbook.Worksheets.Add("PhieuNhap");
                     string[] header1 = { "Mã PN", "Mã NCC", "Mã NV", "Ngày Lập", "Tổng Tiền", "Trạng Thái" };
                     for (int i = 0; i < header1.Length; i++)
@@ -52,15 +53,21 @@ namespace GUI.EXCEL
                         ws1.Cells[row1, 1].Value = pn.MaPN;
                         ws1.Cells[row1, 2].Value = pn.MaNCC;
                         ws1.Cells[row1, 3].Value = pn.MaNhanVien;
+
                         ws1.Cells[row1, 4].Value = pn.ThoiGian;
                         ws1.Cells[row1, 4].Style.Numberformat.Format = "dd/MM/yyyy HH:mm";
+
                         ws1.Cells[row1, 5].Value = pn.TongTien;
                         ws1.Cells[row1, 5].Style.Numberformat.Format = "#,##0";
-                        ws1.Cells[row1, 6].Value = pn.TrangThai == 1 ? "Đã duyệt" : "Chưa duyệt";
+
+                        // Giữ nguyên logic: Xuất thẳng giá trị 0 hoặc 1
+                        ws1.Cells[row1, 6].Value = pn.TrangThai;
+
                         row1++;
                     }
                     ws1.Cells.AutoFitColumns();
 
+                    // --- SHEET 2: CHI TIẾT ---
                     var ws2 = package.Workbook.Worksheets.Add("ChiTiet");
                     string[] header2 = { "Thuộc Mã PN", "Mã NL", "Tên Nguyên Liệu", "ĐVT", "Số Lượng", "Đơn Giá", "Thành Tiền" };
                     for (int i = 0; i < header2.Length; i++)
@@ -87,21 +94,34 @@ namespace GUI.EXCEL
                             ws2.Cells[row2, 3].Value = nl?.TenNguyenLieu ?? "";
                             ws2.Cells[row2, 4].Value = dv?.TenDonVi ?? "";
                             ws2.Cells[row2, 5].Value = ct.SoLuong;
+
                             ws2.Cells[row2, 6].Value = ct.DonGia;
                             ws2.Cells[row2, 6].Style.Numberformat.Format = "#,##0";
+
                             ws2.Cells[row2, 7].Value = ct.ThanhTien;
                             ws2.Cells[row2, 7].Style.Numberformat.Format = "#,##0";
+
                             row2++;
                         }
                     }
                     ws2.Cells.AutoFitColumns();
 
+                    // Lưu file
                     package.SaveAs(new FileInfo(path));
+                }
+
+                // --- MỚI THÊM: Hỏi người dùng có muốn mở file không ---
+                DialogResult result = MessageBox.Show("Xuất file Excel thành công!\nBạn có muốn mở file vừa xuất không?",
+                                                      "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    System.Diagnostics.Process.Start(path);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi xuất Excel: " + ex.Message);
+                MessageBox.Show("Lỗi xuất Excel: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -130,6 +150,8 @@ namespace GUI.EXCEL
                         MaPN_Excel = mapn,
                         MaNCC = ws1.Cells[r, 2].GetValue<int>(),
                         MaNV = ws1.Cells[r, 3].GetValue<int>(),
+                        // Đọc thêm cột Trạng Thái (Cột 6)
+                        TrangThai = ws1.Cells[r, 6].GetValue<int>()
                     };
 
                     var objDate = ws1.Cells[r, 4].Value;
@@ -160,6 +182,7 @@ namespace GUI.EXCEL
                             MaNCC = headerInfo.MaNCC,
                             MaNV = headerInfo.MaNV,
                             ThoiGian = headerInfo.ThoiGian,
+                            TrangThai = headerInfo.TrangThai, // <--- Gán giá trị trạng thái vào row kết quả
 
                             MaNguyenLieu = ws2.Cells[r, 2].GetValue<int>(),
                             TenDonVi = ws2.Cells[r, 4].GetValue<string>(),

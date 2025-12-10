@@ -59,7 +59,7 @@ namespace DAO
                 cmd.Parameters.AddWithValue("@mancc", pn.MaNCC);
                 cmd.Parameters.AddWithValue("@manv", pn.MaNhanVien);
                 cmd.Parameters.AddWithValue("@thoigian", pn.ThoiGian);
-                cmd.Parameters.AddWithValue("@tongtien", pn.TongTien); // Truyền tổng tiền vào luôn
+                cmd.Parameters.AddWithValue("@tongtien", pn.TongTien);
                 cmd.Parameters.AddWithValue("@trangthai", pn.TrangThai);
                 
                 return Convert.ToInt32(cmd.ExecuteScalar());
@@ -284,6 +284,61 @@ namespace DAO
         }
 
         // Trong class phieuNhapDAO
+        //public bool CapNhatPhieuNhap(phieuNhapDTO header, List<ctPhieuNhapDTO> details)
+        //{
+        //    using (MySqlConnection conn = DBConnect.GetConnection())
+        //    {
+        //        MySqlTransaction tran = conn.BeginTransaction();
+        //        ctPhieuNhapDAO ctDAO = new ctPhieuNhapDAO();
+
+        //        try
+        //        {
+        //            // 1. CẬP NHẬT THÔNG TIN CHUNG (HEADER)
+        //            string sqlUpdateHeader = @"UPDATE phieunhap 
+        //                               SET MANCC = @mancc, MANHANVIEN = @manv, 
+        //                                   THOIGIAN = @thoigian, TONGTIEN = @tongtien 
+        //                               WHERE MAPN = @mapn";
+
+        //            using (var cmd = new MySqlCommand(sqlUpdateHeader, conn, tran))
+        //            {
+        //                cmd.Parameters.AddWithValue("@mancc", header.MaNCC);
+        //                cmd.Parameters.AddWithValue("@manv", header.MaNhanVien);
+        //                cmd.Parameters.AddWithValue("@thoigian", header.ThoiGian);
+        //                cmd.Parameters.AddWithValue("@tongtien", header.TongTien);
+        //                cmd.Parameters.AddWithValue("@mapn", header.MaPN);
+        //                cmd.ExecuteNonQuery();
+        //            }
+
+        //            // 2. XÓA SẠCH CHI TIẾT CŨ
+        //            string sqlDeleteOld = "DELETE FROM ctphieunhap WHERE MAPN = @mapn";
+        //            using (var cmdDel = new MySqlCommand(sqlDeleteOld, conn, tran))
+        //            {
+        //                cmdDel.Parameters.AddWithValue("@mapn", header.MaPN);
+        //                cmdDel.ExecuteNonQuery();
+        //            }
+
+        //            // 3. THÊM LẠI CHI TIẾT MỚI (Từ danh sách trên màn hình)
+        //            foreach (var ct in details)
+        //            {
+        //                ct.MaPN = header.MaPN; // Gán lại MaPN cho chắc
+
+        //                // Gọi hàm Insert của ctDAO (nhớ hàm này KHÔNG được Open connection nhé)
+        //                if (!ctDAO.Insert(ct, conn, tran))
+        //                {
+        //                    throw new Exception("Lỗi khi thêm lại chi tiết:");
+        //                }
+        //            }
+
+        //            tran.Commit();
+        //            return true;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            tran.Rollback();
+        //            throw new Exception("Lỗi cập nhật phiếu: " + ex.Message);
+        //        }
+        //    }
+        //}
         public bool CapNhatPhieuNhap(phieuNhapDTO header, List<ctPhieuNhapDTO> details)
         {
             using (MySqlConnection conn = DBConnect.GetConnection())
@@ -293,10 +348,20 @@ namespace DAO
 
                 try
                 {
-                    // 1. CẬP NHẬT THÔNG TIN CHUNG (HEADER)
+                    // 1. Kiểm tra tồn tại (Chỉ để chắc chắn phiếu có trong DB)
+                    string sqlCheck = "SELECT COUNT(*) FROM phieunhap WHERE MAPN = @mapn";
+                    var cmdCheck = new MySqlCommand(sqlCheck, conn, tran);
+                    cmdCheck.Parameters.AddWithValue("@mapn", header.MaPN);
+                    if (Convert.ToInt32(cmdCheck.ExecuteScalar()) == 0)
+                    {
+                        throw new Exception("Phiếu nhập không tồn tại để cập nhật!");
+                    }
+
+                    // 2. CẬP NHẬT HEADER (Bao gồm cả trạng thái)
                     string sqlUpdateHeader = @"UPDATE phieunhap 
                                        SET MANCC = @mancc, MANHANVIEN = @manv, 
-                                           THOIGIAN = @thoigian, TONGTIEN = @tongtien 
+                                           THOIGIAN = @thoigian, TONGTIEN = @tongtien,
+                                           TRANGTHAI = @trangthai
                                        WHERE MAPN = @mapn";
 
                     using (var cmd = new MySqlCommand(sqlUpdateHeader, conn, tran))
@@ -305,11 +370,12 @@ namespace DAO
                         cmd.Parameters.AddWithValue("@manv", header.MaNhanVien);
                         cmd.Parameters.AddWithValue("@thoigian", header.ThoiGian);
                         cmd.Parameters.AddWithValue("@tongtien", header.TongTien);
+                        cmd.Parameters.AddWithValue("@trangthai", header.TrangThai); // Cập nhật trạng thái đúng như Excel
                         cmd.Parameters.AddWithValue("@mapn", header.MaPN);
                         cmd.ExecuteNonQuery();
                     }
 
-                    // 2. XÓA SẠCH CHI TIẾT CŨ
+                    // 3. XÓA SẠCH CHI TIẾT CŨ
                     string sqlDeleteOld = "DELETE FROM ctphieunhap WHERE MAPN = @mapn";
                     using (var cmdDel = new MySqlCommand(sqlDeleteOld, conn, tran))
                     {
@@ -317,17 +383,27 @@ namespace DAO
                         cmdDel.ExecuteNonQuery();
                     }
 
-                    // 3. THÊM LẠI CHI TIẾT MỚI (Từ danh sách trên màn hình)
+                    // 4. THÊM LẠI CHI TIẾT MỚI (Chỉ lưu vào bảng ctphieunhap, KHÔNG cộng kho)
                     foreach (var ct in details)
                     {
-                        ct.MaPN = header.MaPN; // Gán lại MaPN cho chắc
-
-                        // Gọi hàm Insert của ctDAO (nhớ hàm này KHÔNG được Open connection nhé)
+                        ct.MaPN = header.MaPN;
                         if (!ctDAO.Insert(ct, conn, tran))
                         {
-                            throw new Exception("Lỗi khi thêm lại chi tiết:");
+                            throw new Exception("Lỗi khi thêm lại chi tiết.");
                         }
                     }
+
+                    // 5. [QUAN TRỌNG] LOGIC ĐỒNG BỘ KHO (TÙY CHỌN)
+                    // Nếu bạn muốn: Khi import Excel mà trạng thái là 1 -> Tự động coi như đã duyệt và cộng kho luôn
+                    // Thì mở comment đoạn dưới này. 
+                    // CÒN NẾU KHÔNG: Chỉ lưu trạng thái là 1, nhưng kho chưa cộng -> Người dùng phải bấm nút Duyệt lần nữa mới cộng.
+
+                    /* if (header.TrangThai == 1) 
+                    {
+                         // Gọi logic cộng kho ở đây nếu muốn tự động hoàn toàn
+                         // Nhưng theo comment của bạn, tốt nhất là KHÔNG làm gì ở đây để tránh cộng dồn 2 lần (double counting)
+                    }
+                    */
 
                     tran.Commit();
                     return true;
@@ -335,11 +411,65 @@ namespace DAO
                 catch (Exception ex)
                 {
                     tran.Rollback();
-                    throw new Exception("Lỗi cập nhật phiếu: " + ex.Message);
+                    throw new Exception(ex.Message);
                 }
             }
         }
 
+        // 7. HÀM RIÊNG CHO IMPORT EXCEL (Xử lý cả Thêm phiếu + Cộng kho nếu cần)
+        public int ThemPhieuNhapTuExcel(phieuNhapDTO header, List<ctPhieuNhapDTO> details)
+        {
+            if (details == null || details.Count == 0) throw new Exception("Excel không có chi tiết sản phẩm.");
+
+            using (MySqlConnection conn = DBConnect.GetConnection())
+            {
+                MySqlTransaction tran = conn.BeginTransaction();
+                ctPhieuNhapDAO ctDAO = new ctPhieuNhapDAO();
+
+                try
+                {
+                    // Bước 1: Tính lại tổng tiền cho chắc chắn
+                    header.TongTien = details.Sum(ct => ct.ThanhTien);
+
+                    // Bước 2: Insert Header (Sử dụng hàm Insert có sẵn)
+                    int newPhieuID = Insert(header, conn, tran);
+                    if (newPhieuID <= 0) throw new Exception("Không thể tạo phiếu nhập từ Excel.");
+
+                    // Chuẩn bị câu lệnh cộng kho
+                    string sqlCongKho = "UPDATE nguyenlieu SET TONKHO = TONKHO + @sl WHERE MANGUYENLIEU = @maNL";
+
+                    // Bước 3: Insert Chi tiết & Xử lý Kho
+                    foreach (var ct in details)
+                    {
+                        ct.MaPN = newPhieuID;
+
+                        // 3.1 Thêm chi tiết vào DB
+                        if (!ctDAO.Insert(ct, conn, tran))
+                            throw new Exception($"Lỗi thêm chi tiết sản phẩm {ct.MaNguyenLieu}");
+
+                        // 3.2 ĐẶC BIỆT: Nếu Excel ghi là 'Đã nhập' (TrangThai = 1) -> CỘNG KHO LUÔN
+                        if (header.TrangThai == 1)
+                        {
+                            using (var cmdKho = new MySqlCommand(sqlCongKho, conn, tran))
+                            {
+                                // Lưu ý: Dùng SoLuongCoSo (đã nhân hệ số)
+                                cmdKho.Parameters.AddWithValue("@sl", ct.SoLuongCoSo);
+                                cmdKho.Parameters.AddWithValue("@maNL", ct.MaNguyenLieu);
+                                cmdKho.ExecuteNonQuery();
+                            }
+                        }
+                    }
+
+                    tran.Commit();
+                    return newPhieuID;
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw new Exception("Lỗi nhập Excel: " + ex.Message);
+                }
+            }
+        }
 
     }
 }

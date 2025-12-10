@@ -81,6 +81,7 @@ namespace GUI.GUI_UC
             btnXoaPN.Enabled = false;
             btnChotSo.Enabled = false;
             btnChiTietPN.Enabled = false;
+            btnChonDV.Enabled = false;
         }
         private void loadFontVaChu(DataGridView table)
         {

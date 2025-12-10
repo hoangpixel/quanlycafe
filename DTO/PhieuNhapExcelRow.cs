@@ -16,5 +16,6 @@ namespace DTO
         public string TenDonVi { get; set; } // Người dùng nhập chữ: "Thùng", "Cái"...
         public decimal SoLuong { get; set; } // Số lượng nhập vào
         public decimal DonGia { get; set; }
+        public int TrangThai { get; set; }
     }
 }

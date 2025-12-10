@@ -120,6 +120,7 @@ namespace BUS
                 phieuCu.MaNhanVien = header.MaNhanVien;
                 phieuCu.TongTien = header.TongTien;
                 phieuCu.ThoiGian = header.ThoiGian;
+                phieuCu.TrangThai = header.TrangThai;
 
                 ds.ResetItem(ds.IndexOf(phieuCu));
             }
@@ -154,15 +155,38 @@ namespace BUS
             return kq;
         }
 
+        public int ThemPhieuNhapTuExcel(phieuNhapDTO header, List<ctPhieuNhapDTO> details)
+        {
+            // Gọi xuống DAO để xử lý DB (Insert + Cộng kho nếu TrangThai=1)
+            int newPhieuID = pnDAO.ThemPhieuNhapTuExcel(header, details);
+
+            // Nếu thêm thành công vào DB, ta cập nhật lên giao diện (BindingList)
+            if (newPhieuID > 0)
+            {
+                header.MaPN = newPhieuID; // Gán ID mới sinh ra từ DB
+                header.TongTien = details.Sum(x => x.ThanhTien); // Tính tổng tiền để hiển thị
+
+                // Thêm vào đầu danh sách để người dùng thấy ngay
+                var currentDS = LayDanhSach();
+                currentDS.Insert(0, header);
+            }
+
+            return newPhieuID;
+        }
+
         public void NhapExcelGop(List<DTO.PhieuNhapExcelRow> rawData)
         {
             if (rawData == null || rawData.Count == 0) return;
 
             var groups = rawData.GroupBy(x => x.MaPN_Excel);
-
             List<string> errors = new List<string>();
             int countSuccess = 0;
+            int countUpdate = 0;
 
+            // 1. Lấy danh sách phiếu hiện tại để check tồn tại
+            var listPhieuHienTai = LayDanhSach().ToList();
+
+            // Các list danh mục để validate
             var listNCC = new nhaCungCapBUS().LayDanhSach().ToList();
             var listNV = new nhanVienBUS().LayDanhSach().ToList();
             var listNL_Full = new nguyenLieuBUS().LayDanhSach().ToList();
@@ -173,57 +197,42 @@ namespace BUS
                 var firstRow = group.First();
                 int maPN_Excel = firstRow.MaPN_Excel;
 
+                // --- VALIDATE HEADER ---
                 if (!listNCC.Any(x => x.MaNCC == firstRow.MaNCC))
                 {
-                    errors.Add($"Mã tạm {maPN_Excel}: Mã NCC {firstRow.MaNCC} không tồn tại.");
-                    continue;
+                    errors.Add($"Mã Excel {maPN_Excel}: NCC {firstRow.MaNCC} không tồn tại."); continue;
                 }
                 if (!listNV.Any(x => x.MaNhanVien == firstRow.MaNV))
                 {
-                    errors.Add($"Mã tạm {maPN_Excel}: Mã NV {firstRow.MaNV} không tồn tại.");
-                    continue;
+                    errors.Add($"Mã Excel {maPN_Excel}: NV {firstRow.MaNV} không tồn tại."); continue;
                 }
 
-                phieuNhapDTO header = new phieuNhapDTO
-                {
-                    MaPN = 0,
-                    MaNCC = firstRow.MaNCC,
-                    MaNhanVien = firstRow.MaNV,
-                    ThoiGian = firstRow.ThoiGian,
-                    TrangThai = 0,
-                    TrangThaiXoa = 1,
-                    TongTien = 0
-                };
-
+                // --- XỬ LÝ CHI TIẾT ---
                 List<ctPhieuNhapDTO> details = new List<ctPhieuNhapDTO>();
                 bool hasDetailError = false;
 
                 foreach (var row in group)
                 {
                     if (row.MaNguyenLieu <= 0) continue;
-
                     var nlInfo = listNL_Full.FirstOrDefault(n => n.MaNguyenLieu == row.MaNguyenLieu);
                     if (nlInfo == null)
                     {
-                        errors.Add($"Mã tạm {maPN_Excel}: Nguyên liệu ID {row.MaNguyenLieu} không tồn tại.");
+                        errors.Add($"Mã Excel {maPN_Excel}: Nguyên liệu {row.MaNguyenLieu} không tồn tại.");
                         hasDetailError = true; break;
                     }
 
+                    // Logic đơn vị tính & hệ số
                     int maDonViDB = nlInfo.MaDonViCoSo;
                     decimal heSo = 1;
-
                     if (!string.IsNullOrEmpty(row.TenDonVi))
                     {
                         var dvObj = listDonVi.FirstOrDefault(d => d.TenDonVi.Equals(row.TenDonVi.Trim(), StringComparison.OrdinalIgnoreCase));
-                        if (dvObj != null)
-                        {
-                            maDonViDB = dvObj.MaDonVi;
-                            heSo = 1;
-                        }
+                        if (dvObj != null) { maDonViDB = dvObj.MaDonVi; heSo = 1; }
                     }
 
                     details.Add(new ctPhieuNhapDTO
                     {
+                        MaPN = maPN_Excel, // Tạm gán mã lấy từ Excel
                         MaNguyenLieu = row.MaNguyenLieu,
                         MaDonVi = maDonViDB,
                         SoLuong = row.SoLuong,
@@ -235,31 +244,49 @@ namespace BUS
                 }
 
                 if (hasDetailError) continue;
-                if (details.Count == 0)
+                if (details.Count == 0) { errors.Add($"Mã Excel {maPN_Excel}: Không có chi tiết."); continue; }
+
+                // --- QUYẾT ĐỊNH INSERT HAY UPDATE ---
+                // Đây là chỗ quan trọng nhất để sửa lỗi của bạn
+                bool isUpdate = listPhieuHienTai.Any(x => x.MaPN == maPN_Excel);
+
+                phieuNhapDTO header = new phieuNhapDTO
                 {
-                    errors.Add($"Mã tạm {maPN_Excel}: Không có chi tiết sản phẩm.");
-                    continue;
-                }
+                    // Nếu Update -> Giữ ID Excel. Nếu Insert -> Để 0 để DB tự tăng
+                    MaPN = isUpdate ? maPN_Excel : 0,
+                    MaNCC = firstRow.MaNCC,
+                    MaNhanVien = firstRow.MaNV,
+                    ThoiGian = firstRow.ThoiGian,
+                    TrangThai = firstRow.TrangThai,
+                    TrangThaiXoa = 1,
+                    TongTien = details.Sum(x => x.ThanhTien)
+                };
 
                 try
                 {
-                    if (ThemPhieuNhap(header, details) > 0)
+                    if (isUpdate)
                     {
-                        countSuccess++;
+                        // CẬP NHẬT
+                        if (CapNhatPhieuNhap(header, details))
+                            countUpdate++;
+                    }
+                    else
+                    {
+                        // THÊM MỚI
+                        if (ThemPhieuNhapTuExcel(header, details) > 0)
+                            countSuccess++;
                     }
                 }
                 catch (Exception ex)
                 {
-                    errors.Add($"Mã tạm {maPN_Excel}: Lỗi Insert - {ex.Message}");
+                    errors.Add($"Mã Excel {maPN_Excel}: Lỗi DB - {ex.Message}");
                 }
             }
 
-            string msg = $"Đã nhập thành công: {countSuccess} phiếu.";
-            if (errors.Count > 0)
-            {
-                msg += "\n\n--- CÁC LỖI BỎ QUA ---\n" + string.Join("\n", errors);
-            }
-            System.Windows.Forms.MessageBox.Show(msg, "Kết quả nhập Excel");
+            string msg = $"Kết quả xử lý:\n- Thêm mới: {countSuccess}\n- Cập nhật: {countUpdate}";
+            if (errors.Count > 0) msg += "\n\n--- LỖI ---\n" + string.Join("\n", errors);
+
+            System.Windows.Forms.MessageBox.Show(msg, "Thông báo");
         }
 
         public BindingList<phieuNhapDTO> timKiemCoBan(string tim, int index)

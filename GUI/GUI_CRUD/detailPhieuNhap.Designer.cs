@@ -28,12 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.tbChiTIetPhieuNhap = new System.Windows.Forms.DataGridView();
             this.grpThongTin = new System.Windows.Forms.GroupBox();
             this.txtTongTien = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -48,14 +49,13 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
-            this.tbChiTIetPhieuNhap = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbChiTIetPhieuNhap)).BeginInit();
             this.grpThongTin.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tbChiTIetPhieuNhap)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -67,7 +67,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(10);
-            this.panel1.Size = new System.Drawing.Size(1114, 600);
+            this.panel1.Size = new System.Drawing.Size(1338, 600);
             this.panel1.TabIndex = 0;
             // 
             // panel4
@@ -80,7 +80,7 @@
             this.panel4.Location = new System.Drawing.Point(10, 120);
             this.panel4.Name = "panel4";
             this.panel4.Padding = new System.Windows.Forms.Padding(10);
-            this.panel4.Size = new System.Drawing.Size(1094, 470);
+            this.panel4.Size = new System.Drawing.Size(1318, 470);
             this.panel4.TabIndex = 2;
             // 
             // button1
@@ -103,7 +103,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(464, 13);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(615, 440);
+            this.groupBox1.Size = new System.Drawing.Size(839, 440);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Danh sách nguyên liệu";
@@ -115,8 +115,39 @@
             this.panel5.Location = new System.Drawing.Point(3, 23);
             this.panel5.Name = "panel5";
             this.panel5.Padding = new System.Windows.Forms.Padding(10);
-            this.panel5.Size = new System.Drawing.Size(609, 414);
+            this.panel5.Size = new System.Drawing.Size(833, 414);
             this.panel5.TabIndex = 0;
+            // 
+            // tbChiTIetPhieuNhap
+            // 
+            this.tbChiTIetPhieuNhap.AllowUserToAddRows = false;
+            this.tbChiTIetPhieuNhap.AllowUserToDeleteRows = false;
+            this.tbChiTIetPhieuNhap.AllowUserToResizeColumns = false;
+            this.tbChiTIetPhieuNhap.AllowUserToResizeRows = false;
+            this.tbChiTIetPhieuNhap.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.Desktop;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tbChiTIetPhieuNhap.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.tbChiTIetPhieuNhap.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tbChiTIetPhieuNhap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbChiTIetPhieuNhap.EnableHeadersVisualStyles = false;
+            this.tbChiTIetPhieuNhap.GridColor = System.Drawing.Color.DarkGray;
+            this.tbChiTIetPhieuNhap.Location = new System.Drawing.Point(10, 10);
+            this.tbChiTIetPhieuNhap.MultiSelect = false;
+            this.tbChiTIetPhieuNhap.Name = "tbChiTIetPhieuNhap";
+            this.tbChiTIetPhieuNhap.ReadOnly = true;
+            this.tbChiTIetPhieuNhap.RowHeadersVisible = false;
+            this.tbChiTIetPhieuNhap.RowHeadersWidth = 51;
+            this.tbChiTIetPhieuNhap.RowTemplate.Height = 24;
+            this.tbChiTIetPhieuNhap.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.tbChiTIetPhieuNhap.Size = new System.Drawing.Size(813, 394);
+            this.tbChiTIetPhieuNhap.TabIndex = 1;
+            this.tbChiTIetPhieuNhap.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.tbChiTIetPhieuNhap_CellFormatting_1);
             // 
             // grpThongTin
             // 
@@ -240,7 +271,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(10, 110);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1094, 10);
+            this.panel3.Size = new System.Drawing.Size(1318, 10);
             this.panel3.TabIndex = 1;
             // 
             // panel2
@@ -251,7 +282,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(10, 10);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1094, 100);
+            this.panel2.Size = new System.Drawing.Size(1318, 100);
             this.panel2.TabIndex = 0;
             // 
             // bigLabel1
@@ -266,41 +297,11 @@
             this.bigLabel1.TabIndex = 0;
             this.bigLabel1.Text = "Chi tiết phiếu nhập";
             // 
-            // tbChiTIetPhieuNhap
-            // 
-            this.tbChiTIetPhieuNhap.AllowUserToAddRows = false;
-            this.tbChiTIetPhieuNhap.AllowUserToDeleteRows = false;
-            this.tbChiTIetPhieuNhap.AllowUserToResizeColumns = false;
-            this.tbChiTIetPhieuNhap.AllowUserToResizeRows = false;
-            this.tbChiTIetPhieuNhap.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.Desktop;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tbChiTIetPhieuNhap.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.tbChiTIetPhieuNhap.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tbChiTIetPhieuNhap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbChiTIetPhieuNhap.EnableHeadersVisualStyles = false;
-            this.tbChiTIetPhieuNhap.GridColor = System.Drawing.Color.DarkGray;
-            this.tbChiTIetPhieuNhap.Location = new System.Drawing.Point(10, 10);
-            this.tbChiTIetPhieuNhap.MultiSelect = false;
-            this.tbChiTIetPhieuNhap.Name = "tbChiTIetPhieuNhap";
-            this.tbChiTIetPhieuNhap.ReadOnly = true;
-            this.tbChiTIetPhieuNhap.RowHeadersVisible = false;
-            this.tbChiTIetPhieuNhap.RowHeadersWidth = 51;
-            this.tbChiTIetPhieuNhap.RowTemplate.Height = 24;
-            this.tbChiTIetPhieuNhap.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tbChiTIetPhieuNhap.Size = new System.Drawing.Size(589, 394);
-            this.tbChiTIetPhieuNhap.TabIndex = 1;
-            // 
             // detailPhieuNhap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1114, 600);
+            this.ClientSize = new System.Drawing.Size(1338, 600);
             this.Controls.Add(this.panel1);
             this.Name = "detailPhieuNhap";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -310,11 +311,11 @@
             this.panel4.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tbChiTIetPhieuNhap)).EndInit();
             this.grpThongTin.ResumeLayout(false);
             this.grpThongTin.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tbChiTIetPhieuNhap)).EndInit();
             this.ResumeLayout(false);
 
         }
