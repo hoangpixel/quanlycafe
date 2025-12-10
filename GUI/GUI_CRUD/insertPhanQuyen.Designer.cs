@@ -17,26 +17,26 @@
             this.pnlPhanQuyen = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnThoat = new System.Windows.Forms.Button();
             this.btnLuuPhanQuyen = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cmbVaiTro = new System.Windows.Forms.ComboBox();
             this.gbPhanQuyen = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
             this.pnlPhanQuyen.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.gbPhanQuyen.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlPhanQuyen
@@ -49,7 +49,7 @@
             this.pnlPhanQuyen.Location = new System.Drawing.Point(0, 0);
             this.pnlPhanQuyen.Name = "pnlPhanQuyen";
             this.pnlPhanQuyen.Padding = new System.Windows.Forms.Padding(10);
-            this.pnlPhanQuyen.Size = new System.Drawing.Size(853, 557);
+            this.pnlPhanQuyen.Size = new System.Drawing.Size(853, 662);
             this.pnlPhanQuyen.TabIndex = 0;
             // 
             // panel2
@@ -76,6 +76,16 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(833, 100);
             this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.groupBox2);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(419, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Padding = new System.Windows.Forms.Padding(5);
+            this.panel4.Size = new System.Drawing.Size(411, 94);
+            this.panel4.TabIndex = 6;
             // 
             // groupBox2
             // 
@@ -115,6 +125,16 @@
             this.btnLuuPhanQuyen.Text = "Lưu";
             this.btnLuuPhanQuyen.UseVisualStyleBackColor = true;
             this.btnLuuPhanQuyen.Click += new System.EventHandler(this.btnLuuPhanQuyen_Click);
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.groupBox1);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Padding = new System.Windows.Forms.Padding(6);
+            this.panel3.Size = new System.Drawing.Size(410, 94);
+            this.panel3.TabIndex = 5;
             // 
             // groupBox1
             // 
@@ -196,31 +216,11 @@
             this.bigLabel1.TabIndex = 0;
             this.bigLabel1.Text = "Xử lý phân quyền";
             // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.groupBox1);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(3, 3);
-            this.panel3.Name = "panel3";
-            this.panel3.Padding = new System.Windows.Forms.Padding(6);
-            this.panel3.Size = new System.Drawing.Size(410, 94);
-            this.panel3.TabIndex = 5;
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.groupBox2);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(419, 3);
-            this.panel4.Name = "panel4";
-            this.panel4.Padding = new System.Windows.Forms.Padding(5);
-            this.panel4.Size = new System.Drawing.Size(411, 94);
-            this.panel4.TabIndex = 6;
-            // 
             // insertPhanQuyen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(853, 557);
+            this.ClientSize = new System.Drawing.Size(853, 662);
             this.Controls.Add(this.pnlPhanQuyen);
             this.Name = "insertPhanQuyen";
             this.Text = "Thêm phân quyền";
@@ -229,15 +229,15 @@
             this.pnlPhanQuyen.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.gbPhanQuyen.ResumeLayout(false);
             this.gbPhanQuyen.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
             this.ResumeLayout(false);
 
         }

@@ -201,31 +201,45 @@ namespace GUI.GUI_CRUD
 
         private void btnXoaVaiTro_Click(object sender, EventArgs e)
         {
+            if (tbVaiTro.SelectedRows.Count == 0)
+            {
+                return;
+            }
+
             DataGridViewRow row = tbVaiTro.SelectedRows[0];
             vaitroDTO ct = row.DataBoundItem as vaitroDTO;
 
+            if (ct == null) return;
+
             int maVT = ct.MaVaiTro;
 
+            if (maVT == 1)
+            {
+                MessageBox.Show("Đây là vai trò Quản trị viên mặc định, không được phép xóa!",
+                                "Cảnh báo",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return;
+            }
+
             DialogResult result = MessageBox.Show(
-    "Bạn có chắc muốn xóa vai trò này không?",
-    "Xác nhận",
-    MessageBoxButtons.YesNo,
-    MessageBoxIcon.Question
-);
+                "Bạn có chắc muốn xóa vai trò này không?",
+                "Xác nhận",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
 
             if (result == DialogResult.Yes)
             {
-                if (ct != null)
+                bool kq = busVaiTro.xoaVaiTro(maVT);
+                if (kq)
                 {
                     MessageBox.Show("Xóa vai trò thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    busVaiTro.xoaVaiTro(maVT);
                     txtTenVaiTro.Clear();
-                    tbVaiTro.Refresh();
                 }
                 else
                 {
-                    MessageBox.Show("Xóa vai trò thất bại", "Báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    MessageBox.Show("Xóa vai trò thất bại (Có thể do dữ liệu đang được sử dụng)", "Báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }

@@ -137,6 +137,7 @@ namespace BUS
                     tontai.MaTT = hd.MaTT;
                     tontai.MaKhachHang = hd.MaKhachHang;
                     tontai.MaNhanVien = hd.MaNhanVien;
+                    tontai.TongTien = hd.TongTien;
                 }
             }
             return kq;

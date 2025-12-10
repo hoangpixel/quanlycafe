@@ -261,7 +261,7 @@
             "Tên SP",
             "Tên Loại",
             "Tên nhóm"});
-            this.cboSanPham.Location = new System.Drawing.Point(10, 8);
+            this.cboSanPham.Location = new System.Drawing.Point(10, 10);
             this.cboSanPham.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboSanPham.Name = "cboSanPham";
             this.cboSanPham.Size = new System.Drawing.Size(176, 28);
@@ -1027,7 +1027,7 @@
             // 
             this.btnExcelSP.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnExcelSP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnExcelSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExcelSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExcelSP.Image = global::GUI.Properties.Resources.xls;
             this.btnExcelSP.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnExcelSP.Location = new System.Drawing.Point(775, 10);
@@ -1045,9 +1045,8 @@
             this.btnDonBan.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDonBan.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnDonBan.Enabled = false;
-            this.btnDonBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDonBan.Image = global::GUI.Properties.Resources.type;
-            this.btnDonBan.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnDonBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDonBan.Image = global::GUI.Properties.Resources.wipe__1_;
             this.btnDonBan.Location = new System.Drawing.Point(622, 10);
             this.btnDonBan.Margin = new System.Windows.Forms.Padding(10);
             this.btnDonBan.Name = "btnDonBan";
@@ -1062,7 +1061,7 @@
             // 
             this.btnRefreshSP.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnRefreshSP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnRefreshSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRefreshSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRefreshSP.Image = global::GUI.Properties.Resources.reload;
             this.btnRefreshSP.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnRefreshSP.Location = new System.Drawing.Point(469, 10);
@@ -1080,7 +1079,7 @@
             this.btnChiTietHD.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnChiTietHD.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnChiTietHD.Enabled = false;
-            this.btnChiTietHD.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnChiTietHD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnChiTietHD.Image = global::GUI.Properties.Resources.info;
             this.btnChiTietHD.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnChiTietHD.Location = new System.Drawing.Point(316, 10);
@@ -1116,7 +1115,7 @@
             this.btnSuaHD.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSuaHD.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSuaHD.Enabled = false;
-            this.btnSuaHD.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSuaHD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSuaHD.Image = global::GUI.Properties.Resources.update;
             this.btnSuaHD.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnSuaHD.Location = new System.Drawing.Point(10, 10);

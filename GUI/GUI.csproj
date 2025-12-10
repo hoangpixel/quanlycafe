@@ -199,6 +199,12 @@
     <Compile Include="GUI_CRUD\detailPhieuNhap.Designer.cs">
       <DependentUpon>detailPhieuNhap.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_CRUD\detailPhieuNhapF.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\detailPhieuNhapF.Designer.cs">
+      <DependentUpon>detailPhieuNhapF.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_CRUD\detailTaiKhoan.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -644,6 +650,9 @@
     <EmbeddedResource Include="GUI_CRUD\detailPhieuNhap.resx">
       <DependentUpon>detailPhieuNhap.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\detailPhieuNhapF.resx">
+      <DependentUpon>detailPhieuNhapF.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\detailTaiKhoan.resx">
       <DependentUpon>detailTaiKhoan.cs</DependentUpon>
     </EmbeddedResource>
@@ -894,6 +903,8 @@
     <None Include="Resources\4288571_balance_judge_justice_law_scale_icon1.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\wipe %281%29.png" />
+    <None Include="Resources\wipe.png" />
     <None Include="Resources\pdf %282%29.png" />
     <None Include="Resources\lock.png" />
     <None Include="Resources\lock-up.png" />
@@ -909,6 +920,7 @@
     <None Include="Resources\id-card.png" />
     <None Include="Resources\id-card %281%29.png" />
     <None Include="Resources\image %281%29.png" />
+    <None Include="Resources\glove.png" />
     <Content Include="Resources\IMG\SP\cafe-den-da-8801.png" />
     <Content Include="Resources\IMG\SP\pngtree-cute-iced-coffee-takeaway-png-image_11477425.png" />
     <Content Include="Resources\IMG\SP\pngtree-ice-milk-coffee-png-image_9162395.png" />

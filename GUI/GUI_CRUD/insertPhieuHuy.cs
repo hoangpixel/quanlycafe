@@ -244,6 +244,11 @@ namespace GUI.GUI_CRUD
             }
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
         private void btnXoaCT_Click(object sender, EventArgs e)
         {
             if (indexMaNL < 0 || indexMaNL >= dsTam.Count) return;

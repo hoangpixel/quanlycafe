@@ -37,6 +37,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
             this.cboPPThanhToan = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.btnChonKH = new System.Windows.Forms.Button();
@@ -50,8 +52,10 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
-            this.label5 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.cboPhatSinh = new System.Windows.Forms.ComboBox();
+            this.txtTienPhatSinh = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.panelPhatSinh = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -60,6 +64,8 @@
             this.panel5.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.panelPhatSinh.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -71,27 +77,28 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(10);
-            this.panel1.Size = new System.Drawing.Size(546, 638);
+            this.panel1.Size = new System.Drawing.Size(546, 734);
             this.panel1.TabIndex = 0;
             // 
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.White;
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.groupBox3);
             this.panel4.Controls.Add(this.panel6);
             this.panel4.Controls.Add(this.panel5);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(10, 120);
             this.panel4.Name = "panel4";
             this.panel4.Padding = new System.Windows.Forms.Padding(10);
-            this.panel4.Size = new System.Drawing.Size(526, 508);
+            this.panel4.Size = new System.Drawing.Size(526, 604);
             this.panel4.TabIndex = 2;
             // 
             // panel6
             // 
             this.panel6.Controls.Add(this.groupBox2);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel6.Location = new System.Drawing.Point(10, 384);
+            this.panel6.Location = new System.Drawing.Point(10, 480);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(504, 112);
             this.panel6.TabIndex = 1;
@@ -154,13 +161,11 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel5.Location = new System.Drawing.Point(10, 10);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(504, 361);
+            this.panel5.Size = new System.Drawing.Size(504, 295);
             this.panel5.TabIndex = 0;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.cboPPThanhToan);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.btnChonKH);
@@ -175,10 +180,30 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(504, 361);
+            this.groupBox1.Size = new System.Drawing.Size(504, 295);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin hóa đơn";
+            // 
+            // button1
+            // 
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.Location = new System.Drawing.Point(236, 24);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(175, 43);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "Phát sinh";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(32, 24);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(124, 20);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "Phát sinh NL:";
             // 
             // cboPPThanhToan
             // 
@@ -293,40 +318,63 @@
             this.bigLabel1.BackColor = System.Drawing.Color.Transparent;
             this.bigLabel1.Font = new System.Drawing.Font("Segoe UI", 25.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bigLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.bigLabel1.Location = new System.Drawing.Point(22, 22);
+            this.bigLabel1.Location = new System.Drawing.Point(20, 21);
             this.bigLabel1.Name = "bigLabel1";
             this.bigLabel1.Size = new System.Drawing.Size(471, 57);
             this.bigLabel1.TabIndex = 0;
             this.bigLabel1.Text = "Sửa thông tin hóa đơn";
             // 
-            // label5
+            // cboPhatSinh
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(35, 298);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(195, 20);
-            this.label5.TabIndex = 10;
-            this.label5.Text = "Phát sinh nguyên liệu:";
+            this.cboPhatSinh.FormattingEnabled = true;
+            this.cboPhatSinh.Items.AddRange(new object[] {
+            "Cộng tiền",
+            "Trừ tiền"});
+            this.cboPhatSinh.Location = new System.Drawing.Point(36, 91);
+            this.cboPhatSinh.Name = "cboPhatSinh";
+            this.cboPhatSinh.Size = new System.Drawing.Size(172, 28);
+            this.cboPhatSinh.TabIndex = 12;
             // 
-            // button1
+            // txtTienPhatSinh
             // 
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.Location = new System.Drawing.Point(239, 298);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(175, 43);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "Phát sinh";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.txtTienPhatSinh.Location = new System.Drawing.Point(236, 91);
+            this.txtTienPhatSinh.Name = "txtTienPhatSinh";
+            this.txtTienPhatSinh.Size = new System.Drawing.Size(175, 27);
+            this.txtTienPhatSinh.TabIndex = 13;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.panelPhatSinh);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox3.Location = new System.Drawing.Point(10, 305);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(504, 170);
+            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Xử lý phát sinh nguyên liệu hoặc tiền";
+            // 
+            // panelPhatSinh
+            // 
+            this.panelPhatSinh.Controls.Add(this.txtTienPhatSinh);
+            this.panelPhatSinh.Controls.Add(this.label5);
+            this.panelPhatSinh.Controls.Add(this.cboPhatSinh);
+            this.panelPhatSinh.Controls.Add(this.button1);
+            this.panelPhatSinh.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelPhatSinh.Location = new System.Drawing.Point(3, 23);
+            this.panelPhatSinh.Name = "panelPhatSinh";
+            this.panelPhatSinh.Padding = new System.Windows.Forms.Padding(10);
+            this.panelPhatSinh.Size = new System.Drawing.Size(498, 144);
+            this.panelPhatSinh.TabIndex = 0;
             // 
             // updateThongTinHD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(546, 638);
+            this.ClientSize = new System.Drawing.Size(546, 734);
             this.Controls.Add(this.panel1);
             this.Name = "updateThongTinHD";
-            this.Text = "updateThongTinHD";
+            this.Text = "Sửa thông tin hóa đơn";
             this.Load += new System.EventHandler(this.updateThongTinHD_Load);
             this.panel1.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
@@ -338,6 +386,9 @@
             this.groupBox1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.panelPhatSinh.ResumeLayout(false);
+            this.panelPhatSinh.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -368,5 +419,9 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox txtTienPhatSinh;
+        private System.Windows.Forms.ComboBox cboPhatSinh;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Panel panelPhatSinh;
     }
 }

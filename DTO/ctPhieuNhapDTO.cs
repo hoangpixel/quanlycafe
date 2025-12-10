@@ -2,7 +2,6 @@
 {
     public class ctPhieuNhapDTO
     {
-        // Lưu ý: Không còn MaCTPN nữa
         public int MaPN { get; set; }
         public int MaNguyenLieu { get; set; }
         public int MaDonVi { get; set; }

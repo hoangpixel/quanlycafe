@@ -1,132 +1,130 @@
-﻿using BUS;
-using DTO;
+﻿using DTO;
+using BUS;
 using FONTS;
 using System;
-using System.Linq;
-using System.Windows.Forms;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
 namespace GUI.GUI_CRUD
 {
     public partial class detailPhieuNhap : Form
     {
-        private int _maPN;
-        private phieuNhapBUS pnBus = new phieuNhapBUS();
-        private nhaCungCapBUS nccBus = new nhaCungCapBUS();
-        private nhanVienBUS nvBus = new nhanVienBUS();
-
-
-        public detailPhieuNhap(int maPN)
+        private phieuNhapDTO pn;
+        private BindingList<nhanVienDTO> dsNV;
+        private BindingList<nhaCungCapDTO> dsNCC;
+        private BindingList<nguyenLieuDTO> dsNL;
+        private BindingList<donViDTO> dsDV;
+        private phieuNhapBUS bus = new phieuNhapBUS();
+        public detailPhieuNhap(phieuNhapDTO pn)
         {
+            FontManager.LoadFont(); 
+            FontManager.ApplyFontToAllControls(this);
             InitializeComponent();
-            _maPN = maPN;
-            btnClose.Click += (s, e) => this.Close();
+            this.pn = pn;
+            dsNV = new nhanVienBUS().LayDanhSach();
+            dsNCC = new nhaCungCapBUS().LayDanhSach();
+            dsNL = new nguyenLieuBUS().LayDanhSach();
+            dsDV = new donViBUS().LayDanhSach();
         }
 
         private void detailPhieuNhap_Load(object sender, EventArgs e)
         {
-            try { FontManager.LoadFont(); FontManager.ApplyFontToAllControls(this); } catch { }
-            LoadHeader();
-            LoadDetails();
+            txtMaPN.Text = pn.MaPN.ToString();
+
+            nhaCungCapDTO ncc = dsNCC.FirstOrDefault(x => x.MaNCC == pn.MaNCC);
+            nhanVienDTO nv = dsNV.FirstOrDefault(x => x.MaNhanVien == pn.MaNhanVien);
+
+            txtTenNV.Text = nv?.HoTen ?? "Không xác định";
+            txtTenNCC.Text = ncc?.TenNCC ?? "Không xác định";
+
+            txtThoiGian.Text = pn.ThoiGian.ToString("dd/MM/yyyy HH:mm");
+            txtTongTien.Text = pn.TongTien.ToString("N0") + " VNĐ";
+
+            List<ctPhieuNhapDTO> ds = bus.LayChiTiet(pn.MaPN);
+            loadDanhSachCTPN(ds);
         }
 
-        private void LoadHeader()
+        private void loadDanhSachCTPN(List<ctPhieuNhapDTO> ds)
         {
-            // Lấy thông tin phiếu nhập từ list
-            var pn = pnBus.LayDanhSach().FirstOrDefault(x => x.MaPN == _maPN);
+            tbChiTIetPhieuNhap.AutoGenerateColumns = false;
+            tbChiTIetPhieuNhap.Columns.Clear();
 
-            if (pn != null)
-            {
-                txtMaPN.Text = pn.MaPN.ToString();
-                txtNgayNhap.Text = pn.ThoiGian.ToString("dd/MM/yyyy HH:mm");
-                txtTongTien.Text = pn.TongTien.ToString("N0") + " VNĐ";
+            tbChiTIetPhieuNhap.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaPN", HeaderText = "Mã PN" });
+            tbChiTIetPhieuNhap.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaNguyenLieu", HeaderText = "Tên NL" });
+            tbChiTIetPhieuNhap.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaDonVi", HeaderText = "Tên ĐV" });
+            tbChiTIetPhieuNhap.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "SoLuongCoSo", HeaderText = "Số lượng" });
+            tbChiTIetPhieuNhap.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "DonGia", HeaderText = "Đơn giá", DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" } });
+            tbChiTIetPhieuNhap.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ThanhTien", HeaderText = "Thành tiền", DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" } });
 
-
-                var ncc = nccBus.LayDanhSach().FirstOrDefault(x => x.MaNCC == pn.MaNCC);
-                txtNhaCungCap.Text = ncc != null ? ncc.TenNCC : "Không xác định";
-
-
-                var nv = nvBus.LayDanhSach().FirstOrDefault(x => x.MaNhanVien == pn.MaNhanVien);
-                txtNhanVien.Text = nv != null ? nv.HoTen : "Không xác định";
-            }
-        }
-
-        private void LoadDetails()
-        {
-            // Lấy danh sách chi tiết từ BUS
-            var listDetails = pnBus.LayChiTiet(_maPN);
-
-            dgvChiTiet.DataSource = listDetails;
-
-            dgvChiTiet.Columns.Clear();
-            dgvChiTiet.AutoGenerateColumns = false;
-
-            
-            dgvChiTiet.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                HeaderText = "Mã NL",
-                DataPropertyName = "MaNguyenLieu",
-            });
-
-           
-            dgvChiTiet.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                HeaderText = "Tên Nguyên Liệu",
-                DataPropertyName = "TenNguyenLieu",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-            });
-
-           
-           dgvChiTiet.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                HeaderText = "ĐVT",
-                DataPropertyName = "TenDonVi",
-            });
-
-            // Cột 4: Số Lượng
-            dgvChiTiet.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                HeaderText = "SL Nhập",
-                DataPropertyName = "SoLuong",
-                DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter }
-            });
-
-
-            dgvChiTiet.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                HeaderText = "Đơn Giá",
-                DataPropertyName = "DonGia",
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight }
-            });
-
-            dgvChiTiet.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                HeaderText = "Thành Tiền",
-                DataPropertyName = "ThanhTien",
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight, Font = new System.Drawing.Font("Arial", 10, System.Drawing.FontStyle.Bold) }
-            });
+            tbChiTIetPhieuNhap.DataSource = ds;
+            tbChiTIetPhieuNhap.ReadOnly = true;
+            tbChiTIetPhieuNhap.ClearSelection();
             loadFontChuVaSizeTableNguyenLieu();
         }
+
         private void loadFontChuVaSizeTableNguyenLieu()
         {
-            foreach (DataGridViewColumn col in dgvChiTiet.Columns)
+            foreach (DataGridViewColumn col in tbChiTIetPhieuNhap.Columns)
             {
                 col.SortMode = DataGridViewColumnSortMode.NotSortable;
                 col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
 
-            dgvChiTiet.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgvChiTiet.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            tbChiTIetPhieuNhap.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            tbChiTIetPhieuNhap.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            dgvChiTiet.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+            tbChiTIetPhieuNhap.DefaultCellStyle.Font = FontManager.GetLightFont(10);
 
-            dgvChiTiet.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
+            tbChiTIetPhieuNhap.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
 
-            dgvChiTiet.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvChiTiet.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dgvChiTiet.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+            tbChiTIetPhieuNhap.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tbChiTIetPhieuNhap.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            tbChiTIetPhieuNhap.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
 
-            dgvChiTiet.Refresh();
+            tbChiTIetPhieuNhap.Refresh();
+        }
+
+        private void tbChiTIetPhieuNhap_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            ctPhieuNhapDTO ctpn = tbChiTIetPhieuNhap.Rows[e.RowIndex].DataBoundItem as ctPhieuNhapDTO;
+            if (tbChiTIetPhieuNhap.Columns[e.ColumnIndex].HeaderText == "Tên NL")
+            {
+                nguyenLieuDTO nl = dsNL.FirstOrDefault(x => x.MaNguyenLieu == ctpn.MaNguyenLieu);
+                e.Value = nl?.TenNguyenLieu ?? "Không xác định";
+            }
+            if (tbChiTIetPhieuNhap.Columns[e.ColumnIndex].HeaderText == "Tên ĐV")
+            {
+                donViDTO dv = dsDV.FirstOrDefault(x => x.MaDonVi == ctpn.MaDonVi);
+                e.Value = dv?.TenDonVi ?? "Không xác định";
+            }
+            if (tbChiTIetPhieuNhap.Columns[e.ColumnIndex].HeaderText == "Số lượng" && e.Value != null)
+            {
+                if (double.TryParse(e.Value.ToString(), out double tonKho))
+                {
+                    if (tonKho % 1 == 0)
+                    {
+                        e.Value = tonKho.ToString("N0");
+                    }
+                    else
+                    {
+                        e.Value = tonKho.ToString("0.000");
+                    }
+                    e.FormattingApplied = true;
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

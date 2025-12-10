@@ -12,11 +12,11 @@ namespace BUS
         private phieuHuyDAO data = new phieuHuyDAO();
         public static BindingList<phieuHuyDTO> ds = new BindingList<phieuHuyDTO>();
 
-        public BindingList<phieuHuyDTO> LayDanhSach()
+        public BindingList<phieuHuyDTO> LayDanhSach(int maHD)
         {
             if (ds == null || ds.Count <= 0)
             {
-                ds = data.DocDanhSachPhieuHuy();
+                ds = data.DocDanhSachPhieuHuy(maHD);
             }
             return ds;
         }

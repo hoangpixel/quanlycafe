@@ -546,13 +546,14 @@ namespace DAO
             MySqlConnection conn = DBConnect.GetConnection();
             try
             {
-                string qry = @"UPDATE hoadon SET MABAN = @maBan, MATT = @maTT, MAKHACHHANG = @maKH, MANHANVIEN = @maNV WHERE MAHOADON = @maHD";
+                string qry = @"UPDATE hoadon SET MABAN = @maBan, MATT = @maTT, MAKHACHHANG = @maKH, MANHANVIEN = @maNV, TONGTIEN = @tongTien WHERE MAHOADON = @maHD";
                 MySqlCommand cmd = new MySqlCommand(qry, conn);
-                cmd.Parameters.AddWithValue("maBan", hd.MaBan);
-                cmd.Parameters.AddWithValue("maTT", hd.MaTT);
-                cmd.Parameters.AddWithValue("maKH", hd.MaKhachHang);
-                cmd.Parameters.AddWithValue("maNV", hd.MaNhanVien);
-                cmd.Parameters.AddWithValue("maHD", hd.MaHD);
+                cmd.Parameters.AddWithValue("@maBan", hd.MaBan);
+                cmd.Parameters.AddWithValue("@maTT", hd.MaTT);
+                cmd.Parameters.AddWithValue("@maKH", hd.MaKhachHang);
+                cmd.Parameters.AddWithValue("@maNV", hd.MaNhanVien);
+                cmd.Parameters.AddWithValue("@maHD", hd.MaHD);
+                cmd.Parameters.AddWithValue("@tongTien", hd.TongTien);
                 int rs = cmd.ExecuteNonQuery();
                 return rs > 0;
             }catch(MySqlException ex)

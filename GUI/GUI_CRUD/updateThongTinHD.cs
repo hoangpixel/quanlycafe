@@ -18,17 +18,20 @@ namespace GUI.GUI_CRUD
     public partial class updateThongTinHD : Form
     {
         public hoaDonDTO hd;
+        private BindingList<khuVucDTO> dsKhuVuc;
         private hoaDonBUS bus = new hoaDonBUS();
         private int maBan = -1, maNV = -1, maKH = -1, maBanCu;
 
         public updateThongTinHD(hoaDonDTO hd)
         {
             InitializeComponent();
+            dsKhuVuc = new khuvucBUS().LayDanhSach();
             this.hd = hd;
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
             loadComBoThanhToan();
             this.maBanCu = hd.MaBan;
+            SetComboBoxPlaceholder(cboPhatSinh, "Tiền phát sinh");
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -71,8 +74,16 @@ namespace GUI.GUI_CRUD
             {
                 if (f.ShowDialog() == DialogResult.OK)
                 {
-                    txtban.Text = f.maBan.ToString();
                     maBan = f.maBan;
+                    banBUS busBan = new banBUS();
+                    banDTO banChon = busBan.LayDanhSach().FirstOrDefault(x => x.MaBan == maBan);
+
+                    if (banChon != null)
+                    {
+                        khuVucDTO khuVuc = dsKhuVuc.FirstOrDefault(x => x.MaKhuVuc == banChon.MaKhuVuc);
+                        string tenKhuVuc = (khuVuc != null) ? khuVuc.TenKhuVuc : "Chưa xác định";
+                        txtban.Text = $"{banChon.TenBan} - {tenKhuVuc}";
+                    }
                 }
             }
         }
@@ -131,12 +142,75 @@ namespace GUI.GUI_CRUD
                 return;
             }
 
+            decimal tienPhatSinh = 0;
+            if (!string.IsNullOrWhiteSpace(txtTienPhatSinh.Text))
+            {
+                decimal tienNhapVao;
+                if (!decimal.TryParse(txtTienPhatSinh.Text, out tienNhapVao))
+                {
+                    MessageBox.Show("Tiền phát sinh phải là số hợp lệ", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTienPhatSinh.Focus();
+                    return;
+                }
+                if (cboPhatSinh.SelectedIndex != -1)
+                {
+                    string kieuPhatSinh = cboPhatSinh.SelectedItem.ToString();
+
+                    if (kieuPhatSinh == "Cộng tiền")
+                    {
+                        tienPhatSinh = tienNhapVao;
+                    }
+                    else if (kieuPhatSinh == "Trừ tiền")
+                    {
+                        tienPhatSinh = -tienNhapVao;
+                    }
+                }
+            }
+
+            decimal tongTienCu = hd.TongTien;
+            decimal tongTienMoi = tongTienCu + tienPhatSinh;
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("XÁC NHẬN CẬP NHẬT HÓA ĐƠN?");
+            sb.AppendLine("------------------------------------------------");
+            sb.AppendLine($"• Nhân viên: {txtTenNhanVien.Text}");
+            sb.AppendLine($"• Khách hàng: {txtKhacHang.Text}");
+            sb.AppendLine($"• Bàn mới: {txtban.Text}");
+            sb.AppendLine($"• Thanh toán: {cboPPThanhToan.Text}");
+            sb.AppendLine("");
+
+            if (tienPhatSinh != 0)
+            {
+                sb.AppendLine("*************************************");
+                string dau = tienPhatSinh > 0 ? "+" : "";
+                sb.AppendLine($"   PHÁT SINH: {dau}{tienPhatSinh:N0} VNĐ");
+                sb.AppendLine("*************************************");
+            }
+            else
+            {
+                sb.AppendLine("• Phát sinh: Không có");
+            }
+
+            sb.AppendLine("");
+            sb.AppendLine($"-> TỔNG TIỀN MỚI: {tongTienMoi:N0} VNĐ");
+            sb.AppendLine("(Tiền cũ: " + tongTienCu.ToString("N0") + " VNĐ)");
+
+            DialogResult result = MessageBox.Show(sb.ToString(),
+                                                  "Xác nhận thay đổi",
+                                                  MessageBoxButtons.OKCancel,
+                                                  MessageBoxIcon.Question);
+
+            if (result != DialogResult.OK)
+            {
+                return;
+            }
+
             hoaDonDTO hdSua = new hoaDonDTO();
             hdSua.MaHD = hd.MaHD;
             hdSua.MaNhanVien = maNV;
             hdSua.MaKhachHang = maKH;
             hdSua.MaBan = maBan;
             hdSua.MaTT = Convert.ToInt32(cboPPThanhToan.SelectedValue);
+            hdSua.TongTien = hd.TongTien + tienPhatSinh;
 
             if (maBan != maBanCu)
             {
@@ -160,6 +234,30 @@ namespace GUI.GUI_CRUD
             this.DialogResult = DialogResult.OK;
             MessageBox.Show("Sửa thông tin hóa đơn thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();
+        }
+
+        private void SetComboBoxPlaceholder(ComboBox cbo, string placeholder)
+        {
+
+            cbo.ForeColor = System.Drawing.Color.Gray;
+            cbo.Text = placeholder;
+
+            cbo.GotFocus += (s, e) =>
+            {
+                if (cbo.Text == placeholder)
+                {
+                    cbo.Text = "";
+                    cbo.ForeColor = System.Drawing.Color.Black;
+                }
+            };
+            cbo.LostFocus += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(cbo.Text))
+                {
+                    cbo.Text = placeholder;
+                    cbo.ForeColor = System.Drawing.Color.Gray;
+                }
+            };
         }
     }
 }

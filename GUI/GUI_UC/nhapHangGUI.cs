@@ -677,7 +677,7 @@ namespace GUI.GUI_UC
                 DataGridViewRow row = dgvPhieuNhap.SelectedRows[0];
                 phieuNhapDTO pn = row.DataBoundItem as phieuNhapDTO;
 
-                using (detailPhieuNhap f = new detailPhieuNhap(pn.MaPN))
+                using (detailPhieuNhap f = new detailPhieuNhap(pn))
                 {
                     f.ShowDialog();
                 }
