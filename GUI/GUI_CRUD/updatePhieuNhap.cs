@@ -36,23 +36,33 @@ namespace GUI.GUI_CRUD
             FontManager.ApplyFontToAllControls(this);
         }
 
+        private void tuDongLoadTenNhanVien()
+        {
+            if (DTO.Session.NhanVienHienTai != null)
+            {
+                txtTenNV.Text = DTO.Session.NhanVienHienTai.HoTen;
+                maNV = DTO.Session.NhanVienHienTai.MaNhanVien;
+            }
+        }
+
         private void updatePhieuNhap_Load(object sender, EventArgs e)
         {
             loadDanhSachNguyenLieu(dsNL);
 
             maNCC = pn.MaNCC;
-            maNV = pn.MaNhanVien;
+            //maNV = pn.MaNhanVien;
             maPN = pn.MaPN;
 
             nhaCungCapDTO ct = dsNCC.FirstOrDefault(x => x.MaNCC == pn.MaNCC);
             txtTenNCC.Text = ct?.TenNCC ?? "Không xác định";
 
-            nhanVienDTO nv = dsNV.FirstOrDefault(x => x.MaNhanVien == pn.MaNhanVien);
-            txtTenNV.Text = nv?.HoTen ?? "Không xác định";
+            //nhanVienDTO nv = dsNV.FirstOrDefault(x => x.MaNhanVien == pn.MaNhanVien);
+            //txtTenNV.Text = nv?.HoTen ?? "Không xác định";
 
             BindingList<ctPhieuNhapDTO> dsCTPN = new BindingList<ctPhieuNhapDTO>(busPhieuNhap.LayChiTiet(maPN));
             dsChiTietPNsua = dsCTPN;
             loadDanhSachCTPN(dsChiTietPNsua);
+            tuDongLoadTenNhanVien();
         }
 
         private void dgvNguyenLieu_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -120,14 +130,6 @@ namespace GUI.GUI_CRUD
             using (var f = new selectNhaCungCap())
             {
                 if (f.ShowDialog() == DialogResult.OK) { maNCC = f.MaNCC; txtTenNCC.Text = f.TenNCC; }
-            }
-        }
-
-        private void btnChonNV_Click(object sender, EventArgs e)
-        {
-            using (var f = new selectNhanVien())
-            {
-                if (f.ShowDialog() == DialogResult.OK) { maNV = f.MaNV; txtTenNV.Text = f.TenNV; }
             }
         }
 
@@ -365,12 +367,14 @@ namespace GUI.GUI_CRUD
 
         private void btnSuaCTPN_Click(object sender, EventArgs e)
         {
+            // 1. Kiểm tra chọn dòng
             if (dgvChiTietPN.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Vui lòng chọn sản phẩm cần sửa!", "Thông báo");
                 return;
             }
 
+            // 2. Validate dữ liệu nhập
             if (numSoLuong.Value <= 0)
             {
                 MessageBox.Show("Số lượng phải lớn hơn 0!", "Lỗi");
@@ -382,16 +386,31 @@ namespace GUI.GUI_CRUD
                 return;
             }
 
+            // 3. Lấy item đang chọn
             ctPhieuNhapDTO item = dgvChiTietPN.SelectedRows[0].DataBoundItem as ctPhieuNhapDTO;
 
+            // --- ĐOẠN CODE CẦN THÊM VÀO ĐÂY ---
 
+            // 4. Lấy lại Hệ số mới (Vì có thể người dùng đã đổi Đơn vị)
+            // Lưu ý: maDV và maNL là biến toàn cục đã được cập nhật khi bạn bấm nút "Chọn Đơn Vị"
+            BindingList<heSoDTO> dsHeSo = new heSoBUS().LayDanhSach();
+            heSoDTO hs = dsHeSo.FirstOrDefault(x => x.MaDonVi == maDV && x.MaNguyenLieu == maNL);
+            decimal heSoMoi = hs?.HeSo ?? 1; // Nếu không tìm thấy thì mặc định là 1
 
+            // 5. Cập nhật lại toàn bộ thông tin cho Item
+            item.MaDonVi = maDV;      // <--- Cập nhật Mã Đơn Vị Mới
+            item.HeSo = heSoMoi;      // <--- Cập nhật Hệ Số Mới
             item.SoLuong = numSoLuong.Value;
             item.DonGia = donGiaMoi;
 
+            // 6. Tính toán lại Số lượng cơ sở và Thành tiền
+            // Số lượng cơ sở = Số lượng nhập * Hệ số mới (Ví dụ: 1 thùng * 24 lon = 24)
             item.SoLuongCoSo = item.SoLuong * item.HeSo;
             item.ThanhTien = item.SoLuong * item.DonGia;
 
+            // -----------------------------------
+
+            // 7. Làm mới hiển thị lưới
             dgvChiTietPN.Refresh();
 
             MessageBox.Show("Đã cập nhật thông tin!", "Thông báo");

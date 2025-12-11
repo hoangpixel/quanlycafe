@@ -332,7 +332,7 @@
             this.bigLabel1.BackColor = System.Drawing.Color.Transparent;
             this.bigLabel1.Font = new System.Drawing.Font("Segoe UI", 25.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bigLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.bigLabel1.Location = new System.Drawing.Point(360, 19);
+            this.bigLabel1.Location = new System.Drawing.Point(334, 19);
             this.bigLabel1.Name = "bigLabel1";
             this.bigLabel1.Size = new System.Drawing.Size(490, 57);
             this.bigLabel1.TabIndex = 0;

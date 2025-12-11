@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 09, 2025 at 07:22 AM
+-- Generation Time: Dec 11, 2025 at 09:17 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,46 +41,46 @@ CREATE TABLE `ban` (
 --
 
 INSERT INTO `ban` (`MABAN`, `TENBAN`, `DANGSUDUNG`, `MAKHUVUC`, `TRANGTHAIXOA`, `MADONHIENTAI`) VALUES
-(1, 'Ban1', 0, 1, 1, 6),
-(2, 'Ban2', 0, 1, 1, NULL),
-(3, 'Ban3', 1, 1, 1, NULL),
-(4, 'Ban4', 1, 1, 1, NULL),
-(5, 'Ban5', 1, 1, 1, NULL),
-(6, 'Ban6', 1, 1, 1, NULL),
-(7, 'Ban7', 1, 1, 1, NULL),
-(8, 'Ban8', 1, 1, 1, NULL),
-(9, 'Ban9', 1, 1, 1, NULL),
-(10, 'Ban10', 1, 1, 1, NULL),
-(11, 'Ban11', 1, 1, 1, NULL),
-(12, 'Ban12', 1, 1, 1, NULL),
-(13, 'Ban13', 1, 1, 1, NULL),
-(14, 'Ban14', 1, 1, 1, NULL),
-(15, 'Ban15', 1, 1, 1, NULL),
-(16, 'Ban16', 1, 1, 1, NULL),
-(17, 'Ban17', 1, 1, 1, NULL),
-(18, 'Ban18', 1, 1, 1, NULL),
-(19, 'Ban19', 1, 1, 1, NULL),
-(20, 'Ban20', 1, 1, 1, NULL),
-(21, 'Ban21', 1, 2, 1, NULL),
-(22, 'Ban22', 1, 2, 1, NULL),
-(23, 'Ban23', 1, 2, 1, NULL),
-(24, 'Ban24', 1, 2, 1, NULL),
-(25, 'Ban25', 1, 2, 1, NULL),
-(26, 'Ban26', 1, 2, 1, NULL),
-(27, 'Ban27', 1, 2, 1, NULL),
-(28, 'Ban28', 1, 2, 1, NULL),
-(29, 'Ban29', 1, 2, 1, NULL),
-(30, 'Ban30', 1, 2, 1, NULL),
-(31, 'Ban31', 1, 2, 1, NULL),
-(32, 'Ban32', 1, 2, 1, NULL),
-(33, 'Ban33', 1, 2, 1, NULL),
-(34, 'Ban34', 1, 2, 1, NULL),
-(35, 'Ban35', 1, 2, 1, NULL),
-(36, 'Ban36', 1, 2, 1, NULL),
-(37, 'Ban37', 1, 2, 1, NULL),
-(38, 'Ban38', 1, 2, 1, NULL),
-(39, 'Ban39', 1, 2, 1, NULL),
-(40, 'Ban40', 1, 2, 1, NULL);
+(1, 'Bàn 1', 1, 1, 1, NULL),
+(2, 'Bàn 2', 1, 1, 1, NULL),
+(3, 'Bàn 3', 1, 1, 1, NULL),
+(4, 'Bàn 4', 1, 1, 1, NULL),
+(5, 'Bàn 5', 1, 1, 1, NULL),
+(6, 'Bàn 6', 1, 1, 1, NULL),
+(7, 'Bàn 7', 1, 1, 1, NULL),
+(8, 'Bàn 8', 1, 1, 1, NULL),
+(9, 'Bàn 9', 1, 1, 1, NULL),
+(10, 'Bàn 10', 1, 1, 1, NULL),
+(11, 'Bàn 11', 1, 1, 1, NULL),
+(12, 'Bàn 12', 1, 1, 1, NULL),
+(13, 'Bàn 13', 1, 1, 1, NULL),
+(14, 'Bàn 14', 1, 1, 1, NULL),
+(15, 'Bàn 15', 1, 1, 1, NULL),
+(16, 'Bàn 16', 1, 1, 1, NULL),
+(17, 'Bàn 17', 1, 1, 1, NULL),
+(18, 'Bàn 18', 1, 1, 1, NULL),
+(19, 'Bàn 19', 1, 1, 1, NULL),
+(20, 'Bàn 20', 1, 1, 1, NULL),
+(21, 'Bàn 21', 1, 2, 1, NULL),
+(22, 'Bàn 22', 1, 2, 1, NULL),
+(23, 'Bàn 23', 1, 2, 1, NULL),
+(24, 'Bàn 24', 1, 2, 1, NULL),
+(25, 'Bàn 25', 1, 2, 1, NULL),
+(26, 'Bàn 26', 1, 2, 1, NULL),
+(27, 'Bàn 27', 1, 2, 1, NULL),
+(28, 'Bàn 28', 1, 2, 1, NULL),
+(29, 'Bàn 29', 1, 2, 1, NULL),
+(30, 'Bàn 30', 1, 2, 1, NULL),
+(31, 'Bàn 31', 1, 2, 1, NULL),
+(32, 'Bàn 32', 1, 2, 1, NULL),
+(33, 'Bàn 33', 1, 2, 1, NULL),
+(34, 'Bàn 34', 1, 2, 1, NULL),
+(35, 'Bàn 35', 1, 2, 1, NULL),
+(36, 'Bàn 36', 1, 2, 1, NULL),
+(37, 'Bàn 37', 1, 2, 1, NULL),
+(38, 'Bàn 38', 1, 2, 1, NULL),
+(39, 'Bàn 39', 1, 2, 1, NULL),
+(40, 'Bàn 40', 1, 2, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -138,31 +138,6 @@ CREATE TABLE `cthd` (
   `THANHTIEN` decimal(12,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `cthd`
---
-
-INSERT INTO `cthd` (`MAHOADON`, `MASANPHAM`, `SOLUONG`, `DONGIA`, `THANHTIEN`) VALUES
-(6, 1, 1, 17000.00, 17000.00),
-(6, 2, 1, 25000.00, 25000.00),
-(6, 3, 1, 25000.00, 25000.00),
-(15, 1, 1, 17000.00, 17000.00),
-(17, 1, 1, 17000.00, 17000.00),
-(18, 2, 2, 25000.00, 50000.00),
-(18, 3, 2, 25000.00, 50000.00),
-(19, 1, 3, 17000.00, 51000.00),
-(19, 2, 5, 25000.00, 125000.00),
-(19, 5, 1, 2000000.00, 2000000.00),
-(20, 1, 1, 17000.00, 17000.00),
-(20, 2, 1, 25000.00, 25000.00),
-(20, 4, 1, 15000.00, 15000.00),
-(21, 1, 1, 17000.00, 17000.00),
-(22, 1, 1, 17000.00, 17000.00),
-(22, 4, 1, 15000.00, 15000.00),
-(23, 4, 4, 15000.00, 60000.00),
-(24, 4, 6, 15000.00, 90000.00),
-(25, 4, 1, 15000.00, 15000.00);
-
 -- --------------------------------------------------------
 
 --
@@ -185,7 +160,13 @@ CREATE TABLE `ctphieunhap` (
 
 INSERT INTO `ctphieunhap` (`MAPN`, `MANGUYENLIEU`, `MADONVI`, `SOLUONG`, `SOLUONGCOSO`, `DONGIA`, `THANHTIEN`) VALUES
 (1, 5, 7, 10.00, 60.00, 60000.00, 600000.00),
-(2, 5, 5, 2.00, 2.00, 123.00, 246.00);
+(2, 5, 5, 2.00, 2.00, 10000.00, 20000.00),
+(3, 1, 2, 50.00, 50.00, 150000.00, 7500000.00),
+(4, 3, 2, 50.00, 50.00, 70000.00, 3500000.00),
+(5, 3, 2, 55.00, 55.00, 78000.00, 4290000.00),
+(5, 5, 8, 5.00, 120.00, 150000.00, 750000.00),
+(6, 4, 4, 50.00, 50.00, 85000.00, 4250000.00),
+(7, 2, 2, 50.00, 50.00, 30000.00, 1500000.00);
 
 -- --------------------------------------------------------
 
@@ -231,10 +212,16 @@ CREATE TABLE `hesodonvi` (
 --
 
 INSERT INTO `hesodonvi` (`MANGUYENLIEU`, `MADONVI`, `HESO`) VALUES
+(1, 1, 0.001),
 (1, 2, 1.000),
+(2, 1, 0.001),
 (2, 2, 1.000),
-(3, 9, 1.000),
-(4, 9, 1.000),
+(3, 1, 0.001),
+(3, 2, 1.000),
+(3, 9, 0.600),
+(4, 3, 0.001),
+(4, 4, 1.000),
+(4, 9, 0.800),
 (5, 5, 1.000),
 (5, 7, 6.000),
 (5, 8, 24.000);
@@ -258,23 +245,6 @@ CREATE TABLE `hoadon` (
   `KHOASO` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `hoadon`
---
-
-INSERT INTO `hoadon` (`MAHOADON`, `MABAN`, `MATT`, `THOIGIANTAO`, `TRANGTHAI`, `TONGTIEN`, `MAKHACHHANG`, `MANHANVIEN`, `TRANGTHAIXOA`, `KHOASO`) VALUES
-(6, 1, 1, '2025-11-14 13:57:53', 1, 67000.00, 1, 1, 1, 1),
-(15, 1, 1, '2025-11-14 14:44:44', 1, 17000.00, 1, 1, 1, 0),
-(17, 40, 1, '2025-11-14 15:07:45', 1, 17000.00, 1, 1, 1, 0),
-(18, 8, 1, '2025-11-14 15:24:58', 1, 100000.00, 1, 1, 1, 0),
-(19, 8, 1, '2025-11-14 15:38:52', 1, 2176000.00, 1, 1, 0, 0),
-(20, 2, 1, '2025-12-01 12:10:25', 1, 57000.00, 1, 1, 1, 1),
-(21, 3, 1, '2025-12-01 12:18:03', 1, 17000.00, 1, 1, 1, 0),
-(22, 20, 1, '2025-12-01 13:46:41', 1, 32000.00, 1, 1, 1, 1),
-(23, 2, 1, '2025-12-08 19:56:59', 1, 60000.00, 0, 1, 1, 1),
-(24, 2, 1, '2025-12-08 19:59:28', 1, 90000.00, 0, 1, 1, 1),
-(25, 2, 1, '2025-12-09 07:42:49', 1, 15000.00, 0, 2, 1, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -296,7 +266,16 @@ CREATE TABLE `khachhang` (
 
 INSERT INTO `khachhang` (`MAKHACHHANG`, `TENKHACHHANG`, `SODIENTHOAI`, `EMAIL`, `TRANGTHAI`, `NGAYTAO`) VALUES
 (0, 'Khách lẻ', NULL, NULL, 0, '2025-12-08 19:13:16'),
-(1, 'Nguyễn Văn A', '0333333333', 'm@gmail.com', 1, '2025-11-14 13:17:26');
+(1, 'Nguyễn Văn A', '0333333333', 'khachhang1@gmail.com', 1, '2025-11-14 13:17:26'),
+(2, 'Xuân Trường Bắc Giang', '0333333334', 'khachhang2@gmail.com', 1, '2025-12-11 13:34:04'),
+(3, 'Lê Xuân Trường', '0222222222', 'khachhang3@gmail.com', 1, '2025-12-11 13:38:31'),
+(4, 'Phạm Thị Hương', '0911223344', 'khachhang4@gmail.com', 1, '2025-12-11 13:44:02'),
+(5, 'Trần Văn Nam', '0922334455', 'khachhang5@gmail.com', 1, '2025-12-11 13:44:02'),
+(6, 'Lê Thị Lan', '0933445566', 'khachhang6@gmail.com', 1, '2025-12-11 13:44:02'),
+(7, 'Hoàng Văn Tuấn', '0944556677', 'khachhang7@gmail.com', 1, '2025-12-11 13:44:02'),
+(8, 'Đỗ Thị Minh', '0955667788', 'khachhang8@gmail.com', 1, '2025-12-11 13:44:02'),
+(9, 'Ngô Văn Hùng', '0966778899', 'khachhang9@gmail.com', 1, '2025-12-11 13:44:02'),
+(10, 'Bùi Thị Mai', '0977889900', 'khachhang10@gmail.com', 1, '2025-12-11 13:44:02');
 
 -- --------------------------------------------------------
 
@@ -372,11 +351,11 @@ CREATE TABLE `nguyenlieu` (
 --
 
 INSERT INTO `nguyenlieu` (`MANGUYENLIEU`, `TENNGUYENLIEU`, `TRANGTHAI`, `TONKHO`, `TRANGTHAIDV`, `MADONVICOSO`) VALUES
-(1, 'Bột cà phê', 1, 0.000, 1, 2),
-(2, 'Đường trắng', 1, 0.000, 1, 2),
-(3, 'Sữa đặc', 1, 0.000, 1, 2),
-(4, 'Sữa tươi không đường', 1, 0.000, 1, 4),
-(5, 'Coca cola', 1, 49.000, 1, 5);
+(1, 'Bột cà phê', 1, 50.000, 1, 2),
+(2, 'Đường trắng', 1, 50.000, 1, 2),
+(3, 'Sữa đặc', 1, 105.000, 1, 2),
+(4, 'Sữa tươi không đường', 1, 50.000, 1, 4),
+(5, 'Coca cola', 1, 182.000, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -398,7 +377,16 @@ CREATE TABLE `nhacungcap` (
 --
 
 INSERT INTO `nhacungcap` (`MANCC`, `TENNCC`, `SODIENTHOAI`, `EMAIL`, `DIACHI`, `CONHOATDONG`) VALUES
-(1, '123', '0123123123', '123@gmail.com', '123', 1);
+(1, 'Lê Thị Cường', '0123123123', 'ncc1@gmail.com', '123 Đường Láng, Đống Đa, Hà Nội', 1),
+(2, 'Nguyễn Xuân Mai', '0123123124', 'ncc2@gmail.com', '456 Nguyễn Trãi, Quận 5, TP.HCM', 1),
+(3, 'Công ty Thực Phẩm Sạch', '0911223344', 'ncc3@gmail.com', '789 Trần Hưng Đạo, Đà Nẵng', 1),
+(4, 'Đại Lý Nước Ngọt Hùng Dũng', '0922334455', 'ncc4@gmail.com', '12 Lê Lợi, TP Huế', 1),
+(5, 'Nông Sản Việt Green', '0933445566', 'ncc5@gmail.com', '34 Pasteur, Quận 1, TP.HCM', 1),
+(6, 'Công Ty TNHH MTV An Khang', '0944556677', 'ncc6@gmail.com', '56 Cầu Giấy, Hà Nội', 1),
+(7, 'Nhà Phân Phối Bánh Kẹo Á Châu', '0955667788', 'ncc7@gmail.com', '88 Lý Thường Kiệt, Cần Thơ', 1),
+(8, 'Công Ty Cà Phê Cao Nguyên', '0966778899', 'ncc8@gmail.com', 'Buôn Ma Thuột, Đắk Lắk', 1),
+(9, 'Hải Sản Biển Đông', '0977889900', 'ncc9@gmail.com', '102 Bạch Đằng, Nha Trang', 1),
+(10, 'Công Ty Sữa Và Chế Phẩm', '0988990011', 'ncc10@gmail.com', 'KCN Sóng Thần, Bình Dương', 1);
 
 -- --------------------------------------------------------
 
@@ -421,9 +409,16 @@ CREATE TABLE `nhanvien` (
 --
 
 INSERT INTO `nhanvien` (`MANHANVIEN`, `HOTEN`, `SODIENTHOAI`, `EMAIL`, `LUONG`, `NGAYTAO`, `TRANGTHAI`) VALUES
-(1, 'Phạm Minh Hoàng', '0333333333', 'admin1@gmail.com', 500000000.00, '2025-11-14 13:17:41', 1),
-(2, 'Test1', '0111111111', 'test1@gmail.com', 500000000.00, '2025-12-05 14:49:45', 1),
-(3, 'Khách hàng 1', '0111111111', '111@gmail.com', 123.00, '2025-12-05 16:18:25', 1);
+(1, 'Admin', '0333333333', 'admin1@gmail.com', 30000000.00, '2025-11-14 13:17:41', 1),
+(2, 'Nguyễn Văn A', '0123456789', 'nhanvien1@gmail.com', 7000000.00, '2025-12-05 14:49:45', 1),
+(3, 'Trần Văn B', '0222222222', 'nhanvien2@gmail.com', 6500000.00, '2025-12-05 16:18:25', 1),
+(4, 'Phạm Minh Hoàng', '0333333334', 'nhanvien3@gmail.com', 5500000.00, '2025-12-11 13:16:27', 1),
+(5, 'Nguyễn Tuấn Trường', '0111111111', 'nhanvien4@gmail.com', 5500000.00, '2025-12-11 13:18:08', 1),
+(6, 'Phạm Lê Gia Lai', '0999999999', 'nhanvien5@gmail.com', 6000000.00, '2025-12-11 13:22:16', 1),
+(7, 'Trần Thị Lan', '0987654321', 'nhanvien6@gmail.com', 7000000.00, '2025-12-11 13:31:21', 1),
+(8, 'Lê Thị Hường', '0898978783', 'nhanvien7@gmail.com', 3500000.00, '2025-12-11 13:31:57', 1),
+(9, 'Trần Ri Cha', '05675433123', 'nhanvien8@gmail.com', 4000000.00, '2025-12-11 13:32:35', 1),
+(10, 'Kim Trần Nang', '0678232123', 'nhanvien9@gmail.com', 3400000.00, '2025-12-11 13:33:21', 1);
 
 -- --------------------------------------------------------
 
@@ -466,28 +461,46 @@ CREATE TABLE `phanquyen` (
 --
 
 INSERT INTO `phanquyen` (`MAVAITRO`, `MAQUYEN`, `CAN_READ`, `CAN_CREATE`, `CAN_UPDATE`, `CAN_DELETE`) VALUES
-(1, 1, 0, 0, 0, 0),
-(1, 2, 0, 0, 0, 0),
-(1, 3, 0, 0, 0, 0),
-(1, 4, 0, 0, 0, 0),
-(1, 5, 0, 0, 0, 0),
-(1, 6, 0, 0, 0, 0),
-(1, 7, 0, 0, 0, 0),
-(1, 8, 0, 0, 0, 0),
+(1, 1, 1, 1, 1, 1),
+(1, 2, 1, 1, 1, 1),
+(1, 3, 1, 1, 1, 1),
+(1, 4, 1, 1, 1, 1),
+(1, 5, 1, 1, 1, 1),
+(1, 6, 1, 1, 1, 1),
+(1, 7, 1, 1, 1, 1),
+(1, 8, 1, 1, 1, 1),
 (2, 1, 1, 1, 1, 1),
-(2, 2, 1, 0, 0, 0),
-(2, 3, 1, 0, 0, 0),
-(2, 4, 0, 0, 0, 0),
+(2, 2, 1, 1, 1, 1),
+(2, 3, 1, 1, 1, 1),
+(2, 4, 1, 1, 1, 1),
 (2, 5, 0, 0, 0, 0),
 (2, 6, 1, 1, 1, 1),
-(2, 7, 0, 0, 0, 0),
+(2, 7, 1, 1, 1, 1),
 (2, 8, 0, 0, 0, 0),
 (3, 1, 0, 0, 0, 0),
-(3, 2, 0, 1, 1, 1),
-(3, 3, 0, 1, 1, 1),
-(3, 4, 1, 1, 1, 1),
-(3, 5, 1, 1, 1, 1),
-(3, 6, 1, 1, 1, 1);
+(3, 2, 0, 0, 0, 0),
+(3, 3, 1, 1, 1, 1),
+(3, 4, 0, 0, 0, 0),
+(3, 5, 0, 0, 0, 0),
+(3, 6, 0, 0, 0, 0),
+(3, 7, 0, 0, 0, 0),
+(3, 8, 0, 0, 0, 0),
+(4, 1, 1, 0, 0, 0),
+(4, 2, 0, 0, 0, 0),
+(4, 3, 1, 0, 0, 0),
+(4, 4, 0, 0, 0, 0),
+(4, 5, 0, 0, 0, 0),
+(4, 6, 0, 0, 0, 0),
+(4, 7, 0, 0, 0, 0),
+(4, 8, 0, 0, 0, 0),
+(5, 1, 0, 0, 0, 0),
+(5, 2, 1, 0, 0, 0),
+(5, 3, 1, 0, 0, 0),
+(5, 4, 0, 0, 0, 0),
+(5, 5, 0, 0, 0, 0),
+(5, 6, 0, 0, 0, 0),
+(5, 7, 1, 0, 0, 0),
+(5, 8, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -526,8 +539,13 @@ CREATE TABLE `phieunhap` (
 --
 
 INSERT INTO `phieunhap` (`MAPN`, `MANCC`, `MANHANVIEN`, `THOIGIAN`, `TRANGTHAI`, `TONGTIEN`, `TRANGTHAIXOA`) VALUES
-(1, 1, 1, '2025-12-05 16:22:50', 1, 600000.00, 1),
-(2, 1, 2, '2025-12-05 16:33:51', 0, 246.00, 1);
+(1, 1, 1, '2025-09-09 16:22:50', 1, 600000.00, 1),
+(2, 1, 2, '2025-10-14 16:33:51', 1, 20000.00, 1),
+(3, 1, 2, '2025-10-17 15:01:32', 1, 7500000.00, 1),
+(4, 2, 1, '2025-11-05 14:51:54', 1, 3500000.00, 1),
+(5, 4, 2, '2025-11-14 14:59:42', 1, 5040000.00, 1),
+(6, 5, 1, '2025-11-22 15:03:29', 1, 4250000.00, 1),
+(7, 10, 1, '2025-12-11 15:13:09', 1, 1500000.00, 1);
 
 -- --------------------------------------------------------
 
@@ -605,7 +623,8 @@ CREATE TABLE `taikhoan` (
 INSERT INTO `taikhoan` (`MATAIKHOAN`, `MANHANVIEN`, `TENDANGNHAP`, `MATKHAU`, `TRANGTHAI`, `NGAYTAO`, `MAVAITRO`) VALUES
 (1, 1, 'admin', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 1, '2025-12-05 14:44:52', 1),
 (2, 2, 'nhanvien1', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 1, '2025-12-05 14:50:35', 2),
-(3, 3, 'khachhang', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 1, '2025-12-05 16:18:46', 3);
+(3, 4, 'nhanvien2', '96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e', 1, '2025-12-05 16:18:46', 5),
+(4, 10, 'nhanven3', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 1, '2025-12-11 14:17:20', 4);
 
 -- --------------------------------------------------------
 
@@ -643,8 +662,10 @@ CREATE TABLE `vaitro` (
 
 INSERT INTO `vaitro` (`MAVAITRO`, `TENVAITRO`, `TRANGTHAI`) VALUES
 (1, 'Admin', 1),
-(2, 'Nhân viên', 1),
-(3, 'Khách hàng', 1);
+(2, 'Quản lý', 1),
+(3, 'Thu ngân', 1),
+(4, 'Phục vụ', 1),
+(5, 'Kế toán', 1);
 
 --
 -- Indexes for dumped tables
@@ -852,13 +873,13 @@ ALTER TABLE `donvi`
 -- AUTO_INCREMENT for table `hoadon`
 --
 ALTER TABLE `hoadon`
-  MODIFY `MAHOADON` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `MAHOADON` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `khachhang`
 --
 ALTER TABLE `khachhang`
-  MODIFY `MAKHACHHANG` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `MAKHACHHANG` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `khuvuc`
@@ -882,13 +903,13 @@ ALTER TABLE `nguyenlieu`
 -- AUTO_INCREMENT for table `nhacungcap`
 --
 ALTER TABLE `nhacungcap`
-  MODIFY `MANCC` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `MANCC` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `nhanvien`
 --
 ALTER TABLE `nhanvien`
-  MODIFY `MANHANVIEN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `MANHANVIEN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `nhom`
@@ -906,7 +927,7 @@ ALTER TABLE `phieuhuy`
 -- AUTO_INCREMENT for table `phieunhap`
 --
 ALTER TABLE `phieunhap`
-  MODIFY `MAPN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `MAPN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `quyen`
@@ -924,7 +945,7 @@ ALTER TABLE `sanpham`
 -- AUTO_INCREMENT for table `taikhoan`
 --
 ALTER TABLE `taikhoan`
-  MODIFY `MATAIKHOAN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `MATAIKHOAN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `thanhtoan`
@@ -936,7 +957,7 @@ ALTER TABLE `thanhtoan`
 -- AUTO_INCREMENT for table `vaitro`
 --
 ALTER TABLE `vaitro`
-  MODIFY `MAVAITRO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `MAVAITRO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables

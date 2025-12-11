@@ -173,6 +173,21 @@ namespace GUI.GUI_CRUD
                 }
             }
 
+            if (tableNguyenLieu.Columns[e.ColumnIndex].HeaderText == "Số lượng" && e.Value != null)
+            {
+                if (double.TryParse(e.Value.ToString(), out double tonKho))
+                {
+                    if (tonKho % 1 == 0)
+                    {
+                        e.Value = tonKho.ToString("N0");
+                    }
+                    else
+                    {
+                        e.Value = tonKho.ToString("0.000");
+                    }
+                    e.FormattingApplied = true;
+                }
+            }
         }
 
         private void loadDanhSachHeSo(BindingList<heSoDTO> ds)

@@ -519,7 +519,7 @@ namespace GUI.GUI_UC
             dgvPhieuNhap.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaPN", HeaderText = "Mã PN" });
             dgvPhieuNhap.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaNCC", HeaderText = "Tên NCC" });
             dgvPhieuNhap.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaNhanVien", HeaderText = "Tên NV" });
-            dgvPhieuNhap.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ThoiGian", HeaderText = "Thời gian tạo" });
+            dgvPhieuNhap.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ThoiGian", HeaderText = "Thời gian tạo", DefaultCellStyle = new DataGridViewCellStyle { Format = "dd/MM/yyyy" } });
             dgvPhieuNhap.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TrangThai", HeaderText = "Trạng thái PN" });
             dgvPhieuNhap.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TongTien", HeaderText = "Tổng tiền", DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" } });
 
@@ -724,7 +724,14 @@ namespace GUI.GUI_UC
                 using(updatePhieuNhap form = new updatePhieuNhap(pn))
                 {
                     form.StartPosition = FormStartPosition.CenterParent;
-                    form.ShowDialog();
+                    if(form.ShowDialog() == DialogResult.OK)
+                    {
+                        btnSuaPN.Enabled = false;
+                        btnXoaPN.Enabled = false;
+                        btnChiTietPN.Enabled = false;
+                        btnInPDF.Enabled = false;
+                        btnChotSo.Enabled = false;
+                    }
                 }
             }
         }
