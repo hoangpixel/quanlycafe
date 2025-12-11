@@ -68,7 +68,35 @@ namespace BUS
             return kq;
         }
 
+        public bool kiemTraTrungTenNV(string tenNV)
+        {
+            nhaCungCapDTO nv = ds.FirstOrDefault(x => x.TenNCC.ToLower().Equals(tenNV.ToLower()));
+            if (nv != null)
+            {
+                return true;
+            }
+            return false;
+        }
 
+        public bool kiemTraTrungSDT(string sdt)
+        {
+            nhaCungCapDTO nv = ds.FirstOrDefault(x => x.SoDienThoai.Equals(sdt));
+            if (nv != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool kiemTraTrungEmail(string email)
+        {
+            nhaCungCapDTO nv = ds.FirstOrDefault(x => x.Email.ToLower().Equals(email.ToLower()));
+            if (nv != null)
+            {
+                return true;
+            }
+            return false;
+        }
         public BindingList<nhaCungCapDTO> timKiemCoban(string tim, int index)
         {
             BindingList<nhaCungCapDTO> dskq = new BindingList<nhaCungCapDTO>();

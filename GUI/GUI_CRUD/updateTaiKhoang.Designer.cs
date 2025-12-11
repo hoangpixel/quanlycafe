@@ -95,12 +95,12 @@
             // 
             // btnHuy
             // 
-            this.btnHuy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnHuy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnHuy.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnHuy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
-            this.btnHuy.Location = new System.Drawing.Point(317, 40);
+            this.btnHuy.Location = new System.Drawing.Point(301, 45);
             this.btnHuy.Name = "btnHuy";
-            this.btnHuy.Size = new System.Drawing.Size(124, 40);
+            this.btnHuy.Size = new System.Drawing.Size(131, 46);
             this.btnHuy.TabIndex = 13;
             this.btnHuy.Text = "Hủy";
             this.btnHuy.UseVisualStyleBackColor = false;
@@ -111,9 +111,9 @@
             this.btnLuu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.btnLuu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLuu.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
-            this.btnLuu.Location = new System.Drawing.Point(117, 40);
+            this.btnLuu.Location = new System.Drawing.Point(101, 45);
             this.btnLuu.Name = "btnLuu";
-            this.btnLuu.Size = new System.Drawing.Size(124, 40);
+            this.btnLuu.Size = new System.Drawing.Size(131, 46);
             this.btnLuu.TabIndex = 5;
             this.btnLuu.Text = "Lưu";
             this.btnLuu.UseVisualStyleBackColor = false;
@@ -145,6 +145,7 @@
             // 
             // btnChonVT
             // 
+            this.btnChonVT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnChonVT.Location = new System.Drawing.Point(462, 98);
             this.btnChonVT.Name = "btnChonVT";
             this.btnChonVT.Size = new System.Drawing.Size(51, 38);
@@ -155,6 +156,7 @@
             // 
             // btnChonNV
             // 
+            this.btnChonNV.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnChonNV.Location = new System.Drawing.Point(462, 38);
             this.btnChonNV.Name = "btnChonNV";
             this.btnChonNV.Size = new System.Drawing.Size(51, 38);
@@ -307,6 +309,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(592, 620);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "updateTaiKhoan";
             this.Text = "Sửa tải khoản";
             this.Load += new System.EventHandler(this.updateTaiKhoan_Load);

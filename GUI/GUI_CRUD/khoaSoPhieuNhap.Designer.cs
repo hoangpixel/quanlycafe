@@ -90,6 +90,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(483, 216);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "khoaSoPhieuNhap";
             this.Text = "Xử lý khóa số phiếp nhập";
             this.groupBox1.ResumeLayout(false);

@@ -129,6 +129,21 @@ namespace GUI.GUI_CRUD
                 donViDTO dv = dsDonVi.FirstOrDefault(x => x.MaDonVi == ct.MaDonViCoSo);
                 e.Value = dv?.TenDonVi ?? "Không xác định";
             }
+            if (tableCongThuc.Columns[e.ColumnIndex].HeaderText == "Số lượng" && e.Value != null)
+            {
+                if (double.TryParse(e.Value.ToString(), out double tonKho))
+                {
+                    if (tonKho % 1 == 0)
+                    {
+                        e.Value = tonKho.ToString("N0");
+                    }
+                    else
+                    {
+                        e.Value = tonKho.ToString("0.000");
+                    }
+                    e.FormattingApplied = true;
+                }
+            }
         }
 
         private void tableCongThuc_CellContentClick(object sender, DataGridViewCellEventArgs e)

@@ -219,6 +219,7 @@
             this.ClientSize = new System.Drawing.Size(565, 452);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "insertNguyenLieu";
             this.Text = "Nhập nguyên liệu";
             this.Load += new System.EventHandler(this.insertNguyenLieu_Load);

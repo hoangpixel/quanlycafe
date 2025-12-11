@@ -60,6 +60,28 @@ namespace GUI.GUI_CRUD
                 return;
             }
 
+
+            if(busNCC.kiemTraTrungTenNV(txtTen.Text.Trim()))
+            {
+                MessageBox.Show("Tên nhà cung cấp đã tồn tại", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTen.Focus();
+                return;
+            }
+
+            if (busNCC.kiemTraTrungSDT(txtSDT.Text.Trim()))
+            {
+                MessageBox.Show("Số điện thoại nhà cung cấp đã tồn tại", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSDT.Focus();
+                return;
+            }
+
+            if (busNCC.kiemTraTrungEmail(txtEmail.Text.Trim()))
+            {
+                MessageBox.Show("Email nhà cung cấp đã tồn tại", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtEmail.Focus();
+                return;
+            }
+
             try
             {
                 nhaCungCapDTO ncc = new nhaCungCapDTO();

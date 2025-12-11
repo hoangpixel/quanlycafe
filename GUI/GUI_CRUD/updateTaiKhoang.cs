@@ -105,10 +105,9 @@ namespace GUI.GUI_CRUD
                 coNhapMK = true;
             }
 
-            if (bus.kiemTraTrungNhanVien(maNV))
+            if (maNV != tk.MANHANVIEN && bus.kiemTraTrungNhanVien(maNV))
             {
-                MessageBox.Show("Đã tồn tại nhân viên!", "Cảnh báo",
-                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Nhân viên này đã có tài khoản rồi!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 btnChonNV.Focus();
                 return;
             }

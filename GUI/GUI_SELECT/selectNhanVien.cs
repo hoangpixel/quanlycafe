@@ -1,5 +1,6 @@
 ﻿using BUS;
 using DTO;
+using FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,31 +26,51 @@ namespace GUI.GUI_SELECT
 
         private void selectNhanVien_Load(object sender, EventArgs e)
         {
-            // Mặc định chọn tiêu chí đầu tiên (Tên NV)
-            if (cboLoaiTimKiem.Items.Count > 0)
-                cboLoaiTimKiem.SelectedIndex = 0;
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
 
             LoadData();
+            loadFontChuVaSizeTableDonVi();
         }
 
         private void LoadData()
         {
-            try
-            {
-                // Lấy danh sách từ BUS và chuyển thành List để xử lý tìm kiếm
-                listGoc = bus.LayDanhSach().ToList();
-                dgvNV.DataSource = listGoc;
+            BindingList<nhanVienDTO> ds = new nhanVienBUS().LayDanhSach();
+            listGoc = ds.ToList();
+            dgvNV.AutoGenerateColumns = false;
+            dgvNV.Columns.Clear();
 
-                dgvNV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dgvNV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                dgvNV.ReadOnly = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi tải dữ liệu: " + ex.Message);
-            }
+            dgvNV.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaNhanVien", HeaderText = "Mã NV" });
+            dgvNV.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "HoTen", HeaderText = "Tên NV" });
+            dgvNV.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "SoDienThoai", HeaderText = "Số điện thoại" });
+            dgvNV.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Email", HeaderText = "Email" });
+
+            dgvNV.DataSource = ds;
+            dgvNV.ReadOnly = true;
+            dgvNV.ClearSelection();
         }
+        private void loadFontChuVaSizeTableDonVi()
+        {
+            foreach (DataGridViewColumn col in dgvNV.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
 
+            dgvNV.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvNV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            dgvNV.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            dgvNV.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
+
+            dgvNV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvNV.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgvNV.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            dgvNV.Refresh();
+        }
         // --- XỬ LÝ TÌM KIẾM ---
         private void XulyTimKiem()
         {
@@ -71,10 +92,18 @@ namespace GUI.GUI_SELECT
                     // Tìm theo Mã
                     ketQua = listGoc.Where(x => x.MaNhanVien.ToString().Contains(keyword)).ToList();
                 }
-                else
+                else if(tieuChi == "Tên NV")
                 {
                     // Tìm theo Tên (HoTen)
                     ketQua = listGoc.Where(x => x.HoTen.ToLower().Contains(keyword)).ToList();
+                }
+                else if(tieuChi == "SĐT")
+                {
+                    ketQua = listGoc.Where(x => x.SoDienThoai.ToLower().Contains(keyword)).ToList();
+                }
+                else
+                {
+                    ketQua = listGoc.Where(x => x.Email.ToLower().Contains(keyword)).ToList();
                 }
             }
             dgvNV.DataSource = ketQua;
@@ -84,7 +113,7 @@ namespace GUI.GUI_SELECT
 
         private void txtTim_TextChanged(object sender, EventArgs e)
         {
-            XulyTimKiem();
+            //XulyTimKiem();
         }
 
         private void btnTim_Click(object sender, EventArgs e)
@@ -95,7 +124,9 @@ namespace GUI.GUI_SELECT
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             txtTim.Clear();
+            cboLoaiTimKiem.SelectedIndex = -1;
             LoadData();
+            loadFontChuVaSizeTableDonVi();
         }
 
         private void btnThoat_Click(object sender, EventArgs e)
@@ -130,6 +161,11 @@ namespace GUI.GUI_SELECT
             {
                 MessageBox.Show("Vui lòng chọn một nhân viên!");
             }
+        }
+
+        private void dgvNV_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            ChonVaDong();
         }
     }
 }

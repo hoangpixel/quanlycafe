@@ -16,7 +16,6 @@ namespace GUI.GUI_CRUD
         private void btnXacNhan_Click_1(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
-            MessageBox.Show("Xóa tài khoản thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();
         }
 

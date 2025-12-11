@@ -244,6 +244,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(556, 574);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "detailTaiKhoan";
             this.Text = "Thông tin chi tiết tài khoản";
             this.Load += new System.EventHandler(this.detailTaiKhoan_Load);

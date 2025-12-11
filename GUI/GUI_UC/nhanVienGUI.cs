@@ -260,16 +260,25 @@ namespace GUI.GUI_UC
                 DataGridViewRow row = tbNhanVien.SelectedRows[0];
                 nhanVienDTO kh = row.DataBoundItem as nhanVienDTO;
 
-                using (deleteNhaCungCap form = new deleteNhaCungCap())
+                using (deleteNhanVien form = new deleteNhanVien())
                 {
                     form.StartPosition = FormStartPosition.CenterParent;
                     if (form.ShowDialog() == DialogResult.OK)
                     {
                         int maNV = kh.MaNhanVien;
-                        busNhanVien.XoaNhanVien(maNV);
-                        btnSuaNV.Enabled = false;
-                        btnXoaNV.Enabled = false;
-                        btnChiTietNV.Enabled = false;
+                        if(maNV == 1)
+                        {
+                            MessageBox.Show("Bạn không được phép xóa Admin", "Cảnh cáo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }else
+                        {
+                            busNhanVien.XoaNhanVien(maNV);
+                            MessageBox.Show("Xóa nhân viên thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            btnSuaNV.Enabled = false;
+                            btnXoaNV.Enabled = false;
+                            btnChiTietNV.Enabled = false;
+                        }
+
                     }
                 }
             }

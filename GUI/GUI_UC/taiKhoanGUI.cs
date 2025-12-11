@@ -206,10 +206,19 @@ namespace GUI.GUI_UC
                     if (form.ShowDialog() == DialogResult.OK)
                     {
                         int maTK = tk.MATAIKHOAN;
-                        busTaiKhoan.Xoa(maTK);
-                        btnSuaTK.Enabled = false;
-                        btnXoaTK.Enabled = false;
-                        btnChiTietTK.Enabled = false;
+                        if(maTK == 1)
+                        {
+                            MessageBox.Show("Bạn không được phép xóa tài khoản của Admin", "Cảnh cáo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        else
+                        {
+                            busTaiKhoan.Xoa(maTK);
+                            btnSuaTK.Enabled = false;
+                            btnXoaTK.Enabled = false;
+                            btnChiTietTK.Enabled = false;
+                            MessageBox.Show("Xóa tài khoản thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
                 }
             }

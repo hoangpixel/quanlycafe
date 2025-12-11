@@ -102,6 +102,7 @@
             this.ClientSize = new System.Drawing.Size(398, 226);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "selectExcelKhachHangGUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Nhập / Xuất Excel khách hàng";

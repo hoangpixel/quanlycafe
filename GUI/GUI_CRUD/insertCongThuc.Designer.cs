@@ -424,6 +424,7 @@
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(1087, 589);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "insertCongThuc";
             this.Text = "Thêm công thức";
             this.Load += new System.EventHandler(this.insertCongThuc_Load);

@@ -1,7 +1,9 @@
 ﻿using BUS;
 using DTO;
+using FONTS;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
@@ -21,31 +23,57 @@ namespace GUI.GUI_SELECT
             InitializeComponent();
 
            
-            dgvNCC.CellDoubleClick += (s, e) => XulyChon();
+            dgvNCC.CellClick += (s, e) => XulyChon();
         }
 
         private void selectNhaCungCap_Load(object sender, EventArgs e)
         {
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
             if (cboLoaiTimKiem.Items.Count > 0)
                 cboLoaiTimKiem.SelectedIndex = 0;
 
             LoadData();
+            loadFontChuVaSizeTableDonVi();
         }
+        private void loadFontChuVaSizeTableDonVi()
+        {
+            foreach (DataGridViewColumn col in dgvNCC.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
 
+            dgvNCC.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvNCC.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            dgvNCC.DefaultCellStyle.Font = FontManager.GetLightFont(10);
+
+            dgvNCC.ColumnHeadersDefaultCellStyle.Font = FontManager.GetBoldFont(10);
+
+            dgvNCC.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvNCC.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgvNCC.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            dgvNCC.Refresh();
+        }
         private void LoadData()
         {
-            try
-            {
-                var dataTuBus = bus.LayDanhSach();
-                listGoc = dataTuBus.ToList();
+            BindingList<nhaCungCapDTO> ds = new nhaCungCapBUS().LayDanhSach();
+            listGoc = ds.ToList();
+            dgvNCC.AutoGenerateColumns = false;
+            dgvNCC.Columns.Clear();
 
-                dgvNCC.DataSource = listGoc;
-                dgvNCC.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi tải dữ liệu: " + ex.Message);
-            }
+            dgvNCC.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MaNCC", HeaderText = "Mã NCC" });
+            dgvNCC.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TenNCC", HeaderText = "Tên NCC" });
+            dgvNCC.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "SoDienThoai", HeaderText = "Số điện thoại" });
+            dgvNCC.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Email", HeaderText = "Email" });
+            dgvNCC.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "DiaChi", HeaderText = "Địa chỉ" });
+
+            dgvNCC.DataSource = ds;
+            dgvNCC.ReadOnly = true;
+            dgvNCC.ClearSelection();
         }
 
         private void XulyTimKiem()
@@ -67,9 +95,21 @@ namespace GUI.GUI_SELECT
                 {
                     ketQua = listGoc.Where(x => x.MaNCC.ToString().Contains(keyword)).ToList();
                 }
-                else
+                else if(tieuChi == "Tên NCC")
                 {
                     ketQua = listGoc.Where(x => x.TenNCC.ToLower().Contains(keyword)).ToList();
+                }
+                else if(tieuChi == "SĐT")
+                {
+                    ketQua = listGoc.Where(x => x.SoDienThoai.ToLower().Contains(keyword)).ToList();
+                }
+                else if (tieuChi == "Email")
+                {
+                    ketQua = listGoc.Where(x => x.Email.ToLower().Contains(keyword)).ToList();
+                }
+                else
+                {
+                    ketQua = listGoc.Where(x => x.DiaChi.ToLower().Contains(keyword)).ToList();
                 }
             }
 
@@ -113,7 +153,7 @@ namespace GUI.GUI_SELECT
 
         private void txtTim_TextChanged(object sender, EventArgs e)
         {
-            XulyTimKiem();
+            //XulyTimKiem();
         }
 
         private void btnTim_Click(object sender, EventArgs e)
@@ -135,6 +175,11 @@ namespace GUI.GUI_SELECT
         private void btnThoat_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void dgvNCC_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            dgvNCC.ClearSelection();
         }
     }
 }

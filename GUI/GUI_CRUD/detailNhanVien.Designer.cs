@@ -29,9 +29,12 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel5 = new System.Windows.Forms.Panel();
             this.btnHuy = new System.Windows.Forms.Button();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtTaiKhoan = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtLuong = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -42,9 +45,6 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
-            this.txtLuong = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtTaiKhoan = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -64,17 +64,6 @@
             this.panel1.Size = new System.Drawing.Size(556, 563);
             this.panel1.TabIndex = 3;
             // 
-            // panel5
-            // 
-            this.panel5.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel5.Controls.Add(this.groupBox1);
-            this.panel5.Location = new System.Drawing.Point(10, 116);
-            this.panel5.Name = "panel5";
-            this.panel5.Padding = new System.Windows.Forms.Padding(10);
-            this.panel5.Size = new System.Drawing.Size(536, 364);
-            this.panel5.TabIndex = 3;
-            // 
             // btnHuy
             // 
             this.btnHuy.BackColor = System.Drawing.Color.IndianRed;
@@ -88,6 +77,17 @@
             this.btnHuy.Text = "Thoát";
             this.btnHuy.UseVisualStyleBackColor = false;
             this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
+            // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.groupBox1);
+            this.panel5.Location = new System.Drawing.Point(10, 116);
+            this.panel5.Name = "panel5";
+            this.panel5.Padding = new System.Windows.Forms.Padding(10);
+            this.panel5.Size = new System.Drawing.Size(536, 364);
+            this.panel5.TabIndex = 3;
             // 
             // groupBox1
             // 
@@ -109,6 +109,33 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông Tin  Nhân Viên";
+            // 
+            // txtTaiKhoan
+            // 
+            this.txtTaiKhoan.Enabled = false;
+            this.txtTaiKhoan.Location = new System.Drawing.Point(203, 278);
+            this.txtTaiKhoan.Name = "txtTaiKhoan";
+            this.txtTaiKhoan.Size = new System.Drawing.Size(269, 28);
+            this.txtTaiKhoan.TabIndex = 9;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold);
+            this.label5.Location = new System.Drawing.Point(37, 283);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(96, 20);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "Tài khoản:";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
+            // 
+            // txtLuong
+            // 
+            this.txtLuong.Enabled = false;
+            this.txtLuong.Location = new System.Drawing.Point(203, 221);
+            this.txtLuong.Name = "txtLuong";
+            this.txtLuong.Size = new System.Drawing.Size(269, 28);
+            this.txtLuong.TabIndex = 7;
             // 
             // label4
             // 
@@ -205,39 +232,13 @@
             this.bigLabel1.TabIndex = 0;
             this.bigLabel1.Text = "Thông tin chi tiết nhân viên";
             // 
-            // txtLuong
-            // 
-            this.txtLuong.Enabled = false;
-            this.txtLuong.Location = new System.Drawing.Point(203, 221);
-            this.txtLuong.Name = "txtLuong";
-            this.txtLuong.Size = new System.Drawing.Size(269, 28);
-            this.txtLuong.TabIndex = 7;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label5.Location = new System.Drawing.Point(37, 283);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(96, 20);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "Tài khoản:";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
-            // 
-            // txtTaiKhoan
-            // 
-            this.txtTaiKhoan.Enabled = false;
-            this.txtTaiKhoan.Location = new System.Drawing.Point(203, 278);
-            this.txtTaiKhoan.Name = "txtTaiKhoan";
-            this.txtTaiKhoan.Size = new System.Drawing.Size(269, 28);
-            this.txtTaiKhoan.TabIndex = 9;
-            // 
             // detailNhanVien
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(556, 563);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "detailNhanVien";
             this.Text = "Thông tin chi tiết của nhân viên";
             this.Load += new System.EventHandler(this.detailNhanVien_Load);

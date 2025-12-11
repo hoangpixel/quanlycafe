@@ -326,6 +326,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1006, 701);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "detailSanPham";
             this.Text = "Chi tiết sản phẩm";
             this.Load += new System.EventHandler(this.detailSanPham_Load);

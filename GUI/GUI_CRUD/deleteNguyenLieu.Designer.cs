@@ -90,6 +90,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(486, 214);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "deleteNguyenLieu";
             this.Text = "Xóa nguyên liệu";
             this.Load += new System.EventHandler(this.deleteNguyenLieu_Load);

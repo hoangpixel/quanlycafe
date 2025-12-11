@@ -210,6 +210,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(565, 452);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "updateNguyenLieu";
             this.Text = "Sửa thông tin nguyên liệu";
             this.Load += new System.EventHandler(this.updateNguyenLieu_Load);

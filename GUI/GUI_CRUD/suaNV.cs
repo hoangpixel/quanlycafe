@@ -3,6 +3,7 @@ using DTO;
 using FONTS;
 using System;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace GUI.GUI_CRUD
@@ -10,7 +11,7 @@ namespace GUI.GUI_CRUD
     public partial class suaNV : Form
     {
         public nhanVienDTO nv;
-
+        private nhanVienBUS nvBus = new nhanVienBUS();
         public suaNV(nhanVienDTO nv)
         {
             InitializeComponent();
@@ -66,21 +67,74 @@ namespace GUI.GUI_CRUD
                     return;
                 }
 
-                nv.HoTen = txtTen.Text.Trim();
-                nv.SoDienThoai = txtSDT.Text.Trim();
-                nv.Email = txtEmail.Text.Trim();
-                nv.Luong = luong;
+                if (!string.IsNullOrWhiteSpace(txtSDT.Text))
+                {
+                    string sdt = txtSDT.Text.Trim();
+                    if (!Regex.IsMatch(sdt, @"^0\d{9,10}$"))
+                    {
+                        MessageBox.Show("Số điện thoại không hợp lệ!\nVí dụ: 0912345678", "Cảnh báo",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtSDT.Focus();
+                        return;
+                    }
 
 
-                if (nv != null)
-                {
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Cập nhật thất bại!", "Lỗi",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (!string.IsNullOrWhiteSpace(txtEmail.Text))
+                    {
+                        string email = txtEmail.Text.Trim();
+                        if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                        {
+                            MessageBox.Show("Email không hợp lệ!\nVí dụ: example@gmail.com", "Cảnh báo",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtEmail.Focus();
+                            return;
+                        }
+                    }
+
+                    // 1. Kiểm tra trùng Tên
+                    // Chỉ báo lỗi nếu tên MỚI khác tên CŨ VÀ tìm thấy trong DB
+                    if (txtTen.Text.Trim() != nv.HoTen && nvBus.kiemTraTrungTenNV(txtTen.Text.Trim()))
+                    {
+                        MessageBox.Show("Tên nhân viên đã tồn tại!", "Cảnh báo",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtTen.Focus();
+                        return;
+                    }
+
+                    // 2. Kiểm tra trùng SĐT
+                    if (txtSDT.Text.Trim() != nv.SoDienThoai && nvBus.kiemTraTrungSDT(txtSDT.Text.Trim()))
+                    {
+                        MessageBox.Show("Số điện thoại nhân viên đã tồn tại!", "Cảnh báo",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtSDT.Focus();
+                        return;
+                    }
+
+                    // 3. Kiểm tra trùng Email
+                    if (txtEmail.Text.Trim() != nv.Email && nvBus.kiemTraTrungEmail(txtEmail.Text.Trim()))
+                    {
+                        MessageBox.Show("Email nhân viên đã tồn tại!", "Cảnh báo",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtEmail.Focus();
+                        return;
+                    }
+
+                    nv.HoTen = txtTen.Text.Trim();
+                    nv.SoDienThoai = txtSDT.Text.Trim();
+                    nv.Email = txtEmail.Text.Trim();
+                    nv.Luong = luong;
+
+
+                    if (nv != null)
+                    {
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Cập nhật thất bại!", "Lỗi",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
             catch (Exception ex)

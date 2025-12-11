@@ -199,12 +199,6 @@
     <Compile Include="GUI_CRUD\detailPhieuNhap.Designer.cs">
       <DependentUpon>detailPhieuNhap.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI_CRUD\detailPhieuNhapF.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI_CRUD\detailPhieuNhapF.Designer.cs">
-      <DependentUpon>detailPhieuNhapF.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI_CRUD\detailTaiKhoan.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -649,9 +643,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\detailPhieuNhap.resx">
       <DependentUpon>detailPhieuNhap.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI_CRUD\detailPhieuNhapF.resx">
-      <DependentUpon>detailPhieuNhapF.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\detailTaiKhoan.resx">
       <DependentUpon>detailTaiKhoan.cs</DependentUpon>

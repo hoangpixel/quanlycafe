@@ -222,6 +222,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(853, 662);
             this.Controls.Add(this.pnlPhanQuyen);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "insertPhanQuyen";
             this.Text = "Thêm phân quyền";
             this.Load += new System.EventHandler(this.insertPhanQuyen_Load);

@@ -296,5 +296,35 @@ namespace BUS
             if (ds == null || ds.Count == 0) LayDanhSach();
             return ds.FirstOrDefault(x => x.MaNhanVien == maNV);
         }
+
+        public bool kiemTraTrungTenNV(string tenNV)
+        {
+            nhanVienDTO nv = ds.FirstOrDefault(x => x.HoTen.ToLower().Equals(tenNV.ToLower()));
+            if(nv != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool kiemTraTrungSDT(string sdt)
+        {
+            nhanVienDTO nv = ds.FirstOrDefault(x => x.SoDienThoai.Equals(sdt));
+            if(nv!= null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool kiemTraTrungEmail(string email)
+        {
+            nhanVienDTO nv = ds.FirstOrDefault(x => x.Email.ToLower().Equals(email.ToLower()));
+            if (nv != null)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using FONTS;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,6 +17,8 @@ namespace GUI.GUI_CRUD
         public dialogSuaHoacThemHD()
         {
             InitializeComponent();
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
         }
 
         private void btnHuy_Click(object sender, EventArgs e)

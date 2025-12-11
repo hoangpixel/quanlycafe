@@ -49,7 +49,7 @@
             // 
             this.btnXuatExcel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnXuatExcel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnXuatExcel.Location = new System.Drawing.Point(221, 34);
+            this.btnXuatExcel.Location = new System.Drawing.Point(136, 31);
             this.btnXuatExcel.Name = "btnXuatExcel";
             this.btnXuatExcel.Size = new System.Drawing.Size(119, 59);
             this.btnXuatExcel.TabIndex = 1;
@@ -87,6 +87,7 @@
             this.ClientSize = new System.Drawing.Size(403, 220);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "selectExcelNguyenLieu";
             this.Text = "Nhập / Xuất Excel nguyên liệu";
             this.Load += new System.EventHandler(this.selectExcelNguyenLieu_Load);

@@ -11,6 +11,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace GUI.GUI_CRUD
 {
@@ -38,6 +39,30 @@ namespace GUI.GUI_CRUD
         {
             if (!ValidateInput())
                 return;
+
+            if(nvBus.kiemTraTrungTenNV(txtTen.Text.Trim()))
+            {
+                MessageBox.Show("Tên nhân viên đã tồn tại!", "Cảnh báo",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTen.Focus();
+                return;
+            }
+
+            if (nvBus.kiemTraTrungSDT(txtSDT.Text.Trim()))
+            {
+                MessageBox.Show("Số điện thoại nhân viên đã tồn tại!", "Cảnh báo",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSDT.Focus();
+                return;
+            }
+
+            if (nvBus.kiemTraTrungEmail(txtEmail.Text.Trim()))
+            {
+                MessageBox.Show("Email nhân viên đã tồn tại!", "Cảnh báo",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtEmail.Focus();
+                return;
+            }
 
             if (nv == null)
             {

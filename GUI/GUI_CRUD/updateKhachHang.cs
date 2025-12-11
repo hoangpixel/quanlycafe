@@ -41,12 +41,6 @@ namespace GUI.GUI_CRUD
                 MessageBox.Show("SĐT phải là 10 số!");
                 txtSDT.Focus(); return;
             }
-            // Check trùng SĐT (trừ chính khách hàng này ra)
-            if (bus.kiemTraTrungSDT(sdt))
-            {
-                MessageBox.Show("SĐT đã tồn tại!");
-                return;
-            }
 
             string email = txtEmail.Text.Trim();
             if (!string.IsNullOrWhiteSpace(email))
@@ -56,13 +50,33 @@ namespace GUI.GUI_CRUD
                     MessageBox.Show("Email sai định dạng!");
                     return;
                 }
-                // Check trùng Email (trừ chính khách hàng này ra)
-                if (bus.kiemTraTrungEmail(email))
-                {
-                    MessageBox.Show("Email đã tồn tại!");
-                    return;
-                }
             }
+
+            if (txtTen.Text.Trim() != kh.TenKhachHang && bus.kiemTraTrungTen(txtTen.Text.Trim()))
+            {
+                MessageBox.Show("Tên khách hàng đã tồn tại!", "Cảnh báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTen.Focus();
+                return;
+            }
+
+            if (txtSDT.Text.Trim() != kh.SoDienThoai && bus.kiemTraTrungSDT(txtSDT.Text.Trim()))
+            {
+                MessageBox.Show("Số điện thoại khách hàng đã tồn tại!", "Cảnh báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSDT.Focus();
+                return;
+            }
+
+            // 3. Kiểm tra trùng Email
+            if (txtEmail.Text.Trim() != kh.Email && bus.kiemTraTrungEmail(txtEmail.Text.Trim()))
+            {
+                MessageBox.Show("Email khách hàng đã tồn tại!", "Cảnh báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtEmail.Focus();
+                return;
+            }
+
             kh.TenKhachHang = txtTen.Text.Trim();
             kh.SoDienThoai = sdt;
             kh.Email = email;

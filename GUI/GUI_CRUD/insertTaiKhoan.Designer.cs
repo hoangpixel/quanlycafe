@@ -108,7 +108,7 @@
             // 
             // btnHuy
             // 
-            this.btnHuy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnHuy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnHuy.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnHuy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
             this.btnHuy.Location = new System.Drawing.Point(306, 38);
@@ -145,6 +145,7 @@
             // 
             // btnChonVT
             // 
+            this.btnChonVT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnChonVT.Location = new System.Drawing.Point(470, 113);
             this.btnChonVT.Name = "btnChonVT";
             this.btnChonVT.Size = new System.Drawing.Size(51, 38);
@@ -155,6 +156,7 @@
             // 
             // btnChonNV
             // 
+            this.btnChonNV.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnChonNV.Location = new System.Drawing.Point(470, 53);
             this.btnChonNV.Name = "btnChonNV";
             this.btnChonNV.Size = new System.Drawing.Size(51, 38);
@@ -309,6 +311,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(591, 626);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "insertTaiKhoan";
             this.Text = "Thêm tài khoản";
             this.Load += new System.EventHandler(this.insertTaiKhoan_Load);

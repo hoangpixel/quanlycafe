@@ -459,6 +459,11 @@ namespace GUI.GUI_CRUD
             }
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
         private void btnXoaCTPN_Click(object sender, EventArgs e)
         {
             if (dgvChiTietPN.SelectedRows.Count == 0)

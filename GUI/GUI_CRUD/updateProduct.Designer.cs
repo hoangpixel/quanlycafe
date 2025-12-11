@@ -42,17 +42,17 @@
             this.btnThoat = new System.Windows.Forms.Button();
             this.btnNhapSP = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picHinh)).BeginInit();
             this.panel5.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -212,6 +212,18 @@
             this.panel5.Size = new System.Drawing.Size(536, 547);
             this.panel5.TabIndex = 3;
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.btnThoat);
+            this.groupBox2.Controls.Add(this.btnNhapSP);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Location = new System.Drawing.Point(10, 436);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(514, 98);
+            this.groupBox2.TabIndex = 0;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Xác nhận sửa sản phẩm";
+            // 
             // panel3
             // 
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
@@ -255,24 +267,13 @@
             this.panel1.Size = new System.Drawing.Size(556, 675);
             this.panel1.TabIndex = 1;
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.btnThoat);
-            this.groupBox2.Controls.Add(this.btnNhapSP);
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(10, 436);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(514, 98);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Xác nhận sửa sản phẩm";
-            // 
             // updateProduct
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(556, 675);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "updateProduct";
             this.Text = "Sửa thông tin sản phẩm";
             this.Load += new System.EventHandler(this.updateProduct_Load);
@@ -280,10 +281,10 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picHinh)).EndInit();
             this.panel5.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

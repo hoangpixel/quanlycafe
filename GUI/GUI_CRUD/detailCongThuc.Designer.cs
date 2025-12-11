@@ -278,6 +278,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(724, 518);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "detailCongThuc";
             this.Text = "Chi tiết công thức";
             this.Load += new System.EventHandler(this.detailCongThuc_Load);

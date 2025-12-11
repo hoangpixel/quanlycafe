@@ -124,7 +124,7 @@
             this.bigLabel1.BackColor = System.Drawing.Color.Transparent;
             this.bigLabel1.Font = new System.Drawing.Font("Segoe UI", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bigLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.bigLabel1.Location = new System.Drawing.Point(47, 28);
+            this.bigLabel1.Location = new System.Drawing.Point(61, 29);
             this.bigLabel1.Name = "bigLabel1";
             this.bigLabel1.Size = new System.Drawing.Size(306, 45);
             this.bigLabel1.TabIndex = 0;
@@ -136,6 +136,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(449, 311);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "selectExcelPhieuNhapvaCTPN";
             this.Text = "Nhập / Xuất Excel phiếu nhập và chi tiết phiếu nhập";
             this.panel1.ResumeLayout(false);

@@ -33,6 +33,12 @@ namespace GUI.GUI_CRUD
                 txtTen.Focus(); return;
             }
 
+            if (bus.kiemTraTrungTen(txtTen.Text))
+            {
+                MessageBox.Show("Tên khách hàng đã tồn tại trên hệ thống", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTen.Focus();
+                return;
+            }
             // 2. Validate SĐT
             string sdt = txtSDT.Text.Trim();
             if (string.IsNullOrWhiteSpace(sdt) || !Regex.IsMatch(sdt, @"^\d{10}$"))
@@ -61,6 +67,7 @@ namespace GUI.GUI_CRUD
                     txtEmail.Focus(); return;
                 }
             }
+
 
             khachHangDTO khnew = new khachHangDTO();
 

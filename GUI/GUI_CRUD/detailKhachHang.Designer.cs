@@ -220,6 +220,7 @@
             this.Controls.Add(this.btnThoat);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "detailKhachHang";
             this.Padding = new System.Windows.Forms.Padding(10);
             this.Text = "Thông tin chi tiết khách hàng";

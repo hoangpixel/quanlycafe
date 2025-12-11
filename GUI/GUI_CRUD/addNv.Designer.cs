@@ -261,8 +261,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(556, 563);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "addNv";
-            this.Text = "addNv";
+            this.Text = "Thêm nhân viên";
             this.Load += new System.EventHandler(this.addNv_Load);
             this.panel5.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);

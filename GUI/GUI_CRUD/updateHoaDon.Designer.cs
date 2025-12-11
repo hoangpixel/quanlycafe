@@ -564,6 +564,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1427, 912);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "updateHoaDon";
             this.Text = "updateHoaDon";
             this.Load += new System.EventHandler(this.updateHoaDon_Load);

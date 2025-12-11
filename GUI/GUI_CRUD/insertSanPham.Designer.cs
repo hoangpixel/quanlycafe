@@ -30,6 +30,9 @@
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnThoat = new System.Windows.Forms.Button();
+            this.btnNhapSP = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtGia = new System.Windows.Forms.TextBox();
             this.txtTenSP = new System.Windows.Forms.TextBox();
@@ -41,17 +44,14 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnThoat = new System.Windows.Forms.Button();
-            this.btnNhapSP = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picHinh)).BeginInit();
-            this.groupBox2.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,6 +78,44 @@
             this.panel5.Padding = new System.Windows.Forms.Padding(10);
             this.panel5.Size = new System.Drawing.Size(536, 548);
             this.panel5.TabIndex = 3;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.btnThoat);
+            this.groupBox2.Controls.Add(this.btnNhapSP);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Location = new System.Drawing.Point(10, 435);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(514, 98);
+            this.groupBox2.TabIndex = 0;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Xác nhận thêm sản phẩm";
+            // 
+            // btnThoat
+            // 
+            this.btnThoat.BackColor = System.Drawing.Color.IndianRed;
+            this.btnThoat.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnThoat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnThoat.Location = new System.Drawing.Point(290, 34);
+            this.btnThoat.Name = "btnThoat";
+            this.btnThoat.Size = new System.Drawing.Size(150, 51);
+            this.btnThoat.TabIndex = 10;
+            this.btnThoat.Text = "Thoát";
+            this.btnThoat.UseVisualStyleBackColor = false;
+            this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click);
+            // 
+            // btnNhapSP
+            // 
+            this.btnNhapSP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnNhapSP.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnNhapSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNhapSP.Location = new System.Drawing.Point(83, 34);
+            this.btnNhapSP.Name = "btnNhapSP";
+            this.btnNhapSP.Size = new System.Drawing.Size(150, 51);
+            this.btnNhapSP.TabIndex = 9;
+            this.btnNhapSP.Text = "Nhập sản phẩm";
+            this.btnNhapSP.UseVisualStyleBackColor = false;
+            this.btnNhapSP.Click += new System.EventHandler(this.btnNhapSP_Click_2);
             // 
             // groupBox1
             // 
@@ -198,44 +236,6 @@
             this.label5.TabIndex = 0;
             this.label5.Text = "Tên sản phẩm: ";
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.btnThoat);
-            this.groupBox2.Controls.Add(this.btnNhapSP);
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(10, 435);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(514, 98);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Xác nhận thêm sản phẩm";
-            // 
-            // btnThoat
-            // 
-            this.btnThoat.BackColor = System.Drawing.Color.IndianRed;
-            this.btnThoat.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnThoat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThoat.Location = new System.Drawing.Point(290, 34);
-            this.btnThoat.Name = "btnThoat";
-            this.btnThoat.Size = new System.Drawing.Size(150, 51);
-            this.btnThoat.TabIndex = 10;
-            this.btnThoat.Text = "Thoát";
-            this.btnThoat.UseVisualStyleBackColor = false;
-            this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click);
-            // 
-            // btnNhapSP
-            // 
-            this.btnNhapSP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.btnNhapSP.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnNhapSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNhapSP.Location = new System.Drawing.Point(83, 34);
-            this.btnNhapSP.Name = "btnNhapSP";
-            this.btnNhapSP.Size = new System.Drawing.Size(150, 51);
-            this.btnNhapSP.TabIndex = 9;
-            this.btnNhapSP.Text = "Nhập sản phẩm";
-            this.btnNhapSP.UseVisualStyleBackColor = false;
-            this.btnNhapSP.Click += new System.EventHandler(this.btnNhapSP_Click_2);
-            // 
             // panel3
             // 
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
@@ -263,25 +263,26 @@
             this.bigLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.bigLabel1.Location = new System.Drawing.Point(128, 25);
             this.bigLabel1.Name = "bigLabel1";
-            this.bigLabel1.Size = new System.Drawing.Size(271, 46);
+            this.bigLabel1.Size = new System.Drawing.Size(266, 45);
             this.bigLabel1.TabIndex = 0;
             this.bigLabel1.Text = "Thêm sản phẩm";
             // 
-            // insertProduct
+            // insertSanPham
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(556, 675);
             this.Controls.Add(this.panel1);
-            this.Name = "insertProduct";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Name = "insertSanPham";
             this.Text = "Nhập sản phẩm";
             this.Load += new System.EventHandler(this.insertProduct_Load);
             this.panel1.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picHinh)).EndInit();
-            this.groupBox2.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);

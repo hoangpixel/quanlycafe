@@ -70,6 +70,7 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -101,6 +102,7 @@
             // 
             this.panel4.BackColor = System.Drawing.Color.White;
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.button1);
             this.panel4.Controls.Add(this.btnXoaGio);
             this.panel4.Controls.Add(this.btnXacNhan);
             this.panel4.Controls.Add(this.groupBox3);
@@ -582,12 +584,25 @@
             this.bigLabel1.TabIndex = 0;
             this.bigLabel1.Text = "Thay đổi thông tin phiếu nhập";
             // 
+            // button1
+            // 
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(640, 673);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(154, 50);
+            this.button1.TabIndex = 22;
+            this.button1.Text = "Thoát";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // updatePhieuNhap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1130, 848);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "updatePhieuNhap";
             this.Text = "updatePhieuNhap";
             this.Load += new System.EventHandler(this.updatePhieuNhap_Load);
@@ -652,5 +667,6 @@
         private System.Windows.Forms.DataGridView dgvChiTietPN;
         private System.Windows.Forms.Button btnXoaGio;
         private System.Windows.Forms.Button btnXacNhan;
+        private System.Windows.Forms.Button button1;
     }
 }

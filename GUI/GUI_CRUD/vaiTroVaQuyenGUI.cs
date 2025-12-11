@@ -190,6 +190,9 @@ namespace GUI.GUI_CRUD
                     txtTenVaiTro.Clear();
                     tbVaiTro.Refresh();
                     tbVaiTro.ClearSelection();
+                    btnThemVaiTro.Enabled = true;
+                    btnSuaVaiTro.Enabled = false;
+                    btnXoaVaiTro.Enabled = false;
                 }
                 else
                 {
@@ -236,6 +239,9 @@ namespace GUI.GUI_CRUD
                 {
                     MessageBox.Show("Xóa vai trò thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     txtTenVaiTro.Clear();
+                    btnThemVaiTro.Enabled = true;
+                    btnSuaVaiTro.Enabled = false;
+                    btnXoaVaiTro.Enabled = false;
                 }
                 else
                 {
@@ -405,6 +411,9 @@ namespace GUI.GUI_CRUD
                     txtTenQuyen.Clear();
                     tbQuyen.Refresh();
                     tbQuyen.ClearSelection();
+                    btnThemQuyen.Enabled = true;
+                    btnSuaQuyen.Enabled = false;
+                    btnXoaQuyen.Enabled = false;
                 }
                 else
                 {
@@ -437,6 +446,9 @@ namespace GUI.GUI_CRUD
                     txtTenQuyen.Clear();
                     tbQuyen.Refresh();
                     tbQuyen.ClearSelection();
+                    btnThemQuyen.Enabled = true;
+                    btnSuaQuyen.Enabled = false;
+                    btnXoaQuyen.Enabled = false;
                 }
                 else
                 {

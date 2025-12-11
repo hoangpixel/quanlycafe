@@ -81,7 +81,7 @@ namespace DAO
             int maKH = 0;
             try
             {
-                string qry = "SELECT IFNULL(MAX(MASANPHAM), 0) FROM khachhang";
+                string qry = "SELECT IFNULL(MAX(MAKHACHHANG), 0) FROM khachhang";
                 MySqlCommand cmd = new MySqlCommand(qry, conn);
                 maKH = Convert.ToInt32(cmd.ExecuteScalar());
             }

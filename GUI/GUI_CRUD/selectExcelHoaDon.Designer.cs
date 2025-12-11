@@ -149,6 +149,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(693, 317);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "selectExcelHoaDon";
             this.Text = "selectExcelHoaDon";
             this.panel1.ResumeLayout(false);

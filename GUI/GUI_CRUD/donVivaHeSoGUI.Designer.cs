@@ -697,6 +697,7 @@
             this.ClientSize = new System.Drawing.Size(903, 504);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.tabControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "donVivaHeSoGUI";
             this.Text = "Đơn vị và hệ số";
             this.Load += new System.EventHandler(this.donVivaHeSoGUI_Load);

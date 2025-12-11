@@ -64,6 +64,16 @@ namespace BUS
             }
             return kq;
         }
+
+        public bool kiemTraTrungTen(string tenKH)
+        {
+            khachHangDTO kh = ds.FirstOrDefault(x => x.TenKhachHang.ToLower().Equals(tenKH.ToLower()));
+            if(kh!=null)
+            {
+                return true;
+            }
+            return false;
+        }
         public bool kiemTraTrungEmail(string email)
         {
             khachHangDTO kh = ds.FirstOrDefault(x => x.Email.Equals(email));

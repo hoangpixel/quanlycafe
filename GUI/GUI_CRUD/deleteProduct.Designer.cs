@@ -88,6 +88,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 216);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "deleteProduct";
             this.Text = "Xóa sản phẩm";
             this.Load += new System.EventHandler(this.deleteProduct_Load);

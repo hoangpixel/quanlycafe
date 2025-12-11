@@ -69,6 +69,31 @@ namespace GUI.GUI_CRUD
                 return;
             }
 
+            if (txtTen.Text.Trim() != nccHienTai.TenNCC && busNCC.kiemTraTrungTenNV(txtTen.Text.Trim()))
+            {
+                MessageBox.Show("Tên nhà cung cấp đã tồn tại!", "Cảnh báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTen.Focus();
+                return;
+            }
+
+            if (txtSDT.Text.Trim() != nccHienTai.SoDienThoai && busNCC.kiemTraTrungSDT(txtSDT.Text.Trim()))
+            {
+                MessageBox.Show("Số điện thoại nhà cung cấp đã tồn tại!", "Cảnh báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSDT.Focus();
+                return;
+            }
+
+            // 3. Kiểm tra trùng Email
+            if (txtEmail.Text.Trim() != nccHienTai.Email && busNCC.kiemTraTrungEmail(txtEmail.Text.Trim()))
+            {
+                MessageBox.Show("Email nhà cung cấp đã tồn tại!", "Cảnh báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtEmail.Focus();
+                return;
+            }
+
             try
             {
                 nccHienTai.TenNCC = txtTen.Text.Trim();

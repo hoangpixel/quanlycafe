@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnThemMon = new System.Windows.Forms.Button();
             this.btnHuy = new System.Windows.Forms.Button();
             this.btnThayDoiHoaDon = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -45,19 +45,11 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(13, 11);
             this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(10);
             this.groupBox1.Size = new System.Drawing.Size(405, 308);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Xử lý hóa đơn";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(50, 32);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 36);
-            this.label1.TabIndex = 3;
             // 
             // panel1
             // 
@@ -66,17 +58,17 @@
             this.panel1.Controls.Add(this.btnHuy);
             this.panel1.Controls.Add(this.btnThayDoiHoaDon);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 23);
+            this.panel1.Location = new System.Drawing.Point(10, 30);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(10);
-            this.panel1.Size = new System.Drawing.Size(399, 282);
+            this.panel1.Size = new System.Drawing.Size(385, 268);
             this.panel1.TabIndex = 4;
             // 
             // btnThemMon
             // 
             this.btnThemMon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.btnThemMon.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnThemMon.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnThemMon.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnThemMon.ForeColor = System.Drawing.Color.Black;
             this.btnThemMon.Location = new System.Drawing.Point(44, 115);
             this.btnThemMon.Name = "btnThemMon";
@@ -90,7 +82,7 @@
             // 
             this.btnHuy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnHuy.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnHuy.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnHuy.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHuy.ForeColor = System.Drawing.Color.Black;
             this.btnHuy.Location = new System.Drawing.Point(44, 196);
             this.btnHuy.Name = "btnHuy";
@@ -104,7 +96,7 @@
             // 
             this.btnThayDoiHoaDon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.btnThayDoiHoaDon.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnThayDoiHoaDon.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnThayDoiHoaDon.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnThayDoiHoaDon.ForeColor = System.Drawing.Color.Black;
             this.btnThayDoiHoaDon.Location = new System.Drawing.Point(44, 34);
             this.btnThayDoiHoaDon.Name = "btnThayDoiHoaDon";
@@ -114,12 +106,22 @@
             this.btnThayDoiHoaDon.UseVisualStyleBackColor = false;
             this.btnThayDoiHoaDon.Click += new System.EventHandler(this.btnThayDoiHoaDon_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(57, 39);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 36);
+            this.label1.TabIndex = 3;
+            // 
             // dialogSuaHoacThemHD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(433, 332);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "dialogSuaHoacThemHD";
             this.Text = "Thay đổi hoặc thêm món mới";
             this.groupBox1.ResumeLayout(false);

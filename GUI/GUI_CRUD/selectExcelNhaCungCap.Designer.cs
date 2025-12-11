@@ -102,6 +102,7 @@
             this.ClientSize = new System.Drawing.Size(398, 226);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "selectExcelNhaCungCap";
             this.Text = "Nhập / Xuất Excel nhà cung cấp";
             this.panel1.ResumeLayout(false);
