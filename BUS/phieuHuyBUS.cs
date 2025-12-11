@@ -14,11 +14,7 @@ namespace BUS
 
         public BindingList<phieuHuyDTO> LayDanhSach(int maHD)
         {
-            if (ds == null || ds.Count <= 0)
-            {
-                ds = data.DocDanhSachPhieuHuy(maHD);
-            }
-            return ds;
+            return data.DocDanhSachPhieuHuy(maHD);
         }
 
         public int layMa()

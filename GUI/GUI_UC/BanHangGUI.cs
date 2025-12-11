@@ -33,6 +33,7 @@ namespace GUI.GUI_UC
         private int maNV = -1, maKH = 0;
         BindingList<nhanVienDTO> dsNV;
         BindingList<khachHangDTO> dsKH;
+        BindingList<ppThanhToanDTO> dsThanhToan;
         public banHangGUI()
         {
             InitializeComponent();
@@ -60,7 +61,7 @@ namespace GUI.GUI_UC
             CapNhatTrangThaiNutHoaDon();
             AnNutHoaDon();
             
-            BindingList<ppThanhToanDTO> dsThanhToan = new ppThanhToanBUS().LayDanhSach();
+            dsThanhToan = new ppThanhToanBUS().LayDanhSach();
             cbThanhToan.DataSource = dsThanhToan;
             cbThanhToan.DisplayMember = "HinhThuc";
             cbThanhToan.ValueMember = "MaTT";
@@ -248,6 +249,11 @@ namespace GUI.GUI_UC
                         DataPropertyName = "MaBan",
                         HeaderText = "Bàn",
                     });
+                dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "MaTT",
+                    HeaderText = "Thanh toán",
+                });
                 dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     DataPropertyName = "MaNhanVien",
@@ -742,7 +748,7 @@ namespace GUI.GUI_UC
             {
                 DataGridViewRow row = dgvHoaDon.SelectedRows[0];
                 hoaDonDTO hd = row.DataBoundItem as hoaDonDTO;
-                using(frmChiTietHD form = new frmChiTietHD(hd))
+                using(detailHoaDon form = new detailHoaDon(hd))
                 {
                     form.StartPosition = FormStartPosition.CenterParent;
                     form.ShowDialog();
@@ -1353,6 +1359,12 @@ namespace GUI.GUI_UC
                     khachHangDTO kh = dsKH.FirstOrDefault(x => x.MaKhachHang == hd.MaKhachHang);
                     e.Value = kh?.TenKhachHang ?? "Không xác định";
                 }
+            }
+
+            if (dgvHoaDon.Columns[e.ColumnIndex].HeaderText == "Thanh toán")
+            {
+                ppThanhToanDTO nv = dsThanhToan.FirstOrDefault(x => x.MaTT == hd.MaTT);
+                e.Value = nv?.HinhThuc ?? "Không xác định";
             }
         }
 

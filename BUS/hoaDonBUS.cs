@@ -53,6 +53,9 @@ namespace BUS
 
                     if (hoaDonMoi.MaBan == 0)
                         hoaDonMoi.MaBan = hd.MaBan;
+
+                    if (hoaDonMoi.MaTT == 0)
+                        hoaDonMoi.MaTT = hd.MaTT;
                     ds.Insert(0, hoaDonMoi);
                 }
             }
@@ -78,6 +81,9 @@ namespace BUS
 
                     if (hoaDonMoi.MaBan == 0)
                         hoaDonMoi.MaBan = hd.MaBan;
+
+                    if (hoaDonMoi.MaTT == 0)
+                        hoaDonMoi.MaTT = hd.MaTT;
                     ds.Insert(0, hoaDonMoi);
                 }
             }

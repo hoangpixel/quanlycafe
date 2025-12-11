@@ -145,6 +145,12 @@
     <Compile Include="GUI_CRUD\addNv.Designer.cs">
       <DependentUpon>addNv.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_CRUD\banVaKhuVuc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\banVaKhuVuc.Designer.cs">
+      <DependentUpon>banVaKhuVuc.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_CRUD\deleteKhachHang.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -168,6 +174,12 @@
     </Compile>
     <Compile Include="GUI_CRUD\deletePhieuNhap.Designer.cs">
       <DependentUpon>deletePhieuNhap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\detailHoaDon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\detailHoaDon.Designer.cs">
+      <DependentUpon>detailHoaDon.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI_CRUD\detailKhachHang.cs">
       <SubType>Form</SubType>
@@ -617,6 +629,9 @@
     <EmbeddedResource Include="GUI_CRUD\addNv.resx">
       <DependentUpon>addNv.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\banVaKhuVuc.resx">
+      <DependentUpon>banVaKhuVuc.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\deleteKhachHang.resx">
       <DependentUpon>deleteKhachHang.cs</DependentUpon>
     </EmbeddedResource>
@@ -628,6 +643,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\deletePhieuNhap.resx">
       <DependentUpon>deletePhieuNhap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\detailHoaDon.resx">
+      <DependentUpon>detailHoaDon.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\detailKhachHang.resx">
       <DependentUpon>detailKhachHang.cs</DependentUpon>

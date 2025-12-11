@@ -109,5 +109,102 @@ namespace DAO
                 DBConnect.CloseConnection(conn);
             }
         }
-    }
+
+        public int LayMa()
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            int maBan = 0;
+            try
+            {
+                string qry = "SELECT IFNULL(MAX(MABAN), 0) FROM ban";
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                maBan = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine("Lỗi lấy mã bàn: " + ex.Message);
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+            return maBan + 1;
+        }
+
+        // 5. Thêm bàn mới
+        public bool ThemBan(banDTO ban)
+        {
+            // Thêm bàn mới: Mặc định DANGSUDUNG = 1 (Trống/Sẵn sàng), TRANGTHAIXOA = 1 (Chưa xóa)
+            string qry = "INSERT INTO ban (TENBAN, MAKHUVUC, DANGSUDUNG, TRANGTHAIXOA) VALUES (@tenBan, @maKhuVuc, 1, 1)";
+            MySqlConnection conn = DBConnect.GetConnection();
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                cmd.Parameters.AddWithValue("@tenBan", ban.TenBan);
+                cmd.Parameters.AddWithValue("@maKhuVuc", ban.MaKhuVuc);
+
+                int rs = cmd.ExecuteNonQuery();
+                return rs > 0;
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine("Lỗi thêm bàn: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+        }
+
+        // 6. Sửa thông tin bàn
+        public bool SuaBan(banDTO ban)
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            try
+            {
+                string qry = @"UPDATE ban SET TENBAN = @tenBan, MAKHUVUC = @maKhuVuc WHERE MABAN = @maBan";
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                cmd.Parameters.AddWithValue("@maBan", ban.MaBan);
+                cmd.Parameters.AddWithValue("@tenBan", ban.TenBan);
+                cmd.Parameters.AddWithValue("@maKhuVuc", ban.MaKhuVuc);
+
+                int rs = cmd.ExecuteNonQuery();
+                return rs > 0;
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine("Lỗi sửa bàn: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+        }
+
+        // 7. Xóa bàn (Xóa mềm - Chuyển TRANGTHAIXOA về 0)
+        public bool XoaBan(int maBan)
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            try
+            {
+                string qry = @"UPDATE ban SET TRANGTHAIXOA = 0 WHERE MABAN = @maBan";
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                cmd.Parameters.AddWithValue("@maBan", maBan);
+
+                int rs = cmd.ExecuteNonQuery();
+                return rs > 0;
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine("Lỗi xóa bàn: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+        }
+        }
 }

@@ -185,5 +185,19 @@ namespace GUI.GUI_CRUD
             timerDemGio.Dispose();
             base.OnFormClosing(e);
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using(banVaKhuVuc form = new banVaKhuVuc())
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.ShowDialog();
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

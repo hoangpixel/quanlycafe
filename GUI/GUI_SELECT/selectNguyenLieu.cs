@@ -71,7 +71,7 @@ namespace GUI.GUI_SELECT
             foreach (var nl in nguyenLieuBUS.ds.Where(x => x.TrangThai == 1))
             {
                 string tenDonVi = dsDonVi.FirstOrDefault(l => l.MaDonVi == nl.MaDonViCoSo)?.TenDonVi ?? "Không xác định";
-                dt.Rows.Add(nl.MaNguyenLieu, nl.TenNguyenLieu, tenDonVi,nl.TonKho);
+                dt.Rows.Add(nl.MaNguyenLieu, nl.TenNguyenLieu, tenDonVi, nl.TonKho.ToString("0.################"));
             }
 
             tableNguyenLieu.DataSource = dt;
