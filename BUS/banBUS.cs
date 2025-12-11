@@ -120,7 +120,7 @@ namespace BUS
             return string.IsNullOrWhiteSpace(tenBan);
         }
 
-        public bool ThemBan(banDTO ban)
+        /*public bool ThemBan(banDTO ban)
         {
             bool kq = data.ThemBan(ban);
             if (kq)
@@ -159,6 +159,6 @@ namespace BUS
                 }
             }
             return kq;
-        }
+        }*/
     }
 }

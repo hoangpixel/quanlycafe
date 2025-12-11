@@ -193,13 +193,7 @@ namespace GUI.GUI_CRUD
                 form.StartPosition = FormStartPosition.CenterParent;
                 form.ShowDialog();
             }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
+        }  
         private void btnSetkhu_Click(object sender, EventArgs e)
         {
             using (SetKhu formSetKhu = new SetKhu())
@@ -209,13 +203,18 @@ namespace GUI.GUI_CRUD
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnSetBan_Click(object sender, EventArgs e)
         {
             using (SetBan form = new SetBan())
             {
                 form.ShowDialog();
                 LoadBan();
             }    
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

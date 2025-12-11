@@ -35,9 +35,9 @@
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnSetBan = new System.Windows.Forms.Button();
             this.btnSetkhu = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -119,9 +119,9 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.btnSetBan);
             this.groupBox1.Controls.Add(this.btnSetkhu);
             this.groupBox1.Controls.Add(this.cbbKhuVuc);
             this.groupBox1.Controls.Add(this.label1);
@@ -134,43 +134,43 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chọn khu";
             // 
-            // button2
+            // button3
             // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.Location = new System.Drawing.Point(387, 26);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(123, 45);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Thoát";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button3.Location = new System.Drawing.Point(551, 54);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 4;
+            this.button3.Text = "Thoát";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.Location = new System.Drawing.Point(529, 27);
+            this.button1.Location = new System.Drawing.Point(632, 20);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(217, 45);
+            this.button1.Size = new System.Drawing.Size(127, 45);
             this.button1.TabIndex = 2;
             this.button1.Text = "Thêm bàn - khu vực";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button2
+            // btnSetBan
             // 
-            this.button2.Location = new System.Drawing.Point(553, 26);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(124, 39);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "SET Bàn";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnSetBan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.btnSetBan.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSetBan.Location = new System.Drawing.Point(418, 20);
+            this.btnSetBan.Name = "btnSetBan";
+            this.btnSetBan.Size = new System.Drawing.Size(124, 39);
+            this.btnSetBan.TabIndex = 3;
+            this.btnSetBan.Text = "SET Bàn";
+            this.btnSetBan.UseVisualStyleBackColor = true;
+            this.btnSetBan.Click += new System.EventHandler(this.btnSetBan_Click);
             // 
             // btnSetkhu
             // 
-            this.btnSetkhu.Location = new System.Drawing.Point(348, 26);
+            this.btnSetkhu.Location = new System.Drawing.Point(288, 20);
             this.btnSetkhu.Name = "btnSetkhu";
             this.btnSetkhu.Size = new System.Drawing.Size(124, 39);
             this.btnSetkhu.TabIndex = 2;
@@ -249,8 +249,8 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnSetBan;
         private System.Windows.Forms.Button btnSetkhu;
+        private System.Windows.Forms.Button button3;
     }
 }

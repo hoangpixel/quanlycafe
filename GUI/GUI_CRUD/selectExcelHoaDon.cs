@@ -119,8 +119,8 @@ namespace GUI.GUI_CRUD
                                 Bàn = hd.MaBan,
                                 Thời_gian = hd.ThoiGianTao,
                                 Tổng_tiền = hd.TongTien,
-                                Khách_hàng = hd.TenKhachHang,
-                                Nhân_viên = hd.HoTen,
+                                Khách_hàng = hd.MaKhachHang,
+                                Nhân_viên = hd.MaNhanVien,
                                 Hình_thức_TT = hd.MaTT == 1 ?  "Chuyển khoản" : "Tiền mặt"
                             })
                             .ToList();
