@@ -79,6 +79,10 @@ namespace BUS
         }
 
         // 6. Đổi trạng thái bàn (Dùng khi thanh toán/gộp bàn)
+        public BindingList<banDTO> LayDanhSachTheoKhuVuc(int maKhuVuc)
+        {
+            return data.LayDanhSachTheoKhuVuc(maKhuVuc);
+        }
         public bool DoiTrangThai(int maBan)
         {
             bool kq = data.DoiTrangThai(maBan);
@@ -114,6 +118,47 @@ namespace BUS
         public bool KiemTraRong(string tenBan)
         {
             return string.IsNullOrWhiteSpace(tenBan);
+        }
+
+        public bool ThemBan(banDTO ban)
+        {
+            bool kq = data.ThemBan(ban);
+            if (kq)
+            {
+                ds.Add(ban);
+            }
+            return kq;
+        }
+        public bool SuaBan(banDTO ban)
+        {
+            bool kq = data.SuaBan(ban);
+            if (kq)
+            {
+                // Cập nhật lại danh sách bộ nhớ nếu cần
+                var item = ds.FirstOrDefault(x => x.MaBan == ban.MaBan);
+                if (item != null)
+                {
+                    item.TenBan = ban.TenBan;
+                }
+            }
+            return kq;
+        }
+
+        public bool XoaBan(int maBan)
+        {
+            bool kq = data.XoaBan(maBan);
+            if (kq)
+            {
+                // Xóa từ dưới lên để tránh lỗi index khi remove
+                for (int i = ds.Count - 1; i >= 0; i--)
+                {
+                    if (ds[i].MaBan == maBan)
+                    {
+                        ds.RemoveAt(i);
+                    }
+                }
+            }
+            return kq;
         }
     }
 }

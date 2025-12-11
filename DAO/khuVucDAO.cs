@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace DAO
 {
@@ -133,6 +134,71 @@ namespace DAO
             {
                 Console.WriteLine("Lỗi xóa khu vực: " + ex.Message);
                 // Lưu ý: Nếu khu vực đang có bàn, SQL sẽ báo lỗi ràng buộc khóa ngoại tại đây
+                return false;
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+        }
+        public int ThemKV(khuVucDTO kv)
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            try
+            {
+                string qry = "INSERT INTO khuvuc (TENKHUVUC) VALUES (@Ten); SELECT LAST_INSERT_ID();";
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                cmd.Parameters.AddWithValue("@Ten", kv.TenKhuVuc);
+                int newId = Convert.ToInt32(cmd.ExecuteScalar());
+                kv.MaKhuVuc = newId; // GÁN LẠI VÀO ĐỐI TƯỢNG
+                return newId;
+                //return cmd.ExecuteNonQuery() > 0;
+
+            }
+            catch { return 0; }
+            finally { DBConnect.CloseConnection(conn); }
+        }
+        public bool SuaKV(khuVucDTO kv)
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            try
+            {
+                string qry = "UPDATE khuvuc SET TENKHUVUC = @Ten WHERE MAKHUVUC = @Ma";
+                using (MySqlCommand cmd = new MySqlCommand(qry, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Ten", kv.TenKhuVuc);
+                    cmd.Parameters.AddWithValue("@Ma", kv.MaKhuVuc);
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi sửa: " + ex.Message); // chỉ để debug
+                return false;
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+        }
+
+        public bool XoaKV(int maKV)
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            try
+            {
+                string qry = "DELETE FROM khuvuc WHERE MAKHUVUC = @Ma";
+                using (MySqlCommand cmd = new MySqlCommand(qry, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Ma", maKV);
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+            catch (MySqlException ex)
+            {
+                // Nếu có khóa ngoại thì báo rõ hơn
+                if (ex.Number == 1451)
+                    MessageBox.Show("Không thể xóa vì khu vực này đang được sử dụng!");
                 return false;
             }
             finally

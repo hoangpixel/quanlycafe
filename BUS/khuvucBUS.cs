@@ -86,5 +86,46 @@ namespace BUS
         {
             return string.IsNullOrWhiteSpace(tenKV);
         }
+        public bool ThemKV(khuVucDTO kv)
+        {
+            int kq = data.ThemKV(kv);
+            if (kq>0)
+            {
+                ds.Add(kv);
+                return true;
+            }
+            return false;
+        }
+        public bool SuaKV(khuVucDTO kv)
+        {
+            bool kq = data.SuaKV(kv);
+            if (kq)
+            {
+                // Cập nhật lại danh sách bộ nhớ nếu cần
+                var item = ds.FirstOrDefault(x => x.MaKhuVuc == kv.MaKhuVuc);
+                if (item != null)
+                {
+                    item.TenKhuVuc = kv.TenKhuVuc;
+                }
+            }
+            return kq;
+        }
+
+        public bool XoaKV(int maKV)
+        {
+            bool kq = data.XoaKV(maKV);
+            if (kq)
+            {
+                // Xóa từ dưới lên để tránh lỗi index khi remove
+                for (int i = ds.Count - 1; i >= 0; i--)
+                {
+                    if (ds[i].MaKhuVuc == maKV)
+                    {
+                        ds.RemoveAt(i);
+                    }
+                }
+            }
+            return kq;
+        }
     }
 }

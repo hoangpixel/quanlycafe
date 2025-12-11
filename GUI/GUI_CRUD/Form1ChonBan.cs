@@ -199,5 +199,23 @@ namespace GUI.GUI_CRUD
         {
             this.Close();
         }
+
+        private void btnSetkhu_Click(object sender, EventArgs e)
+        {
+            using (SetKhu formSetKhu = new SetKhu())
+            {
+                formSetKhu.ShowDialog();
+                LoadKhuVuc();
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            using (SetBan form = new SetBan())
+            {
+                form.ShowDialog();
+                LoadBan();
+            }    
+        }
     }
 }

@@ -313,6 +313,18 @@
     <Compile Include="GUI_CRUD\selectExcelTaiKhoan.Designer.cs">
       <DependentUpon>selectExcelTaiKhoan.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI_CRUD\SetBan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\SetBan.Designer.cs">
+      <DependentUpon>SetBan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_CRUD\SetKhu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_CRUD\SetKhu.Designer.cs">
+      <DependentUpon>SetKhu.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI_CRUD\suaNV.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -712,6 +724,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\selectExcelTaiKhoan.resx">
       <DependentUpon>selectExcelTaiKhoan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\SetBan.resx">
+      <DependentUpon>SetBan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_CRUD\SetKhu.resx">
+      <DependentUpon>SetKhu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI_CRUD\suaNV.resx">
       <DependentUpon>suaNV.cs</DependentUpon>
