@@ -18,10 +18,12 @@ namespace GUI.GUI_CRUD
     public partial class FormChonBan : Form
     {
         public int maBan { get; private set; }
-        private banDAO banDAO = new banDAO();
+        private banBUS busBan = new banBUS();
         private hoaDonDAO hdDAO = new hoaDonDAO();
         private Timer timerDemGio;
         private Dictionary<int, DateTime> thoiGianCacBan = new Dictionary<int, DateTime>();
+        private khuvucBUS kvBus = new khuvucBUS();
+        private BindingList<khuVucDTO> listKV;
         public FormChonBan()
         {
             InitializeComponent();
@@ -29,6 +31,7 @@ namespace GUI.GUI_CRUD
             timerDemGio.Interval = 1000;
             timerDemGio.Tick += TimerDemGio_Tick;
             timerDemGio.Start();
+            listKV = kvBus.LayDanhSach();
 
             LoadKhuVuc();
             FontManager.LoadFont();
@@ -67,8 +70,7 @@ namespace GUI.GUI_CRUD
         private void LoadKhuVuc()
         {
             // Gọi BUS hoặc DAO để lấy danh sách khu vực từ Database
-            khuvucBUS kvBus = new khuvucBUS(); // Giả sử bạn có BUS, nếu chưa thì dùng DAO
-            BindingList<khuVucDTO> listKV = kvBus.LayDanhSach(); // Hàm này trả về SELECT * FROM khuvuc
+
 
             cbbKhuVuc.DataSource = listKV;
             cbbKhuVuc.DisplayMember = "TenKhuVuc"; // Tên cột hiển thị
@@ -93,7 +95,7 @@ namespace GUI.GUI_CRUD
             // Ép kiểu về int an toàn
             if (!int.TryParse(cbbKhuVuc.SelectedValue.ToString(), out int maKhuVuc)) return;
 
-            BindingList<banDTO> danhSachBan = banDAO.LayDanhSachTheoKhuVuc(maKhuVuc);
+            BindingList<banDTO> danhSachBan = busBan.LayDanhSachTheoKhuVuc(maKhuVuc);
 
             foreach (banDTO ban in danhSachBan)
             {
@@ -192,25 +194,10 @@ namespace GUI.GUI_CRUD
             {
                 form.StartPosition = FormStartPosition.CenterParent;
                 form.ShowDialog();
+                LoadKhuVuc();
+                LoadBan();
             }
         }  
-        private void btnSetkhu_Click(object sender, EventArgs e)
-        {
-            using (SetKhu formSetKhu = new SetKhu())
-            {
-                formSetKhu.ShowDialog();
-                LoadKhuVuc();
-            }
-        }
-
-        private void btnSetBan_Click(object sender, EventArgs e)
-        {
-            using (SetBan form = new SetBan())
-            {
-                form.ShowDialog();
-                LoadBan();
-            }    
-        }
 
         private void button3_Click(object sender, EventArgs e)
         {

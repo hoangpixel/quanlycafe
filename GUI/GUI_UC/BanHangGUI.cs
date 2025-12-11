@@ -4,6 +4,7 @@ using DTO;
 using FONTS;
 using GUI.GUI_CRUD;
 using GUI.GUI_SELECT;
+using GUI.PDF;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -583,7 +584,7 @@ namespace GUI.GUI_UC
                 TongTien= tongTien
             };
             banBUS busBan = new banBUS();
-            busBan.DoiTrangThai(maBan);
+            busBan.DoiTrangThai(maBan,0);
             
             // 8. Gọi BUS thêm hóa đơn
             int maHD = busHoaDon.ThemHoaDon(hd, gioHang);
@@ -826,6 +827,7 @@ namespace GUI.GUI_UC
                 btnDonBan.Enabled = false;
                 btnXoaHD.Enabled = false;
                 btnSuaHD.Enabled = false;
+                btnInPDF.Enabled = false;
                 return;
             }
             lastSelectedRowIndex = e.RowIndex;
@@ -849,6 +851,7 @@ namespace GUI.GUI_UC
                 btnXoaHD.Enabled = coQuyenXoa;
                 btnSuaHD.Enabled = coQuyenThem;
                 btnExcelSP.Enabled = coQuyenThem;
+                btnInPDF.Enabled = true;
             }
         }
 
@@ -1440,6 +1443,20 @@ namespace GUI.GUI_UC
                 return;
             }
         }
+
+        private void btnInPDF_Click(object sender, EventArgs e)
+        {
+            if (dgvHoaDon.SelectedRows.Count == 0) return;
+
+            var row = dgvHoaDon.SelectedRows[0];
+            var hd = row.DataBoundItem as hoaDonDTO;
+
+            if (hd == null) return;
+
+            var inHD = new inPDFhoaDon();
+            inHD.In(hd);
+        }
+
         public static string RemoveDiacritics(string text)
         {
             if (string.IsNullOrEmpty(text))

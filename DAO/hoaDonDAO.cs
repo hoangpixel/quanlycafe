@@ -581,5 +581,102 @@ namespace DAO
                 return count > 0;
             }
         }
+
+        public bool CapNhatMaBan(int maHD, int maBanMoi)
+        {
+            MySqlConnection conn = DBConnect.GetConnection();
+            try
+            {
+                // Chỉ update đúng cột MABAN
+                string qry = "UPDATE hoadon SET MABAN = @maBan WHERE MAHOADON = @maHD";
+
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                cmd.Parameters.AddWithValue("@maBan", maBanMoi);
+                cmd.Parameters.AddWithValue("@maHD", maHD);
+
+                int rs = cmd.ExecuteNonQuery();
+                return rs > 0;
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine("Lỗi cập nhật mã bàn: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+        }
+
+        public BindingList<hoaDonDTO> LayDanhSachHDTheoBan(int maBan)
+        {
+            BindingList<hoaDonDTO> ds = new BindingList<hoaDonDTO>();
+            MySqlConnection conn = DBConnect.GetConnection();
+            try
+            {
+                // Lấy hết hóa đơn của bàn đó về
+                string qry = "SELECT * FROM hoadon WHERE MABAN = @maBan";
+
+                MySqlCommand cmd = new MySqlCommand(qry, conn);
+                cmd.Parameters.AddWithValue("@maBan", maBan);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    hoaDonDTO hd = new hoaDonDTO();
+                    hd.MaHD = reader.GetInt32("MAHOADON");
+                    hd.MaBan = reader.GetInt32("MABAN");
+
+                    if (!reader.IsDBNull(reader.GetOrdinal("MAKHACHHANG")))
+                        hd.MaKhachHang = reader.GetInt32("MAKHACHHANG");
+
+                    if (!reader.IsDBNull(reader.GetOrdinal("MANHANVIEN")))
+                        hd.MaNhanVien = reader.GetInt32("MANHANVIEN");
+
+                    if (!reader.IsDBNull(reader.GetOrdinal("MATT")))
+                        hd.MaTT = reader.GetInt32("MATT");
+
+                    hd.ThoiGianTao = reader.GetDateTime("THOIGIANTAO");
+                    hd.TongTien = reader.GetDecimal("TONGTIEN");
+
+                    // --- SỬA QUAN TRỌNG TẠI ĐÂY ---
+                    // Chúng ta bỏ qua cột TRANGTHAI trong DB vì nó dư thừa.
+                    // Thay vào đó, ta đọc cột KHOASO để gán cho thuộc tính TrangThai của DTO.
+
+                    // Logic: 
+                    // KHOASO = 1 (Đã khóa) -> TrangThai = true
+                    // KHOASO = 0 (Chưa khóa) -> TrangThai = false (Để khớp với điều kiện lọc bên ngoài)
+
+                    if (!reader.IsDBNull(reader.GetOrdinal("KHOASO")))
+                    {
+                        // Tùy DB bạn lưu KHOASO là INT hay BIT mà dùng GetInt32 hay GetBoolean
+                        // Ở đây mình dùng GetInt32 cho an toàn (0 hoặc 1)
+                        int khoaSo = reader.GetInt32("KHOASO");
+                        hd.TrangThai = (khoaSo == 1);
+
+                        // Nếu DTO của bạn có thuộc tính KhoaSo riêng thì gán thêm cho chắc:
+                        // hd.KhoaSo = khoaSo; 
+                    }
+                    else
+                    {
+                        // Mặc định nếu null coi như chưa khóa
+                        hd.TrangThai = false;
+                    }
+
+                    ds.Add(hd);
+                }
+                reader.Close();
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine("Lỗi lấy danh sách hóa đơn theo bàn: " + ex.Message);
+            }
+            finally
+            {
+                DBConnect.CloseConnection(conn);
+            }
+            return ds;
+        }
+
     }
 }

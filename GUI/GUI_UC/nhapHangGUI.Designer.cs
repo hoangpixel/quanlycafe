@@ -284,7 +284,7 @@
             "Mã nguyên liệu",
             "Tên nguyên liệu",
             "Tên đơn vị"});
-            this.cboTimKiemNL.Location = new System.Drawing.Point(10, 10);
+            this.cboTimKiemNL.Location = new System.Drawing.Point(10, 8);
             this.cboTimKiemNL.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemNL.Name = "cboTimKiemNL";
             this.cboTimKiemNL.Size = new System.Drawing.Size(176, 28);
@@ -776,7 +776,7 @@
             // 
             this.cboLoaiTrangThai.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cboLoaiTrangThai.FormattingEnabled = true;
-            this.cboLoaiTrangThai.Location = new System.Drawing.Point(3, 13);
+            this.cboLoaiTrangThai.Location = new System.Drawing.Point(3, 15);
             this.cboLoaiTrangThai.Name = "cboLoaiTrangThai";
             this.cboLoaiTrangThai.Size = new System.Drawing.Size(125, 28);
             this.cboLoaiTrangThai.TabIndex = 0;
@@ -841,7 +841,7 @@
             "Tên nhà cung cấp",
             "Tên nhân viên",
             "Trạng thái phiếu (Chưa/Rồi)"});
-            this.cboTimKiemPN.Location = new System.Drawing.Point(10, 8);
+            this.cboTimKiemPN.Location = new System.Drawing.Point(10, 10);
             this.cboTimKiemPN.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemPN.Name = "cboTimKiemPN";
             this.cboTimKiemPN.Size = new System.Drawing.Size(194, 28);

@@ -17,40 +17,68 @@ namespace GUI.PDF
     {
         private hoaDonDTO _hd;
         private BindingList<cthoaDonDTO> _chiTiet;
+
+        // Load danh sách lên sẵn để tra cứu
+        private BindingList<khachHangDTO> dsKhachHang = new khachHangBUS().LayDanhSach();
+        private BindingList<nhanVienDTO> dsNhanVien = new nhanVienBUS().LayDanhSach();
+
         private string _tenKhachHang;
         private string _tenNhanVien;
 
-        // Font giống phiếu nhập của bạn
+        // Font chữ (giữ nguyên như cũ)
         private Font fontTieuDe = new Font("Times New Roman", 18, FontStyle.Bold);
         private Font fontBold = new Font("Times New Roman", 12, FontStyle.Bold);
         private Font fontNormal = new Font("Times New Roman", 11, FontStyle.Regular);
-        private Font fontNho = new Font("Times New Roman", 10, FontStyle.Regular);
-        private Font fontChuKy = new Font("Times New Roman", 11, FontStyle.Bold);
-        private Pen penNet = new Pen(Color.Black, 1.2f);
 
-        public void In(int maHD)
+        // --- SỬA Ở ĐÂY: Nhận tham số là đối tượng DTO ---
+        public void In(hoaDonDTO hdInput)
         {
-            var bus = new hoaDonBUS();
-            _hd = bus.TimTheoMa(maHD);
+            // 1. Gán đối tượng được truyền vào
+            _hd = hdInput;
+
             if (_hd == null)
             {
-                MessageBox.Show("Không tìm thấy hóa đơn!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Dữ liệu hóa đơn bị lỗi!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
+            // 2. Load chi tiết hóa đơn (vì trong DTO hóa đơn thường chưa có list chi tiết)
             var ctBus = new hoaDonBUS();
-            _chiTiet = new BindingList<cthoaDonDTO>(ctBus.LayChiTiet(maHD));
+            _chiTiet = new BindingList<cthoaDonDTO>(ctBus.LayChiTiet(_hd.MaHD));
 
-            _tenKhachHang = string.IsNullOrEmpty(_hd.TenKhachHang) || _hd.TenKhachHang == "Khách lẻ"
-                ? "Khách lẻ" : _hd.TenKhachHang;
-            _tenNhanVien = _hd.HoTen ?? "Nhân viên";
+            // 3. Tra cứu Tên Khách Hàng từ danh sách
+            // Tìm khách hàng có MaKhachHang trùng với _hd.MaKhachHang
+            var kh = dsKhachHang.FirstOrDefault(x => x.MaKhachHang == _hd.MaKhachHang);
 
+            if (kh != null)
+            {
+                _tenKhachHang = kh.TenKhachHang;
+            }
+            else
+            {
+                // Nếu không tìm thấy hoặc mã là 0/null thì là Khách lẻ
+                _tenKhachHang = "Khách lẻ";
+            }
+
+            // 4. Tra cứu Tên Nhân Viên từ danh sách
+            var nv = dsNhanVien.FirstOrDefault(x => x.MaNhanVien == _hd.MaNhanVien);
+
+            if (nv != null)
+            {
+                _tenNhanVien = nv.HoTen; // Giả sử cột tên nhân viên là HoTen
+            }
+            else
+            {
+                _tenNhanVien = "Không xác định";
+            }
+
+            // 5. Tiến hành in
             PrintDocument pd = new PrintDocument();
             pd.DocumentName = $"HD{_hd.MaHD:00000}_{DateTime.Now:yyyyMMdd_HHmm}";
             pd.PrintPage += Pd_PrintPage;
 
-            // In khổ A5 ngang (hoặc A4 dọc tùy bạn)
-            pd.DefaultPageSettings.PaperSize = new PaperSize("A5", 827, 587); // A5 ngang
+            // Cấu hình trang in A5 ngang
+            pd.DefaultPageSettings.PaperSize = new PaperSize("A5", 827, 587);
             pd.DefaultPageSettings.Landscape = true;
             pd.DefaultPageSettings.Margins = new Margins(40, 40, 50, 50);
 
@@ -95,9 +123,18 @@ namespace GUI.PDF
             y += 25;
             g.DrawString($"Ngày: {_hd.ThoiGianTao:dd/MM/yyyy HH:mm}", fontNormal, Brushes.Black, new RectangleF(x, y, w, 25), center);
             y += 25;
+            // Nhân viên
+            g.DrawString($"Nhân viên: {_tenNhanVien}", fontNormal, Brushes.Black, x, y);
+            y += 22;
+
+            // Khách hàng
+            g.DrawString($"Khách hàng: {_tenKhachHang}", fontNormal, Brushes.Black, x, y);
+            y += 22;
+
+            // Bàn
             g.DrawString($"Bàn: {(_hd.MaBan == 0 ? "Mang về" : _hd.MaBan.ToString())}", fontNormal, Brushes.Black, x, y);
-            g.DrawString($"Nhân viên: {_tenNhanVien}", fontNormal, Brushes.Black, w / 2, y);
-            y += 35;
+            y += 30;
+
 
             // Bảng chi tiết
             float[] colW = { 50, 220, 60, 90, 110 };

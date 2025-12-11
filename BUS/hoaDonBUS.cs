@@ -257,6 +257,24 @@ namespace BUS
             }
             return dskq;
         }
-      
+        public bool CapNhatMaBan(int maHD, int maBanMoi)
+        {
+            bool kq = dao.CapNhatMaBan(maHD, maBanMoi);
+            if (kq)
+            {
+                // Cập nhật luôn trong danh sách bộ nhớ (RAM) để giao diện tự đổi
+                var hd = ds.FirstOrDefault(x => x.MaHD == maHD);
+                if (hd != null)
+                {
+                    hd.MaBan = maBanMoi;
+                }
+            }
+            return kq;
+        }
+
+        public BindingList<hoaDonDTO> LayDanhSachHDTheoBan(int maBan)
+        {
+            return dao.LayDanhSachHDTheoBan(maBan);
+        }
     }
 }

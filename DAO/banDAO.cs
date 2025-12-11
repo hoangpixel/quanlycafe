@@ -90,19 +90,24 @@ namespace DAO
 
             return ds;
         }
-        public bool DoiTrangThai(int maBan)
+        public bool DoiTrangThai(int maBan, int trangThaiMoi) // Thêm tham số trangThaiMoi
         {
             MySqlConnection conn = DBConnect.GetConnection();
             try
             {
-                string qry = $"UPDATE ban SET DANGSUDUNG = 0 WHERE MABAN = {maBan}";
+                // Dùng tham số @trangThai thay vì số 0 cứng
+                string qry = "UPDATE ban SET DANGSUDUNG = @trangThai WHERE MABAN = @maBan";
+
                 MySqlCommand cmd = new MySqlCommand(qry, conn);
-                cmd.ExecuteNonQuery();
-                return true;
+                cmd.Parameters.AddWithValue("@trangThai", trangThaiMoi);
+                cmd.Parameters.AddWithValue("@maBan", maBan);
+
+                int rs = cmd.ExecuteNonQuery();
+                return rs > 0;
             }
             catch (Exception e)
             {
-                Console.WriteLine("Lỗi xóa sản phẩm: " + e.Message);
+                Console.WriteLine("Lỗi đổi trạng thái bàn: " + e.Message);
                 return false;
             }
             finally

@@ -102,12 +102,13 @@
             this.btnThucHienTimKiem = new System.Windows.Forms.Button();
             this.xulycongthuc = new System.Windows.Forms.GroupBox();
             this.tableLayoutChoChucNang = new System.Windows.Forms.TableLayoutPanel();
-            this.btnExcelSP = new System.Windows.Forms.Button();
+            this.btnInPDF = new System.Windows.Forms.Button();
             this.btnDonBan = new System.Windows.Forms.Button();
             this.btnRefreshSP = new System.Windows.Forms.Button();
             this.btnChiTietHD = new System.Windows.Forms.Button();
             this.btnXoaHD = new System.Windows.Forms.Button();
             this.btnSuaHD = new System.Windows.Forms.Button();
+            this.btnExcelSP = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -948,7 +949,7 @@
             "Tên Bàn",
             "Tên Khách Hàng",
             "Tên Nhân Viên"});
-            this.cboTimKiemHD.Location = new System.Drawing.Point(10, 10);
+            this.cboTimKiemHD.Location = new System.Drawing.Point(10, 8);
             this.cboTimKiemHD.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemHD.Name = "cboTimKiemHD";
             this.cboTimKiemHD.Size = new System.Drawing.Size(176, 28);
@@ -1001,20 +1002,21 @@
             // 
             // tableLayoutChoChucNang
             // 
-            this.tableLayoutChoChucNang.ColumnCount = 6;
-            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutChoChucNang.Controls.Add(this.btnExcelSP, 5, 0);
+            this.tableLayoutChoChucNang.ColumnCount = 7;
+            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutChoChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutChoChucNang.Controls.Add(this.btnInPDF, 5, 0);
             this.tableLayoutChoChucNang.Controls.Add(this.btnDonBan, 4, 0);
             this.tableLayoutChoChucNang.Controls.Add(this.btnRefreshSP, 3, 0);
             this.tableLayoutChoChucNang.Controls.Add(this.btnChiTietHD, 2, 0);
             this.tableLayoutChoChucNang.Controls.Add(this.btnXoaHD, 1, 0);
             this.tableLayoutChoChucNang.Controls.Add(this.btnSuaHD, 0, 0);
+            this.tableLayoutChoChucNang.Controls.Add(this.btnExcelSP, 6, 0);
             this.tableLayoutChoChucNang.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutChoChucNang.Location = new System.Drawing.Point(3, 23);
             this.tableLayoutChoChucNang.Name = "tableLayoutChoChucNang";
@@ -1023,22 +1025,23 @@
             this.tableLayoutChoChucNang.Size = new System.Drawing.Size(922, 148);
             this.tableLayoutChoChucNang.TabIndex = 0;
             // 
-            // btnExcelSP
+            // btnInPDF
             // 
-            this.btnExcelSP.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnExcelSP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnExcelSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExcelSP.Image = global::GUI.Properties.Resources.xls;
-            this.btnExcelSP.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnExcelSP.Location = new System.Drawing.Point(775, 10);
-            this.btnExcelSP.Margin = new System.Windows.Forms.Padding(10);
-            this.btnExcelSP.Name = "btnExcelSP";
-            this.btnExcelSP.Size = new System.Drawing.Size(137, 128);
-            this.btnExcelSP.TabIndex = 6;
-            this.btnExcelSP.Text = "In HĐ / Excel";
-            this.btnExcelSP.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnExcelSP.UseVisualStyleBackColor = true;
-            this.btnExcelSP.Click += new System.EventHandler(this.btnExcelSP_Click);
+            this.btnInPDF.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnInPDF.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnInPDF.Enabled = false;
+            this.btnInPDF.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnInPDF.Image = global::GUI.Properties.Resources.pdf__2_;
+            this.btnInPDF.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnInPDF.Location = new System.Drawing.Point(665, 10);
+            this.btnInPDF.Margin = new System.Windows.Forms.Padding(10);
+            this.btnInPDF.Name = "btnInPDF";
+            this.btnInPDF.Size = new System.Drawing.Size(111, 128);
+            this.btnInPDF.TabIndex = 7;
+            this.btnInPDF.Text = "In PDF";
+            this.btnInPDF.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnInPDF.UseVisualStyleBackColor = true;
+            this.btnInPDF.Click += new System.EventHandler(this.btnInPDF_Click);
             // 
             // btnDonBan
             // 
@@ -1047,10 +1050,10 @@
             this.btnDonBan.Enabled = false;
             this.btnDonBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDonBan.Image = global::GUI.Properties.Resources.wipe__1_;
-            this.btnDonBan.Location = new System.Drawing.Point(622, 10);
+            this.btnDonBan.Location = new System.Drawing.Point(534, 10);
             this.btnDonBan.Margin = new System.Windows.Forms.Padding(10);
             this.btnDonBan.Name = "btnDonBan";
-            this.btnDonBan.Size = new System.Drawing.Size(133, 128);
+            this.btnDonBan.Size = new System.Drawing.Size(111, 128);
             this.btnDonBan.TabIndex = 5;
             this.btnDonBan.Text = "Dọn bàn";
             this.btnDonBan.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -1064,10 +1067,10 @@
             this.btnRefreshSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRefreshSP.Image = global::GUI.Properties.Resources.reload;
             this.btnRefreshSP.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnRefreshSP.Location = new System.Drawing.Point(469, 10);
+            this.btnRefreshSP.Location = new System.Drawing.Point(403, 10);
             this.btnRefreshSP.Margin = new System.Windows.Forms.Padding(10);
             this.btnRefreshSP.Name = "btnRefreshSP";
-            this.btnRefreshSP.Size = new System.Drawing.Size(133, 128);
+            this.btnRefreshSP.Size = new System.Drawing.Size(111, 128);
             this.btnRefreshSP.TabIndex = 4;
             this.btnRefreshSP.Text = "Làm mới";
             this.btnRefreshSP.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -1082,10 +1085,10 @@
             this.btnChiTietHD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnChiTietHD.Image = global::GUI.Properties.Resources.info;
             this.btnChiTietHD.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnChiTietHD.Location = new System.Drawing.Point(316, 10);
+            this.btnChiTietHD.Location = new System.Drawing.Point(272, 10);
             this.btnChiTietHD.Margin = new System.Windows.Forms.Padding(10);
             this.btnChiTietHD.Name = "btnChiTietHD";
-            this.btnChiTietHD.Size = new System.Drawing.Size(133, 128);
+            this.btnChiTietHD.Size = new System.Drawing.Size(111, 128);
             this.btnChiTietHD.TabIndex = 3;
             this.btnChiTietHD.Text = "Chi tiết";
             this.btnChiTietHD.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -1100,10 +1103,10 @@
             this.btnXoaHD.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnXoaHD.Image = global::GUI.Properties.Resources.delete;
             this.btnXoaHD.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnXoaHD.Location = new System.Drawing.Point(163, 10);
+            this.btnXoaHD.Location = new System.Drawing.Point(141, 10);
             this.btnXoaHD.Margin = new System.Windows.Forms.Padding(10);
             this.btnXoaHD.Name = "btnXoaHD";
-            this.btnXoaHD.Size = new System.Drawing.Size(133, 128);
+            this.btnXoaHD.Size = new System.Drawing.Size(111, 128);
             this.btnXoaHD.TabIndex = 2;
             this.btnXoaHD.Text = "Xóa";
             this.btnXoaHD.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -1121,12 +1124,28 @@
             this.btnSuaHD.Location = new System.Drawing.Point(10, 10);
             this.btnSuaHD.Margin = new System.Windows.Forms.Padding(10);
             this.btnSuaHD.Name = "btnSuaHD";
-            this.btnSuaHD.Size = new System.Drawing.Size(133, 128);
+            this.btnSuaHD.Size = new System.Drawing.Size(111, 128);
             this.btnSuaHD.TabIndex = 1;
             this.btnSuaHD.Text = "Sửa";
             this.btnSuaHD.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnSuaHD.UseVisualStyleBackColor = true;
             this.btnSuaHD.Click += new System.EventHandler(this.btnSuaHD_Click);
+            // 
+            // btnExcelSP
+            // 
+            this.btnExcelSP.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnExcelSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExcelSP.Image = global::GUI.Properties.Resources.xls;
+            this.btnExcelSP.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnExcelSP.Location = new System.Drawing.Point(796, 10);
+            this.btnExcelSP.Margin = new System.Windows.Forms.Padding(10);
+            this.btnExcelSP.Name = "btnExcelSP";
+            this.btnExcelSP.Size = new System.Drawing.Size(116, 128);
+            this.btnExcelSP.TabIndex = 6;
+            this.btnExcelSP.Text = "Excel";
+            this.btnExcelSP.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnExcelSP.UseVisualStyleBackColor = true;
+            this.btnExcelSP.Click += new System.EventHandler(this.btnExcelSP_Click);
             // 
             // panel2
             // 
@@ -1304,5 +1323,6 @@
         private System.Windows.Forms.TextBox txtNV;
         private System.Windows.Forms.TextBox txtKH;
         private System.Windows.Forms.TextBox txtTenBan;
+        private System.Windows.Forms.Button btnInPDF;
     }
 }

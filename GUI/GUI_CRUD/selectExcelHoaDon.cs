@@ -83,13 +83,13 @@ namespace GUI.GUI_CRUD
 
         private void btnInPDF_Click(object sender, EventArgs e)
         {
-            if (!maHDSelected.HasValue)
-            {
-                MessageBox.Show("Vui lòng chọn hóa đơn để in!", "Thông báo");
-                return;
-            }
-            var inHD = new inPDFhoaDon();
-            inHD.In(maHDSelected.Value);
+            //if (!maHDSelected.HasValue)
+            //{
+            //    MessageBox.Show("Vui lòng chọn hóa đơn để in!", "Thông báo");
+            //    return;
+            //}
+            //var inHD = new inPDFhoaDon();
+            //inHD.In(maHDSelected.Value);
         }
 
         private void btnXuatHD_Click(object sender, EventArgs e)

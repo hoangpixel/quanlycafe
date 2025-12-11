@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BUS
 {
@@ -79,22 +80,26 @@ namespace BUS
         }
 
         // 6. Đổi trạng thái bàn (Dùng khi thanh toán/gộp bàn)
-        public BindingList<banDTO> LayDanhSachTheoKhuVuc(int maKhuVuc)
+        // Trong class banBUS
+        public BindingList<banDTO> LayDanhSachTheoKhuVuc(int ma)
         {
-            return data.LayDanhSachTheoKhuVuc(maKhuVuc);
+            return data.LayDanhSachTheoKhuVuc(ma); // luôn truy vấn DB
         }
-        public bool DoiTrangThai(int maBan)
+
+        public bool DoiTrangThai(int maBan, int trangThaiMoi) // Thêm tham số ở đây
         {
-            bool kq = data.DoiTrangThai(maBan);
+            // Gọi DAO với tham số mới
+            bool kq = data.DoiTrangThai(maBan, trangThaiMoi);
+
             if (kq)
             {
-                // Cập nhật lại cache để giao diện đổi màu bàn ngay lập tức
+                // Cập nhật lại cache để giao diện đổi màu ngay lập tức
                 banDTO tontai = ds.FirstOrDefault(x => x.MaBan == maBan);
                 if (tontai != null)
                 {
-                    // Giả sử logic của DAO là reset về 1 (Trống)
-                    // Nếu logic DAO là toggle (0->1, 1->0) thì bạn cần chỉnh lại dòng này
-                    tontai.DangSuDung = 1;
+                    // Quan trọng: Gán theo đúng cái mình vừa truyền vào
+                    // (Không gán cứng số 1 nữa)
+                    tontai.DangSuDung = (byte)trangThaiMoi;
                 }
             }
             return kq;
