@@ -10,13 +10,10 @@ namespace DAO
 {
     public class phieuNhapDAO
     {
-        // 1. LẤY DANH SÁCH (Giữ nguyên logic nhưng viết gọn hơn)
         public BindingList<phieuNhapDTO> LayDanhSach()
         {
             BindingList<phieuNhapDTO> ds = new BindingList<phieuNhapDTO>();
             string sql = @"SELECT * FROM phieunhap WHERE TRANGTHAIXOA = 1 ORDER BY phieunhap.MAPN DESC";
-
-            // Dùng using để tự động Close connection dù có lỗi hay không
             using (MySqlConnection conn = DBConnect.GetConnection())
             {
                 try
@@ -40,14 +37,12 @@ namespace DAO
                 }
                 catch (Exception ex)
                 {
-                    // Nên throw ra để BUS hoặc GUI biết mà hiện thông báo lỗi
                     throw new Exception("Lỗi LayDanhSach: " + ex.Message);
                 }
             }
             return ds;
         }
 
-        // 2. INSERT HEADER (Đã sửa để nhận TongTien ngay từ đầu)
         public int Insert(phieuNhapDTO pn, MySqlConnection conn, MySqlTransaction tran)
         {
             string sql = @"INSERT INTO phieunhap (MANCC, MANHANVIEN, THOIGIAN, TONGTIEN, TRANGTHAI, TRANGTHAIXOA) 
@@ -66,7 +61,6 @@ namespace DAO
             }
         }
 
-        // 3. THÊM PHIẾU NHẬP (Transaction hoàn chỉnh - Đã tối ưu)
         public int ThemPhieuNhap(phieuNhapDTO header, List<ctPhieuNhapDTO> details)
         {
             if (details == null || details.Count == 0) throw new Exception("Không có chi tiết phiếu nhập");
@@ -78,16 +72,12 @@ namespace DAO
 
                 try
                 {
-                    // Bước 1: Tính tổng tiền TRƯỚC khi insert
-                    // Điều này giúp ta không phải gọi lệnh Update lại lần nữa
                     decimal tongTien = details.Sum(ct => ct.ThanhTien);
                     header.TongTien = tongTien;
 
-                    // Bước 2: Insert Header
                     int newPhieuID = Insert(header, conn, tran);
                     if (newPhieuID <= 0) throw new Exception("Không thể tạo phiếu nhập.");
 
-                    // Bước 3: Insert Chi tiết & Update Tồn kho
                     foreach (var ct in details)
                     {
                         ct.MaPN = newPhieuID;
@@ -96,7 +86,6 @@ namespace DAO
                         if (!ctDAO.Insert(ct, conn, tran)) 
                             throw new Exception($"Lỗi thêm sản phẩm:");
 
-                        // Update Tồn kho
                         //string sqlKho = "UPDATE nguyenlieu SET TONKHO = TONKHO + @sl WHERE MANGUYENLIEU = @maNL";
                         //using(var cmdKho = new MySqlCommand(sqlKho, conn, tran))
                         //{
@@ -106,7 +95,6 @@ namespace DAO
                         //}
                     }
 
-                    // Commit Transaction
                     tran.Commit();
                     return newPhieuID;
                 }
@@ -118,7 +106,6 @@ namespace DAO
             }
         }
 
-        // Thêm hàm này vào class phieuNhapDAO
         public bool DuyetPhieuNhap(int maPN)
         {
             using (MySqlConnection conn = DBConnect.GetConnection())
@@ -127,10 +114,8 @@ namespace DAO
 
                 try
                 {
-                    // 1. Lấy danh sách chi tiết của phiếu này để biết cần cộng bao nhiêu
-                    // (Ta viết query trực tiếp ở đây để đỡ phải gọi ngược sang DAO khác rắc rối)
                     string sqlGetDetail = "SELECT MANGUYENLIEU, SOLUONGCOSO FROM ctphieunhap WHERE MAPN = @mapn";
-                    var listChiTiet = new List<dynamic>(); // Dùng dynamic hoặc tạo class tạm để lưu
+                    var listChiTiet = new List<dynamic>();
 
                     using (var cmdGet = new MySqlCommand(sqlGetDetail, conn, tran))
                     {
@@ -148,9 +133,7 @@ namespace DAO
                         }
                     }
 
-                    if (listChiTiet.Count == 0) return false; // Phiếu rỗng không duyệt được
-
-                    // 2. Duyệt vòng lặp để CỘNG TỒN KHO
+                    if (listChiTiet.Count == 0) return false;
                     string sqlUpdateKho = "UPDATE nguyenlieu SET TONKHO = TONKHO + @sl WHERE MANGUYENLIEU = @manl";
                     foreach (var item in listChiTiet)
                     {
@@ -161,10 +144,6 @@ namespace DAO
                             cmdKho.ExecuteNonQuery();
                         }
                     }
-
-                    // 3. Cập nhật trạng thái phiếu sang 1 (Đã xử lý)
-                    // (Bạn nói là "chuyển về 0 mới cộng", nhưng thường 0 là nháp, 1 là đã nhập. 
-                    // Nếu bạn muốn ngược lại thì sửa số 1 bên dưới thành 0 nhé)
                     string sqlUpdateStatus = "UPDATE phieunhap SET TRANGTHAI = 1 WHERE MAPN = @mapn";
                     using (var cmdStatus = new MySqlCommand(sqlUpdateStatus, conn, tran))
                     {
@@ -183,11 +162,8 @@ namespace DAO
                 }
             }
         }
-
-        // 4. XÓA PHIẾU (Gộp Delete và DeletePN thành 1 hàm duy nhất)
         public bool XoaPhieuNhap(int maPN)
         {
-            // Dùng using để đảm bảo kết nối luôn được đóng dù có lỗi
             using (MySqlConnection conn = DBConnect.GetConnection())
             {
                 try
@@ -202,14 +178,12 @@ namespace DAO
                 }
                 catch (MySqlException ex)
                 {
-                    // Nên throw lỗi hoặc log ra file, Console.WriteLine trong WinForm sẽ khó thấy
                     Console.WriteLine("Lỗi xóa phiếu nhập: " + ex.Message);
                     return false;
                 }
             }
         }
 
-        // 5. CẬP NHẬT THÔNG TIN CƠ BẢN
         public bool CapNhatThongTin(int maPN, int maNCC, int MANHANVIEN)
         {
             using (MySqlConnection conn = DBConnect.GetConnection())
@@ -226,9 +200,6 @@ namespace DAO
                 catch { return false; }
             }
         }
-
-        // 6. THÊM CHI TIẾT VÀO PHIẾU CŨ (Giữ nguyên logic update tiền)
-        // 6. THÊM CHI TIẾT VÀO PHIẾU CŨ
         public bool ThemChiTietVaoPhieuCu(int maPN, List<ctPhieuNhapDTO> details)
         {
             using (MySqlConnection conn = DBConnect.GetConnection())
@@ -238,8 +209,6 @@ namespace DAO
 
                 try
                 {
-                    // Kiểm tra trạng thái phiếu trước
-                    // Nếu phiếu đã duyệt (TrangThai = 1) thì không cho sửa hoặc thêm kiểu này
                     string sqlCheck = "SELECT TRANGTHAI FROM phieunhap WHERE MAPN = @mapn";
                     var cmdCheck = new MySqlCommand(sqlCheck, conn, tran);
                     cmdCheck.Parameters.AddWithValue("@mapn", maPN);
@@ -254,13 +223,8 @@ namespace DAO
                     {
                         ct.MaPN = maPN;
                         if (!ctDAO.Insert(ct, conn, tran)) throw new Exception("Lỗi thêm chi tiết.");
-
-                        // --- BỎ ĐOẠN UPDATE KHO Ở ĐÂY ĐI NHÉ ---
-                        // Lý do: Vì đây là phiếu chưa duyệt, nên chưa được cộng kho.
-                        // Khi nào người dùng bấm nút "Duyệt" thì hàm DuyetPhieuNhap sẽ cộng sau.
                     }
 
-                    // Tính lại tổng tiền và cập nhật Header (Giữ nguyên đoạn này là đúng)
                     string sqlSum = "SELECT SUM(THANHTIEN) FROM ctphieunhap WHERE MAPN = @mapn";
                     var cmdSum = new MySqlCommand(sqlSum, conn, tran);
                     cmdSum.Parameters.AddWithValue("@mapn", maPN);
@@ -348,7 +312,6 @@ namespace DAO
 
                 try
                 {
-                    // 1. Kiểm tra tồn tại (Chỉ để chắc chắn phiếu có trong DB)
                     string sqlCheck = "SELECT COUNT(*) FROM phieunhap WHERE MAPN = @mapn";
                     var cmdCheck = new MySqlCommand(sqlCheck, conn, tran);
                     cmdCheck.Parameters.AddWithValue("@mapn", header.MaPN);
@@ -357,7 +320,6 @@ namespace DAO
                         throw new Exception("Phiếu nhập không tồn tại để cập nhật!");
                     }
 
-                    // 2. CẬP NHẬT HEADER (Bao gồm cả trạng thái)
                     string sqlUpdateHeader = @"UPDATE phieunhap 
                                        SET MANCC = @mancc, MANHANVIEN = @manv, 
                                            THOIGIAN = @thoigian, TONGTIEN = @tongtien,
@@ -370,12 +332,11 @@ namespace DAO
                         cmd.Parameters.AddWithValue("@manv", header.MaNhanVien);
                         cmd.Parameters.AddWithValue("@thoigian", header.ThoiGian);
                         cmd.Parameters.AddWithValue("@tongtien", header.TongTien);
-                        cmd.Parameters.AddWithValue("@trangthai", header.TrangThai); // Cập nhật trạng thái đúng như Excel
+                        cmd.Parameters.AddWithValue("@trangthai", header.TrangThai);
                         cmd.Parameters.AddWithValue("@mapn", header.MaPN);
                         cmd.ExecuteNonQuery();
                     }
 
-                    // 3. XÓA SẠCH CHI TIẾT CŨ
                     string sqlDeleteOld = "DELETE FROM ctphieunhap WHERE MAPN = @mapn";
                     using (var cmdDel = new MySqlCommand(sqlDeleteOld, conn, tran))
                     {
@@ -383,7 +344,6 @@ namespace DAO
                         cmdDel.ExecuteNonQuery();
                     }
 
-                    // 4. THÊM LẠI CHI TIẾT MỚI (Chỉ lưu vào bảng ctphieunhap, KHÔNG cộng kho)
                     foreach (var ct in details)
                     {
                         ct.MaPN = header.MaPN;
@@ -392,18 +352,6 @@ namespace DAO
                             throw new Exception("Lỗi khi thêm lại chi tiết.");
                         }
                     }
-
-                    // 5. [QUAN TRỌNG] LOGIC ĐỒNG BỘ KHO (TÙY CHỌN)
-                    // Nếu bạn muốn: Khi import Excel mà trạng thái là 1 -> Tự động coi như đã duyệt và cộng kho luôn
-                    // Thì mở comment đoạn dưới này. 
-                    // CÒN NẾU KHÔNG: Chỉ lưu trạng thái là 1, nhưng kho chưa cộng -> Người dùng phải bấm nút Duyệt lần nữa mới cộng.
-
-                    /* if (header.TrangThai == 1) 
-                    {
-                         // Gọi logic cộng kho ở đây nếu muốn tự động hoàn toàn
-                         // Nhưng theo comment của bạn, tốt nhất là KHÔNG làm gì ở đây để tránh cộng dồn 2 lần (double counting)
-                    }
-                    */
 
                     tran.Commit();
                     return true;
@@ -416,7 +364,6 @@ namespace DAO
             }
         }
 
-        // 7. HÀM RIÊNG CHO IMPORT EXCEL (Xử lý cả Thêm phiếu + Cộng kho nếu cần)
         public int ThemPhieuNhapTuExcel(phieuNhapDTO header, List<ctPhieuNhapDTO> details)
         {
             if (details == null || details.Count == 0) throw new Exception("Excel không có chi tiết sản phẩm.");
@@ -428,31 +375,22 @@ namespace DAO
 
                 try
                 {
-                    // Bước 1: Tính lại tổng tiền cho chắc chắn
                     header.TongTien = details.Sum(ct => ct.ThanhTien);
-
-                    // Bước 2: Insert Header (Sử dụng hàm Insert có sẵn)
                     int newPhieuID = Insert(header, conn, tran);
                     if (newPhieuID <= 0) throw new Exception("Không thể tạo phiếu nhập từ Excel.");
 
-                    // Chuẩn bị câu lệnh cộng kho
                     string sqlCongKho = "UPDATE nguyenlieu SET TONKHO = TONKHO + @sl WHERE MANGUYENLIEU = @maNL";
 
-                    // Bước 3: Insert Chi tiết & Xử lý Kho
                     foreach (var ct in details)
                     {
                         ct.MaPN = newPhieuID;
 
-                        // 3.1 Thêm chi tiết vào DB
                         if (!ctDAO.Insert(ct, conn, tran))
                             throw new Exception($"Lỗi thêm chi tiết sản phẩm {ct.MaNguyenLieu}");
-
-                        // 3.2 ĐẶC BIỆT: Nếu Excel ghi là 'Đã nhập' (TrangThai = 1) -> CỘNG KHO LUÔN
                         if (header.TrangThai == 1)
                         {
                             using (var cmdKho = new MySqlCommand(sqlCongKho, conn, tran))
                             {
-                                // Lưu ý: Dùng SoLuongCoSo (đã nhân hệ số)
                                 cmdKho.Parameters.AddWithValue("@sl", ct.SoLuongCoSo);
                                 cmdKho.Parameters.AddWithValue("@maNL", ct.MaNguyenLieu);
                                 cmdKho.ExecuteNonQuery();

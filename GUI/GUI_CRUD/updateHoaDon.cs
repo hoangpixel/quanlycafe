@@ -67,7 +67,7 @@ namespace GUI.GUI_CRUD
             busSanPham = new sanPhamBUS();
             LoadDanhSachSanPham();
 
-            BindingList<ppThanhToanDTO> dsThanhToan = new ppThanhToanBUS().LayDanhSach();
+            dsThanhToan = new ppThanhToanBUS().LayDanhSach();
             cbThanhToan.DataSource = dsThanhToan;
             cbThanhToan.DisplayMember = "HinhThuc";
             cbThanhToan.ValueMember = "MaTT";
@@ -554,8 +554,16 @@ namespace GUI.GUI_CRUD
             int maTT = Convert.ToInt32(cbThanhToan.SelectedValue);
             decimal tongTien = gioHang.Sum(g => g.SoLuong * g.DonGia);
 
-            ppThanhToanDTO pptt = dsThanhToan.FirstOrDefault(x => x.MaTT == maTT);
-            string tenTT = pptt?.HinhThuc ?? "Không xác định";
+            string tenTT = "Không xác định";
+
+            if (dsThanhToan != null)
+            {
+                ppThanhToanDTO pptt = dsThanhToan.FirstOrDefault(x => x.MaTT == maTT);
+                if (pptt != null)
+                {
+                    tenTT = pptt.HinhThuc;
+                }
+            }
 
             int maBan = doiTuong.MaBan;
             //string tenKhach = string.IsNullOrEmpty(doiTuong.TenKhachHang) ? "Khách lẻ" : doiTuong.TenKhachHang;
@@ -608,13 +616,11 @@ namespace GUI.GUI_CRUD
                             dicGioHang.Add(item.MaSP, item.SoLuong);
                     }
 
-                    // 2. Gọi DAO Trừ kho (Hàm này nằm trong NguyenLieuDAO bạn đã tạo)
                     nguyenLieuDAO nlDAO = new nguyenLieuDAO();
                     bool ketQuaTruKho = nlDAO.TruTonKhoKhiBanHang(dicGioHang);
 
                     if (!ketQuaTruKho)
                     {
-                        // Nếu trừ kho thất bại (ví dụ lỗi DB), thông báo nhưng vẫn cho qua vì Hóa đơn đã tạo rồi
                         MessageBox.Show("Hóa đơn đã tạo nhưng TRỪ KHO THẤT BẠI. Vui lòng kiểm tra lại tồn kho!",
                                         "Cảnh báo kho", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }

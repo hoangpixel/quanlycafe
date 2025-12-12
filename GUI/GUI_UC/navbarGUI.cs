@@ -78,7 +78,7 @@ namespace GUI.GUI_UC
                 Font = new Font("Segoe UI", 24),
                 ForeColor = colorHighlight,
                 AutoSize = true,
-                Location = new Point(95, 0)
+                Location = new Point(82, 0)
             };
 
             lblTenNhanVien = new Label

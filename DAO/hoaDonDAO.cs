@@ -13,7 +13,6 @@ namespace DAO
 {
     public class hoaDonDAO
     {
-        // 1. LẤY DANH SÁCH HÓA ĐƠN
         public BindingList<hoaDonDTO> LayDanhSach()
         {
             BindingList<hoaDonDTO> ds = new BindingList<hoaDonDTO>();
@@ -38,7 +37,7 @@ namespace DAO
                     hoaDonDTO hd = new hoaDonDTO
                     {
                         MaHD = reader.GetInt32("MAHOADON"),
-                        MaBan = Convert.ToInt32(reader["MABAN"]), // VARCHAR
+                        MaBan = Convert.ToInt32(reader["MABAN"]), 
                         ThoiGianTao = reader.GetDateTime("THOIGIANTAO"),
                         TrangThai = reader.GetBoolean("TRANGTHAI"),
                         MaTT=reader.GetInt32("MATT"),
@@ -78,7 +77,6 @@ namespace DAO
 
             try
             {
-                // ĐẢM BẢO CHẮC CHẮN KẾT NỐI ĐƯỢC MỞ
                 if (conn.State != System.Data.ConnectionState.Open)
                 {
                     conn.Open();
@@ -131,9 +129,6 @@ namespace DAO
                     cmdCT.ExecuteNonQuery();
                 }
 
-                //-------------------------------------
-                // COMMIT TRANSACTION
-                //-------------------------------------
                 tran.Commit();
                 return maHD;
             }
@@ -160,7 +155,6 @@ namespace DAO
             {
                 tran = conn.BeginTransaction();
 
-                // 1. Tính tổng tiền
                 decimal tongTien = 0;
                 foreach (var ct in dsCT)
                 {
@@ -187,10 +181,9 @@ namespace DAO
                 {
                     cmdHD.Parameters.AddWithValue("@MaKH", hd.MaKhachHang);
                 }
-                // --------------------------------
 
                 cmdHD.Parameters.AddWithValue("@MaNV", hd.MaNhanVien);
-                cmdHD.Parameters.AddWithValue("@TongTien", hd.TongTien); // Truyền tổng tiền vào
+                cmdHD.Parameters.AddWithValue("@TongTien", hd.TongTien);
 
                 var thoiGian = hd.ThoiGianTao == default(DateTime)
                     ? DateTime.Now
@@ -639,27 +632,14 @@ namespace DAO
                     hd.ThoiGianTao = reader.GetDateTime("THOIGIANTAO");
                     hd.TongTien = reader.GetDecimal("TONGTIEN");
 
-                    // --- SỬA QUAN TRỌNG TẠI ĐÂY ---
-                    // Chúng ta bỏ qua cột TRANGTHAI trong DB vì nó dư thừa.
-                    // Thay vào đó, ta đọc cột KHOASO để gán cho thuộc tính TrangThai của DTO.
-
-                    // Logic: 
-                    // KHOASO = 1 (Đã khóa) -> TrangThai = true
-                    // KHOASO = 0 (Chưa khóa) -> TrangThai = false (Để khớp với điều kiện lọc bên ngoài)
 
                     if (!reader.IsDBNull(reader.GetOrdinal("KHOASO")))
                     {
-                        // Tùy DB bạn lưu KHOASO là INT hay BIT mà dùng GetInt32 hay GetBoolean
-                        // Ở đây mình dùng GetInt32 cho an toàn (0 hoặc 1)
                         int khoaSo = reader.GetInt32("KHOASO");
                         hd.TrangThai = (khoaSo == 1);
-
-                        // Nếu DTO của bạn có thuộc tính KhoaSo riêng thì gán thêm cho chắc:
-                        // hd.KhoaSo = khoaSo; 
                     }
                     else
                     {
-                        // Mặc định nếu null coi như chưa khóa
                         hd.TrangThai = false;
                     }
 
