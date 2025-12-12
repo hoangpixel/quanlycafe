@@ -120,7 +120,6 @@ namespace GUI.GUI_CRUD
 
         private void button2_Click(object sender, EventArgs e)
         {
-            // 1. KIỂM TRA ĐẦU VÀO (VALIDATION)
             if (maNV == -1)
             {
                 MessageBox.Show("Không tìm thấy nhân viên", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -142,8 +141,6 @@ namespace GUI.GUI_CRUD
                 cboPPThanhToan.Focus();
                 return;
             }
-
-            // 2. TÍNH TOÁN TIỀN PHÁT SINH
             decimal tienPhatSinh = 0;
             if (!string.IsNullOrWhiteSpace(txtTienPhatSinh.Text))
             {
@@ -163,8 +160,6 @@ namespace GUI.GUI_CRUD
                         tienPhatSinh = -tienNhapVao;
                 }
             }
-
-            // 3. HIỂN THỊ HỘI THOẠI XÁC NHẬN
             decimal tongTienCu = hd.TongTien;
             decimal tongTienMoi = tongTienCu + tienPhatSinh;
             StringBuilder sb = new StringBuilder();
@@ -199,18 +194,10 @@ namespace GUI.GUI_CRUD
 
             if (result != DialogResult.OK) return;
 
-
-            // =========================================================================
-            // 4. LOGIC MỚI: KIỂM TRA VÀ CHUYỂN CÁC HÓA ĐƠN LIÊN QUAN (GỘP BÀN)
-            // =========================================================================
-
-            // Chỉ thực hiện khi có sự thay đổi bàn
             if (maBan != maBanCu)
             {
-                // Lấy danh sách hóa đơn "anh em" (Cùng bàn cũ, cùng khách, chưa thanh toán, khác hóa đơn đang sửa)
-                // Lưu ý: TrangThai == false nghĩa là chưa thanh toán (theo code BUS bạn cung cấp)
                 var dsBillCungBan = bus.LayDanhSachHDTheoBan(maBanCu)
-                    .Where(x => x.MaHD != hd.MaHD && x.TrangThai == false)
+                    .Where(x => x.MaHD != hd.MaHD && x.TrangThai == false && x.MaKhachHang == maKH)
                     .ToList();
 
 
@@ -227,16 +214,11 @@ namespace GUI.GUI_CRUD
                     {
                         foreach (var billPhu in dsBillCungBan)
                         {
-                            // Update từng hóa đơn phụ sang mã bàn mới
                             bus.CapNhatMaBan(billPhu.MaHD, maBan);
                         }
                     }
                 }
             }
-            // =========================================================================
-
-
-            // 5. TẠO ĐỐI TƯỢNG DTO MỚI ĐỂ UPDATE
             hoaDonDTO hdSua = new hoaDonDTO();
             hdSua.MaHD = hd.MaHD;
             hdSua.MaNhanVien = maNV;
@@ -244,30 +226,19 @@ namespace GUI.GUI_CRUD
             hdSua.MaBan = maBan;
             hdSua.MaTT = Convert.ToInt32(cboPPThanhToan.SelectedValue);
             hdSua.TongTien = tongTienMoi;
-
-            // 6. GỌI BUS UPDATE HÓA ĐƠN CHÍNH
             bool kqUpdate = bus.capNhatThongTinHoaDon(hdSua);
 
             if (kqUpdate)
             {
-                // 7. XỬ LÝ TRẠNG THÁI BÀN (QUAN TRỌNG)
                 if (maBan != maBanCu)
                 {
                     banBUS busBan = new banBUS();
-
-                    // --- Bàn MỚI: Chắc chắn thành BẬN (0) ---
                     busBan.DoiTrangThai(maBan,0);
-
-                    // --- Bàn CŨ: Kiểm tra xem còn ai không ---
-                    // Gọi hàm KiemTraBanCoHoaDonMo để xem sau khi mình đi rồi, bàn đó có trống hẳn không
                     bool conNguoiKhac = bus.KiemTraBanCoHoaDonMo(maBanCu, hd.MaHD);
 
                     if (conNguoiKhac == false)
                     {
-                        // Nếu không còn ai -> Set bàn cũ thành TRỐNG (1)
                         busBan.DoiTrangThai(maBanCu,1);
-
-                        // Refresh giao diện các form chọn bàn đang mở (nếu có)
                         foreach (Form f in Application.OpenForms)
                         {
                             if (f is FormChonBan chonBan)
@@ -275,9 +246,7 @@ namespace GUI.GUI_CRUD
                         }
                     }
                 }
-
-                // 8. HOÀN TẤT
-                hd = hdSua; // Cập nhật lại biến toàn cục nếu cần dùng tiếp
+                hd = hdSua;
                 this.DialogResult = DialogResult.OK;
                 MessageBox.Show("Sửa thông tin hóa đơn thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();

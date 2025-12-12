@@ -46,9 +46,10 @@
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnTimKiemNL = new System.Windows.Forms.Button();
             this.cboTimKiemNL = new System.Windows.Forms.ComboBox();
             this.txtTimKiemNL = new System.Windows.Forms.TextBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnTimKiemNL = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.btnXacNhan = new System.Windows.Forms.Button();
@@ -105,6 +106,7 @@
             this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvChiTietPN)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -248,43 +250,30 @@
             // 
             // tableLayoutPanel3
             // 
-            this.tableLayoutPanel3.ColumnCount = 4;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel3.Controls.Add(this.btnTimKiemNL, 2, 0);
+            this.tableLayoutPanel3.ColumnCount = 3;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel3.Controls.Add(this.cboTimKiemNL, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.txtTimKiemNL, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.button11, 3, 0);
+            this.tableLayoutPanel3.Controls.Add(this.panel1, 2, 0);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 23);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(958, 45);
             this.tableLayoutPanel3.TabIndex = 1;
-            // 
-            // btnTimKiemNL
-            // 
-            this.btnTimKiemNL.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnTimKiemNL.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnTimKiemNL.Location = new System.Drawing.Point(612, 3);
-            this.btnTimKiemNL.Name = "btnTimKiemNL";
-            this.btnTimKiemNL.Size = new System.Drawing.Size(115, 39);
-            this.btnTimKiemNL.TabIndex = 4;
-            this.btnTimKiemNL.Text = "Tìm kiếm";
-            this.btnTimKiemNL.UseVisualStyleBackColor = true;
-            this.btnTimKiemNL.Click += new System.EventHandler(this.btnTimKiemNL_Click);
+            this.tableLayoutPanel3.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel3_Paint);
             // 
             // cboTimKiemNL
             // 
-            this.cboTimKiemNL.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cboTimKiemNL.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cboTimKiemNL.FormattingEnabled = true;
             this.cboTimKiemNL.Items.AddRange(new object[] {
             "Mã nguyên liệu",
             "Tên nguyên liệu",
             "Tên đơn vị"});
-            this.cboTimKiemNL.Location = new System.Drawing.Point(10, 8);
+            this.cboTimKiemNL.Location = new System.Drawing.Point(75, 10);
             this.cboTimKiemNL.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemNL.Name = "cboTimKiemNL";
             this.cboTimKiemNL.Size = new System.Drawing.Size(176, 28);
@@ -293,16 +282,38 @@
             // txtTimKiemNL
             // 
             this.txtTimKiemNL.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtTimKiemNL.Location = new System.Drawing.Point(309, 9);
+            this.txtTimKiemNL.Location = new System.Drawing.Point(325, 9);
             this.txtTimKiemNL.Name = "txtTimKiemNL";
-            this.txtTimKiemNL.Size = new System.Drawing.Size(243, 27);
+            this.txtTimKiemNL.Size = new System.Drawing.Size(306, 27);
             this.txtTimKiemNL.TabIndex = 1;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btnTimKiemNL);
+            this.panel1.Controls.Add(this.button11);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(641, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(314, 39);
+            this.panel1.TabIndex = 2;
+            // 
+            // btnTimKiemNL
+            // 
+            this.btnTimKiemNL.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnTimKiemNL.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTimKiemNL.Location = new System.Drawing.Point(36, 0);
+            this.btnTimKiemNL.Name = "btnTimKiemNL";
+            this.btnTimKiemNL.Size = new System.Drawing.Size(115, 39);
+            this.btnTimKiemNL.TabIndex = 4;
+            this.btnTimKiemNL.Text = "Tìm kiếm";
+            this.btnTimKiemNL.UseVisualStyleBackColor = true;
+            this.btnTimKiemNL.Click += new System.EventHandler(this.btnTimKiemNL_Click);
             // 
             // button11
             // 
             this.button11.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button11.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button11.Location = new System.Drawing.Point(805, 3);
+            this.button11.Location = new System.Drawing.Point(170, 0);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(113, 39);
             this.button11.TabIndex = 3;
@@ -776,7 +787,7 @@
             // 
             this.cboLoaiTrangThai.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cboLoaiTrangThai.FormattingEnabled = true;
-            this.cboLoaiTrangThai.Location = new System.Drawing.Point(3, 15);
+            this.cboLoaiTrangThai.Location = new System.Drawing.Point(3, 13);
             this.cboLoaiTrangThai.Name = "cboLoaiTrangThai";
             this.cboLoaiTrangThai.Size = new System.Drawing.Size(125, 28);
             this.cboLoaiTrangThai.TabIndex = 0;
@@ -841,7 +852,7 @@
             "Tên nhà cung cấp",
             "Tên nhân viên",
             "Trạng thái phiếu (Chưa/Rồi)"});
-            this.cboTimKiemPN.Location = new System.Drawing.Point(10, 10);
+            this.cboTimKiemPN.Location = new System.Drawing.Point(10, 8);
             this.cboTimKiemPN.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cboTimKiemPN.Name = "cboTimKiemPN";
             this.cboTimKiemPN.Size = new System.Drawing.Size(194, 28);
@@ -1057,6 +1068,7 @@
             this.groupBox6.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvChiTietPN)).EndInit();
             this.groupBox2.ResumeLayout(false);
@@ -1150,5 +1162,6 @@
         private System.Windows.Forms.TextBox txtNccTim;
         private System.Windows.Forms.DateTimePicker timeBD;
         private System.Windows.Forms.DateTimePicker timeKT;
+        private System.Windows.Forms.Panel panel1;
     }
 }

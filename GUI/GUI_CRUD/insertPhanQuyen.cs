@@ -28,9 +28,6 @@ namespace GUI.GUI_CRUD
             tableLayoutPanel1.DoubleBuffered(true);
             pnlPhanQuyen.DoubleBuffered(true);
 
-            // Không cần gọi Setup ở đây nữa vì hàm LoadPermissionsToUI sẽ tự gọi
-            // SetupTableLayoutPanelHeader(); 
-
             FontManager.LoadFont();
             FontManager.ApplyFontToAllControls(this);
 

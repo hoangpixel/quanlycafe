@@ -2,8 +2,8 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Linq; // Cần thêm dòng này để dùng LINQ
-using DTO;         // Cần thêm dòng này để dùng Session và PhanQuyenDTO
+using System.Linq;
+using DTO;
 
 namespace GUI.GUI_UC
 {
@@ -15,7 +15,6 @@ namespace GUI.GUI_UC
         private Panel highlightPanel;
         private Label lblTenNhanVien;
 
-        // ĐỊNH NGHĨA MÀU SẮC (THEME CAFE)
         private Color colorBackground = Color.FromArgb(61, 34, 22);
         private Color colorButtonHover = Color.FromArgb(85, 55, 40);
         private Color colorActive = Color.FromArgb(100, 60, 40);
@@ -46,7 +45,6 @@ namespace GUI.GUI_UC
             this.Width = 230;
             this.BackColor = colorBackground;
 
-            // 1. THANH HIGHLIGHT BÊN TRÁI
             highlightPanel = new Panel
             {
                 Size = new Size(5, 50),
@@ -55,7 +53,6 @@ namespace GUI.GUI_UC
             };
             this.Controls.Add(highlightPanel);
 
-            // 2. LOGO / HEADER
             Label lblHeader = new Label
             {
                 Text = "XANGCAFE",
@@ -68,7 +65,6 @@ namespace GUI.GUI_UC
             };
             this.Controls.Add(lblHeader);
 
-            // 3. KHU VỰC HIỂN THỊ THÔNG TIN NHÂN VIÊN
             Panel panelUser = new Panel
             {
                 Dock = DockStyle.Top,
@@ -99,61 +95,43 @@ namespace GUI.GUI_UC
             panelUser.Controls.Add(lblTenNhanVien);
             this.Controls.Add(panelUser);
 
-            // 4. CÁC NÚT MENU (Kiểm tra quyền trước khi Add)
-
             CheckAndAddButton("🏠 Trang chủ", "home", 3);
 
-            // Nhập hàng (Mã Quyền = 2 - Nhập xuất)
-            CheckAndAddButton("🚚 Nhập hàng", "nhaphang", 2);
-
-            // Sản phẩm, Công thức, Nguyên liệu (Mã Quyền = 1 - Quản lý sản phẩm)
+            CheckAndAddButton("☕ Sản phẩm", "sanpham", 1);
             CheckAndAddButton("📖 Công thức", "congthuc", 1);
             CheckAndAddButton("🌾 Nguyên liệu", "nguyenlieu", 1);
-            CheckAndAddButton("☕ Sản phẩm", "sanpham", 1);
 
-            // Tài khoản & Nhân viên (Giả sử Mã Quyền = 4 - Quản lý nhân sự)
-            CheckAndAddButton("🛡️ Tài khoản", "taikhoan", 5);
-            CheckAndAddButton("🧑‍🍳 Nhân viên", "nhanvien", 4);
+            CheckAndAddButton("🚚 Nhập hàng", "nhaphang", 2);
 
-            AddNavButton("📈 Báo cáo", "thongke"); // Giả sử ai cũng xem được báo cáo
-            CheckAndAddButton("👥 Khách hàng", "khachhang",6);
-
-            // Phân quyền (Thường chỉ Admin có, hoặc Mã Quyền riêng)
-            // Nếu không check quyền thì cứ dùng AddNavButton bình thường
-            CheckAndAddButton("🛡️ Phân quyền", "phanquyen",8);
-
-            // Nhà cung cấp (Giả sử Mã Quyền = 2 - Nhập xuất)
             CheckAndAddButton("🏭 Nhà cung cấp", "nhacungcap", 7);
 
-            // Những trang cơ bản (ai cũng thấy hoặc không cần quyền đặc biệt)
-            AddNavButton("👋 Thoát", "exit");
+            CheckAndAddButton("👥 Khách hàng", "khachhang", 6);
 
-            // Các trang cần check quyền (Ví dụ mã quyền tương ứng)
-            // Lưu ý: Bạn cần biết Mã Quyền của từng trang trong DB là gì    
+            AddNavButton("📈 Báo cáo", "thongke");
+
+            CheckAndAddButton("🧑‍🍳 Nhân viên", "nhanvien", 4);
+            CheckAndAddButton("🛡️ Tài khoản", "taikhoan", 5);
+            CheckAndAddButton("🔐 Phân quyền", "phanquyen", 8);
+
+            AddNavButton("👋 Thoát", "exit");
         }
 
-        // HÀM KIỂM TRA QUYỀN VÀ THÊM NÚT
         private void CheckAndAddButton(string text, string tag, int maQuyenCanThiet)
         {
-            // 1. Nếu là Admin (Ví dụ MAVAITRO = 1) thì luôn cho phép
             if (DTO.Session.TaiKhoanHienTai != null && DTO.Session.TaiKhoanHienTai.MAVAITRO == 1)
             {
                 AddNavButton(text, tag);
                 return;
             }
 
-            // 2. Kiểm tra trong danh sách quyền hiện tại
             if (DTO.Session.QuyenHienTai != null)
             {
-                // Tìm xem có quyền này không
                 var quyen = DTO.Session.QuyenHienTai.FirstOrDefault(x => x.MaQuyen == maQuyenCanThiet);
 
-                // Nếu có quyền VÀ được phép Xem (CAN_READ = true/1)
                 if (quyen != null && quyen.CAN_READ == 1)
                 {
                     AddNavButton(text, tag);
                 }
-                // Ngược lại: Không làm gì cả -> Nút sẽ không được thêm vào -> Tự động ẩn
             }
         }
 

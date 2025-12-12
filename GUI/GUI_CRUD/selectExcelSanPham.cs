@@ -63,5 +63,42 @@ namespace GUI.GUI_CRUD
                 MessageBox.Show("Xuất Excel thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+
+        private void btnNhapExcel_Click_1(object sender, EventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            open.Filter = "Excel Files|*.xlsx;*.xls";
+
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    BindingList<sanPhamDTO> ds = excelSanPham.Import(open.FileName);
+                    sanPhamBUS bus = new sanPhamBUS();
+                    bus.NhapExcelThongMinh(ds);
+                    MessageBox.Show("Nhập Excel thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi nhập Excel: " + ex.Message,
+                        "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnXuatExcel_Click_1(object sender, EventArgs e)
+        {
+            SaveFileDialog save = new SaveFileDialog();
+            save.Filter = "Excel file (*.xlsx)|*.xlsx";
+            save.FileName = "DanhSachSanPham.xlsx";
+
+            if (save.ShowDialog() == DialogResult.OK)
+            {
+                sanPhamBUS bus = new sanPhamBUS();
+                excelSanPham.Export(bus.LayDanhSach(), save.FileName);
+                MessageBox.Show("Xuất Excel thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
     }
 }

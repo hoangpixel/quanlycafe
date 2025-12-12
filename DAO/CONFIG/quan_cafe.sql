@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2025 at 09:17 AM
+-- Generation Time: Dec 12, 2025 at 07:49 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,7 +41,7 @@ CREATE TABLE `ban` (
 --
 
 INSERT INTO `ban` (`MABAN`, `TENBAN`, `DANGSUDUNG`, `MAKHUVUC`, `TRANGTHAIXOA`, `MADONHIENTAI`) VALUES
-(1, 'Bàn 1', 1, 1, 1, NULL),
+(1, 'Bàn 1', 0, 1, 1, NULL),
 (2, 'Bàn 2', 1, 1, 1, NULL),
 (3, 'Bàn 3', 1, 1, 1, NULL),
 (4, 'Bàn 4', 1, 1, 1, NULL),
@@ -61,7 +61,7 @@ INSERT INTO `ban` (`MABAN`, `TENBAN`, `DANGSUDUNG`, `MAKHUVUC`, `TRANGTHAIXOA`, 
 (18, 'Bàn 18', 1, 1, 1, NULL),
 (19, 'Bàn 19', 1, 1, 1, NULL),
 (20, 'Bàn 20', 1, 1, 1, NULL),
-(21, 'Bàn 21', 1, 2, 1, NULL),
+(21, 'Bàn 21', 0, 2, 1, NULL),
 (22, 'Bàn 22', 1, 2, 1, NULL),
 (23, 'Bàn 23', 1, 2, 1, NULL),
 (24, 'Bàn 24', 1, 2, 1, NULL),
@@ -122,7 +122,11 @@ INSERT INTO `congthuc` (`MASANPHAM`, `MANGUYENLIEU`, `SOLUONGCOSO`, `MADONVICOSO
 (3, 2, 5.00, 1, 1),
 (3, 3, 25.00, 1, 1),
 (3, 4, 120.00, 3, 1),
-(4, 5, 1.00, 5, 1);
+(4, 5, 1.00, 5, 1),
+(6, 6, 500.00, 1, 1),
+(6, 7, 300.00, 1, 1),
+(7, 7, 300.00, 1, 1),
+(7, 8, 400.00, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -137,6 +141,35 @@ CREATE TABLE `cthd` (
   `DONGIA` decimal(12,2) NOT NULL,
   `THANHTIEN` decimal(12,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `cthd`
+--
+
+INSERT INTO `cthd` (`MAHOADON`, `MASANPHAM`, `SOLUONG`, `DONGIA`, `THANHTIEN`) VALUES
+(1, 1, 1, 17000.00, 17000.00),
+(2, 3, 4, 25000.00, 100000.00),
+(3, 3, 2, 25000.00, 50000.00),
+(4, 1, 1, 17000.00, 17000.00),
+(4, 4, 4, 15000.00, 60000.00),
+(5, 1, 1, 17000.00, 17000.00),
+(5, 2, 1, 25000.00, 25000.00),
+(5, 3, 1, 25000.00, 25000.00),
+(5, 4, 1, 15000.00, 15000.00),
+(6, 1, 1, 17000.00, 17000.00),
+(7, 1, 1, 17000.00, 17000.00),
+(7, 3, 4, 25000.00, 100000.00),
+(8, 4, 5, 15000.00, 75000.00),
+(9, 1, 1, 17000.00, 17000.00),
+(9, 2, 1, 25000.00, 25000.00),
+(9, 3, 1, 25000.00, 25000.00),
+(9, 4, 1, 15000.00, 15000.00),
+(10, 1, 1, 17000.00, 17000.00),
+(10, 2, 1, 25000.00, 25000.00),
+(11, 1, 1, 17000.00, 17000.00),
+(12, 4, 1, 15000.00, 15000.00),
+(13, 4, 4, 15000.00, 60000.00),
+(13, 7, 1, 50000.00, 50000.00);
 
 -- --------------------------------------------------------
 
@@ -166,7 +199,10 @@ INSERT INTO `ctphieunhap` (`MAPN`, `MANGUYENLIEU`, `MADONVI`, `SOLUONG`, `SOLUON
 (5, 3, 2, 55.00, 55.00, 78000.00, 4290000.00),
 (5, 5, 8, 5.00, 120.00, 150000.00, 750000.00),
 (6, 4, 4, 50.00, 50.00, 85000.00, 4250000.00),
-(7, 2, 2, 50.00, 50.00, 30000.00, 1500000.00);
+(7, 2, 2, 50.00, 50.00, 30000.00, 1500000.00),
+(8, 6, 2, 50.00, 50.00, 800000.00, 40000000.00),
+(8, 7, 2, 50.00, 50.00, 70000.00, 3500000.00),
+(8, 8, 2, 50.00, 50.00, 600000.00, 30000000.00);
 
 -- --------------------------------------------------------
 
@@ -224,7 +260,13 @@ INSERT INTO `hesodonvi` (`MANGUYENLIEU`, `MADONVI`, `HESO`) VALUES
 (4, 9, 0.800),
 (5, 5, 1.000),
 (5, 7, 6.000),
-(5, 8, 24.000);
+(5, 8, 24.000),
+(6, 1, 0.001),
+(6, 2, 1.000),
+(7, 1, 0.001),
+(7, 2, 1.000),
+(8, 1, 0.001),
+(8, 2, 1.000);
 
 -- --------------------------------------------------------
 
@@ -244,6 +286,25 @@ CREATE TABLE `hoadon` (
   `TRANGTHAIXOA` tinyint(1) NOT NULL DEFAULT 1,
   `KHOASO` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `hoadon`
+--
+
+INSERT INTO `hoadon` (`MAHOADON`, `MABAN`, `MATT`, `THOIGIANTAO`, `TRANGTHAI`, `TONGTIEN`, `MAKHACHHANG`, `MANHANVIEN`, `TRANGTHAIXOA`, `KHOASO`) VALUES
+(1, 1, 1, '2025-09-12 13:13:42', 1, 17000.00, 0, 1, 1, 1),
+(2, 2, 1, '2025-10-10 13:15:09', 1, 100000.00, 0, 1, 1, 1),
+(3, 3, 1, '2025-10-14 13:15:20', 1, 50000.00, 0, 1, 1, 1),
+(4, 4, 1, '2025-11-01 13:15:31', 1, 77000.00, 1, 1, 1, 1),
+(5, 5, 1, '2025-11-02 13:16:11', 1, 82000.00, 0, 1, 1, 1),
+(6, 6, 1, '2025-11-04 13:17:27', 1, 17000.00, 0, 1, 1, 1),
+(7, 7, 3, '2025-11-05 13:18:46', 1, 117000.00, 2, 1, 1, 1),
+(8, 8, 1, '2025-11-11 13:22:49', 1, 75000.00, 6, 1, 1, 1),
+(9, 9, 1, '2025-12-01 13:26:24', 1, 82000.00, 0, 1, 1, 1),
+(10, 10, 1, '2025-12-05 13:26:38', 1, 42000.00, 10, 1, 1, 1),
+(11, 21, 1, '2025-12-06 13:28:07', 1, 17000.00, 6, 1, 1, 0),
+(12, 21, 1, '2025-12-12 13:28:19', 1, 15000.00, 6, 1, 1, 0),
+(13, 1, 3, '2025-12-12 13:46:08', 1, 110000.00, 6, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -329,7 +390,8 @@ CREATE TABLE `loai` (
 INSERT INTO `loai` (`MALOAI`, `MANHOM`, `TENLOAI`, `TRANGTHAI`) VALUES
 (1, 1, 'Cà phê', 1),
 (2, 1, 'Nước ngọt', 1),
-(3, 2, 'Cơm chiên', 1);
+(3, 2, 'Cơm chiên', 1),
+(4, 1, 'Cơm', 1);
 
 -- --------------------------------------------------------
 
@@ -351,11 +413,14 @@ CREATE TABLE `nguyenlieu` (
 --
 
 INSERT INTO `nguyenlieu` (`MANGUYENLIEU`, `TENNGUYENLIEU`, `TRANGTHAI`, `TONKHO`, `TRANGTHAIDV`, `MADONVICOSO`) VALUES
-(1, 'Bột cà phê', 1, 50.000, 1, 2),
-(2, 'Đường trắng', 1, 50.000, 1, 2),
-(3, 'Sữa đặc', 1, 105.000, 1, 2),
-(4, 'Sữa tươi không đường', 1, 50.000, 1, 4),
-(5, 'Coca cola', 1, 182.000, 1, 5);
+(1, 'Bột cà phê', 1, 49.485, 1, 2),
+(2, 'Đường trắng', 1, 49.900, 1, 2),
+(3, 'Sữa đặc', 1, 104.580, 1, 2),
+(4, 'Sữa tươi không đường', 1, 48.560, 1, 4),
+(5, 'Coca cola', 1, 166.000, 1, 5),
+(6, 'Sườn', 1, 50.000, 1, 2),
+(7, 'Cơm', 1, 49.700, 1, 2),
+(8, 'Gà', 1, 49.600, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -545,7 +610,8 @@ INSERT INTO `phieunhap` (`MAPN`, `MANCC`, `MANHANVIEN`, `THOIGIAN`, `TRANGTHAI`,
 (4, 2, 1, '2025-11-05 14:51:54', 1, 3500000.00, 1),
 (5, 4, 2, '2025-11-14 14:59:42', 1, 5040000.00, 1),
 (6, 5, 1, '2025-11-22 15:03:29', 1, 4250000.00, 1),
-(7, 10, 1, '2025-12-11 15:13:09', 1, 1500000.00, 1);
+(7, 10, 1, '2025-12-11 15:13:09', 1, 1500000.00, 1),
+(8, 7, 1, '2025-12-12 13:39:19', 1, 73500000.00, 1);
 
 -- --------------------------------------------------------
 
@@ -598,7 +664,9 @@ INSERT INTO `sanpham` (`MASANPHAM`, `MALOAI`, `HINH`, `TENSANPHAM`, `TRANGTHAI`,
 (2, 1, 'pngtree-ice-milk-coffee-png-image_9162395.png', 'Cà phê sữa', 1, 1, 25000.00),
 (3, 1, 'pngtree-cute-iced-coffee-takeaway-png-image_11477425.png', 'Cà phê sữa tươi', 1, 1, 25000.00),
 (4, 3, 's-1-lon-cocacola.png', 'Coca cola lon', 1, 1, 15000.00),
-(5, 1, 'sp_20251114153830_4b348a.jpg', 'abc', 0, 0, 2000000.00);
+(5, 1, 'sp_20251114153830_4b348a.jpg', 'abc', 0, 0, 2000000.00),
+(6, 4, 'sp_20251212134014_dcab98.png', 'Cơm sườn', 1, 1, 40000.00),
+(7, 3, 'sp_20251212134508_362edf.jpg', 'Cơm chiên gà', 1, 1, 50000.00);
 
 -- --------------------------------------------------------
 
@@ -642,7 +710,9 @@ CREATE TABLE `thanhtoan` (
 --
 
 INSERT INTO `thanhtoan` (`MATT`, `HINHTHUC`) VALUES
-(1, 'CK');
+(1, 'Tiền mặt'),
+(2, 'Chuyển khoản'),
+(3, 'Quẹt thẻ');
 
 -- --------------------------------------------------------
 
@@ -873,7 +943,7 @@ ALTER TABLE `donvi`
 -- AUTO_INCREMENT for table `hoadon`
 --
 ALTER TABLE `hoadon`
-  MODIFY `MAHOADON` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MAHOADON` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `khachhang`
@@ -891,13 +961,13 @@ ALTER TABLE `khuvuc`
 -- AUTO_INCREMENT for table `loai`
 --
 ALTER TABLE `loai`
-  MODIFY `MALOAI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `MALOAI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `nguyenlieu`
 --
 ALTER TABLE `nguyenlieu`
-  MODIFY `MANGUYENLIEU` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `MANGUYENLIEU` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `nhacungcap`
@@ -927,7 +997,7 @@ ALTER TABLE `phieuhuy`
 -- AUTO_INCREMENT for table `phieunhap`
 --
 ALTER TABLE `phieunhap`
-  MODIFY `MAPN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `MAPN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `quyen`
@@ -939,7 +1009,7 @@ ALTER TABLE `quyen`
 -- AUTO_INCREMENT for table `sanpham`
 --
 ALTER TABLE `sanpham`
-  MODIFY `MASANPHAM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `MASANPHAM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `taikhoan`
@@ -951,7 +1021,7 @@ ALTER TABLE `taikhoan`
 -- AUTO_INCREMENT for table `thanhtoan`
 --
 ALTER TABLE `thanhtoan`
-  MODIFY `MATT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `MATT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `vaitro`

@@ -18,7 +18,6 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnThoat = new System.Windows.Forms.Button();
@@ -28,14 +27,14 @@
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnTim = new System.Windows.Forms.Button();
             this.txtTim = new System.Windows.Forms.TextBox();
+            this.panelBody = new System.Windows.Forms.Panel();
             this.grpDanhSach = new System.Windows.Forms.GroupBox();
             this.dgvNCC = new System.Windows.Forms.DataGridView();
-            this.panelBody = new System.Windows.Forms.Panel();
             this.panelHeader.SuspendLayout();
             this.grpTimKiem.SuspendLayout();
+            this.panelBody.SuspendLayout();
             this.grpDanhSach.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvNCC)).BeginInit();
-            this.panelBody.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelHeader
@@ -165,54 +164,6 @@
             this.txtTim.TabIndex = 1;
             this.txtTim.TextChanged += new System.EventHandler(this.txtTim_TextChanged);
             // 
-            // grpDanhSach
-            // 
-            this.grpDanhSach.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpDanhSach.Controls.Add(this.dgvNCC);
-            this.grpDanhSach.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpDanhSach.Location = new System.Drawing.Point(16, 154);
-            this.grpDanhSach.Margin = new System.Windows.Forms.Padding(4);
-            this.grpDanhSach.Name = "grpDanhSach";
-            this.grpDanhSach.Padding = new System.Windows.Forms.Padding(4);
-            this.grpDanhSach.Size = new System.Drawing.Size(855, 341);
-            this.grpDanhSach.TabIndex = 1;
-            this.grpDanhSach.TabStop = false;
-            this.grpDanhSach.Text = "Danh sách nhà cung cấp";
-            // 
-            // dgvNCC
-            // 
-            this.dgvNCC.AllowUserToAddRows = false;
-            this.dgvNCC.AllowUserToDeleteRows = false;
-            this.dgvNCC.AllowUserToResizeColumns = false;
-            this.dgvNCC.AllowUserToResizeRows = false;
-            this.dgvNCC.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvNCC.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvNCC.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvNCC.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvNCC.EnableHeadersVisualStyles = false;
-            this.dgvNCC.Location = new System.Drawing.Point(4, 23);
-            this.dgvNCC.Margin = new System.Windows.Forms.Padding(4);
-            this.dgvNCC.MultiSelect = false;
-            this.dgvNCC.Name = "dgvNCC";
-            this.dgvNCC.ReadOnly = true;
-            this.dgvNCC.RowHeadersVisible = false;
-            this.dgvNCC.RowHeadersWidth = 51;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvNCC.RowsDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvNCC.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvNCC.Size = new System.Drawing.Size(847, 314);
-            this.dgvNCC.TabIndex = 0;
-            this.dgvNCC.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvNCC_DataBindingComplete);
-            // 
             // panelBody
             // 
             this.panelBody.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -226,6 +177,51 @@
             this.panelBody.Padding = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.panelBody.Size = new System.Drawing.Size(889, 572);
             this.panelBody.TabIndex = 1;
+            // 
+            // grpDanhSach
+            // 
+            this.grpDanhSach.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpDanhSach.Controls.Add(this.dgvNCC);
+            this.grpDanhSach.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpDanhSach.Location = new System.Drawing.Point(16, 143);
+            this.grpDanhSach.Margin = new System.Windows.Forms.Padding(4);
+            this.grpDanhSach.Name = "grpDanhSach";
+            this.grpDanhSach.Padding = new System.Windows.Forms.Padding(4);
+            this.grpDanhSach.Size = new System.Drawing.Size(855, 357);
+            this.grpDanhSach.TabIndex = 5;
+            this.grpDanhSach.TabStop = false;
+            this.grpDanhSach.Text = "Danh sách nhà cung cấp";
+            // 
+            // dgvNCC
+            // 
+            this.dgvNCC.AllowUserToAddRows = false;
+            this.dgvNCC.AllowUserToDeleteRows = false;
+            this.dgvNCC.AllowUserToResizeColumns = false;
+            this.dgvNCC.AllowUserToResizeRows = false;
+            this.dgvNCC.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvNCC.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvNCC.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvNCC.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvNCC.EnableHeadersVisualStyles = false;
+            this.dgvNCC.Location = new System.Drawing.Point(4, 23);
+            this.dgvNCC.MultiSelect = false;
+            this.dgvNCC.Name = "dgvNCC";
+            this.dgvNCC.ReadOnly = true;
+            this.dgvNCC.RowHeadersVisible = false;
+            this.dgvNCC.RowHeadersWidth = 51;
+            this.dgvNCC.RowTemplate.Height = 24;
+            this.dgvNCC.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvNCC.Size = new System.Drawing.Size(847, 330);
+            this.dgvNCC.TabIndex = 1;
             // 
             // selectNhaCungCap
             // 
@@ -244,9 +240,9 @@
             this.panelHeader.ResumeLayout(false);
             this.grpTimKiem.ResumeLayout(false);
             this.grpTimKiem.PerformLayout();
+            this.panelBody.ResumeLayout(false);
             this.grpDanhSach.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvNCC)).EndInit();
-            this.panelBody.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -262,8 +258,8 @@
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Button btnTim;
         private System.Windows.Forms.TextBox txtTim;
+        private System.Windows.Forms.Panel panelBody;
         private System.Windows.Forms.GroupBox grpDanhSach;
         private System.Windows.Forms.DataGridView dgvNCC;
-        private System.Windows.Forms.Panel panelBody;
     }
 }

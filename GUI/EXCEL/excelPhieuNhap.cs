@@ -24,6 +24,9 @@ namespace GUI.EXCEL
         {
             if (string.IsNullOrEmpty(path)) return;
 
+            BindingList<nhaCungCapDTO> dsNCC = new nhaCungCapBUS().LayDanhSach();
+            BindingList<nhanVienDTO> dsNV = new nhanVienBUS().LayDanhSach();
+
             if (File.Exists(path))
             {
                 try { File.Delete(path); }
@@ -50,9 +53,12 @@ namespace GUI.EXCEL
                     int row1 = 2;
                     foreach (var pn in dsPhieu)
                     {
+                        nhaCungCapDTO ncc = dsNCC.FirstOrDefault(x => x.MaNCC == pn.MaNCC);
+                        nhanVienDTO nv = dsNV.FirstOrDefault(x => x.MaNhanVien == pn.MaNhanVien);
+
                         ws1.Cells[row1, 1].Value = pn.MaPN;
-                        ws1.Cells[row1, 2].Value = pn.MaNCC;
-                        ws1.Cells[row1, 3].Value = pn.MaNhanVien;
+                        ws1.Cells[row1, 2].Value = ncc?.TenNCC;
+                        ws1.Cells[row1, 3].Value = nv?.HoTen;
 
                         ws1.Cells[row1, 4].Value = pn.ThoiGian;
                         ws1.Cells[row1, 4].Style.Numberformat.Format = "dd/MM/yyyy HH:mm";
@@ -61,7 +67,7 @@ namespace GUI.EXCEL
                         ws1.Cells[row1, 5].Style.Numberformat.Format = "#,##0";
 
                         // Giữ nguyên logic: Xuất thẳng giá trị 0 hoặc 1
-                        ws1.Cells[row1, 6].Value = pn.TrangThai;
+                        ws1.Cells[row1, 6].Value = pn.TrangThai == 1 ? "Đã hoàn tất" : "Chưa hoàn tất";
 
                         row1++;
                     }

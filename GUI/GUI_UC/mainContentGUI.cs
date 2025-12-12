@@ -11,7 +11,6 @@ namespace GUI.GUI_UC
         private Panel panelMain;
         private navbarGUI nav;
 
-        // Dictionary chỉ lưu những trang ĐÃ ĐƯỢC TẠO
         private Dictionary<string, UserControl> pages = new Dictionary<string, UserControl>();
 
         public mainContentGUI()
@@ -25,36 +24,31 @@ namespace GUI.GUI_UC
             this.Dock = DockStyle.Fill;
             this.BackColor = Color.White;
 
-            // 1. Navbar bên trái
             nav = new navbarGUI()
             {
                 Dock = DockStyle.Left,
-                Width = 230 // Khớp với width trong navbarGUI
+                Width = 230 
             };
             nav.OnNavClick += HandleNavClick;
             this.Controls.Add(nav);
 
-            // 2. Panel hiển thị nội dung
             panelMain = new Panel()
             {
                 Dock = DockStyle.Fill,
                 BackColor = Color.WhiteSmoke
             };
             this.Controls.Add(panelMain);
-            panelMain.BringToFront(); // Đảm bảo panel nội dung không bị che
+            panelMain.BringToFront();
 
             string trangDauTien = nav.LayTrangDauTienChoPhep();
 
             if (!string.IsNullOrEmpty(trangDauTien))
             {
-                // Kích hoạt giao diện nút đó
                 nav.SelectButtonByTag(trangDauTien);
-                // Load nội dung trang đó
                 HandleNavClick(trangDauTien);
             }
             else
             {
-                // Trường hợp nhân viên không có bất kỳ quyền nào (chỉ thấy nút Thoát)
                 Label lblThongBao = new Label();
                 lblThongBao.Text = "Bạn không có quyền truy cập vào hệ thống.\nVui lòng liên hệ Admin.";
                 lblThongBao.Dock = DockStyle.Fill;
@@ -72,17 +66,14 @@ namespace GUI.GUI_UC
                 return;
             }
 
-            // Tối ưu hiển thị để giảm nháy hình (Flicker)
             panelMain.SuspendLayout();
 
             try
             {
-                // Kiểm tra xem trang này đã từng load chưa?
                 if (!pages.ContainsKey(page))
                 {
                     UserControl uc = null;
 
-                    // LAZY LOADING: Chỉ new khi cần thiết
                     switch (page)
                     {
                         case "home": uc = new banHangGUI(); break;
@@ -110,27 +101,17 @@ namespace GUI.GUI_UC
                     }
                 }
 
-                // Ẩn tất cả các trang khác (hoặc dùng BringToFront)
-                // BringToFront đôi khi bị lag nếu quá nhiều control chồng lên nhau
-                // Cách tốt nhất là BringToFront trang cần hiện
                 if (pages.ContainsKey(page))
                 {
-                    // Lấy trang hiện tại ra
                     UserControl currentPage = pages[page];
 
-                    // Đưa lên đầu
                     currentPage.BringToFront();
                     currentPage.Focus();
-
-                    // === THÊM ĐOẠN CODE NÀY VÀO ===
-
-                    // Kiểm tra: Nếu là trang Nguyên Liệu thì gọi hàm LoadData()
                     if (page == "nguyenlieu")
                     {
-                        // Ép kiểu UserControl về nguyenLieuGUI
                         if (currentPage is nguyenLieuGUI gui)
                         {
-                            gui.LoadData(); // <-- Hàm public bạn vừa sửa ở Bước 1
+                            gui.LoadData();
                         }
                     }else if(page == "home")
                     {
@@ -138,9 +119,13 @@ namespace GUI.GUI_UC
                         {
                             gui.LoadData();
                         }
+                    }else if(page == "nhaphang")
+                    {
+                        if(currentPage is nhapHangGUI gui)
+                        {
+                            gui.LoadData();
+                        }
                     }
-
-                    // ==============================
                 }
             }
             catch (Exception ex)

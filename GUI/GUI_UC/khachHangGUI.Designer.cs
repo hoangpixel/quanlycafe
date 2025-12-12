@@ -28,10 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.topPanel = new System.Windows.Forms.Panel();
             this.chucNangPanel = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.panelTable = new System.Windows.Forms.Panel();
+            this.tableKhachHang = new System.Windows.Forms.DataGridView();
             this.roundedChucNang = new GUI.COMPONENTS.RoundedPanel();
             this.layoutChucNang = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
@@ -55,10 +58,9 @@
             this.btnXoaKH = new System.Windows.Forms.Button();
             this.btnSuaKH = new System.Windows.Forms.Button();
             this.btnThemKH = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panelTable = new System.Windows.Forms.Panel();
-            this.tableKhachHang = new System.Windows.Forms.DataGridView();
             this.chucNangPanel.SuspendLayout();
+            this.panelTable.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tableKhachHang)).BeginInit();
             this.roundedChucNang.SuspendLayout();
             this.layoutChucNang.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
@@ -68,8 +70,6 @@
             this.layoutTimKiemCoban.SuspendLayout();
             this.xulykh.SuspendLayout();
             this.tableLayoutChoChucNang.SuspendLayout();
-            this.panelTable.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tableKhachHang)).BeginInit();
             this.SuspendLayout();
             // 
             // topPanel
@@ -92,6 +92,65 @@
             this.chucNangPanel.Padding = new System.Windows.Forms.Padding(10);
             this.chucNangPanel.Size = new System.Drawing.Size(1550, 215);
             this.chucNangPanel.TabIndex = 8;
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.White;
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(0, 660);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1550, 60);
+            this.panel2.TabIndex = 9;
+            // 
+            // panelTable
+            // 
+            this.panelTable.BackColor = System.Drawing.Color.White;
+            this.panelTable.Controls.Add(this.tableKhachHang);
+            this.panelTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelTable.Location = new System.Drawing.Point(0, 275);
+            this.panelTable.Name = "panelTable";
+            this.panelTable.Padding = new System.Windows.Forms.Padding(10);
+            this.panelTable.Size = new System.Drawing.Size(1550, 385);
+            this.panelTable.TabIndex = 10;
+            // 
+            // tableKhachHang
+            // 
+            this.tableKhachHang.AllowUserToAddRows = false;
+            this.tableKhachHang.AllowUserToDeleteRows = false;
+            this.tableKhachHang.AllowUserToResizeColumns = false;
+            this.tableKhachHang.AllowUserToResizeRows = false;
+            this.tableKhachHang.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tableKhachHang.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.tableKhachHang.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.tableKhachHang.DefaultCellStyle = dataGridViewCellStyle2;
+            this.tableKhachHang.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableKhachHang.EnableHeadersVisualStyles = false;
+            this.tableKhachHang.Location = new System.Drawing.Point(10, 10);
+            this.tableKhachHang.MultiSelect = false;
+            this.tableKhachHang.Name = "tableKhachHang";
+            this.tableKhachHang.RowHeadersVisible = false;
+            this.tableKhachHang.RowHeadersWidth = 51;
+            this.tableKhachHang.RowTemplate.Height = 24;
+            this.tableKhachHang.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.tableKhachHang.Size = new System.Drawing.Size(1530, 365);
+            this.tableKhachHang.TabIndex = 5;
+            this.tableKhachHang.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableKhachHang_CellClick);
+            this.tableKhachHang.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.tableKhachHang_CellFormatting);
+            this.tableKhachHang.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tableKhachHang_DataBindingComplete);
             // 
             // roundedChucNang
             // 
@@ -423,65 +482,6 @@
             this.btnThemKH.UseVisualStyleBackColor = true;
             this.btnThemKH.Click += new System.EventHandler(this.btnThemKH_Click);
             // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.White;
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 660);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1550, 60);
-            this.panel2.TabIndex = 9;
-            // 
-            // panelTable
-            // 
-            this.panelTable.BackColor = System.Drawing.Color.White;
-            this.panelTable.Controls.Add(this.tableKhachHang);
-            this.panelTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelTable.Location = new System.Drawing.Point(0, 275);
-            this.panelTable.Name = "panelTable";
-            this.panelTable.Padding = new System.Windows.Forms.Padding(10);
-            this.panelTable.Size = new System.Drawing.Size(1550, 385);
-            this.panelTable.TabIndex = 10;
-            // 
-            // tableKhachHang
-            // 
-            this.tableKhachHang.AllowUserToAddRows = false;
-            this.tableKhachHang.AllowUserToDeleteRows = false;
-            this.tableKhachHang.AllowUserToResizeColumns = false;
-            this.tableKhachHang.AllowUserToResizeRows = false;
-            this.tableKhachHang.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tableKhachHang.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.tableKhachHang.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.tableKhachHang.DefaultCellStyle = dataGridViewCellStyle4;
-            this.tableKhachHang.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableKhachHang.EnableHeadersVisualStyles = false;
-            this.tableKhachHang.Location = new System.Drawing.Point(10, 10);
-            this.tableKhachHang.MultiSelect = false;
-            this.tableKhachHang.Name = "tableKhachHang";
-            this.tableKhachHang.RowHeadersVisible = false;
-            this.tableKhachHang.RowHeadersWidth = 51;
-            this.tableKhachHang.RowTemplate.Height = 24;
-            this.tableKhachHang.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tableKhachHang.Size = new System.Drawing.Size(1530, 365);
-            this.tableKhachHang.TabIndex = 5;
-            this.tableKhachHang.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableKhachHang_CellClick);
-            this.tableKhachHang.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.tableKhachHang_CellFormatting);
-            this.tableKhachHang.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tableKhachHang_DataBindingComplete);
-            // 
             // khachHangGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -494,6 +494,8 @@
             this.Size = new System.Drawing.Size(1550, 720);
             this.Load += new System.EventHandler(this.khachHangGUI_Load);
             this.chucNangPanel.ResumeLayout(false);
+            this.panelTable.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tableKhachHang)).EndInit();
             this.roundedChucNang.ResumeLayout(false);
             this.layoutChucNang.ResumeLayout(false);
             this.tableLayoutPanel6.ResumeLayout(false);
@@ -505,8 +507,6 @@
             this.layoutTimKiemCoban.PerformLayout();
             this.xulykh.ResumeLayout(false);
             this.tableLayoutChoChucNang.ResumeLayout(false);
-            this.panelTable.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tableKhachHang)).EndInit();
             this.ResumeLayout(false);
 
         }

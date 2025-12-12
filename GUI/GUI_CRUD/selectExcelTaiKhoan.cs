@@ -1,5 +1,6 @@
 ﻿using BUS;
 using GUI.EXCEL;
+using FONTS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,10 +18,22 @@ namespace GUI.GUI_CRUD
         public selectExcelTaiKhoan()
         {
             InitializeComponent();
+            FontManager.LoadFont();
+            FontManager.ApplyFontToAllControls(this);
         }
         private taikhoanBUS busTaiKhoan = new taikhoanBUS();
 
         private void btnNhapExcel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnXuatExcel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnNhapExcel_Click_1(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Excel Files|*.xlsx;*.xls";
@@ -49,7 +62,7 @@ namespace GUI.GUI_CRUD
             }
         }
 
-        private void btnXuatExcel_Click(object sender, EventArgs e)
+        private void btnXuatExcel_Click_1(object sender, EventArgs e)
         {
             // 1. Lấy dữ liệu mới nhất từ BUS
             var dsTaiKhoan = busTaiKhoan.LayDanhSach();

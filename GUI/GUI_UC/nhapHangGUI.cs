@@ -26,6 +26,7 @@ namespace GUI.GUI_UC
         private int maNL = -1, maDV = -1, maNV = -1, maNCC = -1;
         private BindingList<ctPhieuNhapDTO> dsChiTietPN = new BindingList<ctPhieuNhapDTO>();
         private phieuNhapBUS busPhieuNhap = new phieuNhapBUS();
+        private nguyenLieuBUS busNguyenLieu = new nguyenLieuBUS();
         public nhapHangGUI()
         {
             InitializeComponent();
@@ -48,6 +49,12 @@ namespace GUI.GUI_UC
 
         }
 
+        public void LoadData()
+        {
+            var data = busNguyenLieu.LayDanhSach(true);
+            loadDanhSachNguyenLieu(data);
+            dgvNguyenLieu.Refresh();
+        }
 
         private void tuDongLoadTenNhanVien()
         {
@@ -687,10 +694,29 @@ namespace GUI.GUI_UC
 
         private void btnExcelPN_Click(object sender, EventArgs e)
         {
-            using(selectExcelPhieuNhapvaCTPN form = new selectExcelPhieuNhapvaCTPN())
+            SaveFileDialog save = new SaveFileDialog();
+            save.Filter = "Excel file (*.xlsx)|*.xlsx";
+            save.FileName = $"DanhSachPhieuNhapVaCTPN.xlsx";
+
+            if (save.ShowDialog() == DialogResult.OK)
             {
-                form.StartPosition = FormStartPosition.CenterParent;
-                form.ShowDialog();
+                try
+                {
+                    var listPhieu = busPhieuNhap.LayDanhSach();
+
+                    if (listPhieu.Count == 0)
+                    {
+                        MessageBox.Show("Không có dữ liệu phiếu nhập để xuất!", "Thông báo");
+                        return;
+                    }
+                    GUI.EXCEL.excelPhieuNhap.ExportHaiSheet(listPhieu, save.FileName);
+
+                    MessageBox.Show("Xuất file Excel thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi xuất file: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -953,6 +979,11 @@ namespace GUI.GUI_UC
             };
         }
 
+        private void tableLayoutPanel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
         private void SetComboBoxPlaceholder(ComboBox cbo, string placeholder)
         {
 
@@ -999,10 +1030,13 @@ namespace GUI.GUI_UC
             SetPlaceholder(txtNccTim, "Tên NCC");
             SetPlaceholder(txtNhanVienTim, "Tên NV");
             SetPlaceholder(txtTimKiemPN, "Nhập giá trị cần tìm");
+            SetPlaceholder(txtTimKiemNL, "Nhập giá trị cần tìm");
             SetupComboBoxData(cboLoaiTrangThai);
 
             SetComboBoxPlaceholder(cboLoaiTrangThai, "Trạng thái CT");
             SetComboBoxPlaceholder(cboTimKiemPN, "Chọn giá trị TK");
+            SetComboBoxPlaceholder(cboTimKiemNL, "Chọn giá trị TK");
+
         }
     }
 }

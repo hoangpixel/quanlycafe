@@ -35,6 +35,7 @@ namespace GUI.GUI_CRUD
         private readonly int maBanChinh;
         private BindingList<khachHangDTO> dsKhachHang;
         public int maBan = -1, maKH = 0, maNV = -1;
+        private BindingList<ppThanhToanDTO> dsThanhToan;
 
         public updateHoaDon(hoaDonDTO doiTuong)
         {
@@ -209,7 +210,7 @@ namespace GUI.GUI_CRUD
                 numSoLuong.Visible = true;
 
                 // Chỉ set lại khi người dùng đang chọn SP mới
-                numSoLuong.Value = 0;
+                numSoLuong.Value = 1;
             }
             else
             {
@@ -223,6 +224,7 @@ namespace GUI.GUI_CRUD
             if (e.RowIndex < 0 || e.RowIndex >= danhSachSP.Count)
                 return;
 
+            // Đoạn này là logic: Nếu click lại dòng đang chọn -> Bỏ chọn
             if (e.RowIndex == lastSelectedRowIndexSP)
             {
                 dgvSanPham.ClearSelection();
@@ -233,6 +235,16 @@ namespace GUI.GUI_CRUD
                 txtLoaiSP.Clear();
                 txtGia.Clear();
                 picSanPham.Image = null;
+
+                // --- BỔ SUNG THÊM ĐOẠN NÀY ĐỂ TẮT BUTTON KHI BỎ CHỌN ---
+                btThemSP.Enabled = false;
+                btnXoaSP.Enabled = false;
+                button2.Enabled = false;
+
+                numSoLuong.Enabled = false;
+                numSoLuong.Visible = false;
+                // -------------------------------------------------------
+
                 return;
             }
 
@@ -291,42 +303,31 @@ namespace GUI.GUI_CRUD
 
         private void dgvGioHang_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // 1. HỦY CHỌN BÊN SẢN PHẨM NGAY LẬP TỨC
             dgvSanPham.ClearSelection();
-            lastSelectedRowIndexSP = -1; // Reset biến lưu của sản phẩm
-
-            // Tắt nút Thêm (vì đang thao tác trong giỏ)
+            lastSelectedRowIndexSP = -1;
             btThemSP.Enabled = false;
-
-            // 2. KIỂM TRA CLICK HỢP LỆ
             if (e.RowIndex < 0 || e.RowIndex >= gioHang.Count)
                 return;
-
-            // 3. LOGIC TOGGLE (Bấm lại dòng đã chọn thì hủy)
             if (e.RowIndex == lastSelectedRowIndexGio)
             {
                 dgvGioHang.ClearSelection();
                 lastSelectedRowIndexGio = -1;
-                ResetInput(); // Xóa trắng, tắt nút Sửa/Xóa
+                ResetInput();
                 return;
             }
-
-            // 4. CHỌN DÒNG MỚI
             lastSelectedRowIndexGio = e.RowIndex;
 
-            // Lấy thông tin sản phẩm từ giỏ để hiển thị lại
             var itemGioHang = gioHang[e.RowIndex];
             var spTrongGio = danhSachSP.FirstOrDefault(s => s.MaSP == itemGioHang.MaSP);
 
             if (spTrongGio != null)
             {
                 HienThiChiTietSanPham(spTrongGio);
-                numSoLuong.Value = itemGioHang.SoLuong; // Load số lượng đang có trong giỏ
+                numSoLuong.Value = itemGioHang.SoLuong;
             }
 
-            // Cấu hình nút bấm cho chế độ SỬA/XÓA
             btnXoaSP.Enabled = true;
-            button2.Enabled = true; // Nút sửa
+            button2.Enabled = true;
             numSoLuong.Enabled = true;
             numSoLuong.Visible = true;
         }
@@ -346,6 +347,10 @@ namespace GUI.GUI_CRUD
             numSoLuong.Visible = false;
             dgvGioHang.ClearSelection();
             dgvSanPham.ClearSelection();
+
+            btThemSP.Enabled = false;
+            btnXoaSP.Enabled = false;
+            button2.Enabled = false;
         }
         private void btThemSP_Click(object sender, EventArgs e)
         {
@@ -435,6 +440,7 @@ namespace GUI.GUI_CRUD
             itemGioHang.SoLuong = soLuongMoi;
             itemGioHang.ThanhTien = itemGioHang.SoLuong * itemGioHang.DonGia;
 
+            ResetInput();
             CapNhatGioHang();
             dgvGioHang.ClearSelection();
         }
@@ -548,6 +554,9 @@ namespace GUI.GUI_CRUD
             int maTT = Convert.ToInt32(cbThanhToan.SelectedValue);
             decimal tongTien = gioHang.Sum(g => g.SoLuong * g.DonGia);
 
+            ppThanhToanDTO pptt = dsThanhToan.FirstOrDefault(x => x.MaTT == maTT);
+            string tenTT = pptt?.HinhThuc ?? "Không xác định";
+
             int maBan = doiTuong.MaBan;
             //string tenKhach = string.IsNullOrEmpty(doiTuong.TenKhachHang) ? "Khách lẻ" : doiTuong.TenKhachHang;
 
@@ -557,7 +566,7 @@ namespace GUI.GUI_CRUD
             Nhân viên: {txtKhachHang.Text}
             Nhân viên: {txtNhanVien.Text}
             Số món: {gioHang.Count}
-            PPTT: {maTT}
+            PPTT: {tenTT}
             Tổng tiền: {tongTien:N0} VNĐ
             ────────────────────────────
             Bạn có chắc chắn muốn tạo hóa đơn không?";

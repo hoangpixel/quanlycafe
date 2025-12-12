@@ -25,6 +25,16 @@ namespace GUI.GUI_CRUD
 
         private void btnNhapExcel_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void btnXuatExcel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnNhapExcel_Click_1(object sender, EventArgs e)
+        {
             OpenFileDialog open = new OpenFileDialog();
             open.Filter = "Excel Files|*.xlsx;*.xls";
 
@@ -46,7 +56,7 @@ namespace GUI.GUI_CRUD
             }
         }
 
-        private void btnXuatExcel_Click(object sender, EventArgs e)
+        private void btnXuatExcel_Click_1(object sender, EventArgs e)
         {
             SaveFileDialog save = new SaveFileDialog();
             save.Filter = "Excel file (*.xlsx)|*.xlsx";
