@@ -56,7 +56,6 @@ namespace DAO
             return maNCC + 1;
         }
 
-        // 2. Thêm
         public bool Them(nhaCungCapDTO ncc)
         {
             MySqlConnection conn = DBConnect.GetConnection();
@@ -75,7 +74,6 @@ namespace DAO
             finally { DBConnect.CloseConnection(conn); }
         }
 
-        // 3. Sửa
         public bool Sua(nhaCungCapDTO ncc)
         {
             MySqlConnection conn = DBConnect.GetConnection();
@@ -94,7 +92,6 @@ namespace DAO
             finally { DBConnect.CloseConnection(conn); }
         }
 
-        // 4. Xóa
         public bool Xoa(int ma)
         {
             MySqlConnection conn = DBConnect.GetConnection();

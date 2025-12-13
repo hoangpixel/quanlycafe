@@ -25,7 +25,6 @@ namespace BUS
 
         public BindingList<phanquyenDTO> LayChiTietQuyenTheoVaiTro(int maVaiTro)
         {
-            // Luôn load lại từ DB nếu danh sách rỗng hoặc khác vai trò để đảm bảo dữ liệu tươi mới
             if (ds == null || ds.Count == 0 || (ds.Count > 0 && ds[0].MaVaiTro != maVaiTro))
             {
                 ds = data.LayChiTietQuyenTheoVaiTro(maVaiTro);
@@ -35,18 +34,15 @@ namespace BUS
 
         public bool LuuPhanQuyen(int maVaiTro, BindingList<phanquyenDTO> dsQuyenMoi)
         {
-            // [BƯỚC 1]: QUAN TRỌNG NHẤT - COPY DANH SÁCH RA MỘT LIST RIÊNG
-            // Để tránh việc ds.Clear() làm mất dữ liệu của dsQuyenMoi do trùng tham chiếu
             List<phanquyenDTO> listSaoChep = dsQuyenMoi.ToList();
 
-            // [BƯỚC 2]: Thao tác Database (Xóa cũ -> Thêm mới)
             bool kqXoa = data.XoaToanBoQuyenCuaVaiTro(maVaiTro);
             if (!kqXoa) return false;
 
             bool kqThem = true;
-            foreach (var pq in listSaoChep) // Duyệt trên list sao chép
+            foreach (var pq in listSaoChep)
             {
-                pq.MaVaiTro = maVaiTro; // Đảm bảo mã vai trò đúng
+                pq.MaVaiTro = maVaiTro;
                 if (!data.ThemPhanQuyen(pq))
                 {
                     kqThem = false;
@@ -54,18 +50,14 @@ namespace BUS
                 }
             }
 
-            // [BƯỚC 3]: Cập nhật Cache sau khi lưu thành công
             if (kqThem)
             {
-                // A. Cập nhật ds (Chi tiết)
-                // Bây giờ ds.Clear() an toàn vì ta đã có listSaoChep
                 ds.Clear();
                 foreach (var item in listSaoChep)
                 {
                     ds.Add(item);
                 }
 
-                // B. Cập nhật dsHienThi (Danh sách tổng quát - nếu có dùng)
                 if (dsHienThi != null)
                 {
                     foreach (var itemMoi in listSaoChep)
@@ -73,7 +65,6 @@ namespace BUS
                         var itemCu = dsHienThi.FirstOrDefault(x => x.MaVaiTro == itemMoi.MaVaiTro && x.MaQuyen == itemMoi.MaQuyen);
                         if (itemCu != null)
                         {
-                            // Update đè lên item cũ để Grid tự refresh
                             int index = dsHienThi.IndexOf(itemCu);
                             dsHienThi[index] = itemMoi;
                         }
@@ -235,7 +226,6 @@ namespace BUS
             }
             return dskq;
         }
-        // Hàm so sánh để tránh update thừa
         private bool LaPhanQuyenGiongNhau(phanquyenDTO cu, phanquyenDTO moi)
         {
             return cu.CAN_READ == moi.CAN_READ &&
@@ -244,7 +234,6 @@ namespace BUS
                    cu.CAN_DELETE == moi.CAN_DELETE;
         }
 
-        // Hàm kiểm tra giá trị 0/1 (BẠN ĐANG THIẾU HÀM NÀY)
         private bool LaGiaTriHopLe(int val)
         {
             return val == 0 || val == 1;
@@ -255,16 +244,14 @@ namespace BUS
         }
         public bool CapNhatPhanQuyenDonLe(phanquyenDTO pq)
         {
-            // Gọi xuống DAO cập nhật 4 quyền (R, C, U, D)
             return data.CapNhatQuyen(pq.MaVaiTro, pq.MaQuyen, pq.CAN_READ, pq.CAN_CREATE, pq.CAN_UPDATE, pq.CAN_DELETE);
         }
         public string NhapExcelThongMinh(BindingList<phanquyenDTO> dsExcel)
         {
-            // 1. Sử dụng BUS phụ để lấy dữ liệu tham chiếu
             vaitroBUS busVaiTro = new vaitroBUS();
             quyenBUS busQuyen = new quyenBUS();
 
-            // Lấy Hashset ID để tra cứu cho nhanh
+            // Lấy Hashset ID để tra cứu cho nhan
             var dsMaVaiTroDB = busVaiTro.LayDanhSach().Select(x => x.MaVaiTro).ToHashSet();
             var dsMaQuyenDB = busQuyen.LayDanhSach().Select(x => x.MaQuyen).ToHashSet();
 

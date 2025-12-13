@@ -176,7 +176,7 @@ namespace GUI.GUI_UC
             btn.Click += (s, e) => ActivateButton(btn);
 
             this.Controls.Add(btn);
-            this.Controls.SetChildIndex(btn, 0); // Đảm bảo thứ tự
+            this.Controls.SetChildIndex(btn, 0);
         }
 
         private void ActivateButton(Button btn)

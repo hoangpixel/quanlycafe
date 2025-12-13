@@ -51,9 +51,12 @@ namespace GUI.GUI_UC
 
         public void LoadData()
         {
-            var data = busNguyenLieu.LayDanhSach(true);
-            loadDanhSachNguyenLieu(data);
+            dsNL = busNguyenLieu.LayDanhSach(true);
+            loadDanhSachNguyenLieu(dsNL);
+            dsDV = new donViBUS().LayDanhSach();
+            dsNCC = new nhaCungCapBUS().LayDanhSach();
             dgvNguyenLieu.Refresh();
+            dgvChiTietPN.Refresh();
         }
 
         private void tuDongLoadTenNhanVien()

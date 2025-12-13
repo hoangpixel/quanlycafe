@@ -149,10 +149,8 @@ namespace DAO
             finally { DBConnect.CloseConnection(conn); }
         }
 
-        // Hàm cập nhật quyền dựa trên khóa chính (Mã Vai Trò + Mã Quyền)
         public bool CapNhatQuyen(int maVaiTro, int maQuyen, int read, int create, int update, int delete)
         {
-            // Update lại 4 quyền cơ bản
             string qry = @"UPDATE phanquyen 
                            SET CAN_READ = @cr, 
                                CAN_CREATE = @cc, 
@@ -165,7 +163,6 @@ namespace DAO
             {
                 MySqlCommand cmd = new MySqlCommand(qry, conn);
 
-                // Gán tham số
                 cmd.Parameters.AddWithValue("@mvt", maVaiTro);
                 cmd.Parameters.AddWithValue("@mq", maQuyen);
                 cmd.Parameters.AddWithValue("@cr", read);

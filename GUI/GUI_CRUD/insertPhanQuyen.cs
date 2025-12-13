@@ -56,17 +56,13 @@ namespace GUI.GUI_CRUD
 
         private void SetupTableLayoutPanelHeader()
         {
-            // 1. Dọn sạch sẽ mọi thứ cũ
             tableLayoutPanel1.Controls.Clear();
             tableLayoutPanel1.RowStyles.Clear();
             tableLayoutPanel1.ColumnStyles.Clear();
-
-            // 2. Reset số dòng cột
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.ColumnCount = 6;
 
-            // 3. Thiết lập lại Style cột (Bắt buộc phải làm lại vì đã Clear ở trên)
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35F)); // Tên quyền
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 13F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 13F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 13F));
@@ -76,12 +72,10 @@ namespace GUI.GUI_CRUD
             tableLayoutPanel1.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
             tableLayoutPanel1.BackColor = Color.White;
 
-            // 4. Thêm Style cho dòng Header
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             Color headerColor = Color.FromArgb(64, 64, 64);
-            Font headerFont = new Font("Segoe UI", 10F, FontStyle.Bold); // Font cứng cho header
+            Font headerFont = new Font("Segoe UI", 10F, FontStyle.Bold);
 
-            // 5. Vẽ lại các Label Header
             tableLayoutPanel1.Controls.Add(new Label()
             {
                 Text = "Tên Quyền / Chức năng",
@@ -115,8 +109,6 @@ namespace GUI.GUI_CRUD
             }, 5, 0);
         }
 
-
-        // Sử dụng thư viện System.Data.DataTable
         private void LoadPermissionsToUI(int maVaiTro)
         {
             this.SuspendLayout();
@@ -125,9 +117,6 @@ namespace GUI.GUI_CRUD
 
             try
             {
-                // --- BƯỚC QUAN TRỌNG NHẤT: ---
-                // Thay vì cố gắng xóa từng dòng cũ, ta gọi hàm Setup để nó XÓA HẾT và vẽ lại Header.
-                // Việc này đảm bảo RowStyles luôn sạch sẽ, không bị lệch.
                 SetupTableLayoutPanelHeader();
 
                 phanquyenBUS pqBUS = new phanquyenBUS();
@@ -143,12 +132,10 @@ namespace GUI.GUI_CRUD
                     }
 
                     tableLayoutPanel1.RowCount++;
-                    // Add RowStyle mới cho dòng dữ liệu
                     tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
 
                     int maQuyen = item.MaQuyen;
 
-                    // Tên quyền
                     Label lblQuyen = new Label();
                     lblQuyen.Text = item.TenQuyen;
                     lblQuyen.AutoSize = true;
@@ -157,13 +144,11 @@ namespace GUI.GUI_CRUD
                     lblQuyen.Padding = new Padding(10, 0, 0, 0);
                     tableLayoutPanel1.Controls.Add(lblQuyen, 0, row);
 
-                    // Checkbox CRUD
                     AddPermissionCheckBox(item.CAN_CREATE, "CAN_CREATE", tableLayoutPanel1, 1, row, maQuyen);
                     AddPermissionCheckBox(item.CAN_READ, "CAN_READ", tableLayoutPanel1, 2, row, maQuyen);
                     AddPermissionCheckBox(item.CAN_UPDATE, "CAN_UPDATE", tableLayoutPanel1, 3, row, maQuyen);
                     AddPermissionCheckBox(item.CAN_DELETE, "CAN_DELETE", tableLayoutPanel1, 4, row, maQuyen);
 
-                    // Checkbox All Row
                     CheckBox chkAllRow = new CheckBox();
                     chkAllRow.Anchor = AnchorStyles.None;
                     chkAllRow.Cursor = Cursors.Hand;
@@ -179,7 +164,6 @@ namespace GUI.GUI_CRUD
                     row++;
                 }
 
-                // --- Footer Controls ---
                 AddFooterControls(row);
             }
             finally
@@ -193,7 +177,6 @@ namespace GUI.GUI_CRUD
         private void AddFooterControls(int lastRow)
         {
             tableLayoutPanel1.RowCount++;
-            // Style cho dòng Footer
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
 
             Label lblAllCols = new Label()
@@ -225,7 +208,6 @@ namespace GUI.GUI_CRUD
             tableLayoutPanel1.Controls.Add(chkMaster, 5, lastRow);
         }
 
-        // Xử lý khi bấm nút "All Row" ở cuối mỗi dòng
         private void ChkAllRow_Click(object sender, EventArgs e)
         {
             CheckBox chkAll = sender as CheckBox;
@@ -239,7 +221,6 @@ namespace GUI.GUI_CRUD
             }
         }
 
-        // Xử lý khi bấm nút "All Col" ở dưới cùng
         private void ChkAllCol_Click(object sender, EventArgs e)
         {
             CheckBox chkAll = sender as CheckBox;
@@ -254,7 +235,6 @@ namespace GUI.GUI_CRUD
             }
         }
 
-        // Xử lý nút Master (Góc dưới cùng phải) - Chọn hết sạch sành sanh
         private void ToggleAllInGrid(bool isChecked)
         {
             foreach (Control c in tableLayoutPanel1.Controls)
@@ -263,7 +243,6 @@ namespace GUI.GUI_CRUD
             }
         }
 
-        // Hàm hỗ trợ tạo CheckBox
         private void AddPermissionCheckBox(int value, string columnName, TableLayoutPanel tlp, int col, int row, int maQuyen)
         {
             CheckBox chk = new CheckBox();
@@ -286,13 +265,12 @@ namespace GUI.GUI_CRUD
 
             int maVaiTro = (int)cmbVaiTro.SelectedValue;
 
-            // Duyệt UI để cập nhật vào _cachedList
             foreach (Control control in tableLayoutPanel1.Controls)
             {
                 if (control is CheckBox chk && chk.Tag != null)
                 {
                     string tagStr = chk.Tag.ToString();
-                    if (tagStr.StartsWith("CMD_")) continue; // Bỏ qua nút chức năng
+                    if (tagStr.StartsWith("CMD_")) continue;
 
                     string[] tags = tagStr.Split('|');
                     if (tags.Length < 2) continue;
@@ -301,11 +279,9 @@ namespace GUI.GUI_CRUD
                     string action = tags[1];
                     int val = chk.Checked ? 1 : 0;
 
-                    // --- SỬA LỖI Ở ĐÂY: Tìm item trong list cũ để update ---
                     var item = _cachedList.FirstOrDefault(x => x.MaQuyen == maQuyen);
                     if (item != null)
                     {
-                        // Update trực tiếp vào object có sẵn Tên
                         switch (action)
                         {
                             case "CAN_CREATE": item.CAN_CREATE = val; break;
@@ -318,7 +294,6 @@ namespace GUI.GUI_CRUD
             }
 
             phanquyenBUS pqBUS = new phanquyenBUS();
-            // Gửi _cachedList (đã update) xuống BUS -> DB
             if (pqBUS.LuuPhanQuyen(maVaiTro, _cachedList))
             {
                 MessageBox.Show("Cập nhật thành công!");
