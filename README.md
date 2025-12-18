@@ -39,4 +39,4 @@ Sử dụng các tài khoản dưới đây để kiểm thử các phân quyề
 | 👤 **Nhân viên** | `nhanvien1` | `123456` |
 
 ---
-*Cảm ơn Thầy/Cô đã xem qua đồ án của nhóm!*
+*Cảm ơn Thầy đã xem qua đồ án của nhóm!*
