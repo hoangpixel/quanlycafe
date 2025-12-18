@@ -4,17 +4,17 @@
 ---
 
 ## 👥 Thông Tin Thành Viên
-| Họ và Tên | Mã Số Sinh Viên |
+| Họ và Tên | Mã Số Sinh Viên | Vai Trò |
 | :--- | :--- | :--- |
-| **Phạm Minh Hoàng** | 3123410114 |
-| **Nguyễn Phúc Tứ** | 3122560088 |
-| **Bùi Thành Công** | 3122410042 |
-| **Võ Hoàng Phúc Hy** | 3123410142 |
-| **Nguyễn Phạm Cao Khả** | 3123410144 |
+| **Phạm Minh Hoàng** | 3123410114 | Nhóm trưởng |
+| **Nguyễn Phúc Tứ** | 3122560088 | Thành viên |
+| **Bùi Thành Công** | 3122410042 | Thành viên |
+| **Võ Hoàng Phúc Hy** | 3123410142 | Thành viên |
+| **Nguyễn Phạm Cao Khả** | 3123410144 | Thành viên |
 
 ---
 
-## Hướng Dẫn Cài Đặt & Chạy Đồ Án
+## 🛠 Hướng Dẫn Cài Đặt & Chạy Đồ Án
 
 ### Bước 1: Cấu hình Cơ sở dữ liệu (Database)
 1. Mở **XAMPP Control Panel** và khởi động module **MySQL**.
@@ -30,13 +30,13 @@
 
 ---
 
-## Thông Tin Đăng Nhập Hệ Thống
+## 🔐 Thông Tin Đăng Nhập Hệ Thống
 Sử dụng các tài khoản dưới đây để kiểm thử các phân quyền khác nhau:
 
 | Loại tài khoản | Tên đăng nhập | Mật khẩu |
 | :--- | :--- | :--- |
-| **Admin** | `Admin` | `123456` |
-| **Nhân viên** | `nhanvien1` | `123456` |
+| 🔑 **Quản trị (Admin)** | `Admin` | `123456` |
+| 👤 **Nhân viên** | `nhanvien1` | `123456` |
 
 ---
-*Cảm ơn Thầy đã xem qua đồ án của nhóm!*
+*Cảm ơn Thầy/Cô đã xem qua đồ án của nhóm!*
