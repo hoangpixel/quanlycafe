@@ -3,17 +3,6 @@
 
 ---
 
-## 👥 Thông Tin Thành Viên
-| Họ và Tên | Mã Số Sinh Viên | Vai Trò |
-| :--- | :--- | :--- |
-| **Phạm Minh Hoàng** | 3123410114 | Nhóm trưởng |
-| **Nguyễn Phúc Tứ** | 3122560088 | Thành viên |
-| **Bùi Thành Công** | 3122410042 | Thành viên |
-| **Võ Hoàng Phúc Hy** | 3123410142 | Thành viên |
-| **Nguyễn Phạm Cao Khả** | 3123410144 | Thành viên |
-
----
-
 ## 🛠 Hướng Dẫn Cài Đặt & Chạy Đồ Án
 
 ### Bước 1: Cấu hình Cơ sở dữ liệu (Database)
